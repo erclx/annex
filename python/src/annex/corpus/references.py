@@ -37,6 +37,8 @@ _REFERENCE = re.compile(
 
 _TOKEN = re.compile(r'\d+[a-z]?|to')
 
+_SUFFIXED = re.compile(r'^(\d+)([a-z])$')
+
 _EXTERNAL = re.compile(
     r'^\s*(?:,\s*)?(?:and\s+)?of\s+'
     r'(?:Directive|Regulation|Decision|Council|the\s+(?:Directive|Regulation))'
@@ -62,15 +64,36 @@ def _expand(listed: str) -> list[str]:
     while index < len(tokens):
         token = tokens[index]
         if token == 'to' and numbers and index + 1 < len(tokens):
-            first, last = numbers[-1], tokens[index + 1]
-            if first.isdigit() and last.isdigit() and int(last) > int(first):
-                numbers.extend(str(n) for n in range(int(first) + 1, int(last) + 1))
+            spanned = _between(numbers[-1], tokens[index + 1])
+            if spanned:
+                numbers.extend(spanned)
                 index += 2
                 continue
         if token != 'to':
             numbers.append(token)
         index += 1
     return numbers
+
+
+def _between(first: str, last: str) -> list[str]:
+    """Every article number a range names, excluding the one already read.
+
+    Two shapes appear in legal drafting: a plain numeric range, and a lettered
+    run inserted under one number, as `Articles 75a to 75d`. Neither document
+    carries the second today, so this expands it on the strength of the
+    predicate rather than of a measurement.
+    """
+    if first.isdigit() and last.isdigit() and int(last) > int(first):
+        return [str(number) for number in range(int(first) + 1, int(last) + 1)]
+
+    opening, closing = _SUFFIXED.match(first), _SUFFIXED.match(last)
+    if opening and closing and opening.group(1) == closing.group(1):
+        stem = opening.group(1)
+        start, end = opening.group(2), closing.group(2)
+        if start < end:
+            letters = range(ord(start) + 1, ord(end) + 1)
+            return [f'{stem}{chr(letter)}' for letter in letters]
+    return []
 
 
 def _target_ids(match: re.Match[str]) -> list[str]:

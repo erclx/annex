@@ -10,6 +10,8 @@ import re
 
 from lxml.html import HtmlElement, fromstring
 
+from annex.corpus.amendments import AmendmentSpans
+from annex.corpus.amendments import read as read_amendments
 from annex.corpus.html import TextIndex, index_text, spans
 from annex.corpus.models import Corpus, Provision, ProvisionKind, normalize
 from annex.corpus.sources import CONSOLIDATED, CorpusVersion
@@ -17,12 +19,10 @@ from annex.corpus.sources import CONSOLIDATED, CorpusVersion
 ARTICLE_HEADINGS = '//p[@class="title-article-norm"]'
 ARTICLE_SUBTITLES = '//p[@class="stitle-article-norm"]'
 PARAGRAPH_LABELS = './/span[@class="no-parag"]'
-AMENDMENT_MARKERS = '//p[@class="modref"]'
 ANNEX_ANCHORS = '//*[starts-with(@id,"anx_")]'
 
 _ARTICLE_NUMBER = re.compile(r'Article\s+(\d+[a-z]?)')
 _LABEL = re.compile(r'^(\d+[a-z]?)\.?$')
-_AMENDED_BY = re.compile(r'M\d+')
 
 
 def _article_number(heading: HtmlElement) -> str | None:
@@ -42,23 +42,13 @@ def _subtitle_for(
     return ''
 
 
-def _is_amended(
-    index: TextIndex, markers: list[HtmlElement], start: int, end: int
-) -> bool:
-    return any(
-        start <= index.start_of(marker) < end
-        and _AMENDED_BY.search(normalize(marker.text_content()))
-        for marker in markers
-    )
-
-
 def _paragraphs(
     index: TextIndex,
     article_id: str,
     labels: list[HtmlElement],
     start: int,
     end: int,
-    amended: bool,
+    amendments: AmendmentSpans,
 ) -> list[Provision]:
     inside = [label for label in labels if start <= index.start_of(label) < end]
     provisions: list[Provision] = []
@@ -76,7 +66,7 @@ def _paragraphs(
                 text=normalize(index.slice(label_start, label_end)),
                 version=CorpusVersion.CONSOLIDATED,
                 parent_id=article_id,
-                amended=amended,
+                amended=amendments.at(label_start),
             )
         )
     return provisions
@@ -109,7 +99,7 @@ def parse(document: bytes) -> Corpus:
     headings = root.xpath(ARTICLE_HEADINGS)
     subtitles = root.xpath(ARTICLE_SUBTITLES)
     labels = root.xpath(PARAGRAPH_LABELS)
-    markers = root.xpath(AMENDMENT_MARKERS)
+    amendments = read_amendments(index, root)
     annexes = root.xpath(ANNEX_ANCHORS)
 
     first_annex = min(
@@ -123,7 +113,7 @@ def parse(document: bytes) -> Corpus:
         if number is None:
             continue
         article_id = f'art_{number}'
-        amended = _is_amended(index, markers, start, end)
+        amended = amendments.any_between(start, end) or amendments.at(start)
         provisions.append(
             Provision(
                 id=article_id,
@@ -135,7 +125,9 @@ def parse(document: bytes) -> Corpus:
                 amended=amended,
             )
         )
-        provisions.extend(_paragraphs(index, article_id, labels, start, end, amended))
+        provisions.extend(
+            _paragraphs(index, article_id, labels, start, end, amendments)
+        )
 
     provisions.extend(_annexes(index, root))
     return Corpus(version=CONSOLIDATED.version, provisions=tuple(provisions))

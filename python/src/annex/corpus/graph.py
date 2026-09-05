@@ -12,6 +12,7 @@ bounded depth and a lookup of what points at a provision.
 """
 
 from collections import deque
+from collections.abc import Callable
 
 from pydantic import BaseModel, ConfigDict
 
@@ -26,20 +27,8 @@ class ReferenceGraph(BaseModel):
 
     nodes: dict[str, Provision]
     edges: tuple[Reference, ...]
-
-    @property
-    def outgoing(self) -> dict[str, tuple[str, ...]]:
-        adjacency: dict[str, list[str]] = {}
-        for edge in self.edges:
-            adjacency.setdefault(edge.source_id, []).append(edge.target_id)
-        return {source: tuple(targets) for source, targets in adjacency.items()}
-
-    @property
-    def incoming(self) -> dict[str, tuple[str, ...]]:
-        adjacency: dict[str, list[str]] = {}
-        for edge in self.edges:
-            adjacency.setdefault(edge.target_id, []).append(edge.source_id)
-        return {target: tuple(sources) for target, sources in adjacency.items()}
+    outgoing: dict[str, tuple[str, ...]]
+    incoming: dict[str, tuple[str, ...]]
 
     def node_count(self) -> int:
         return len(self.nodes)
@@ -48,12 +37,28 @@ class ReferenceGraph(BaseModel):
         return len(self.edges)
 
 
+def _adjacency(
+    edges: tuple[Reference, ...],
+    ends: Callable[[Reference], tuple[str, str]],
+) -> dict[str, tuple[str, ...]]:
+    collected: dict[str, list[str]] = {}
+    for edge in edges:
+        key, value = ends(edge)
+        collected.setdefault(key, []).append(value)
+    return {key: tuple(values) for key, values in collected.items()}
+
+
 def build(
     corpus: Corpus, references: tuple[Reference, ...] | None = None
 ) -> ReferenceGraph:
     """Build the reference graph for one version of the Act."""
     edges = extract(corpus) if references is None else references
-    return ReferenceGraph(nodes=corpus.by_id, edges=edges)
+    return ReferenceGraph(
+        nodes=corpus.by_id,
+        edges=edges,
+        outgoing=_adjacency(edges, lambda edge: (edge.source_id, edge.target_id)),
+        incoming=_adjacency(edges, lambda edge: (edge.target_id, edge.source_id)),
+    )
 
 
 def neighbours(graph: ReferenceGraph, provision_id: str, depth: int = 1) -> set[str]:

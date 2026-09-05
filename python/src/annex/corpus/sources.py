@@ -26,6 +26,7 @@ class Source:
     articles: int
     annexes: int
     recitals: int
+    paragraphs: int
 
 
 ORIGINAL = Source(
@@ -35,6 +36,7 @@ ORIGINAL = Source(
     articles=113,
     annexes=13,
     recitals=180,
+    paragraphs=500,
 )
 
 CONSOLIDATED = Source(
@@ -44,6 +46,7 @@ CONSOLIDATED = Source(
     articles=119,
     annexes=14,
     recitals=0,
+    paragraphs=552,
 )
 
 SOURCES: dict[CorpusVersion, Source] = {

@@ -109,6 +109,14 @@ class TestPluralAndRangeReferences:
 
         assert targets == {'art_5', 'art_6', 'art_43'}
 
+    def test_a_lettered_range_expands_to_every_article_between(self) -> None:
+        provision = make_provision('as set out in Articles 75a to 75d')
+        known = {'art_75a', 'art_75b', 'art_75c', 'art_75d'}
+
+        targets = {reference.target_id for reference in references_in(provision, known)}
+
+        assert targets == known
+
     def test_a_plural_citation_of_another_instrument_still_yields_no_edge(self) -> None:
         provision = make_provision('Articles 5 and 6 of Directive 2009/48/EC')
 

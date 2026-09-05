@@ -64,5 +64,35 @@ class TestAmendedStructure:
         assert annex is not None
         assert len(consolidated.of_kind(ProvisionKind.ANNEX)) == 14
 
+    def test_only_the_inserted_paragraphs_are_marked_amended(
+        self, consolidated: Corpus
+    ) -> None:
+        flags = {
+            provision.number: provision.amended
+            for provision in consolidated.of_kind(ProvisionKind.PARAGRAPH)
+            if provision.parent_id == 'art_6'
+        }
+
+        assert [number for number, amended in flags.items() if amended] == [
+            '1a',
+            '1b',
+            '1c',
+        ]
+
+    def test_a_base_text_paragraph_is_not_marked_amended(
+        self, consolidated: Corpus
+    ) -> None:
+        paragraph = consolidated.get('art_6.2')
+
+        assert paragraph is not None
+        assert paragraph.amended is False
+
+    def test_most_paragraphs_are_base_text(self, consolidated: Corpus) -> None:
+        paragraphs = consolidated.of_kind(ProvisionKind.PARAGRAPH)
+
+        amended = [provision for provision in paragraphs if provision.amended]
+
+        assert len(amended) < len(paragraphs) // 2
+
     def test_carries_no_recitals(self, consolidated: Corpus) -> None:
         assert consolidated.of_kind(ProvisionKind.RECITAL) == ()

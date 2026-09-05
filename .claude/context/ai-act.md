@@ -33,17 +33,24 @@ AI Office supervision and enforcement powers began on 2 August 2026.
 
 The Act carries its cross-references in the text, as sentences naming another article, annex or definition. That is what makes the reference graph a parsing job rather than an extraction job, and it is the property `.claude/ARCHITECTURE.md` rests the graph decision on.
 
-The chain that matters most, and the one the traversal demo runs on:
+The chain that matters most, and the one the traversal demo runs on. Two different things are drawn here and they do not share a route, so each arrow says which it is. Measured on 2026-09-05.
 
 ```plaintext
-Article 6 (classification) -> Annex III (the high-risk list) -> Articles 8 to 15 (the obligations) -> Article 43 (conformity assessment)
+what a reader must read, in order:
+  Article 6 (classification)
+    must-read  Annex III (the high-risk list)
+    must-read  Articles 8 to 15 (the obligations)
+    must-read  Article 43 (conformity assessment)
+
+what the text actually cites, which is what traversal walks:
+  art_6  --cites-->  art_96  --cites-->  art_8 ... art_15
+  art_6  --cites-->  art_97  --cites-->  art_43
+  art_6  --cites-->  anx_III --cites-->  art_6, art_6(2)   (points back, never forward)
 ```
 
-An answer to "this system is high risk, what must we do" requires reading all four.
+An answer to "this system is high risk, what must we do" requires reading all four of the first block. Traversal reaches every one of those destinations from Article 6 in two hops, in both versions, so the demo holds. It gets there through the guidelines and delegation articles rather than through Annex III, which cites only what classifies it.
 
-**The destinations are reachable, the drawn route is not, measured on 2026-09-05.** Traversal over parsed citations reaches all eight obligation articles and Article 43 from Article 6 in two hops, so the chain is walkable. It does not walk through Annex III. That annex cites only Article 6 and Article 6(2), pointing back at what classifies it rather than forward at what follows. The real paths run `art_6 -> art_96 -> art_8`, `art_6 -> art_96 -> art_15` and `art_6 -> art_97 -> art_43`, through the delegation and committee articles.
-
-Read the arrow above as "and then you must read", not as "cites". The reachability is what matters for traversal, and it holds.
+Never read the first block as the graph. Doing exactly that is what produced a retracted finding on 2026-09-05: the route looked absent from the text, and the conclusion drawn was that nothing cites Article 8.
 
 One measurement trap sits here, and it cost a wrong finding on 2026-09-05. `Articles 8 to 15` is a single phrase naming eight provisions, and a pattern matching `Article` followed by a space never matches the plural. Missing it drops the edges into the obligation articles entirely and makes the chain look absent from the text. A reference predicate has to expand plural and range forms before any claim about reachability is worth making.
 

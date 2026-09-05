@@ -22,6 +22,7 @@ def make_absent_source() -> Source:
         articles=0,
         annexes=0,
         recitals=0,
+        paragraphs=0,
     )
 
 
@@ -50,6 +51,22 @@ class TestCache:
         monkeypatch.setattr(fetch_module, 'CACHE_DIR', tmp_path)
 
         assert read_cached(make_absent_source()) is None
+
+
+class TestRefresh:
+    def test_a_failed_refresh_leaves_the_committed_document_intact(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        def refuse(*args: object, **kwargs: object) -> httpx.Response:
+            raise httpx.ConnectError('no route')
+
+        before = cache_path(ORIGINAL).read_bytes()
+        monkeypatch.setattr(httpx, 'get', refuse)
+
+        with pytest.raises(SourceUnavailableError):
+            fetch(ORIGINAL, refresh=True)
+
+        assert cache_path(ORIGINAL).read_bytes() == before
 
 
 class TestFailure:
