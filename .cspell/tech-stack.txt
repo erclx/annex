@@ -28,7 +28,9 @@ monkeypatch
 mypy
 networkidle
 networkx
+nomic
 numpy
+Ollama
 openai
 parallelizable
 pathlib
@@ -37,6 +39,7 @@ pydantic
 pyproject
 pytest
 pythonpath
+qwen
 regen
 repr
 scannability
