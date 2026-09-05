@@ -36,11 +36,21 @@ The Digital Omnibus, Regulation (EU) 2026/1744, amended the Act on 27 July 2026 
 
 Indexing the original alongside the amended text turns a staleness bug into an observable property: an answer that changed between versions can say so and show which citation moved. That covers data freshness with a real amendment rather than a hypothetical one.
 
-### Evaluation is built before features
+### The evaluation is the deliverable, not a feature of it
 
-The harness scores retrieval hit rate and answer faithfulness against a fixed question set, and it is the first thing built rather than the last.
+The harness answers the same question set three ways: full-context stuffing, vector retrieval alone, and vector retrieval plus reference traversal. It reports accuracy and cost per arm.
 
-Faithfulness is the metric that matters here. Retrieval can be correct while the synthesized answer drifts from what was retrieved, and on a legal corpus that drift is the failure mode with consequences. Building the harness first also means every later layer is measured against a baseline rather than against an impression.
+This inverts the usual order because the premise demands it. The Act is roughly 145 000 tokens, which fits a current context window, so a model can read the whole document and answer from it. Prompt caching removes most of the per-query cost argument on a fixed corpus. Retrieval is therefore not obviously justified here, and a pipeline shipped without the comparison is one nobody can defend.
+
+Faithfulness is the metric that carries the most weight. Retrieval can be correct while the synthesized answer drifts from what was retrieved, and on a legal corpus that drift is the failure mode with consequences.
+
+Cut a retrieval arm before cutting the eval.
+
+### Full-context stuffing is a first-class arm, not a straw man
+
+The baseline gets the same corpus, the same questions, and prompt caching where the provider offers it. Weakening it would make the comparison worthless.
+
+Two things survive if the baseline wins on accuracy, and both are worth stating rather than hiding. Retrieval means the exact passages sent are known, so a citation can be checked against them programmatically rather than trusted. And the technique matters one size up: this document fits a context window, while a national implementation plus guidance plus standards plus case law does not.
 
 ### Three production concerns are built, four are reasoned about
 

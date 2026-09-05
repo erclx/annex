@@ -31,8 +31,8 @@ The text also moves. The Digital Omnibus amended the Act in July 2026 and shifte
 3. Refusal: questions the text does not settle return a refusal naming what is missing
 4. Reference traversal: answers follow the Act's own cross-references between articles, annexes and definitions
 5. Amendment awareness: both the original and amended text are indexed, and an answer that changed says so
-6. Evaluation harness: retrieval hit rate and answer faithfulness, scored against a fixed question set
-7. Traversal comparison: the same question answered with reference traversal on and off, side by side
+6. Three-arm evaluation: the same question set answered by full-context stuffing, by vector retrieval alone, and by vector retrieval plus reference traversal, reporting accuracy and cost for each
+7. Cost reporting: tokens and money per question, per arm, surfaced rather than buried
 
 ## Tech stack
 
@@ -44,6 +44,14 @@ The text also moves. The Digital Omnibus amended the Act in July 2026 and shifte
 - A graph representation of the Act's cross-references
 
 Specific library choices are open and tracked in `.claude/ARCHITECTURE.md` under risks.
+
+## What this project is actually asking
+
+The Act is 90 483 words, roughly 145 000 tokens. That fits inside a current model's context window, so a model can read the whole document and answer from it. Retrieval is therefore not obviously worth doing here, and prompt caching removes most of the cost argument for repeated questions against a fixed corpus.
+
+The question this project exists to answer is whether structure-aware retrieval earns its place against that baseline. The document carries 518 explicit cross-reference phrases, which is what makes the question answerable rather than rhetorical: a corpus with no structure could not be measured this way.
+
+The answer is allowed to be that the baseline wins. Reporting that is the point, not a failure of it.
 
 ## Constraints
 
