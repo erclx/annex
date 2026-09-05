@@ -39,7 +39,34 @@ The chain that matters most, and the one the traversal demo runs on:
 Article 6 (classification) -> Annex III (the high-risk list) -> Articles 8 to 15 (the obligations) -> Article 43 (conformity assessment)
 ```
 
-An answer to "this system is high risk, what must we do" requires walking all four. Semantic search over passages reaches one of them at a time, which is why traversal is load-bearing rather than decorative.
+An answer to "this system is high risk, what must we do" requires reading all four.
+
+**The destinations are reachable, the drawn route is not, measured on 2026-09-05.** Traversal over parsed citations reaches all eight obligation articles and Article 43 from Article 6 in two hops, so the chain is walkable. It does not walk through Annex III. That annex cites only Article 6 and Article 6(2), pointing back at what classifies it rather than forward at what follows. The real paths run `art_6 -> art_96 -> art_8`, `art_6 -> art_96 -> art_15` and `art_6 -> art_97 -> art_43`, through the delegation and committee articles.
+
+Read the arrow above as "and then you must read", not as "cites". The reachability is what matters for traversal, and it holds.
+
+One measurement trap sits here, and it cost a wrong finding on 2026-09-05. `Articles 8 to 15` is a single phrase naming eight provisions, and a pattern matching `Article` followed by a space never matches the plural. Missing it drops the edges into the obligation articles entirely and makes the chain look absent from the text. A reference predicate has to expand plural and range forms before any claim about reachability is worth making.
+
+## Document structure
+
+The two versions are not the same document with different dates. Measured on 2026-09-05 against both live URLs.
+
+| Property                           | Original OJ                            | Consolidated 2026-07-27                  |
+| ---------------------------------- | -------------------------------------- | ---------------------------------------- |
+| Article headings rendered          | 113                                    | 119                                      |
+| Articles reachable at `id="art_N"` | 113                                    | 113                                      |
+| Annexes                            | 13                                     | 14                                       |
+| Recitals                           | 180                                    | 0                                        |
+| Words, tags stripped               | 90 497                                 | 61 044                                   |
+| Markup scheme                      | `oj-normal`, `oj-ti-art`, `oj-sti-art` | `norm`, `no-parag`, `title-article-norm` |
+| Amendment markers                  | none                                   | 129 `p.modref` carrying `M1` and `B`     |
+
+Four things follow, and each has already cost a wrong assumption:
+
+- **Anchors lose six articles in the consolidated text.** Articles 4a, 60a, 75a, 75b, 75c and 75d were inserted by the amendment and carry no `id="art_N"` anchor. An anchor-driven parse folds each into the article above it and still counts 113, which looks like the two versions agreeing. Drive extraction from the rendered headings.
+- **Paragraph numbers are labels rather than positions.** Article 6 reads `1, 1a, 1b, 1c, 2` through `8` in the consolidated text against `1` through `8` in the original. The `NNN.NNN` ids the original carries are sequential positions and disagree with the labels wherever a paragraph was inserted.
+- **A citation resolves in both versions.** 94 of 113 articles carry identical paragraph label sets, and the amendment inserts `1a` rather than renumbering, so `Article 6(2)` means one thing in both texts and the set difference per article is what changed.
+- **The consolidated text carries no recitals.** Any answer resting on a recital reads the original, and the full-context baseline is a different size on each side.
 
 ## What this project does not claim
 
