@@ -16,7 +16,7 @@ The graph and the vector index are two views of the same corpus rather than two 
 
 The Act ships as structured legal text with numbered articles, annexes and recitals, and its cross-references are written into the sentences themselves. That makes the graph a parsing job over an explicit reference structure rather than an extraction job handing text to a model and trusting what comes back.
 
-Parsing wins twice. It is roughly a day cheaper than model extraction, and it is checkable: a parsed edge either matches a reference in the text or it does not, where an extracted edge is only ever as good as the extraction. On a corpus whose whole value is traceability, a graph nobody can verify would undercut the thing being built.
+Parsing wins twice. It is roughly a day cheaper than model extraction, and it is checkable: a parsed edge either matches a reference in the text or it does not, where an extracted edge is only ever as good as the extraction. The Official Journal text carries 518 explicit cross-reference phrases across 113 articles, 13 annexes and 180 recitals. Measured at 43d4ead on 2026-09-05. On a corpus whose whole value is traceability, a graph nobody can verify would undercut the thing being built.
 
 ### The whole Act is ingested, and only the demo question is narrowed
 
@@ -40,7 +40,7 @@ Indexing the original alongside the amended text turns a staleness bug into an o
 
 The harness answers the same question set three ways: full-context stuffing, vector retrieval alone, and vector retrieval plus reference traversal. It reports accuracy and cost per arm.
 
-This inverts the usual order because the premise demands it. The Act is roughly 145 000 tokens, which fits a current context window, so a model can read the whole document and answer from it. Prompt caching removes most of the per-query cost argument on a fixed corpus. Retrieval is therefore not obviously justified here, and a pipeline shipped without the comparison is one nobody can defend.
+This inverts the usual order because the premise demands it. The Act is 90 483 words and roughly 145 000 tokens, which fits a current context window, so a model can read the whole document and answer from it. Measured at 43d4ead on 2026-09-05. Prompt caching removes most of the per-query cost argument on a fixed corpus. Retrieval is therefore not obviously justified here, and a pipeline shipped without the comparison is one nobody can defend.
 
 Faithfulness is the metric that carries the most weight. Retrieval can be correct while the synthesized answer drifts from what was retrieved, and on a legal corpus that drift is the failure mode with consequences.
 
