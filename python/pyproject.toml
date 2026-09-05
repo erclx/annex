@@ -7,7 +7,6 @@ dependencies = [
     "fastapi>=0.115",
     "httpx>=0.28",
     "lxml>=5.3",
-    "networkx>=3.4",
     "openai>=1.60",
     "pydantic>=2.10",
     "pydantic-settings>=2.7",
