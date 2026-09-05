@@ -5,4 +5,4 @@ subtitle: Reference pages for tools, workflows, and concepts
 
 # Wiki
 
-Reference pages for tools, workflows, and concepts.
+Reference pages for tools, workflows, and concepts
