@@ -26,6 +26,7 @@ langgraph
 langsmith
 lintstagedrc
 logomark
+longctx
 lxml
 mkhl
 Modelfile

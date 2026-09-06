@@ -24,7 +24,13 @@ Each arm reports accuracy and cost. The answer is allowed to be that the first o
 
 ## Status
 
-The command line answers questions. Describe a system and it returns the provisions to read, each quoted, or a refusal naming what the text leaves open. The three-arm evaluation and the web surface are not built yet, so the number this project exists to report does not exist yet either.
+The command line answers questions. Describe a system and it returns the provisions to read, each quoted, or a refusal naming what the text leaves open.
+
+The three-arm evaluation is built and has been run, over 72 model runs on a local RTX 5090.
+
+**The baseline won.** Putting the whole Act in the context window reached every provision a correct answer needed. Vector search alone reached 41 to 46 per cent of them, and adding the reference walk lifted that to 54 to 56 per cent without closing the gap. Retrieval's case here is cost and checkability rather than accuracy. The shipped pipeline, which is search plus traversal, sends an eighth of the baseline's prompt tokens, and search alone sends a 39th. And the exact passages either one sent are known, so a citation can be verified against them rather than trusted.
+
+The reason the retrieval arms stop where they do is worth more than the headline. A graph walk cannot recover an entry point search never found, so the reference graph is capped by the embedder in front of it. [docs/evaluation.md](docs/evaluation.md) carries the numbers, the depth sensitivity, the prompt-cache measurement and which production concerns were built against which were only reasoned about. The web surface is not built yet.
 
 ## Setup
 
@@ -33,12 +39,12 @@ Requires [bun](https://bun.sh), [uv](https://docs.astral.sh/uv/), and [Ollama](h
 ```bash
 bun install
 cd python && uv sync
-bash scripts/ollama-build.sh   # the model, built with the context it needs
+bash scripts/ollama-build.sh   # the models, built with the context each needs
 uv run python -m annex embed   # the vector index, a few minutes
 cd .. && bun run check
 ```
 
-The Ollama build step is not optional. Its `/v1` route accepts a per-request context length and ignores it, so the setting is carried by a tracked Modelfile instead, and the client refuses to run against a model that does not have it.
+The Ollama build step is not optional. Its `/v1` route accepts a per-request context length and ignores it, so the setting is carried by a tracked Modelfile instead, and the client refuses to run against a model that does not have it. It builds two models: `annex-qwen3-27b` at a 32,768-token window for answering from a retrieval result, and `annex-longctx` at 131,072 for the evaluation arm that reads the whole Act.
 
 ## Usage
 
@@ -48,7 +54,10 @@ uv run python -m annex ask "a chatbot that answers customer questions"
 uv run python -m annex search "transparency obligations" --k 5
 uv run python -m annex ask "..." --version original --no-traversal
 uv run python -m annex context   # what context the models are carrying
+uv run python -m annex evaluate  # the three arms over the question set
 ```
+
+The evaluation is a long run. Three arms over twelve questions and two versions is 72 model calls, and the baseline reads the whole Act on 24 of them. `--arm`, `--version` and `--limit` narrow it, `--report-only` re-renders the last run, and results are written after every question so a run stopped halfway is still readable.
 
 ```bash
 cd web && bun run dev             # the answer surface
@@ -62,7 +71,7 @@ cd python && uv run pytest -m live  # the tests that need the model up
 
 A question runs through four stages. It is restated in the Act's own vocabulary, searched against the index, expanded over the citations the retrieved provisions carry, and answered. Every claim is then checked against the text it cites, and one that cannot be grounded is dropped rather than softened. An answer with nothing left becomes a refusal.
 
-`.claude/ARCHITECTURE.md` carries the decisions and what's still open. `.claude/REQUIREMENTS.md` carries the scope. `.claude/context/ai-act.md` carries the corpus itself: the amended deadlines, the reference structure, and the claims this project does not make. `.claude/context/retrieval.md` carries the chunking rule, the traversal decision and the measurements behind both.
+`docs/evaluation.md` carries the measured comparison between the three arms and how to reproduce it. `.claude/ARCHITECTURE.md` carries the decisions and what's still open. `.claude/REQUIREMENTS.md` carries the scope. `.claude/context/ai-act.md` carries the corpus itself: the amended deadlines, the reference structure, and the claims this project does not make. `.claude/context/retrieval.md` carries the chunking rule, the traversal decision and the measurements behind both.
 
 ## What it doesn't do
 
