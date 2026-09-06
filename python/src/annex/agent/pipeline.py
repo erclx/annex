@@ -262,7 +262,7 @@ class Pipeline:
             duration_ms=int((time.monotonic() - state['started']) * 1000),
             model=completion.model,
         )
-        drafted = _parse(completion.text, citations)
+        drafted = parse_draft(completion.text, citations)
         answer = Answer(
             question=state['question'],
             version=state['version'],
@@ -352,10 +352,15 @@ def _amendment(provision: Provision, other: Corpus) -> str | None:
     return None
 
 
-def _parse(
+def parse_draft(
     drafted: str, citations: tuple[Citation, ...]
 ) -> tuple[tuple[Claim, ...], Refusal | None]:
     """Read the model's lines as claims, or as a refusal it declared itself.
+
+    Public because the evaluation's full-context arm sends the same synthesis
+    prompt and has to read the reply the same way. A second parser there would
+    put a difference between the arms that is a difference between two pieces
+    of scaffolding rather than between two ways of finding text.
 
     A line whose bracketed numbers name no provision that was retrieved is
     dropped here rather than carried to verification, since a citation the
