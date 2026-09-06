@@ -1,0 +1,26 @@
+# The generation model at the ceiling this card holds, for the baseline arm.
+#
+# The evaluation's full-context arm sends the whole Act. The original text is
+# 117 676 prompt tokens of assembled articles, annexes and recitals, measured
+# on 2026-09-05 rather than estimated, so the window has to clear that plus
+# whatever the answer needs. 131 072 leaves 12 256 spare after a 4 096 answer.
+#
+# 131 072 is also the ceiling this card holds. `num_ctx` 262 144 needs roughly
+# 40 GB against a 32.6 GB card, and this setting already steadies at 29.8 to
+# 30.4 GB with nothing else on the card. Anything else claiming GPU memory
+# mid-run pushes layers to CPU and the wall-time column stops comparing.
+#
+# Separate from `annex-qwen3-27b` rather than widening it. That model answers
+# from a retrieval result and is sized at 32 768 for it, and every agent call
+# would otherwise hold 30 GB of the card to read a few provisions.
+#
+# This machine's Ollama server happens to run with OLLAMA_CONTEXT_LENGTH set to
+# 131072, so the baseline arm appears to work with no Modelfile at all here and
+# breaks anywhere that variable is unset. That is the whole reason the setting
+# is carried by this tracked file rather than left to the environment.
+#
+# Build with scripts/ollama-build.sh.
+
+FROM qwen3.8:27b
+
+PARAMETER num_ctx 131072

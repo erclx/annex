@@ -5,16 +5,22 @@ structure. `uv run python -m annex graph` reports the reference predicate and
 what it yields, rather than asserting a figure nobody can reproduce.
 `uv run python -m annex schema` writes the answer contract the web half
 generates its types from, so neither side hand-copies the other's shape.
+`uv run python -m annex evaluate` answers the gold question set with all three
+arms and reports accuracy and cost for each, which is the number this project
+exists to produce. It is a multi-hour run at full size: see `--limit`, `--arm`
+and `--version`, and `docs/evaluation.md` for what a run costs.
 """
 
 import argparse
 import json
 import logging
 import sys
+from pathlib import Path
 
 from annex.answer import Answer
 from annex.corpus import (
     PREDICATE,
+    Corpus,
     CorpusCheckError,
     CorpusVersion,
     ProvisionKind,
@@ -125,6 +131,86 @@ def _ask(question: str, version: CorpusVersion, traversal: bool) -> int:
     return 0
 
 
+ARM_NAMES = ('full-context', 'search-only', 'search-traversal')
+"""The three arms, in the order the report reads best.
+
+The baseline first because it is what the other two have to earn their place
+against, and search alone before search plus traversal because the second is
+the first with one switch thrown.
+"""
+
+
+def _arms(
+    names: list[str],
+    corpora: dict[CorpusVersion, Corpus],
+    settings: Settings,
+) -> list[object]:
+    """Build the named arms, sharing one pipeline between the retrieval two.
+
+    Imported here rather than at module scope because two of the three compile
+    a LangGraph, and `annex ingest` should not pay for that.
+    """
+    from annex.agent import Pipeline
+    from annex.eval.arms import full_context, search_only, search_traversal
+
+    built: list[object] = []
+    pipeline: Pipeline | None = None
+    for name in names:
+        if name == 'full-context':
+            built.append(full_context.FullContextArm(corpora, settings=settings))
+            continue
+        if pipeline is None:
+            pipeline = Pipeline(settings=settings, corpora=corpora)
+        module = search_only if name == search_only.NAME else search_traversal
+        built.append(module.build(pipeline))
+    return built
+
+
+def _evaluate(
+    names: list[str],
+    versions: list[CorpusVersion],
+    limit: int | None,
+    report_only: bool,
+    questions_only: bool,
+    results_path: Path | None = None,
+) -> int:
+    """Run the arms over the question set, or re-read a run that already ran."""
+    from annex.eval import (
+        QUESTIONS,
+        RESULTS_PATH,
+        depth_rows,
+        read_results,
+        render,
+        run,
+        write_questions,
+    )
+    from annex.eval.runner import Result
+
+    emitted = write_questions()
+    print(f'question set at {emitted}', file=sys.stderr)
+    if questions_only:
+        return 0
+
+    written = results_path or RESULTS_PATH
+    corpora = {version: load(version) for version in CorpusVersion}
+    results: tuple[Result, ...]
+    if report_only:
+        results = read_results(written)
+    else:
+        questions = QUESTIONS[:limit] if limit else QUESTIONS
+        results = run(
+            _arms(names, corpora, Settings()),  # type: ignore[arg-type]
+            corpora,
+            questions=questions,
+            versions=versions,
+            results_path=written,
+        )
+        print(f'results at {written}', file=sys.stderr)
+
+    print(render(results, depth_rows(results, corpora)))
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog='annex')
     parser.add_argument(
@@ -157,6 +243,45 @@ def main(argv: list[str] | None = None) -> int:
         help='search without following the citations outward',
     )
 
+    evaluating = subcommands.add_parser(
+        'evaluate', help='run the three arms over the gold question set'
+    )
+    evaluating.add_argument(
+        '--arm',
+        dest='arms',
+        action='append',
+        choices=ARM_NAMES,
+        help='run one arm, repeatable. Every arm by default',
+    )
+    evaluating.add_argument(
+        '--version',
+        dest='versions',
+        action='append',
+        type=CorpusVersion,
+        help='run one version, repeatable. Both by default',
+    )
+    evaluating.add_argument(
+        '--limit', type=int, help='answer only the first N questions of the set'
+    )
+    evaluating.add_argument(
+        '--report-only',
+        action='store_true',
+        help='render the report from the last run rather than running again',
+    )
+    evaluating.add_argument(
+        '--questions-only',
+        action='store_true',
+        help='write the question set as data and stop',
+    )
+    evaluating.add_argument(
+        '--results',
+        type=Path,
+        help=(
+            'write to this file rather than the tracked one, so a narrowed '
+            'sweep or a timing probe does not overwrite a full run'
+        ),
+    )
+
     arguments = parser.parse_args(argv)
     logging.basicConfig(level=logging.WARNING, format='%(levelname)s %(message)s')
     logger.setLevel(logging.INFO)
@@ -175,6 +300,15 @@ def main(argv: list[str] | None = None) -> int:
         if arguments.command == 'ask':
             return _ask(
                 arguments.description, arguments.version, not arguments.no_traversal
+            )
+        if arguments.command == 'evaluate':
+            return _evaluate(
+                list(arguments.arms or ARM_NAMES),
+                list(arguments.versions or CorpusVersion),
+                arguments.limit,
+                arguments.report_only,
+                arguments.questions_only,
+                arguments.results,
             )
         return _graph(arguments.refresh)
     except CorpusCheckError as error:
