@@ -51,6 +51,7 @@ class State(TypedDict, total=False):
 
     question: str
     version: CorpusVersion
+    started: float
     query: str
     hits: tuple[Hit, ...]
     provision_ids: tuple[str, ...]
@@ -119,12 +120,14 @@ class Pipeline:
 
     def _route(self, state: State) -> State:
         """Restate the description in the vocabulary the Act actually uses."""
+        started = time.monotonic()
         completion = self.client.complete(
             prompts.ROUTE.format(question=state['question']), max_tokens=2048
         )
         query = completion.text.strip() or state['question']
         logger.info('routed to: %s', query)
         return {
+            'started': started,
             'query': query,
             'prompt_tokens': completion.prompt_tokens,
             'completion_tokens': completion.completion_tokens,
@@ -155,7 +158,6 @@ class Pipeline:
         }
 
     def _synthesize(self, state: State) -> State:
-        started = time.monotonic()
         citations = self._citations(state)
         numbered = '\n\n'.join(
             f'[{index}] {citation.citation}\n{citation.text}'
@@ -173,7 +175,7 @@ class Pipeline:
             completion_tokens=(
                 state.get('completion_tokens', 0) + completion.completion_tokens
             ),
-            duration_ms=int((time.monotonic() - started) * 1000),
+            duration_ms=int((time.monotonic() - state['started']) * 1000),
             model=completion.model,
         )
         drafted = _parse(completion.text, citations)

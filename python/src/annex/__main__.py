@@ -86,8 +86,10 @@ def _schema() -> int:
 def _context() -> int:
     settings = Settings()
     loaded = OllamaClient(settings).verify_context()
-    print(f'{settings.generation_model} num_ctx={loaded}')
-    print(f'{settings.embedding_model} context={settings.embedding_context}')
+    print(f'{settings.generation_model} num_ctx={loaded} (read back from the model)')
+    print(
+        f'{settings.embedding_model} context={settings.embedding_context} (configured)'
+    )
     return 0
 
 
@@ -154,7 +156,8 @@ def main(argv: list[str] | None = None) -> int:
     )
 
     arguments = parser.parse_args(argv)
-    logging.basicConfig(level=logging.INFO, format='%(levelname)s %(message)s')
+    logging.basicConfig(level=logging.WARNING, format='%(levelname)s %(message)s')
+    logger.setLevel(logging.INFO)
 
     try:
         if arguments.command == 'ingest':

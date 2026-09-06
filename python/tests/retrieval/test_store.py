@@ -112,3 +112,9 @@ class TestMissingIndex:
                 k=1,
                 path=tmp_path / 'absent.db',
             )
+
+    def test_searching_a_version_the_index_never_held_names_it(
+        self, index: Path
+    ) -> None:
+        with pytest.raises(FileNotFoundError, match='no consolidated table'):
+            nearest(CorpusVersion.CONSOLIDATED, unit_vector(0), k=1, path=index)

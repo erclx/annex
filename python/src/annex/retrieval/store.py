@@ -80,6 +80,29 @@ def connect(
         connection.close()
 
 
+def _require_table(
+    connection: sqlite3.Connection,
+    table: str,
+    version: CorpusVersion,
+    path: Path,
+) -> None:
+    """Refuse a version the index does not hold, by name.
+
+    `write` commits one version at a time, so an ingest interrupted between the
+    two leaves a file that opens, reads one version, and answers the other with
+    a bare `no such table`.
+    """
+    found = connection.execute(
+        "SELECT name FROM sqlite_master WHERE type IN ('table', 'view') AND name = ?",
+        (table,),
+    ).fetchone()
+    if found is None:
+        raise FileNotFoundError(
+            f'the index at {path} holds no {version} table. '
+            'Run: uv run python -m annex embed'
+        )
+
+
 def write(
     version: CorpusVersion,
     embedded: list[tuple[Chunk, list[float]]],
@@ -132,6 +155,7 @@ def nearest(
     """The k chunks closest to one vector, nearest first."""
     table = _table(version)
     with connect(path) as connection:
+        _require_table(connection, table, version, path)
         rows = connection.execute(
             f'SELECT m.chunk_id, m.provision_id, m.citation, m.text, v.distance '
             f'FROM {table} v JOIN {table}_meta m ON m.rowid = v.rowid '
