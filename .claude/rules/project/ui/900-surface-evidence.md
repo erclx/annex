@@ -10,7 +10,7 @@ paths:
 
 ## What to capture
 
-- Capture every state `.claude/wireframes/answer.md` names after changing what the surface renders, in light and dark, against a production build rather than a dev server.
+- Capture every state `.claude/wireframes/answer.md` names after changing what the surface renders, in light and dark, against a production build rather than a dev server. `web/e2e/capture-states.ts` does this, and its own header states how to run it.
 - Write the shipped state to `web/ui-states/`, one file per state and theme, replacing the file that is there rather than adding beside it.
 - Commit both themes for every state. The dark theme re-values each role rather than inverting the light one, so a regression in one is invisible in a capture of the other, and a set carrying one theme for most states and both for a few reports nothing about which was checked.
 - Leave `web/screenshots/` gitignored. That path holds the working set, which changes on every iteration and belongs in no one's history.

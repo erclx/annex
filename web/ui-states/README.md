@@ -54,12 +54,25 @@ wins on any disagreement. This file owns what that one does not draw.
 
 ## Regenerating these
 
-There is no capture script that produces this set. `web/scripts/screenshot.sh`
-covers the empty state in both themes and cannot run at all until a `preview`
-script exists, which no manifest defines. The states above were driven by hand
-against a built app with the service stubbed at the network layer.
+`e2e/capture-states.ts` writes every file here. Run it from `web/` against a
+production build, so no dev overlay lands in a capture:
 
-Refresh them when the surface changes, and only then. A capture that no longer
+```bash
+bun run build
+bunx next start --port 4131 &
+CAPTURE_BASE_URL=http://localhost:4131 bun e2e/capture-states.ts
+```
+
+It stubs the service at the network layer, which is the only way to reach a
+refusal, a cut-short answer or a named failure without a live model that happens
+to produce one.
+
+It is a sibling of `e2e/screenshot.ts` rather than part of it. That script
+captures the routes a deployment serves and checks the console is clean, and it
+cannot run at all until a `preview` script exists, which no manifest defines.
+That repair belongs to the row that owns the harness.
+
+Refresh these when the surface changes, and only then. A capture that no longer
 matches what the surface renders is worse than none, because a reviewer trusts
 it.
 
