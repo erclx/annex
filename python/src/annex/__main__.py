@@ -3,12 +3,16 @@
 `uv run python -m annex ingest` fetches and parses both versions and checks the
 structure. `uv run python -m annex graph` reports the reference predicate and
 what it yields, rather than asserting a figure nobody can reproduce.
+`uv run python -m annex schema` writes the answer contract the web half
+generates its types from, so neither side hand-copies the other's shape.
 """
 
 import argparse
+import json
 import logging
 import sys
 
+from annex.answer import Answer
 from annex.corpus import (
     PREDICATE,
     CorpusCheckError,
@@ -63,6 +67,11 @@ def _graph(refresh: bool) -> int:
     return 0
 
 
+def _schema() -> int:
+    print(json.dumps(Answer.model_json_schema(), indent=2, sort_keys=True))
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog='annex')
     parser.add_argument(
@@ -73,6 +82,7 @@ def main(argv: list[str] | None = None) -> int:
     subcommands = parser.add_subparsers(dest='command', required=True)
     subcommands.add_parser('ingest', help='fetch, parse and check both versions')
     subcommands.add_parser('graph', help='report the reference predicate and its yield')
+    subcommands.add_parser('schema', help='write the answer JSON Schema to stdout')
 
     arguments = parser.parse_args(argv)
     logging.basicConfig(level=logging.WARNING, format='%(levelname)s %(message)s')
@@ -80,6 +90,8 @@ def main(argv: list[str] | None = None) -> int:
     try:
         if arguments.command == 'ingest':
             return _ingest(arguments.refresh)
+        if arguments.command == 'schema':
+            return _schema()
         return _graph(arguments.refresh)
     except CorpusCheckError as error:
         print(f'corpus check failed: {error}', file=sys.stderr)
