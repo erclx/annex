@@ -11,7 +11,8 @@ paths:
 ## What to capture
 
 - Capture every state `.claude/wireframes/answer.md` names after changing what the surface renders, in light and dark, against a production build rather than a dev server.
-- Write the shipped state to `web/ui-states/`, one file per state, replacing the file that is there rather than adding beside it.
+- Write the shipped state to `web/ui-states/`, one file per state and theme, replacing the file that is there rather than adding beside it.
+- Commit both themes for every state. The dark theme re-values each role rather than inverting the light one, so a regression in one is invisible in a capture of the other, and a set carrying one theme for most states and both for a few reports nothing about which was checked.
 - Leave `web/screenshots/` gitignored. That path holds the working set, which changes on every iteration and belongs in no one's history.
 - Read the design source before capturing, being `.claude/wireframes/answer.md` for layout and copy, `.claude/DESIGN.md` for tokens, and `web/ui-states/settled-design.html` for the type scale, spacing and treatments the drawn design settled.
 - Cite a tracked path and never a path under `.canon/`, which is gitignored, in no history, and swept by the skill that wrote it. A rule pointing there resolves on one machine and nowhere else.

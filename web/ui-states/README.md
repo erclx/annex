@@ -1,9 +1,14 @@
 # Answer surface, as it renders
 
-Nine captures of the one surface this project has, taken at 1280px against a
-production build. They are here so a reviewer can see what a change did to the
-surface without running it, and so a later change has something to be compared
-against.
+Sixteen captures of the one surface this project has, every state in both
+themes, taken at 1280px against a production build. They are here so a reviewer
+can see what a change did to the surface without running it, and so a later
+change has something to be compared against.
+
+Both themes, symmetrically, because both ship and neither is a variant of the
+other. The dark theme re-values every role rather than inverting the light one,
+and `.claude/DESIGN.md` records contrast measured separately for each, so a
+regression in one is invisible in a capture of the other.
 
 They sit under `web/` rather than under the repository's `docs/` because of who
 reads them. `docs/` serves an operator running what the project ships, who has
@@ -19,17 +24,16 @@ Every state `.claude/wireframes/answer.md` names appears here except the
 moved-citation one, which is folded into the answered capture because it renders
 on top of an answer rather than instead of it.
 
-| File                                           | State                                                               |
-| ---------------------------------------------- | ------------------------------------------------------------------- |
-| [Empty](1-empty-light.png)                     | On arrival, before anything is asked                                |
-| [Invalid](2-invalid-light.png)                 | The description is empty or past the bound                          |
-| [Loading](3-loading-light.png)                 | The skeleton, and the measured range in the copy                    |
-| [Answered](4-answered-light.png)               | Claims, inline citations, the moved-citation chip, the trace opened |
-| [Answered, dark](4-answered-dark.png)          | The same markup with one token set swapped                          |
-| [Cut short](5-answered-cut-short-light.png)    | The answer stopped for want of prompt room                          |
-| [Refused](6-refused-light.png)                 | The text does not settle it, and what was read before saying so     |
-| [Unavailable](7-failure-unavailable-light.png) | The model or the index is not running                               |
-| [Unreachable](8-failure-unreachable-light.png) | Nothing is listening on the service port                            |
+| State | Light | Dark |
+| ----- | ----- | ---- |
+| On arrival, before anything is asked | [light](1-empty-light.png) | [dark](1-empty-dark.png) |
+| The description is empty or past the bound | [light](2-invalid-light.png) | [dark](2-invalid-dark.png) |
+| The skeleton, and the measured range in the copy | [light](3-loading-light.png) | [dark](3-loading-dark.png) |
+| Claims, inline citations, the moved-citation chip, the trace opened | [light](4-answered-light.png) | [dark](4-answered-dark.png) |
+| The answer stopped for want of prompt room | [light](5-answered-cut-short-light.png) | [dark](5-answered-cut-short-dark.png) |
+| The text does not settle it, and what was read before saying so | [light](6-refused-light.png) | [dark](6-refused-dark.png) |
+| The model or the index is not running | [light](7-failure-unavailable-light.png) | [dark](7-failure-unavailable-dark.png) |
+| Nothing is listening on the service port | [light](8-failure-unreachable-light.png) | [dark](8-failure-unreachable-dark.png) |
 
 ## The design these are measured against
 
@@ -73,6 +77,9 @@ captures stay ignored under `web/screenshots/` and the folder stays in
 `.gitignore`, and what lands here is the final state alone: one file per state
 the wireframe names, replaced rather than appended to when the surface changes.
 
-Currently 648 KB across nine files. Keep it that way. If this folder starts
+Currently 1.1 MB across sixteen files, being eight states in two themes. That
+count is the ceiling as well as the floor: a state gains a file here only by
+being added to the wireframe, and a theme only by the project shipping one. If
+this folder starts
 growing per commit rather than per state, the split above has stopped being
 honored.
