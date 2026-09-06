@@ -1,3 +1,4 @@
+import { ThemeToggle } from '@/components/theme-toggle'
 import type { CorpusVersion } from '@/components/versions'
 
 /**
@@ -85,6 +86,8 @@ export function TopBar({
               demo
             </span>
           </div>
+
+          <ThemeToggle />
         </div>
       </div>
     </header>

@@ -71,6 +71,10 @@ async function describeSystem(text = 'a customer chatbot') {
 
 afterEach(() => {
   vi.unstubAllGlobals()
+  // The theme control writes to the document and the store, both of which
+  // outlive a render, so a test that changed either would leak into the next.
+  delete document.documentElement.dataset.theme
+  localStorage.clear()
 })
 
 describe('the empty state', () => {
@@ -373,6 +377,59 @@ describe('the trace', () => {
 
     expect(screen.getByText('searched')).toBeInTheDocument()
     expect(screen.getByText('dropped')).toBeInTheDocument()
+  })
+})
+
+describe('the theme control', () => {
+  it('starts on match system, so the OS decides until a reader chooses', () => {
+    render(<Home />)
+
+    expect(
+      screen.getByRole('button', { name: 'Match system' }),
+    ).toHaveAttribute('aria-pressed', 'true')
+  })
+
+  it('writes the choice onto the document so the tokens switch', async () => {
+    render(<Home />)
+    const user = userEvent.setup()
+
+    await user.click(screen.getByRole('button', { name: 'Dark' }))
+
+    expect(document.documentElement.dataset.theme).toBe('dark')
+  })
+
+  it('clears the attribute on match system, handing the decision back to the OS', async () => {
+    render(<Home />)
+    const user = userEvent.setup()
+    await user.click(screen.getByRole('button', { name: 'Dark' }))
+
+    await user.click(screen.getByRole('button', { name: 'Match system' }))
+
+    expect(document.documentElement.dataset.theme).toBeUndefined()
+  })
+
+  it('remembers the choice for the next visit', async () => {
+    render(<Home />)
+    const user = userEvent.setup()
+
+    await user.click(screen.getByRole('button', { name: 'Light' }))
+
+    expect(localStorage.getItem('annex-theme')).toBe('light')
+  })
+
+  it('still applies the choice when the store refuses to keep it', async () => {
+    const setItem = vi
+      .spyOn(Storage.prototype, 'setItem')
+      .mockImplementation(() => {
+        throw new Error('blocked')
+      })
+    render(<Home />)
+    const user = userEvent.setup()
+
+    await user.click(screen.getByRole('button', { name: 'Dark' }))
+
+    expect(document.documentElement.dataset.theme).toBe('dark')
+    setItem.mockRestore()
   })
 })
 
