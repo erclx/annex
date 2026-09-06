@@ -21,3 +21,7 @@ __pycache__/
 *.py[cod]
 .venv/
 .coverage_cache/
+
+# Derived corpus artifacts
+# The vector index is rebuilt by `annex embed` and is megabytes of float.
+python/data/index/
