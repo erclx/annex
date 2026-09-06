@@ -1,10 +1,14 @@
 categorisation
 checkability
+Consolas
 EASA
 embedder
 GPAI
+Menlo
 neighbour
 neighbours
+Noto
+Segoe
 stopword
 stopwords
 subfolders
