@@ -30,6 +30,8 @@ The system reports which articles to read. It does not say whether an organizati
 
 This is a product decision before it is a safety one. A tool that always answers is indistinguishable from a tool that guesses, and on a legal corpus the cost of a confident wrong answer is the whole downside. Grandfathering is the worked example: systems already on the market before the amended deadlines fall outside full high-risk compliance unless later substantially modified, and no regulator has defined that threshold. The text does not settle it, so neither does the system.
 
+The decision stands and the implementation does not meet it yet. v0.6 put three questions the text does not settle to each arm on each version, which is eighteen chances to refuse correctly, and the arms took five. The best any arm and version pair managed was one in three, and search plus traversal on the original text caught none. The false refusals are the sharper half: every one made by a retrieval arm landed on the version-comparison flow, so the pipeline is refusing exactly the questions about what the amendment moved, which is where a wrong answer carries a penalty date. This is the weakest measured behavior in the system and the gap between the decision above and what ships. Measured at 2e3cf38 on 2026-09-06.
+
 ### Both versions of the text are indexed
 
 The Digital Omnibus, Regulation (EU) 2026/1744, amended the Act on 27 July 2026 and moved two of the three compliance deadlines. A system reading only the original text answers deadline questions confidently and wrongly.

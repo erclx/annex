@@ -5,9 +5,17 @@ outward. This is the middle arm and it carries the harder half of the argument:
 the baseline shows whether retrieval is needed at all, and this shows whether
 the structure-aware half of it adds anything search does not already find.
 
-Where this arm scores what the traversal arm scores, the reference graph is
-decoration. `.claude/ARCHITECTURE.md` allows that result and says reporting it
-is the point rather than a failure of it.
+It did not score what the traversal arm scored, so the graph is not decoration.
+Measured over twelve questions: **0.41 recall on the original and 0.46 on the
+consolidated**, against 0.54 and 0.56 with the walk on. Precision runs the other
+way, 0.188 and 0.308 here against 0.137 and 0.201, because this arm sends about
+twelve provisions and the walk sends about twenty-seven.
+
+What it does establish is the ceiling. Traversal starts from these seeds, so
+whatever this arm fails to retrieve is unavailable to the arm after it, and
+every one of its own misses is inherited. That makes the embedder rather than
+the graph the place the next gain has to come from. `docs/evaluation.md` carries
+the run.
 """
 
 from annex.agent.pipeline import Pipeline

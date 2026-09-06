@@ -98,6 +98,32 @@ class TestTheSummaryGroups:
 
         assert summarize(results)[0].prompt_tokens == 1000
 
+    def test_refusals_are_split_by_what_the_question_asked_for(self) -> None:
+        """One rate over both would mostly measure answering, not refusing."""
+        results = [
+            make_result(0, expects_refusal=True, refused=True),
+            make_result(1, expects_refusal=True, refused=False),
+            make_result(2, expects_refusal=False, refused=True),
+            make_result(3, expects_refusal=False, refused=False),
+        ]
+
+        summary = summarize(results)[0]
+
+        assert (summary.correct_refusals, summary.refusal_questions) == (1, 2)
+        assert (summary.false_refusals, summary.answer_questions) == (1, 2)
+
+    def test_answering_every_question_scores_no_correct_refusal(self) -> None:
+        """An arm that never refuses cannot score on the questions that need it."""
+        results = [
+            make_result(0, expects_refusal=True, refused=False),
+            make_result(1, expects_refusal=False, refused=False),
+        ]
+
+        summary = summarize(results)[0]
+
+        assert summary.correct_refusals == 0
+        assert summary.false_refusals == 0
+
     def test_a_refusal_does_not_drag_the_faithfulness_mean_down(self) -> None:
         results = [make_result(0), make_result(1, refused=True, faithfulness=None)]
 

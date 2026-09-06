@@ -49,16 +49,18 @@ Supplied is not the same as retrieved. `traversed_ids` names what traversal reac
 
 72 runs, none failed. Measured on 2026-09-06 against `annex-longctx` and `annex-qwen3-27b`, both `qwen3.8:27b` derivatives, on one RTX 5090.
 
-**Stuffing the whole document wins on every accuracy measure and loses only on tokens.**
+**Stuffing the whole document wins on recall, precision and faithfulness. It loses on tokens, and it loses on completeness.**
 
-| Arm              | Version      | Recall | Precision, nodes | Nodes sent | Faithfulness | Refusals right | Answers cut |
-| ---------------- | ------------ | ------ | ---------------- | ---------- | ------------ | -------------- | ----------- |
-| full-context     | original     | 1.00   | 0.014            | 306.0      | 0.97         | 9/12           | 3           |
-| full-context     | consolidated | 1.00   | 0.032            | 133.0      | 0.96         | 8/12           | 2           |
-| search-only      | original     | 0.41   | 0.188            | 12.0       | 0.87         | 9/12           | 0           |
-| search-only      | consolidated | 0.46   | 0.308            | 11.8       | 0.87         | 8/12           | 0           |
-| search-traversal | original     | 0.54   | 0.137            | 27.2       | 0.92         | 8/12           | 0           |
-| search-traversal | consolidated | 0.56   | 0.201            | 27.1       | 0.93         | 9/12           | 2           |
+| Arm              | Version      | Recall | Precision, nodes | Nodes sent | Faithfulness | Correct refusals | False refusals | Answers cut |
+| ---------------- | ------------ | ------ | ---------------- | ---------- | ------------ | ---------------- | -------------- | ----------- |
+| full-context     | original     | 1.00   | 0.014            | 306.0      | 0.97         | 1/3              | 1/9            | 3           |
+| full-context     | consolidated | 1.00   | 0.032            | 133.0      | 0.96         | 1/3              | 2/9            | 2           |
+| search-only      | original     | 0.41   | 0.188            | 12.0       | 0.87         | 1/3              | 1/9            | 0           |
+| search-only      | consolidated | 0.46   | 0.308            | 11.8       | 0.87         | 1/3              | 2/9            | 0           |
+| search-traversal | original     | 0.54   | 0.137            | 27.2       | 0.92         | 0/3              | 1/9            | 0           |
+| search-traversal | consolidated | 0.56   | 0.201            | 27.1       | 0.93         | 1/3              | 1/9            | 2           |
+
+The completeness half of that headline is the last column. Five of the baseline's twenty-four answers stopped because the window filled rather than because the model had finished, against none for search alone. A cut answer reads as a finished one, and every metric beside it scores whatever survived the cut, so those rows are measuring a shorter answer than the arm meant to give. That is a cost of stuffing and it belongs in the sentence rather than in a footnote under it.
 
 | Arm              | Version      | Prompt tokens | Wall time | First call | Later calls |
 | ---------------- | ------------ | ------------- | --------- | ---------- | ----------- |
@@ -108,18 +110,36 @@ This is the local form of the prompt-caching argument that the record otherwise 
 
 The first-call column in the tables above is not a cold reading. Earlier partial runs had already sent the same prefixes, which is why full-context on the original shows a 15.3 s first call against a 30.8 s later mean. Only the controlled probe measures the prefill.
 
-### Nothing is good at refusal
+### Nothing is good at refusal, and one arm refuses the wrong flow
 
-Every arm got eight or nine of twelve refusal calls right, and no arm was clearly better. Three of the twelve questions are ones the text does not settle, and the arms both over-refuse questions they should answer and answer questions they should refuse. Refusal is the product's headline safety property and this harness says it is the weakest measured behavior in the system.
+Three of the twelve questions are ones the text does not settle. Across six arm and version pairs that is eighteen chances to refuse correctly, and the arms took **five**. The best any pair managed was one in three, and `search-traversal` on the original text caught none.
+
+Refusal is the product's headline safety property. On this evidence it is the weakest measured behavior in the system, and it is the one a reader would most want to trust.
+
+The false refusals are worse than their count, because they are not scattered. Every false refusal by a retrieval arm landed on the deadline questions.
+
+```plaintext
+false refusals, by question
+  full-context      q02, q03, q05     transparency and high-risk chain
+  search-only       q10, q11, q12     version comparison
+  search-traversal  q10, q10          version comparison
+```
+
+The retrieval arms systematically refuse the version-comparison flow, which is the one that asks what the amendment moved. That is MVP feature 5 of this project, and it is the flow where a wrong answer carries a penalty date. The baseline's three misses scatter across two other flows and show no such pattern.
+
+Nothing in an aggregate refusal rate shows this. It is visible only once the column is split by what the question asked for, which is why the table above carries two.
 
 ### What this means
 
-On this corpus, with this model, **retrieval does not earn its place on accuracy.** It earns it on cost, and on the property no accuracy column shows: the exact passages sent are known, so a citation can be checked against them programmatically rather than trusted. That is why `python/data/eval/results.json` carries the ids.
+On this corpus, with this model, **retrieval does not earn its place on accuracy.** It earns it on cost, on completeness, and on the property no accuracy column shows: the exact passages sent are known, so a citation can be checked against them programmatically rather than trusted. That is why `python/data/eval/results.json` carries the ids.
 
-Two limits keep this from being a general claim, and both are worth stating before someone else does.
+Neither side of that comes out clean. The baseline pays for its recall with five cut answers out of twenty-four, and the retrieval arms pay for their cheapness by refusing the one flow that asks what the amendment moved. A reader picking an arm off the recall column alone would get the first without being told about either.
+
+Three limits keep this from being a general claim, and all three are worth stating before someone else does.
 
 - Twelve questions is a small denominator, and one wrong answer moves a rate by more than eight points.
 - One model, one embedder, one machine. The recall ceiling here is set by `nomic-embed-text`, which was chosen for its context limit rather than compared against anything. No alternative embedder has been measured, and swapping it is the highest-leverage experiment this harness now makes possible.
+- Refusal is scored over three questions per arm and version, which is eighteen readings in total. That is enough to say the behavior is weak and not enough to rank the arms on it. The flow the false refusals concentrate in is the finding worth carrying, rather than the counts themselves.
 
 The technique also matters one size up, which no arm here can show. This document fits a context window. A national implementation plus guidance plus standards plus case law does not, and at that size the baseline arm stops being available at all.
 

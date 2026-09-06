@@ -15,18 +15,16 @@ answer moves accuracy by more than eight points.
 
 ## What the report says beside the numbers
 
-Four readings would be wrong taken from a table alone, so each is written out
-rather than left to a reader to notice.
+Several readings would be wrong taken from a table alone, so `render` writes
+each one out rather than leaving a reader to notice it. The list lives there
+rather than here, because a count kept in two places goes stale in one of them.
 
-- The baseline's precision denominator is the whole document. Unstated it looks
-  absurd and the comparison reads as rigged. Stated, it is what stuffing costs.
-- Faithfulness is span containment against what was supplied. It measures
-  quotation fidelity, and an answer that quotes correctly and reasons wrongly
-  scores 1.0.
-- Recall of 1.0 beside precision near 0.2 is the traversal arm handing the
-  model a quarter of the document. Reporting the first alone flatters it.
-- The money column is arithmetic on an illustrative rate, not a bill. Nothing
-  was paid for: every call ran locally against Ollama.
+The shape they share is that every column has a denominator the column does not
+show. Precision divides by what an arm was handed, so the baseline's whole
+document makes it look absurd until that is said. Faithfulness matches against
+the supplied text, so the same denominator flatters the arm supplied with most.
+The refusal columns run over the questions that expect each behavior rather than
+over the set. And the money column divides by a rate nobody paid.
 """
 
 from collections.abc import Sequence
@@ -69,7 +67,20 @@ class ArmSummary:
     precision_over_articles: float
     nodes_supplied: float
     faithfulness: float | None
-    refusals_correct: int
+    refusal_questions: int
+    correct_refusals: int
+    answer_questions: int
+    false_refusals: int
+    """Refusal, split by what the question asked for rather than aggregated.
+
+    A single rate over all twelve questions is mostly a measure of answering,
+    since nine of them expect an answer and an arm scores those by answering.
+    That reads as eight or nine out of twelve while the arm is catching one
+    refusal question in three. The two counts are what make the weakness
+    visible, and they run over different denominators, so neither is a rate on
+    its own.
+    """
+
     truncated: int
     prompt_tokens: int
     completion_tokens: int
@@ -127,7 +138,14 @@ def summarize(results: Sequence[Result]) -> tuple[ArmSummary, ...]:
                 ),
                 nodes_supplied=_mean([item.nodes_supplied for item in scored]),
                 faithfulness=_mean(faithful) if faithful else None,
-                refusals_correct=sum(1 for item in scored if item.refusal_correct),
+                refusal_questions=sum(1 for item in scored if item.expects_refusal),
+                correct_refusals=sum(
+                    1 for item in scored if item.expects_refusal and item.refused
+                ),
+                answer_questions=sum(1 for item in scored if not item.expects_refusal),
+                false_refusals=sum(
+                    1 for item in scored if not item.expects_refusal and item.refused
+                ),
                 truncated=sum(1 for item in scored if item.truncated),
                 prompt_tokens=sum(item.prompt_tokens for item in scored),
                 completion_tokens=sum(item.completion_tokens for item in scored),
@@ -146,16 +164,18 @@ def _optional(value: float | None, spec: str = '.2f') -> str:
 def _accuracy_table(summaries: Sequence[ArmSummary]) -> list[str]:
     lines = [
         '| Arm | Version | Answered | Failed | Recall | Precision, nodes | '
-        'Precision, articles | Nodes sent | Faithfulness | Refusals right | '
-        'Answers cut |',
-        '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |',
+        'Precision, articles | Nodes sent | Faithfulness | Correct refusals | '
+        'False refusals | Answers cut |',
+        '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |',
     ]
     for row in summaries:
         lines.append(
             f'| {row.arm} | {row.version} | {row.answered} | {row.failed} | '
             f'{row.recall:.2f} | {row.precision_over_nodes:.3f} | '
             f'{row.precision_over_articles:.3f} | {row.nodes_supplied:.1f} | '
-            f'{_optional(row.faithfulness)} | {row.refusals_correct} | '
+            f'{_optional(row.faithfulness)} | '
+            f'{row.correct_refusals}/{row.refusal_questions} | '
+            f'{row.false_refusals}/{row.answer_questions} | '
             f'{row.truncated} |'
         )
     return lines
@@ -291,6 +311,14 @@ def render(results: Sequence[Result], depths: Sequence[DepthRow] = ()) -> str:
             '- Recall and precision are read together or not at all. An arm '
             'reaching every gold provision by sending a quarter of the document '
             'scores 1.0 on recall, and the precision column is what that cost.',
+            '- The two refusal columns run over different denominators and '
+            'neither is a rate. Correct refusals count the questions the text '
+            'does not settle, and false refusals count the ones it does. A '
+            'single figure over all questions would mostly measure answering, '
+            'since most of the set expects an answer. Read the per-question '
+            'table for which questions a false refusal landed on: they '
+            'concentrate by flow rather than scattering, and which flow an arm '
+            'refuses is a fact about that arm.',
             '- An answer in the cut column stopped because it ran out of room '
             'to write, not because it had finished. Every arm gets the same '
             'generation budget so the comparison holds, and an arm that reaches '

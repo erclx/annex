@@ -30,7 +30,9 @@ The three-arm evaluation is built and has been run, over 72 model runs on a loca
 
 **The baseline won.** Putting the whole Act in the context window reached every provision a correct answer needed. Vector search alone reached 41 to 46 per cent of them, and adding the reference walk lifted that to 54 to 56 per cent without closing the gap. Retrieval's case here is cost and checkability rather than accuracy. The shipped pipeline, which is search plus traversal, sends an eighth of the baseline's prompt tokens, and search alone sends a 39th. And the exact passages either one sent are known, so a citation can be verified against them rather than trusted.
 
-The reason the retrieval arms stop where they do is worth more than the headline. A graph walk cannot recover an entry point search never found, so the reference graph is capped by the embedder in front of it. [docs/evaluation.md](docs/evaluation.md) carries the numbers, the depth sensitivity, the prompt-cache measurement and which production concerns were built against which were only reasoned about. The web surface is not built yet.
+The reason the retrieval arms stop where they do is worth more than the headline. A graph walk cannot recover an entry point search never found, so the reference graph is capped by the embedder in front of it.
+
+Refusal came out worst of anything measured. Across eighteen chances to refuse a question the text does not settle, the arms took five, and every false refusal a retrieval arm made landed on the flow that asks what the amendment changed. Saying so is the point of running the evaluation rather than asserting the design. [docs/evaluation.md](docs/evaluation.md) carries the numbers, the depth sensitivity, the prompt-cache measurement and which production concerns were built against which were only reasoned about. The web surface is not built yet.
 
 ## Setup
 
