@@ -43,6 +43,16 @@ TIMING_QUESTION = (
     'when do the obligations for a high-risk AI system start to apply to us'
 )
 
+DESCRIBES_ITS_OWN_TIMING = (
+    'a chatbot that tells the user when it is talking to a machine'
+)
+"""A description carrying `when` that asks nothing about a date.
+
+This is the transparency flow the project leads with, and an earlier draft of
+the timing gate matched the bare token and pushed it through a date check no
+Article 50 answer can pass.
+"""
+
 
 def make_answer(
     *claims: Claim, question: str = 'Does Article 50 apply to my chatbot?'
@@ -197,6 +207,50 @@ class TestVerify:
         verified = verify(make_answer(deployer))
 
         assert not verified.is_refusal
+
+    def test_a_description_saying_when_about_itself_is_not_a_timing_question(
+        self,
+    ) -> None:
+        transparency = Claim(
+            statement=(
+                'Providers ensure natural persons are informed they are '
+                'interacting with an AI system.'
+            ),
+            citations=(make_citation(),),
+        )
+
+        verified = verify(make_answer(transparency, question=DESCRIBES_ITS_OWN_TIMING))
+
+        assert not verified.is_refusal
+
+    def test_a_date_written_without_its_day_is_still_grounded(self) -> None:
+        """The check reads the model's sentence, not the Act's.
+
+        Nothing constrains how the model writes a date, so a claim naming the
+        month and the year answers the question its citation answers.
+        """
+        dated = Claim(
+            statement=(
+                'This Regulation shall apply from August 2026 to high-risk AI systems.'
+            ),
+            citations=(make_citation(DATED_TEXT),),
+        )
+
+        verified = verify(make_answer(dated, question=TIMING_QUESTION))
+
+        assert not verified.is_refusal
+
+    def test_a_date_the_cited_text_does_not_carry_is_not_grounded(self) -> None:
+        invented = Claim(
+            statement=(
+                'This Regulation shall apply from August 2031 to high-risk AI systems.'
+            ),
+            citations=(make_citation(DATED_TEXT),),
+        )
+
+        verified = verify(make_answer(invented, question=TIMING_QUESTION))
+
+        assert verified.is_refusal
 
     def test_a_refusal_on_timing_names_the_provision_it_wanted(self) -> None:
         deployer = Claim(

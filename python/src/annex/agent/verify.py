@@ -39,24 +39,52 @@ logger = logging.getLogger('annex.agent.verify')
 
 WORD = re.compile(r"[a-z][a-z'-]{3,}")
 
-ASKS_WHEN = re.compile(r'\b(when|deadline|deadlines)\b', re.IGNORECASE)
+ASKS_WHEN = re.compile(
+    r'\b(?:from\s+when|when\s+(?:do|does|did|will|must|should|are|is)|deadlines?)\b',
+    re.IGNORECASE,
+)
 """Whether a description is asking for a date rather than for a duty.
 
-Selects four of the twelve gold descriptions: the three deadline questions and
-`q08`, which says "before the deadline" and is one the gold set already expects
-a refusal on. Widening the set with `date` or with `apply` selects the same
-four, so it is narrow because widening bought nothing rather than because
-widening cost something. Measured on 2026-09-06.
+Matches an interrogative shape rather than the bare token, because the endpoint
+takes free text and the token is ordinary English inside a description of what a
+system does. "A chatbot that tells the user when it is talking to a machine"
+carries a `when` and asks nothing about timing, and gating it would push the
+transparency flow this project leads with through a check it cannot pass.
+
+The word after `when` is what separates the two. A question puts an auxiliary
+there and a description puts a subject, so `when it`, `when a` and `when to`
+fall outside while `when do` and `from when` fall inside. Selects the same four
+gold descriptions the bare token did, being the three deadline questions and
+`q08`, which says "before the deadline" and is one the set already expects a
+refusal on. Measured on 2026-09-06.
+
+What it gives up is a timing question phrased without an auxiliary. That
+degrades to the behavior before this check existed rather than to a false
+refusal, which is the direction to fail in.
 """
 
 CALENDAR_DATE = re.compile(
-    r'\b\d{1,2} (?:January|February|March|April|May|June|July|August|September'
-    r'|October|November|December) \d{4}\b'
+    r'\b(?:\d{1,2}\s+)?(January|February|March|April|May|June|July|August'
+    r'|September|October|November|December)\s+(\d{4})\b',
+    re.IGNORECASE,
 )
-"""A date written the way the Official Journal writes one.
+"""A date the Act states, with the day optional and the month and year captured.
 
-Selects 41 provisions of each version, Article 111 and Article 113 among them.
-Measured against both parses on 2026-09-06.
+The day is optional because this reads the model's own sentence rather than the
+Act's, and nothing constrains how the model writes a date. "The obligations
+apply from August 2026" is a correct answer to a deadline question and an
+earlier draft requiring the day dropped it.
+
+Capturing the month and the year is what lets a claim and its citation be
+compared on the date rather than on the spelling, so a claim writing "August
+2026" is grounded against a provision writing "2 August 2026". Selects a
+provision in 41 of each version's provisions, Article 111 and Article 113 among
+them. Measured against both parses on 2026-09-06.
+
+Timing the Act states as a period rather than as a date, such as "24 months
+from entry into force", is not matched and an answer resting on one is refused.
+That is a known over-refusal, in the safe direction, and the gold set does not
+exercise it.
 """
 
 GROUNDING_THRESHOLD = 0.6
@@ -139,6 +167,16 @@ def asks_when(question: str) -> bool:
     return ASKS_WHEN.search(question) is not None
 
 
+def dates_in(text: str) -> set[tuple[str, str]]:
+    """Every date the text states, as the month and the year that identify it.
+
+    The day is dropped rather than compared. A claim and the provision it cites
+    are two spellings of one date, and holding them to the same one would drop
+    a correct answer that wrote the month alone.
+    """
+    return {(month.lower(), year) for month, year in CALENDAR_DATE.findall(text)}
+
+
 def states_a_grounded_date(claim: Claim) -> bool:
     """Whether the claim gives a date, and gives one the text it cites carries.
 
@@ -147,14 +185,10 @@ def states_a_grounded_date(claim: Claim) -> bool:
     text does not carry has supplied one from outside the Act, which on a
     compliance deadline is the most expensive thing this system can do.
     """
-    stated = set(CALENDAR_DATE.findall(claim.statement))
+    stated = dates_in(claim.statement)
     if not stated:
         return False
-    cited = {
-        date
-        for citation in claim.citations
-        for date in CALENDAR_DATE.findall(citation.text)
-    }
+    cited = {date for citation in claim.citations for date in dates_in(citation.text)}
     return bool(stated & cited)
 
 

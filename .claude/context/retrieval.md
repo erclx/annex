@@ -113,9 +113,35 @@ The original text is where the gap does not narrow. `art_113` sits between rank
 367 and 692 of 716 there on `q10` and `q12` under both routed forms measured,
 which is the parse rather than the query: two of the three original-text chunks
 under that `provision_id` are the Official Journal footnote apparatus, so the
-date-bearing text is diluted before anything embeds it. v0.9 owns both halves,
-being the embedder swap and the parse. Measured at 159fd0c on 2026-09-06, over
-both documents, both routed query forms and both candidate models.
+date-bearing text is diluted before anything embeds it. The queued embedder row
+owns both halves, being the swap and the parse, because it rebuilds the index
+and doing that twice is waste. Measured on #6 on 2026-09-06, over both
+documents, both routed query forms and both candidate models.
+
+### The walk splits that result by model, and search recall hides it
+
+Scoring the same searched sets again with `traverse` applied at the shipped
+depth of 2 and cap of 40 answers a question top-12 search recall cannot. Mean
+recall over the twelve questions moves from 0.6035 to 0.5656 for
+`nomic-embed-text` on the original text, from 0.6086 to 0.7247 on the
+consolidated, and from 0.7955 to 0.8889 and 0.8182 to 0.8510 for
+`snowflake-arctic-embed2`. Three pairs gain and the shipped model on the
+original text loses.
+
+Two things follow that the search-only view could not show.
+
+- **The deadline flow is answerable on the candidate embedder.** `q10` on the original text goes from 0.00 to 1.00 under the walk for `arctic2`, reaching `art_111` and `art_113` both. Search never returns `art_113` on that question, and the walk arrives at it from `art_111`, which the amended routing is what put in reach.
+- **The same walk loses `art_113` for `nomic-embed-text`.** `q11` drops from 1.00 to 0.50 on both documents and `q12` on the original does the same, each losing `art_113` alone. Search recall on those cells did not move, so the loss is in what else the top 12 held: the old sentence returned a provision citing Article 113 and the new one does not.
+
+Five of the six provisions the amended routing costs search are recovered by
+the walk, including all three cells that lost `art_6`. Only `art_43` on `q07`
+for `nomic-embed-text` on the original text stays lost. Reaching `art_6` by
+traversal is not the same as searching it, though: `q05` for `arctic2` on the
+original text reaches `art_6` at depth 2 and still drops from 0.91 to 0.36,
+because a provision the walk arrives at is where the walk stops rather than
+somewhere it continues from. Measured on #6 on 2026-09-06, and this scores
+what the walk reaches rather than what a prompt would carry, since the budget
+that trims a real prompt needs the provision text and a generation window.
 
 ## Traversal walks citation edges only
 
