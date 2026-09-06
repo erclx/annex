@@ -129,7 +129,8 @@ test('the trace reports cost without being opened, and opens to the ids', async 
   // Exact, because the summary line above carries the same words in its counts.
   await expect(page.getByText('searched', { exact: true })).toBeVisible()
   await expect(page.getByText('dropped', { exact: true })).toBeVisible()
-  await expect(page.getByText('Article 50, Article 50(1)')).toBeVisible()
+  // Raw ids, which is how both the wireframe and the settled design draw them.
+  await expect(page.getByText('art_50, art_50.1')).toBeVisible()
 })
 
 test('a refusal renders as a result rather than as a failure', async ({

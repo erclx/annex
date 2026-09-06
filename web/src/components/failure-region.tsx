@@ -48,17 +48,15 @@ export function FailureRegion({
   return (
     <div
       role="alert"
-      className="my-6 rounded-lg border border-error bg-error-surface px-4 py-3"
+      className="my-6 rounded-lg border border-error/30 bg-error-surface px-[17px] py-[15px]"
     >
-      <p className="text-[15.5px] leading-[1.55] font-medium text-error">
-        {copy.headline}
-      </p>
-      <p className="mt-1 text-[14px] leading-[1.6] text-ink">{copy.next}</p>
+      <b className="mb-[3px] block text-[14px] text-error">{copy.headline}</b>
+      <p className="m-0 text-[13px] leading-[1.5] text-error">{copy.next}</p>
       {/* Absent on `unreachable`: nothing answered, so nothing logged one. */}
       {correlationId && state !== 'unreachable' && (
-        <p className="mt-2 font-mono text-[11.5px] text-muted">
+        <span className="mt-2 block font-mono text-[11px] text-muted">
           correlation {correlationId}
-        </p>
+        </span>
       )}
     </div>
   )

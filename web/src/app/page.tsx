@@ -132,7 +132,7 @@ export default function Home() {
       ) : (
         <>
           <DescribedSystem description={asked} onEdit={edit} />
-          <main className="mx-auto w-full max-w-3xl flex-1 px-6">
+          <main className="mx-auto w-full max-w-4xl flex-1 px-6">
             {pending && <LoadingAnswer version={version} />}
             {result?.state === 'answered' && (
               <AnswerView answer={result.answer} />

@@ -12,17 +12,17 @@ export function DescribedSystem({
   onEdit?: () => void
 }) {
   return (
-    <section className="border-b border-rule bg-surface">
-      <div className="mx-auto flex w-full max-w-3xl flex-col gap-1 px-6 py-4">
-        <h2 className="font-mono text-[10.5px] tracking-[0.08em] text-muted uppercase">
+    <section className="border-b border-rule-soft">
+      <div className="mx-auto w-full max-w-4xl px-6 py-6">
+        <h2 className="mb-[7px] font-mono text-[10.5px] tracking-[0.08em] text-muted uppercase">
           The system you described
         </h2>
-        <p className="text-[14px] leading-[1.6] text-ink">{description}</p>
+        <p className="m-0 text-[15px] leading-[1.5] text-ink">{description}</p>
         {onEdit && (
           <button
             type="button"
             onClick={onEdit}
-            className="self-start text-[14px] text-accent underline"
+            className="mt-2 inline-block text-[12px] text-accent"
           >
             Edit description
           </button>

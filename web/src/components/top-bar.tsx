@@ -3,9 +3,11 @@ import type { CorpusVersion } from '@/components/versions'
 /**
  * The one persistent band: what this is, and the two controls that re-ask.
  *
- * No icons, per `.claude/DESIGN.md`. The version toggle is a segmented control
- * of two text labels and the traversal switch is a drawn shape, because one
- * icon invites a set and the set is a dependency this surface has no need of.
+ * Drawn against the settled design rather than invented. The version control is
+ * a segmented pair whose active half is filled with the accent, and the
+ * traversal control is a drawn switch rather than a checkbox, per the
+ * iconography rule in `.claude/DESIGN.md`: no icons and no icon library, so a
+ * switch is a shape this file draws.
  */
 export function TopBar({
   version,
@@ -22,17 +24,19 @@ export function TopBar({
 }) {
   return (
     <header className="border-b border-rule bg-surface">
-      <div className="mx-auto flex w-full max-w-3xl flex-col gap-4 px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-3">
-          <span className="text-[17px] font-semibold text-ink">Annex</span>
-          <span className="text-[14px] leading-[1.6] text-muted">
+      <div className="mx-auto flex w-full max-w-4xl flex-wrap items-center justify-between gap-4 px-6 py-4">
+        <div className="flex items-baseline gap-2">
+          <b className="text-[16px] font-semibold tracking-[-0.01em] text-ink">
+            Annex
+          </b>
+          <span className="text-[12px] text-muted">
             Which articles of the EU AI Act you have to read
           </span>
         </div>
 
         <div className="flex items-center gap-4">
           <div
-            className="flex rounded-full border border-rule"
+            className="flex overflow-hidden rounded-md border border-rule bg-transparent"
             role="group"
             aria-label="Which text to read against"
           >
@@ -56,21 +60,31 @@ export function TopBar({
             </VersionButton>
           </div>
 
-          <label className="flex items-center gap-2 text-[11.5px] text-muted">
-            <input
-              type="checkbox"
-              checked={traversal}
+          <div className="flex items-center gap-[7px] text-[12px] text-muted">
+            <button
+              type="button"
+              role="switch"
+              aria-checked={traversal}
+              aria-label="Reference traversal"
               disabled={disabled}
-              onChange={(event) => {
-                onTraversalChange(event.target.checked)
+              onClick={() => {
+                onTraversalChange(!traversal)
               }}
-              className="accent-accent"
-            />
-            <span>Follow references</span>
-            <span className="rounded-full border border-rule px-1.5 py-0.5 font-mono text-[10.5px] tracking-[0.08em] uppercase">
+              className={`relative h-[17px] w-[30px] shrink-0 rounded-full disabled:opacity-60 ${
+                traversal ? 'bg-accent' : 'bg-rule'
+              }`}
+            >
+              <span
+                className={`absolute top-[2px] size-[13px] rounded-full bg-paper ${
+                  traversal ? 'right-[2px]' : 'left-[2px]'
+                }`}
+              />
+            </button>
+            <span>Reference traversal</span>
+            <span className="rounded-[3px] border border-dashed border-rule px-[5px] py-px font-mono text-[9.5px] tracking-[0.06em] uppercase">
               demo
             </span>
-          </label>
+          </div>
         </div>
       </div>
     </header>
@@ -94,9 +108,9 @@ function VersionButton({
       aria-pressed={active}
       disabled={disabled}
       onClick={onClick}
-      className={`rounded-full px-3 py-1 text-[11.5px] ${
-        active ? 'bg-accent-soft font-semibold text-ink' : 'text-muted'
-      } disabled:opacity-60`}
+      className={`px-[11px] py-[5px] text-[12px] disabled:opacity-60 ${
+        active ? 'bg-accent text-paper' : 'text-muted'
+      }`}
     >
       {children}
     </button>
