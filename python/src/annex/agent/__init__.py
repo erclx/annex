@@ -5,8 +5,14 @@ talks to a model, because `num_ctx` set wrong in one caller truncates a prompt,
 returns a fluent answer over a partial document, and fails nothing.
 """
 
-from annex.agent.pipeline import Pipeline, apply_tracing_settings
-from annex.agent.verify import GROUNDING_THRESHOLD, grounding, is_grounded, verify
+from annex.agent.pipeline import Pipeline, apply_tracing_settings, parse_draft
+from annex.agent.verify import (
+    GROUNDING_THRESHOLD,
+    content_words,
+    grounding,
+    is_grounded,
+    verify,
+)
 from annex.answer import Answer
 from annex.corpus import CorpusVersion
 
@@ -15,8 +21,10 @@ __all__ = [
     'Pipeline',
     'apply_tracing_settings',
     'ask',
+    'content_words',
     'grounding',
     'is_grounded',
+    'parse_draft',
     'verify',
 ]
 

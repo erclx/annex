@@ -53,6 +53,8 @@ The question this project exists to answer is whether structure-aware retrieval 
 
 The answer is allowed to be that the baseline wins. Reporting that is the point, not a failure of it.
 
+It won. Measured over 72 runs at v0.6, full-context stuffing reached every gold provision, vector search alone reached 0.41 of them on the original text and 0.46 on the consolidated, and search plus traversal reached 0.54 and 0.56. Retrieval's case on this corpus is cost and checkability rather than accuracy. `docs/evaluation.md` carries the numbers and the two limits that keep it from being a general claim, being twelve questions and one embedder nothing has been compared against.
+
 ## Constraints
 
 - The corpus is public law. No licensing or confidentiality limit on ingesting it
