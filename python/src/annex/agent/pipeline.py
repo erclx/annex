@@ -365,6 +365,12 @@ def parse_draft(
     A line whose bracketed numbers name no provision that was retrieved is
     dropped here rather than carried to verification, since a citation the
     pipeline never fetched is fabricated whatever the statement says.
+
+    Two of the pipeline's four refusal exits are here, the declared marker and
+    the fallback below it, and `annex.agent.verify` carries the other two. Each
+    logs which one fired because `Answer` does not record it: `annex.eval.runner`
+    writes no refusal reason and `annex.eval.scoring` zeroes the claim counts
+    before either is read, so a refusal in `results.json` names no stage.
     """
     lines = [line.strip() for line in drafted.splitlines() if line.strip()]
     if any(line.upper().startswith(REFUSAL_MARKER) for line in lines):
@@ -374,6 +380,10 @@ def parse_draft(
             if line.upper().startswith(REFUSAL_MARKER)
         )
         missing = tuple(line.lstrip('- ') for line in lines[marker + 1 :])
+        logger.info(
+            'refusal exit: parse_draft declared, the draft carried %s',
+            REFUSAL_MARKER,
+        )
         return (), Refusal(
             reason='The retrieved provisions do not settle the question.',
             missing=missing or ('what the text leaves open',),
@@ -394,6 +404,12 @@ def parse_draft(
 
     if claims:
         return tuple(claims), None
+    logger.info(
+        'refusal exit: parse_draft fallback, no line of %d cited one of the %d '
+        'supplied provisions and left a statement behind',
+        len(lines),
+        len(citations),
+    )
     return (), Refusal(
         reason='The model produced no statement resting on a retrieved provision.',
         missing=('a provision of the Act that addresses the description',),
