@@ -50,13 +50,20 @@ The web app takes `4100` rather than the `3000` Next defaults to, so it does not
 
 ## Scripts
 
-| Command                      | Purpose                                                                               |
-| ---------------------------- | ------------------------------------------------------------------------------------- |
-| `bun run check`              | The whole gate. Runs the shared verify chain, then the python half, then the web half |
-| `bun run check:python`       | `cd python && bun run check`: mypy, ruff, ruff format check, pytest                   |
-| `bun run check:web`          | `cd web && bun run check`: prettier check, typecheck, eslint, vitest                  |
-| `bun run format`             | Auto-fix prettier and shfmt formatting at the root                                    |
-| `cd web && bun run test:e2e` | Playwright against the app, starting a server if one is not already up                |
+| Command                             | Purpose                                                                               |
+| ----------------------------------- | ------------------------------------------------------------------------------------- |
+| `bun run check`                     | The whole gate. Runs the shared verify chain, then the python half, then the web half |
+| `bun run check:python`              | `cd python && bun run check`: mypy, ruff, ruff format check, pytest                   |
+| `bun run check:web`                 | `cd web && bun run check`: prettier check, typecheck, eslint, vitest                  |
+| `bun run format`                    | Auto-fix prettier and shfmt formatting at the root                                    |
+| `cd web && bun run generate:answer` | Regenerate `web/src/lib/answer.ts` from `python/schema/answer.schema.json`            |
+| `cd web && bun run test:e2e`        | Playwright against the app, starting a server if one is not already up                |
+
+`web/src/lib/answer.ts` is generated and committed. `web/scripts/verify.sh` hashes it, regenerates it, and fails when the two hashes differ, so a schema change nobody regenerated against stops the gate rather than drifting until a shape mismatch surfaces at runtime. Regenerate it after any change to the Pydantic models the schema is emitted from.
+
+The guard compares the file against its own regeneration rather than against git. A git-based check answers a different question and gets it wrong twice: `git diff` reports nothing for a file git does not track, and a status-based check fails on the commit that first adds one.
+
+The generator resolves the schema's `$defs` references itself, in `web/scripts/generate-answer.ts`, because `json-schema-to-zod` leaves every `$ref` as `z.any()` and its `--depth` option does not change that. The same pass injects `additionalProperties: false`, which is what makes the emitted objects strict at the HTTP boundary.
 
 ## The evaluation
 
