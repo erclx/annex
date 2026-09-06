@@ -73,7 +73,7 @@ cd python && uv run pytest -m live  # the tests that need the model up
 
 A question runs through four stages. It is restated in the Act's own vocabulary, searched against the index, expanded over the citations the retrieved provisions carry, and answered. Every claim is then checked against the text it cites, and one that cannot be grounded is dropped rather than softened. An answer with nothing left becomes a refusal.
 
-`docs/evaluation.md` carries the measured comparison between the three arms and how to reproduce it. `.claude/ARCHITECTURE.md` carries the decisions and what's still open. `.claude/REQUIREMENTS.md` carries the scope. `.claude/context/ai-act.md` carries the corpus itself: the amended deadlines, the reference structure, and the claims this project does not make. `.claude/context/retrieval.md` carries the chunking rule, the traversal decision and the measurements behind both.
+`docs/evaluation.md` carries the measured comparison between the three arms and how to reproduce it. `.claude/ARCHITECTURE.md` carries the decisions and what's still open. `.claude/REQUIREMENTS.md` carries the scope. `.claude/context/ai-act.md` carries the corpus itself: the amended deadlines, the reference structure, and the claims this project does not make. `.claude/context/retrieval.md` carries the chunking rule, the traversal decision and the measurements behind both. `.claude/wireframes/answer.md` carries the answer surface and every state it has to show, and `.claude/DESIGN.md` the tokens behind it.
 
 ## What it doesn't do
 
