@@ -1,2 +1,9 @@
 # The cached Official Journal documents are source data, not formattable code
 python/data/
+
+# Next's build output. The root prettier run reads the root `.gitignore` and
+# never `web/.gitignore`, which is where `.next/` is ignored, so without this
+# both prettier passes walk 121 MB of generated JS on every gate. Measured on
+# 2026-09-06: 25 s and 21 s of a 59 s run.
+web/.next/
+web/ui-states/
