@@ -115,13 +115,29 @@ def create_app(
         `invalid` rather than a status of its own, because a body past the cap
         is the same fact as a description past the bound and the published
         state table is what the frontend draws against.
+
+        It also maps a raised exception, which is the only layer that can. A
+        handler registered for bare `Exception` is installed on Starlette's
+        `ServerErrorMiddleware`, which is outermost by construction, so its
+        response is built outside every user middleware including CORS.
+        Registering the concrete types instead reaches `ExceptionMiddleware`,
+        inside CORS, but leaves `failed` uncovered, since `failed` is by
+        definition the type nothing enumerated. This middleware sits inside
+        CORS and outside the routes, so a response built here carries the
+        header whatever was raised.
         """
-        request.state.correlation_id = boundary_log.new_correlation_id()
+        correlation_id = boundary_log.new_correlation_id()
+        request.state.correlation_id = correlation_id
         declared = request.headers.get('content-length')
         if declared and declared.isdigit():
             if int(declared) > resolved.max_body_bytes:
                 return _error('invalid')
-        response: Response = await call_next(request)  # type: ignore[misc]
+        try:
+            response: Response = await call_next(request)  # type: ignore[misc]
+        except Exception as error:  # noqa: BLE001
+            state = classify(error)
+            boundary_log.log_failure(correlation_id, state, error)
+            return _error(state, correlation_id)
         return response
 
     # Registered after the middleware above, and therefore outside it.
@@ -154,7 +170,13 @@ def create_app(
 
     @app.exception_handler(Exception)
     async def failed_request(request: Request, error: Exception) -> JSONResponse:
-        """Every other way an ask can end, mapped to one row of the table."""
+        """The last net, for anything raised above the middleware that maps.
+
+        Nothing on the request path reaches this: the middleware catches every
+        exception the routes raise and answers inside CORS. What is left is a
+        failure in the middleware stack above it, where no response has been
+        started and CORS could not have run anyway.
+        """
         state = classify(error)
         correlation_id = getattr(request.state, 'correlation_id', None)
         boundary_log.log_failure(correlation_id or 'unknown', state, error)

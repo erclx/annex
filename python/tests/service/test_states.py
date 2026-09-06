@@ -92,6 +92,60 @@ def test_a_raised_exception_maps_to_its_row_of_the_table(
     assert response.json()['state'] == state
 
 
+@pytest.mark.parametrize(
+    'raised',
+    [
+        ModelContextError('not rebuilt'),
+        FileNotFoundError('no index'),
+        APITimeoutError(request=httpx.Request('POST', 'http://localhost')),
+        RuntimeError('something nobody mapped'),
+    ],
+    ids=['unavailable', 'unavailable-index', 'timeout', 'failed'],
+)
+def test_every_failure_state_reaches_a_browser(
+    client: TestClient, pipeline: StubPipeline, raised: BaseException
+) -> None:
+    """A named state the browser rejects is the `unreachable` state to a reader.
+
+    Every row here is built by the boundary middleware rather than by an
+    exception handler, because a handler registered for bare `Exception` sits
+    on `ServerErrorMiddleware`, outside CORS. Asserting the status alone passed
+    against exactly that defect: `curl` does not enforce CORS and a browser
+    does, so the suite and a real-HTTP pass both stayed green while three of
+    the four failure states were unreadable in a browser.
+    """
+    pipeline.raises = raised
+
+    response = client.post(
+        '/ask',
+        json={'description': 'a customer chatbot'},
+        headers={'origin': 'http://localhost:4100'},
+    )
+
+    assert response.headers['access-control-allow-origin'] == 'http://localhost:4100'
+
+
+def test_an_answer_reaches_a_browser(client: TestClient) -> None:
+    response = client.post(
+        '/ask',
+        json={'description': 'a customer chatbot'},
+        headers={'origin': 'http://localhost:4100'},
+    )
+
+    assert response.headers['access-control-allow-origin'] == 'http://localhost:4100'
+
+
+def test_an_origin_outside_the_list_is_not_answered(client: TestClient) -> None:
+    """The allowlist is what makes the header above a policy rather than a wildcard."""
+    response = client.post(
+        '/ask',
+        json={'description': 'a customer chatbot'},
+        headers={'origin': 'http://evil.example'},
+    )
+
+    assert 'access-control-allow-origin' not in response.headers
+
+
 def test_a_failure_carries_a_correlation_id_a_reader_can_quote(
     client: TestClient, pipeline: StubPipeline
 ) -> None:
