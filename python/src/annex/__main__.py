@@ -3,12 +3,16 @@
 `uv run python -m annex ingest` fetches and parses both versions and checks the
 structure. `uv run python -m annex graph` reports the reference predicate and
 what it yields, rather than asserting a figure nobody can reproduce.
+`uv run python -m annex schema` writes the answer contract the web half
+generates its types from, so neither side hand-copies the other's shape.
 """
 
 import argparse
+import json
 import logging
 import sys
 
+from annex.answer import Answer
 from annex.corpus import (
     PREDICATE,
     CorpusCheckError,
@@ -20,6 +24,17 @@ from annex.corpus import (
     load,
     verify,
 )
+from annex.llm import ModelContextError, OllamaClient
+from annex.retrieval import (
+    INDEX_PATH,
+    EmbeddingTruncatedError,
+    chunk,
+    embed,
+    search,
+    source_provisions,
+    write,
+)
+from annex.settings import Settings
 
 logger = logging.getLogger('annex')
 
@@ -63,6 +78,53 @@ def _graph(refresh: bool) -> int:
     return 0
 
 
+def _schema() -> int:
+    print(json.dumps(Answer.model_json_schema(), indent=2, sort_keys=True))
+    return 0
+
+
+def _context() -> int:
+    settings = Settings()
+    client = OllamaClient(settings)
+    generation = client.verify_context()
+    embedding = client.verify_embedding_context()
+    print(f'{settings.generation_model} num_ctx={generation}')
+    print(f'{settings.embedding_model} context={embedding}')
+    print('both read back from the models rather than from settings')
+    return 0
+
+
+def _embed(refresh: bool) -> int:
+    settings = Settings()
+    client = OllamaClient(settings)
+    client.verify_embedding_context()
+    for version in CorpusVersion:
+        corpus = load(version, refresh=refresh)
+        chunks = chunk(corpus)
+        embedded = embed(chunks, client=client, settings=settings)
+        written = write(version, embedded)
+        print(
+            f'{version:13} chunks={written:4} '
+            f'provisions={len(source_provisions(chunks)):4}'
+        )
+    print(f'index at {INDEX_PATH}')
+    return 0
+
+
+def _search(question: str, version: CorpusVersion, k: int) -> int:
+    for hit in search(question, version, k):
+        print(f'{hit.distance:7.4f}  {hit.chunk_id:14} {hit.citation}')
+    return 0
+
+
+def _ask(question: str, version: CorpusVersion, traversal: bool) -> int:
+    from annex.agent import Pipeline
+
+    answer = Pipeline().ask(question, version=version, traversal=traversal)
+    print(answer.model_dump_json(indent=2))
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog='annex')
     parser.add_argument(
@@ -73,16 +135,53 @@ def main(argv: list[str] | None = None) -> int:
     subcommands = parser.add_subparsers(dest='command', required=True)
     subcommands.add_parser('ingest', help='fetch, parse and check both versions')
     subcommands.add_parser('graph', help='report the reference predicate and its yield')
+    subcommands.add_parser('schema', help='write the answer JSON Schema to stdout')
+    subcommands.add_parser('context', help='report the context the models carry')
+    subcommands.add_parser('embed', help='chunk both versions and build the index')
+
+    searching = subcommands.add_parser('search', help='search one version by meaning')
+    searching.add_argument('question')
+    searching.add_argument(
+        '--version', type=CorpusVersion, default=CorpusVersion.CONSOLIDATED
+    )
+    searching.add_argument('--k', type=int, default=Settings().search_k)
+
+    asking = subcommands.add_parser('ask', help='answer a described system')
+    asking.add_argument('description')
+    asking.add_argument(
+        '--version', type=CorpusVersion, default=CorpusVersion.CONSOLIDATED
+    )
+    asking.add_argument(
+        '--no-traversal',
+        action='store_true',
+        help='search without following the citations outward',
+    )
 
     arguments = parser.parse_args(argv)
     logging.basicConfig(level=logging.WARNING, format='%(levelname)s %(message)s')
+    logger.setLevel(logging.INFO)
 
     try:
         if arguments.command == 'ingest':
             return _ingest(arguments.refresh)
+        if arguments.command == 'schema':
+            return _schema()
+        if arguments.command == 'context':
+            return _context()
+        if arguments.command == 'embed':
+            return _embed(arguments.refresh)
+        if arguments.command == 'search':
+            return _search(arguments.question, arguments.version, arguments.k)
+        if arguments.command == 'ask':
+            return _ask(
+                arguments.description, arguments.version, not arguments.no_traversal
+            )
         return _graph(arguments.refresh)
     except CorpusCheckError as error:
         print(f'corpus check failed: {error}', file=sys.stderr)
+        return 1
+    except (ModelContextError, EmbeddingTruncatedError) as error:
+        print(f'{error}', file=sys.stderr)
         return 1
 
 

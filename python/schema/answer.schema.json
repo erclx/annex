@@ -1,0 +1,212 @@
+{
+  "$defs": {
+    "Citation": {
+      "description": "One provision, quoted, located, and marked if the amendment moved it.",
+      "properties": {
+        "change_note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Change Note"
+        },
+        "changed": {
+          "default": false,
+          "title": "Changed",
+          "type": "boolean"
+        },
+        "citation": {
+          "title": "Citation",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/ProvisionKind"
+        },
+        "provision_id": {
+          "title": "Provision Id",
+          "type": "string"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "version": {
+          "$ref": "#/$defs/CorpusVersion"
+        }
+      },
+      "required": ["provision_id", "citation", "kind", "version", "text"],
+      "title": "Citation",
+      "type": "object"
+    },
+    "Claim": {
+      "description": "One statement about the described system, and what it rests on.\n\nA claim reaching verification with nothing behind it is dropped rather than\nsoftened, so emptiness is rejected by the schema rather than left to a\nconvention each caller remembers separately.",
+      "properties": {
+        "citations": {
+          "items": {
+            "$ref": "#/$defs/Citation"
+          },
+          "title": "Citations",
+          "type": "array"
+        },
+        "statement": {
+          "title": "Statement",
+          "type": "string"
+        }
+      },
+      "required": ["statement", "citations"],
+      "title": "Claim",
+      "type": "object"
+    },
+    "CorpusVersion": {
+      "description": "Which of the two texts a provision was read from.",
+      "enum": ["original", "consolidated"],
+      "title": "CorpusVersion",
+      "type": "string"
+    },
+    "ProvisionKind": {
+      "description": "What sort of unit a provision is.",
+      "enum": ["article", "annex", "recital", "paragraph"],
+      "title": "ProvisionKind",
+      "type": "string"
+    },
+    "Refusal": {
+      "description": "What the text does not settle, and what was read before saying so.\n\n`consulted` is what separates a refusal from a shrug. It carries the\nprovisions retrieved and found not to answer the question, so the refusal\nis evidenced rather than asserted.",
+      "properties": {
+        "consulted": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Citation"
+          },
+          "title": "Consulted",
+          "type": "array"
+        },
+        "missing": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Missing",
+          "type": "array"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": ["reason", "missing"],
+      "title": "Refusal",
+      "type": "object"
+    },
+    "RetrievalTrace": {
+      "description": "What the pipeline did to produce an answer, and what it cost.\n\nHeld on the answer rather than beside it. The evaluation harness scores hit\nrate and cost per question from this object, and a trace that travels\nseparately from the answer it describes is a trace something eventually\nmismatches.\n\n`dropped_ids` is the part a scorer cannot infer. Retrieval reaches more\nprovisions than a prompt has room for, so `traversed_ids` names what\ntraversal found and `dropped_ids` names which of those the budget cut\nbefore the model saw them. Scoring traversal's contribution against the\nfirst without subtracting the second credits it for text nothing read. Ids\nrather than a count, because the scorer resolves them.\n\n`truncated` says the model stopped for want of room rather than because it\nhad finished. A cut answer reads as a complete one, so a caller that does\nnot check this field cannot tell them apart.",
+      "properties": {
+        "completion_tokens": {
+          "default": 0,
+          "title": "Completion Tokens",
+          "type": "integer"
+        },
+        "dropped_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Dropped Ids",
+          "type": "array"
+        },
+        "duration_ms": {
+          "default": 0,
+          "title": "Duration Ms",
+          "type": "integer"
+        },
+        "model": {
+          "default": "",
+          "title": "Model",
+          "type": "string"
+        },
+        "prompt_tokens": {
+          "default": 0,
+          "title": "Prompt Tokens",
+          "type": "integer"
+        },
+        "searched_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Searched Ids",
+          "type": "array"
+        },
+        "traversal_enabled": {
+          "default": false,
+          "title": "Traversal Enabled",
+          "type": "boolean"
+        },
+        "traversed_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Traversed Ids",
+          "type": "array"
+        },
+        "truncated": {
+          "default": false,
+          "title": "Truncated",
+          "type": "boolean"
+        }
+      },
+      "title": "RetrievalTrace",
+      "type": "object"
+    }
+  },
+  "description": "A question, and either what the Act says about it or why it cannot say.\n\nClaims and a refusal are exclusive in both directions. An answer carrying\nboth is a pipeline that refused and answered anyway, and one carrying\nneither is a pipeline that returned nothing while reporting success.",
+  "properties": {
+    "claims": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Claim"
+      },
+      "title": "Claims",
+      "type": "array"
+    },
+    "question": {
+      "title": "Question",
+      "type": "string"
+    },
+    "refusal": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Refusal"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "retrieval": {
+      "$ref": "#/$defs/RetrievalTrace",
+      "default": {
+        "completion_tokens": 0,
+        "dropped_ids": [],
+        "duration_ms": 0,
+        "model": "",
+        "prompt_tokens": 0,
+        "searched_ids": [],
+        "traversal_enabled": false,
+        "traversed_ids": [],
+        "truncated": false
+      }
+    },
+    "version": {
+      "$ref": "#/$defs/CorpusVersion"
+    }
+  },
+  "required": ["question", "version"],
+  "title": "Answer",
+  "type": "object"
+}
