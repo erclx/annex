@@ -65,6 +65,8 @@ The guard compares the file against its own regeneration rather than against git
 
 The generator resolves the schema's `$defs` references itself, in `web/scripts/generate-answer.ts`, because `json-schema-to-zod` leaves every `$ref` as `z.any()` and its `--depth` option does not change that. The same pass injects `additionalProperties: false`, which is what makes the emitted objects strict at the HTTP boundary.
 
+**The strict parse couples the deploy order of the two halves.** A client rejecting an unknown field rejects the whole response rather than degrading, so a field added to the Pydantic models and deployed ahead of the web build fails every request at runtime. This is not hypothetical: `RetrievalTrace` gained `dropped_ids` and `truncated` inside one week. Deploy the web build first, or deploy both together. A lenient parse is the alternative and it costs the guarantee that the browser and the service agree on the contract, which is the thing generating the file was chosen to buy.
+
 ## The evaluation
 
 `uv run python -m annex evaluate` answers the gold question set with all three arms and writes `python/data/eval/results.json` beside the report it prints. Both files are tracked, so a figure in `docs/evaluation.md` is checkable against the run that produced it.

@@ -34,6 +34,8 @@ The reason the retrieval arms stop where they do is worth more than the headline
 
 Refusal came out worst of anything measured. Across eighteen chances to refuse a question the text does not settle, the arms took five, and every false refusal a retrieval arm made landed on the flow that asks what the amendment changed. Saying so is the point of running the evaluation rather than asserting the design. [docs/evaluation.md](docs/evaluation.md) carries the numbers, the depth sensitivity, the prompt-cache measurement and which production concerns were built against which were only reasoned about. The web surface is not built yet.
 
+It is drawn, though. `.claude/wireframes/answer.md` carries its layout and every state it has to show, so the components that follow build against a specification rather than discovering one.
+
 ## Setup
 
 Requires [bun](https://bun.sh), [uv](https://docs.astral.sh/uv/), and [Ollama](https://ollama.com) with `qwen3.8:27b` and `nomic-embed-text` pulled. Everything runs locally and nothing calls a paid API.
