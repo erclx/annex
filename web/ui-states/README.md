@@ -31,6 +31,23 @@ on top of an answer rather than instead of it.
 | [Unavailable](7-failure-unavailable-light.png) | The model or the index is not running                               |
 | [Unreachable](8-failure-unreachable-light.png) | Nothing is listening on the service port                            |
 
+## The design these are measured against
+
+`settled-design.html` is the final round of the draft-and-pick that chose this
+layout, carrying both themes in one self-contained file. Open it in a browser
+beside a capture above. It is the source for the type scale, the spacing, the
+segmented control, the drawn switch, the citation treatments and the trace grid,
+none of which `.claude/DESIGN.md` states at that resolution.
+
+It is committed here because the folder it came from is not durable. The rounds
+were written to `.canon/`, which is gitignored and reaches no history, and
+`draft-and-pick` deletes its own scratch folder at close. A pointer there
+resolves on the machine that ran the pick and nowhere else, which is how the
+first version of this surface came to be built without ever seeing the design.
+
+`.claude/wireframes/answer.md` still owns layout and copy and is the record that
+wins on any disagreement. This file owns what that one does not draw.
+
 ## Regenerating these
 
 There is no capture script that produces this set. `web/scripts/screenshot.sh`

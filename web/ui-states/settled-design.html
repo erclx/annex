@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Round 4 — dark mode, trace cap, label weight</title>
+<style>
+/* ---------- role tokens, one set per theme ---------- */
+.t-light{
+  --paper:#FAF9F7; --surface:#FFFFFF; --ink:#1A1917; --muted:#6E6A63; --rule:#E3DFD8; --rule-soft:#F0EDE7;
+  --act:#4A453E;
+  /* --rule is a decorative hairline and never carries meaning on its own. The two
+     below mark a citation and mark that the amendment moved it, so they answer to
+     the 3:1 non-text floor while --rule does not. One token was doing both jobs. */
+  --cite-rule:#948D81; --cite-rule-moved:#A9853A;
+  --accent:#2B4C7E; --accent-soft:#EAF0F8;
+  --amber:#8A5A00; --amber-soft:#FBF2E0; --amber-rule:#E8D5A8;
+  --slate:#3F4A56; --slate-soft:#EDF1F4; --slate-rule:#CFDAE3;
+  --err:#8C2F26; --err-soft:#FBEEEC; --err-rule:#E8C4BE;
+}
+.t-dark{
+  --paper:#171614; --surface:#1F1E1B; --ink:#EDEBE6; --muted:#A29D94; --rule:#34322D; --rule-soft:#26251F;
+  /* dimmer than the light theme's Act grey relative to its ink: at #CFC9BE the
+     claim-to-Act separation measured 1.38 against light's 1.85, close enough that
+     the two voices flattened on a poor display */
+  --act:#B3ACA0;
+  --cite-rule:#6F6A61; --cite-rule-moved:#9A7433;
+  --accent:#8FB2E0; --accent-soft:#1E2A3A;
+  --amber:#E0AC55; --amber-soft:#2B2317; --amber-rule:#544326;
+  --slate:#AEBCC9; --slate-soft:#1E252B; --slate-rule:#39434E;
+  --err:#E89286; --err-soft:#2C1C19; --err-rule:#53332D;
+}
+:root{
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  --serif: Georgia, "Times New Roman", Times, serif;
+  --mono: "Liberation Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --s2:8px; --s3:16px; --s4:24px; --s5:40px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#8A8880;font-family:var(--sans);-webkit-font-smoothing:antialiased}
+#sheet{width:max-content;padding:var(--s5)}
+h1.sheet{font-size:20px;font-weight:600;margin:0 0 4px;color:#fff}
+p.sheet{font-size:13px;color:#EAE8E3;margin:0 0 var(--s5);max-width:900px;line-height:1.5}
+#pair{display:flex;gap:var(--s5);align-items:flex-start}
+.col{width:940px}
+.colhead{margin-bottom:var(--s3)}
+.colhead .id{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#fff;border:1px solid rgba(255,255,255,.45);border-radius:999px;padding:3px 10px}
+.colhead h2{font-size:19px;font-weight:600;margin:var(--s2) 0 4px;color:#fff}
+.colhead .cost{font-size:13px;line-height:1.5;color:#EAE8E3;margin:0;max-width:62ch}
+
+.app{background:var(--paper);color:var(--ink);border:1px solid var(--rule);border-radius:10px;overflow:hidden}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:var(--s3);padding:var(--s3) var(--s4);background:var(--surface);border-bottom:1px solid var(--rule)}
+.brand{display:flex;align-items:baseline;gap:var(--s2)}
+.brand b{font-size:16px;font-weight:600;letter-spacing:-.01em}
+.brand span{font-size:12px;color:var(--muted)}
+.tools{display:flex;align-items:center;gap:var(--s3)}
+/* transparent rather than --paper: paper is darker than the --surface topbar in
+   both themes, which made the unselected half read as a well instead of a button */
+.seg{display:flex;border:1px solid var(--rule);border-radius:6px;overflow:hidden;background:transparent}
+.seg button{font:inherit;font-size:12px;padding:5px 11px;border:0;background:transparent;color:var(--muted);cursor:pointer}
+.seg button.on{background:var(--accent);color:var(--paper)}
+.toggle{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted)}
+.sw{width:30px;height:17px;border-radius:999px;background:var(--accent);position:relative;flex:0 0 auto}
+.sw::after{content:"";position:absolute;top:2px;right:2px;width:13px;height:13px;border-radius:50%;background:var(--paper)}
+.demo{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border:1px dashed var(--rule);border-radius:3px;padding:1px 5px}
+
+.ask{padding:var(--s4);border-bottom:1px solid var(--rule-soft)}
+.ask .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.ask .q{font-size:15px;line-height:1.5;margin:0}
+.ask .edit{font-size:12px;color:var(--accent);margin-top:var(--s2);display:inline-block}
+
+.body{padding:var(--s4)}
+.claim{margin:0 0 var(--s4)}
+.claim:last-child{margin-bottom:0}
+.claim .st{font-size:15.5px;line-height:1.55;margin:0}
+
+.cite{border-left:2px solid var(--cite-rule);padding:2px 0 2px 14px;margin-top:10px}
+.cite.moved{border-left-color:var(--cite-rule-moved)}
+.cite .hd{display:flex;align-items:baseline;gap:var(--s2);margin-bottom:2px;flex-wrap:wrap}
+.cite .ref{font-size:12px;font-weight:600}
+.cite .txt{font-family:var(--serif);font-size:13px;line-height:1.5;margin:0;color:var(--act)}
+.cite .note{font-size:12px;line-height:1.45;color:var(--amber);margin:6px 0 0;padding-top:6px;border-top:1px solid var(--amber-rule)}
+.notelab{font-family:var(--mono);font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--amber);margin-right:7px}
+.notelab.sentence{text-transform:none;letter-spacing:0;font-family:var(--sans);font-size:11.5px;font-weight:600;font-style:italic}
+.ver{font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);border:1px solid var(--rule);border-radius:3px;padding:1px 5px}
+.chip{font-size:11px;color:var(--amber);background:var(--paper);border:1px solid var(--cite-rule-moved);border-radius:999px;padding:1px 8px}
+
+.banner{margin:var(--s4);padding:11px 13px;border:1px solid var(--amber-rule);background:var(--amber-soft);border-radius:7px}
+.banner b{font-size:13px;color:var(--amber);display:block;margin-bottom:2px}
+.banner p{font-size:12.5px;line-height:1.5;color:var(--amber);margin:0}
+
+.trace{padding:11px var(--s4);background:var(--surface);border-top:1px solid var(--rule);font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.trace .top{display:flex;align-items:center;justify-content:space-between;gap:var(--s3);flex-wrap:wrap}
+.trace .grp{display:flex;gap:var(--s3);flex-wrap:wrap}
+.trace .k{color:var(--ink)}
+.trace .disc{color:var(--accent)}
+.trace .ids{margin-top:11px;padding-top:11px;border-top:1px solid var(--rule-soft);display:grid;grid-template-columns:96px 1fr;gap:7px var(--s3);font-size:11px}
+.trace .ids dt{color:var(--ink)}
+.trace .ids dd{margin:0;color:var(--muted);line-height:1.6;word-break:break-word}
+.trace .ids dd.cut{color:var(--amber)}
+.trace .more{color:var(--accent);white-space:nowrap}
+
+.refusal{padding:var(--s4)}
+.refusal .tag{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);background:var(--slate-soft);border:1px solid var(--slate-rule);border-radius:999px;padding:3px 10px;margin-bottom:var(--s3)}
+.refusal .reason{font-size:17px;line-height:1.5;margin:0 0 var(--s4);max-width:70ch}
+.refusal h4{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;margin:0 0 var(--s2)}
+.missing{margin:0 0 var(--s4);padding:0;list-style:none}
+.missing li{font-size:14px;line-height:1.55;padding-left:18px;position:relative;margin-bottom:5px}
+.missing li::before{content:"—";position:absolute;left:0;color:var(--muted)}
+
+.fail{border:1px solid var(--err-rule);background:var(--err-soft);border-radius:8px;padding:15px 17px;margin:var(--s4)}
+.fail b{display:block;font-size:14px;color:var(--err);margin-bottom:3px}
+.fail p{font-size:13px;line-height:1.5;color:var(--err);margin:0}
+.fail .cid{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:8px;display:block}
+
+.note{font-size:12.5px;color:#EAE8E3;line-height:1.5;margin:var(--s3) 0 0;max-width:62ch}
+</style>
+</head>
+<body>
+<div id="sheet">
+
+<h1 class="sheet">Round 4 — the same settled surface in both themes</h1>
+<p class="sheet">Identical markup, one token set swapped. Also carrying two things you settled: the trace id list now caps rather than running unbounded, and the change-note label is drawn in its all-caps form on the left and the quieter sentence form on the right, so the wording decision can be made by looking rather than by describing.</p>
+
+<div id="pair">
+
+<!-- ================= LIGHT ================= -->
+<section class="col t-light" id="light">
+  <header class="colhead">
+    <span class="id">Light</span>
+    <h2>The theme drawn so far</h2>
+    <p class="cost">Warm paper, ink near-black, the Act in serif at a softer grey than the claims. Change-note label in the settled sentence form, matching dark.</p>
+  </header>
+  <div class="app" id="light-app">
+    <div class="topbar">
+      <div class="brand"><b>Annex</b><span>EU AI Act — which articles you have to read</span></div>
+      <div class="tools">
+        <div class="seg"><button>Original</button><button class="on">Amended 27 Jul 2026</button></div>
+        <div class="toggle"><span class="sw"></span>Reference traversal<span class="demo">demo</span></div>
+      </div>
+    </div>
+    <div class="ask"><div class="lab">The system you described</div><p class="q">A customer-service chatbot for a Swedish retail bank that also scores loan applications and passes a recommendation to a human underwriter.</p><span class="edit">Edit description</span></div>
+    <div class="body">
+      <div class="claim">
+        <p class="st">A system used to evaluate the creditworthiness of natural persons is high-risk, and the human underwriter at the end does not remove that classification.</p>
+        <div class="cite moved">
+          <div class="hd"><span class="ref">Annex III(5)(b)</span><span class="chip">moved by the amendment</span></div>
+          <p class="txt" id="light-act">AI systems intended to be used to evaluate the creditworthiness of natural persons or establish their credit score.</p>
+          <p class="note" id="light-note"><span class="notelab sentence">Not the Act's words —</span>Regulation (EU) 2026/1744 moved the date this bites. Read against the original text it was 2 August 2026.</p>
+        </div>
+        <div class="cite"><div class="hd"><span class="ref">Article 6(2)</span><span class="ver">amended</span></div><p class="txt">In addition to the high-risk AI systems referred to in paragraph 1, AI systems referred to in Annex III shall be considered to be high-risk.</p></div>
+      </div>
+      <div class="claim">
+        <p class="st">The chatbot half has to tell the person they are interacting with an AI system.</p>
+        <div class="cite"><div class="hd"><span class="ref">Article 50(1)</span><span class="ver">amended</span></div><p class="txt">Providers shall ensure that AI systems intended to interact directly with natural persons are designed and developed in such a way that the natural persons concerned are informed.</p></div>
+      </div>
+    </div>
+    <div class="banner"><b>The answer stopped for want of room, not because it finished.</b><p>7 of the 31 provisions traversal reached were cut before the model read them.</p></div>
+    <div class="trace">
+      <div class="top"><div class="grp"><span class="k">qwen3.8:27b</span><span>18 420 prompt</span><span>612 completion</span><span>21.3 s</span></div><span class="disc">12 searched · 31 traversed · 7 dropped &#9662;</span></div>
+      <dl class="ids">
+        <dt>searched</dt><dd>art_6, art_6.2, art_43, art_50, art_50.1, anx_3.5.b, art_25, art_25.1, art_16, art_9, art_10, art_11</dd>
+        <dt>traversed</dt><dd>art_6.1, art_6.3, art_8, art_9, art_10, art_11, art_12, art_13 <span class="more">+23 more</span></dd>
+        <dt>dropped</dt><dd class="cut">art_19, art_20, art_21, art_22, art_23, art_44, anx_4 — reached by traversal, cut by the prompt budget, never read</dd>
+      </dl>
+    </div>
+    <div class="refusal" style="border-top:1px solid var(--rule)">
+      <span class="tag">The text does not settle this</span>
+      <p class="reason">The Act makes substantial modification the trigger and never defines the threshold.</p>
+    </div>
+    <div class="fail"><b>The model did not answer inside the budget.</b><p>Waiting longer would not have helped. Narrow the description and ask again.</p><span class="cid">correlation 3b90-77c1</span></div>
+  </div>
+</section>
+
+<!-- ================= DARK ================= -->
+<section class="col t-dark" id="dark">
+  <header class="colhead">
+    <span class="id">Dark</span>
+    <h2>The same roles, inverted</h2>
+    <p class="cost">Every colour is the same role token, re-valued. Dark added no role that light does not have; the two <code>--cite-rule</code> tokens were split out of <code>--rule</code> for both themes at once, because a hairline that carries meaning answers to a floor a decorative one does not.</p>
+  </header>
+  <div class="app" id="dark-app">
+    <div class="topbar">
+      <div class="brand"><b>Annex</b><span>EU AI Act — which articles you have to read</span></div>
+      <div class="tools">
+        <div class="seg"><button>Original</button><button class="on">Amended 27 Jul 2026</button></div>
+        <div class="toggle"><span class="sw"></span>Reference traversal<span class="demo">demo</span></div>
+      </div>
+    </div>
+    <div class="ask"><div class="lab">The system you described</div><p class="q">A customer-service chatbot for a Swedish retail bank that also scores loan applications and passes a recommendation to a human underwriter.</p><span class="edit">Edit description</span></div>
+    <div class="body">
+      <div class="claim">
+        <p class="st">A system used to evaluate the creditworthiness of natural persons is high-risk, and the human underwriter at the end does not remove that classification.</p>
+        <div class="cite moved">
+          <div class="hd"><span class="ref">Annex III(5)(b)</span><span class="chip">moved by the amendment</span></div>
+          <p class="txt" id="dark-act">AI systems intended to be used to evaluate the creditworthiness of natural persons or establish their credit score.</p>
+          <p class="note" id="dark-note"><span class="notelab sentence">Not the Act's words —</span>Regulation (EU) 2026/1744 moved the date this bites. Read against the original text it was 2 August 2026.</p>
+        </div>
+        <div class="cite"><div class="hd"><span class="ref">Article 6(2)</span><span class="ver">amended</span></div><p class="txt">In addition to the high-risk AI systems referred to in paragraph 1, AI systems referred to in Annex III shall be considered to be high-risk.</p></div>
+      </div>
+      <div class="claim">
+        <p class="st">The chatbot half has to tell the person they are interacting with an AI system.</p>
+        <div class="cite"><div class="hd"><span class="ref">Article 50(1)</span><span class="ver">amended</span></div><p class="txt">Providers shall ensure that AI systems intended to interact directly with natural persons are designed and developed in such a way that the natural persons concerned are informed.</p></div>
+      </div>
+    </div>
+    <div class="banner"><b>The answer stopped for want of room, not because it finished.</b><p>7 of the 31 provisions traversal reached were cut before the model read them.</p></div>
+    <div class="trace">
+      <div class="top"><div class="grp"><span class="k">qwen3.8:27b</span><span>18 420 prompt</span><span>612 completion</span><span>21.3 s</span></div><span class="disc">12 searched · 31 traversed · 7 dropped &#9662;</span></div>
+      <dl class="ids">
+        <dt>searched</dt><dd>art_6, art_6.2, art_43, art_50, art_50.1, anx_3.5.b, art_25, art_25.1, art_16, art_9, art_10, art_11</dd>
+        <dt>traversed</dt><dd>art_6.1, art_6.3, art_8, art_9, art_10, art_11, art_12, art_13 <span class="more">+23 more</span></dd>
+        <dt>dropped</dt><dd class="cut">art_19, art_20, art_21, art_22, art_23, art_44, anx_4 — reached by traversal, cut by the prompt budget, never read</dd>
+      </dl>
+    </div>
+    <div class="refusal" style="border-top:1px solid var(--rule)">
+      <span class="tag">The text does not settle this</span>
+      <p class="reason">The Act makes substantial modification the trigger and never defines the threshold.</p>
+    </div>
+    <div class="fail"><b>The model did not answer inside the budget.</b><p>Waiting longer would not have helped. Narrow the description and ask again.</p><span class="cid">correlation 3b90-77c1</span></div>
+  </div>
+</section>
+
+</div>
+
+<p class="note">The trace cap: eight ids then a count. The list is the evidence traversal happened, and past a screenful it stops being evidence and becomes noise, so the count carries the scale and the expansion carries the detail.</p>
+
+</div>
+</body>
+</html>
