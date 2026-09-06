@@ -33,6 +33,7 @@ Modelfile
 modelfiles
 modref
 monkeypatch
+mxbai
 mypy
 networkidle
 networkx
