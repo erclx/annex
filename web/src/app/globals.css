@@ -35,8 +35,17 @@
     ui-monospace, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
 }
 
+/* The dark palette is written twice on purpose, and the two blocks have to stay
+   in step. The first applies when the reader has expressed no preference and the
+   system asks for dark. The second applies when the reader chose dark outright.
+   CSS has no way to share one declaration block between a media query and a
+   selector, so the alternative to this repetition is a second indirection
+   through per-theme token names, which hides the measured values `.claude/DESIGN.md`
+   records. A value edited in one block and not the other is the defect to watch
+   for. */
+
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme='light']) {
     --paper: #171614;
     --surface: #1f1e1b;
     --ink: #edebe6;
@@ -60,6 +69,29 @@
     --error: #e89286;
     --error-surface: #2c1c19;
   }
+}
+
+:root[data-theme='dark'] {
+  --paper: #171614;
+  --surface: #1f1e1b;
+  --ink: #edebe6;
+
+  --act: #b3aca0;
+  --muted: #a29d94;
+
+  --rule: #34322d;
+  --rule-soft: #26251f;
+  --cite-rule: #6f6a61;
+  --cite-rule-moved: #9a7433;
+
+  --accent: #8fb2e0;
+  --accent-soft: #1e2a3a;
+  --warning: #e0ac55;
+  --warning-surface: #2b2317;
+  --refusal: #aebcc9;
+  --refusal-surface: #1e252b;
+  --error: #e89286;
+  --error-surface: #2c1c19;
 }
 
 @theme inline {

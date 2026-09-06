@@ -32,9 +32,9 @@ The three-arm evaluation is built and has been run, over 72 model runs on a loca
 
 The reason the retrieval arms stop where they do is worth more than the headline. A graph walk cannot recover an entry point search never found, so the reference graph is capped by the embedder in front of it.
 
-Refusal came out worst of anything measured. Across eighteen chances to refuse a question the text does not settle, the arms took five, and every false refusal a retrieval arm made landed on the flow that asks what the amendment changed. Saying so is the point of running the evaluation rather than asserting the design. [docs/evaluation.md](docs/evaluation.md) carries the numbers, the depth sensitivity, the prompt-cache measurement and which production concerns were built against which were only reasoned about. The web surface is not built yet.
+Refusal came out worst of anything measured. Across eighteen chances to refuse a question the text does not settle, the arms took five, and every false refusal a retrieval arm made landed on the flow that asks what the amendment changed. Saying so is the point of running the evaluation rather than asserting the design. [docs/evaluation.md](docs/evaluation.md) carries the numbers, the depth sensitivity, the prompt-cache measurement and which production concerns were built against which were only reasoned about.
 
-It is drawn, though. `.claude/wireframes/answer.md` carries its layout and every state it has to show, so the components that follow build against a specification rather than discovering one.
+The web surface is built and calls the agent over HTTP. A description goes to a FastAPI endpoint, the answer object comes back, and the page renders the claims with each cited provision quoted under the claim it supports. A refusal renders as a result rather than an error, and a backend that is down, slow, or erroring lands as one of four named states rather than a stalled spinner. `.claude/wireframes/answer.md` carries the layout and every state it has to show, and `.claude/context/service.md` carries the seam between the two halves.
 
 ## Setup
 
@@ -64,10 +64,13 @@ uv run python -m annex evaluate  # the three arms over the question set
 The evaluation is a long run. Three arms over twelve questions and two versions is 72 model calls, and the baseline reads the whole Act on 24 of them. `--arm`, `--version` and `--limit` narrow it, `--report-only` re-renders the last run, and results are written after every question so a run stopped halfway is still readable.
 
 ```bash
+cd python && uv run python -m annex serve  # the answer endpoint on 4200
 cd web && bun run dev             # the answer surface
 bun run check                     # verify chain over both halves
 cd python && uv run pytest -m live  # the tests that need the model up
 ```
+
+The surface calls the endpoint, so both have to be running to ask a question in a browser. A service that is down, slow, or erroring surfaces as a named state on the page rather than as a stalled spinner.
 
 ## How it's put together
 

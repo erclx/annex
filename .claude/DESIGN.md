@@ -95,4 +95,8 @@ No motion. Nothing on this surface animates, transitions, or eases. The one mome
 
 ## Iconography
 
-No icons and no icon library. The version toggle is a segmented control of two text labels, the traversal switch is a drawn shape, and the trace disclosure is a text triangle. Custom icons are not permitted without a decision recorded here first, since one icon invites a set and the set is a dependency this surface has no need of.
+Icons are welcome where one carries meaning a word carries worse. Draw them inline in the component that uses them and let them take their color from `currentColor`, so a mark follows the tokens the way every other element does. The theme control is three of them, a monitor, a sun and a moon, because the choice is between two appearances and a deferral, which words describe more slowly than shapes show.
+
+What this rules out is a dependency rather than a drawing. The version toggle stays a segmented control of two text labels, the traversal switch stays a drawn shape, and the trace disclosure stays a text triangle, because a word or a shape is the better mark in each of those. Reaching for an icon library is the decision worth recording here first, and it becomes worth considering only once a set has outgrown drawing it inline.
+
+This section read as a flat ban until 2026-09-06. The reason it gave was the dependency, that one icon invites a set and the set is a dependency this surface has no need of, and that reason survives here intact. What changed is that the ban was doing more work than its reason supported: an inline path carrying no package satisfies the argument completely, and refusing it cost a round trip for every mark.

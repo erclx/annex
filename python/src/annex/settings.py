@@ -37,6 +37,22 @@ class Settings(BaseSettings):
 
     tracing_enabled: bool = Field(default=False)
 
+    service_host: str = '127.0.0.1'
+    service_port: int = 4200
+    ask_timeout_seconds: float = 120.0
+    max_body_bytes: int = 16384
+    allowed_origins: tuple[str, ...] = (
+        'http://localhost:4100',
+        'http://127.0.0.1:4100',
+    )
+    """Origins the service answers a browser from, listed rather than reflected.
+
+    Two spellings of one dev origin, because a browser sends whichever the
+    address bar carries and they are different origins to it. A worktree
+    serving on another port of the 4100 band adds its own through
+    `ANNEX_ALLOWED_ORIGINS`, which pydantic-settings reads as JSON.
+    """
+
 
 def tracing_environment(settings: Settings) -> dict[str, str]:
     """The LangSmith switches, written out rather than left to a default.

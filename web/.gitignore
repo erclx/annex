@@ -61,6 +61,10 @@ playwright-report/
 blob-report/
 playwright/.cache/
 
+# Surface captures. `bun run screenshot` writes these and they are never
+# committed: a reviewer who needs one gets it attached to the pull request.
+screenshots/
+
 # VSCode
 .vscode/*
 !.vscode/extensions.json
