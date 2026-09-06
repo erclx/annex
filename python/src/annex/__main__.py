@@ -85,17 +85,19 @@ def _schema() -> int:
 
 def _context() -> int:
     settings = Settings()
-    loaded = OllamaClient(settings).verify_context()
-    print(f'{settings.generation_model} num_ctx={loaded} (read back from the model)')
-    print(
-        f'{settings.embedding_model} context={settings.embedding_context} (configured)'
-    )
+    client = OllamaClient(settings)
+    generation = client.verify_context()
+    embedding = client.verify_embedding_context()
+    print(f'{settings.generation_model} num_ctx={generation}')
+    print(f'{settings.embedding_model} context={embedding}')
+    print('both read back from the models rather than from settings')
     return 0
 
 
 def _embed(refresh: bool) -> int:
     settings = Settings()
     client = OllamaClient(settings)
+    client.verify_embedding_context()
     for version in CorpusVersion:
         corpus = load(version, refresh=refresh)
         chunks = chunk(corpus)

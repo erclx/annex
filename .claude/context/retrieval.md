@@ -123,6 +123,38 @@ enters it at distance zero, so the cap keeps it ahead of anything a hop away.
 The lift lives there rather than in `annex.corpus`, which this side reads
 rather than reshapes.
 
+## The synthesis prompt is bounded against the window
+
+The prompt grows with `search_k` and `traversal_cap`. The window does not, so
+without a bound the two eventually meet and the model stops writing at the
+context boundary rather than at its budget, mid-word, returning a cut draft
+that parses as a finished answer, missing whatever obligations it had yet to
+reach.
+
+Measured at `6e7d6e0`, seeded on Article 6's paragraphs of the consolidated
+text: traversal returns 51 provisions, which assemble to 137 759 characters and
+read back as 29 154 prompt tokens, leaving under 3 700 of a 32 768 window to
+answer in. Whether that run truncates depends on how long the answer runs, and
+the answer to a high-risk question is long.
+
+`Pipeline._within_budget` drops from the far end of `Expansion.provision_ids`,
+which is search first and then traversal ranked nearest first, so a budget that
+bites removes the furthest-traversed provisions and keeps what search matched.
+The same seed after bounding is 35 provisions, 69 755 characters and 15 651
+prompt tokens.
+
+The bound is set at 2.6 characters a token rather than at the document-wide
+5.07. Measured over 20 provisions of the consolidated text against
+`annex-qwen3-27b`, the per-provision ratio runs from 2.61 on `anx_I`, dense with
+legislation numbers, to 5.33 on `anx_VII`. Budgeting a 40-provision prompt at
+the average asks for twice the window whenever the retrieved text lands on the
+dense end.
+
+`Completion.is_truncated` is the second half of it. The client reads
+`finish_reason` back and separates the two limits: hitting the generation budget
+is a warning, and hitting the window is an error naming the prompt that left no
+room to answer in.
+
 ## Verification is lexical, not a second model call
 
 A model asked whether its own output was faithful mostly says yes, and a

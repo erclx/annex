@@ -25,11 +25,16 @@ it. `ollama/annex-qwen3-27b.Modelfile` is that artifact and
 
 The Modelfile's failure mode is a model nobody rebuilt, which truncates as
 silently as the ignored option did. `verify_context` turns that into an error
-by reading back what the loaded model actually carries, and the entry points
-call it before the first request rather than on every one.
+by reading back what the loaded model actually carries. `Pipeline.__init__`
+calls it once when it builds its own client, and `annex context` calls it on
+demand, so the check runs once per process rather than once per request.
+
+`verify_embedding_context` is its counterpart on the ingest side, called by
+`annex embed` before the first batch.
 """
 
 import json
+import logging
 import re
 import urllib.error
 import urllib.request
@@ -40,6 +45,15 @@ from urllib.parse import urlparse
 from openai import OpenAI
 
 from annex.settings import Settings
+
+logger = logging.getLogger('annex.llm')
+
+_WINDOW_MARGIN = 64
+"""How close to the window counts as having been stopped by it.
+
+The two figures rarely land on the window exactly. A run measured 32 767 of
+32 768, one token short, which an equality test would read as a budget stop.
+"""
 
 THINKING = re.compile(r'<think>.*?</think>', re.DOTALL)
 UNCLOSED_THINKING = re.compile(r'<think>.*', re.DOTALL)
@@ -80,11 +94,22 @@ class Completion:
     prompt_tokens: int
     completion_tokens: int
     model: str
+    finish_reason: str = 'stop'
 
     @property
     def is_empty(self) -> bool:
         """Whether the model returned reasoning and no answer."""
         return not self.text.strip()
+
+    @property
+    def is_truncated(self) -> bool:
+        """Whether the model stopped because it ran out of room to write.
+
+        A cut draft reads as a finished one. Every line before the cut is
+        intact, so a caller checking only that the call succeeded gets an
+        answer missing whatever the model had not reached yet.
+        """
+        return self.finish_reason == 'length'
 
 
 def split_thinking(content: str) -> tuple[str, str]:
@@ -135,18 +160,49 @@ class OllamaClient:
             temperature=temperature,
         )
 
-        message = response.choices[0].message
+        choice = response.choices[0]
+        message = choice.message
         text, thinking = split_thinking(message.content or '')
         reasoning = getattr(message, 'reasoning_content', None)
         if reasoning:
             thinking = f'{reasoning}\n{thinking}'.strip()
         usage = response.usage
-        return Completion(
+        completion = Completion(
             text=text,
             thinking=thinking,
             prompt_tokens=usage.prompt_tokens if usage else 0,
             completion_tokens=usage.completion_tokens if usage else 0,
             model=self.settings.generation_model,
+            finish_reason=choice.finish_reason or 'stop',
+        )
+        self._report_a_cut(completion, budget)
+        return completion
+
+    def _report_a_cut(self, completion: Completion, budget: int) -> None:
+        """Say which limit stopped the generation, since they differ in kind.
+
+        Hitting the generation budget means the answer was longer than the
+        caller allowed for. Hitting the context window means the prompt left
+        no room to answer in, which is a caller that assembled too much and
+        the failure `annex.agent.pipeline` bounds its prompt against.
+        """
+        if not completion.is_truncated:
+            return
+        used = completion.prompt_tokens + completion.completion_tokens
+        if used >= self.settings.generation_context - _WINDOW_MARGIN:
+            logger.error(
+                'the context window stopped generation, not the budget: '
+                '%d prompt plus %d completion against a %d window. '
+                'The prompt left no room to answer in.',
+                completion.prompt_tokens,
+                completion.completion_tokens,
+                self.settings.generation_context,
+            )
+            return
+        logger.warning(
+            'generation stopped at the %d-token budget with %d prompt tokens',
+            budget,
+            completion.prompt_tokens,
         )
 
     def embed(
@@ -185,6 +241,26 @@ class OllamaClient:
             input=[EMBEDDING_PREFIXES[purpose] + text],
         )
         return response.usage.prompt_tokens if response.usage else 0
+
+    def verify_embedding_context(self) -> int:
+        """Read back how much of an input the embedder will actually read.
+
+        The embedder carries no `num_ctx` parameter to inspect, so this asks it
+        instead: an input past any plausible limit comes back reporting the
+        context as its token count, because Ollama truncates to it. `annex
+        embed` calls this before the first batch, since the chunk rule and the
+        screen in `annex.retrieval.embed` are both sized against this number
+        and a different embedding model silently invalidates both.
+        """
+        probe = 'The Commission shall adopt implementing acts. ' * 2000
+        measured = self.embedding_tokens(probe)
+        if measured != self.settings.embedding_context:
+            raise ModelContextError(
+                f'{self.settings.embedding_model} reads {measured} tokens, not the '
+                f'{self.settings.embedding_context} the chunk rule is sized against. '
+                'Rebuild the index after correcting embedding_context.'
+            )
+        return measured
 
     def verify_context(self) -> int:
         """Read back the context the generation model is actually built with.

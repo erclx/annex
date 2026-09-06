@@ -45,6 +45,25 @@ logger = logging.getLogger('annex.agent.pipeline')
 CITATION_MARKER = re.compile(r'\[(\d+)\]')
 REFUSAL_MARKER = 'REFUSE'
 
+SYNTHESIS_BUDGET = 4096
+"""Tokens left for the answer, and reserved out of the prompt's share."""
+
+SCAFFOLDING_TOKENS = 512
+"""What the instructions, the question and the numbering cost around the text."""
+
+DENSEST_CHARACTERS_A_TOKEN = 2.6
+"""The lowest characters-a-token ratio measured on the generation model.
+
+Measured on 2026-09-06 over 20 provisions of the consolidated text, read back
+as `usage.prompt_tokens` from `annex-qwen3-27b`. The ratio runs from 2.61 on
+`anx_I`, which is dense with legislation numbers, to 5.33 on `anx_VII`. The
+whole document averages 5.07.
+
+A prompt bound takes the low end rather than the average, because the average
+overflows on exactly the dense end. Budgeting a 40-provision prompt at 5.07
+when the retrieved text runs at 2.6 asks the model for twice the window.
+"""
+
 
 class State(TypedDict, total=False):
     """What flows between the nodes, and what the trace is filled from."""
@@ -55,6 +74,7 @@ class State(TypedDict, total=False):
     query: str
     hits: tuple[Hit, ...]
     provision_ids: tuple[str, ...]
+    searched_ids: tuple[str, ...]
     traversed_ids: tuple[str, ...]
     traversal_enabled: bool
     prompt_tokens: int
@@ -88,9 +108,18 @@ class Pipeline:
         corpora: dict[CorpusVersion, Corpus] | None = None,
         index_path: Path = INDEX_PATH,
     ) -> None:
+        """Build the graph, and refuse a model not carrying the right context.
+
+        The check runs only when this constructs its own client. A caller
+        passing one has supplied a stub or a client it has already verified,
+        and reaching the network from a test's constructor is how a suite
+        starts needing a model to run.
+        """
         self.settings = settings or Settings()
         apply_tracing_settings(self.settings)
         self.client = client or OllamaClient(self.settings)
+        if client is None:
+            self.client.verify_context()
         self.corpora = corpora or {version: load(version) for version in CorpusVersion}
         self.graphs: dict[CorpusVersion, ReferenceGraph] = {
             version: build(corpus) for version, corpus in self.corpora.items()
@@ -154,21 +183,67 @@ class Pipeline:
         )
         return {
             'provision_ids': expansion.provision_ids,
+            'searched_ids': expansion.searched_ids,
             'traversed_ids': expansion.traversed_ids,
         }
 
+    def _prompt_budget(self) -> int:
+        """How many characters of provision text the window leaves room for."""
+        available = (
+            self.settings.generation_context - SYNTHESIS_BUDGET - SCAFFOLDING_TOKENS
+        )
+        return int(available * DENSEST_CHARACTERS_A_TOKEN)
+
+    def _within_budget(self, citations: tuple[Citation, ...]) -> tuple[Citation, ...]:
+        """Drop provisions from the far end until the prompt fits the window.
+
+        `_citations` builds its list in `Expansion.provision_ids` order, which
+        is everything search returned followed by everything traversal reached,
+        ranked nearest first. Truncating that list therefore drops the
+        furthest-traversed provisions and keeps what search actually matched.
+
+        Without this the prompt grows with the traversal cap and nothing stops
+        it reaching the window. Measured on the Article 6 chain of the
+        consolidated text: 51 provisions assemble to 139 394 characters, which
+        the model reads as 29 170 prompt tokens, leaving 3 598 of a 32 768
+        window to answer in. Generation then stops at the window rather than at
+        the budget, mid-word, and the cut draft parses as a finished answer
+        with the obligations the model had not reached yet simply absent.
+        """
+        budget = self._prompt_budget()
+        kept: list[Citation] = []
+        spent = 0
+        for citation in citations:
+            cost = len(citation.text) + len(citation.citation) + 8
+            if kept and spent + cost > budget:
+                break
+            kept.append(citation)
+            spent += cost
+
+        dropped = len(citations) - len(kept)
+        if dropped:
+            logger.info(
+                'prompt budget dropped %d of %d provisions, keeping %d characters '
+                'of a %d budget',
+                dropped,
+                len(citations),
+                spent,
+                budget,
+            )
+        return tuple(kept)
+
     def _synthesize(self, state: State) -> State:
-        citations = self._citations(state)
+        citations = self._within_budget(self._citations(state))
         numbered = '\n\n'.join(
             f'[{index}] {citation.citation}\n{citation.text}'
             for index, citation in enumerate(citations, start=1)
         )
         completion = self.client.complete(
             prompts.SYNTHESIZE.format(provisions=numbered, question=state['question']),
-            max_tokens=4096,
+            max_tokens=SYNTHESIS_BUDGET,
         )
         trace = RetrievalTrace(
-            searched_ids=tuple(hit.provision_id for hit in state['hits']),
+            searched_ids=state.get('searched_ids', ()),
             traversed_ids=state.get('traversed_ids', ()),
             traversal_enabled=state.get('traversal_enabled', True),
             prompt_tokens=state.get('prompt_tokens', 0) + completion.prompt_tokens,

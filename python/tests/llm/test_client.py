@@ -10,6 +10,7 @@ assertion this file can make about it is that the client refuses a model built
 without it.
 """
 
+import logging
 from collections.abc import Callable
 from typing import Any
 
@@ -26,8 +27,9 @@ class StubMessage:
 
 
 class StubChoice:
-    def __init__(self, content: str) -> None:
+    def __init__(self, content: str, finish_reason: str = 'stop') -> None:
         self.message = StubMessage(content)
+        self.finish_reason = finish_reason
 
 
 class StubUsage:
@@ -37,31 +39,53 @@ class StubUsage:
 
 
 class StubResponse:
-    def __init__(self, content: str, prompt: int = 100, completion: int = 20) -> None:
-        self.choices = [StubChoice(content)]
+    def __init__(
+        self,
+        content: str,
+        prompt: int = 100,
+        completion: int = 20,
+        finish_reason: str = 'stop',
+    ) -> None:
+        self.choices = [StubChoice(content, finish_reason)]
         self.usage = StubUsage(prompt, completion)
 
 
 class StubCompletions:
-    def __init__(self, content: str) -> None:
+    def __init__(
+        self,
+        content: str,
+        prompt: int = 100,
+        completion: int = 20,
+        finish_reason: str = 'stop',
+    ) -> None:
         self.content = content
+        self.prompt = prompt
+        self.completion = completion
+        self.finish_reason = finish_reason
         self.calls: list[dict[str, Any]] = []
 
     def create(self, **kwargs: Any) -> StubResponse:
         self.calls.append(kwargs)
-        return StubResponse(self.content)
+        return StubResponse(
+            self.content, self.prompt, self.completion, self.finish_reason
+        )
 
 
-BuildClient = Callable[[str], tuple[OllamaClient, StubCompletions]]
+BuildClient = Callable[..., tuple[OllamaClient, StubCompletions]]
 
 
 @pytest.fixture
 def build_client(monkeypatch: pytest.MonkeyPatch) -> BuildClient:
     """A client whose completions endpoint returns the content given."""
 
-    def build(content: str) -> tuple[OllamaClient, StubCompletions]:
+    def build(
+        content: str,
+        prompt: int = 100,
+        completion: int = 20,
+        finish_reason: str = 'stop',
+    ) -> tuple[OllamaClient, StubCompletions]:
         client = OllamaClient(Settings())
-        completions = StubCompletions(content)
+        completions = StubCompletions(content, prompt, completion, finish_reason)
         monkeypatch.setattr(client._client.chat, 'completions', completions)
         return client, completions
 
@@ -147,6 +171,55 @@ class TestCompletion:
         client.complete('Does Article 50 apply?')
 
         assert completions.calls[0]['model'] == Settings().generation_model
+
+
+class TestACutGeneration:
+    """A cut draft reads as a finished one, so the client has to say it was cut."""
+
+    def test_a_completed_generation_is_not_truncated(
+        self, build_client: BuildClient
+    ) -> None:
+        client, _ = build_client('Article 50(1) applies.')
+
+        assert not client.complete('does it apply?').is_truncated
+
+    def test_a_generation_stopped_for_room_is_truncated(
+        self, build_client: BuildClient
+    ) -> None:
+        client, _ = build_client('Article 50(1) app', finish_reason='length')
+
+        assert client.complete('does it apply?').is_truncated
+
+    def test_the_window_binding_rather_than_the_budget_is_an_error(
+        self, build_client: BuildClient, caplog: pytest.LogCaptureFixture
+    ) -> None:
+        client, _ = build_client(
+            'Article 50(1) app',
+            prompt=29170,
+            completion=3597,
+            finish_reason='length',
+        )
+
+        with caplog.at_level(logging.ERROR, logger='annex.llm'):
+            client.complete('does it apply?', max_tokens=4096)
+
+        assert 'left no room to answer in' in caplog.text
+
+    def test_the_budget_binding_is_reported_below_error(
+        self, build_client: BuildClient, caplog: pytest.LogCaptureFixture
+    ) -> None:
+        client, _ = build_client(
+            'Article 50(1) app',
+            prompt=1000,
+            completion=4096,
+            finish_reason='length',
+        )
+
+        with caplog.at_level(logging.WARNING, logger='annex.llm'):
+            client.complete('does it apply?', max_tokens=4096)
+
+        assert 'stopped at the 4096-token budget' in caplog.text
+        assert 'left no room to answer in' not in caplog.text
 
 
 class StubEmbeddingData:

@@ -4,10 +4,27 @@ Against a fixture index and a scripted model, so what is under test is the
 pipeline's own wiring rather than the model's judgement.
 """
 
-from annex.corpus import CorpusVersion
+from annex.agent.pipeline import (
+    DENSEST_CHARACTERS_A_TOKEN,
+    SCAFFOLDING_TOKENS,
+    SYNTHESIS_BUDGET,
+)
+from annex.answer import Citation
+from annex.corpus import CorpusVersion, ProvisionKind
 from tests.agent.conftest import BuildPipeline
 
 CHATBOT = 'a chatbot that talks to customers on our website'
+
+
+def make_citation(provision_id: str, text: str) -> Citation:
+    return Citation(
+        provision_id=provision_id,
+        citation=provision_id,
+        kind=ProvisionKind.ARTICLE,
+        version=CorpusVersion.CONSOLIDATED,
+        text=text,
+    )
+
 
 GROUNDED = (
     'Providers ensure natural persons are informed that they are interacting '
@@ -125,6 +142,73 @@ class TestTheRefusalBranch:
         assert answer.is_refusal
 
 
+class TestThePromptBudget:
+    """The prompt grows with the traversal cap and the window does not.
+
+    Measured on the Article 6 chain of the consolidated text at `6e7d6e0`: 51
+    provisions assembled to 139 394 characters, read back as 29 170 prompt
+    tokens, leaving 3 598 of a 32 768 window to answer in. Generation stopped
+    at the window rather than at the budget, mid-word, and the cut draft
+    parsed as a finished answer.
+    """
+
+    def test_the_budget_is_the_window_less_what_the_answer_needs(
+        self, build_pipeline: BuildPipeline
+    ) -> None:
+        pipeline, _ = build_pipeline(['transparency obligations', GROUNDED])
+
+        available = 32768 - SYNTHESIS_BUDGET - SCAFFOLDING_TOKENS
+
+        assert pipeline._prompt_budget() == int(available * DENSEST_CHARACTERS_A_TOKEN)
+
+    def test_provisions_beyond_the_budget_are_dropped(
+        self, build_pipeline: BuildPipeline
+    ) -> None:
+        pipeline, _ = build_pipeline(['transparency obligations', GROUNDED])
+        citations = tuple(make_citation(f'art_{n}', 'x' * 4000) for n in range(200))
+
+        kept = pipeline._within_budget(citations)
+
+        assert len(kept) < len(citations)
+
+    def test_the_furthest_traversed_are_the_ones_dropped(
+        self, build_pipeline: BuildPipeline
+    ) -> None:
+        pipeline, _ = build_pipeline(['transparency obligations', GROUNDED])
+        citations = tuple(make_citation(f'art_{n}', 'x' * 4000) for n in range(200))
+
+        kept = pipeline._within_budget(citations)
+
+        assert [item.provision_id for item in kept] == [
+            f'art_{n}' for n in range(len(kept))
+        ]
+
+    def test_what_survives_fits_the_budget(self, build_pipeline: BuildPipeline) -> None:
+        pipeline, _ = build_pipeline(['transparency obligations', GROUNDED])
+        citations = tuple(make_citation(f'art_{n}', 'x' * 4000) for n in range(200))
+
+        kept = pipeline._within_budget(citations)
+
+        assert sum(len(item.text) for item in kept) <= pipeline._prompt_budget()
+
+    def test_one_provision_over_budget_is_still_sent(
+        self, build_pipeline: BuildPipeline
+    ) -> None:
+        """A prompt with nothing in it answers nothing, so the first is kept."""
+        pipeline, _ = build_pipeline(['transparency obligations', GROUNDED])
+        enormous = (make_citation('art_3', 'x' * 500_000),)
+
+        assert pipeline._within_budget(enormous) == enormous
+
+    def test_a_result_inside_the_budget_is_untouched(
+        self, build_pipeline: BuildPipeline
+    ) -> None:
+        pipeline, _ = build_pipeline(['transparency obligations', GROUNDED])
+        citations = tuple(make_citation(f'art_{n}', 'x' * 100) for n in range(5))
+
+        assert pipeline._within_budget(citations) == citations
+
+
 class TestTheTrace:
     def test_the_trace_records_what_search_returned(
         self, build_pipeline: BuildPipeline
@@ -134,6 +218,30 @@ class TestTheTrace:
         answer = pipeline.ask(CHATBOT)
 
         assert 'art_50.1' in answer.retrieval.searched_ids
+
+    def test_searched_ids_names_each_provision_once(
+        self, build_pipeline: BuildPipeline
+    ) -> None:
+        """`art_3` splits into three chunks, so two of them can both rank.
+
+        The trace is what the evaluation scores precision from, and a provision
+        written twice inflates the denominator against a retrieval that found
+        one thing.
+        """
+        pipeline, _ = build_pipeline(['transparency obligations', GROUNDED])
+
+        searched = pipeline.ask(CHATBOT).retrieval.searched_ids
+
+        assert len(searched) == len(set(searched))
+
+    def test_the_two_halves_of_the_trace_do_not_overlap(
+        self, build_pipeline: BuildPipeline
+    ) -> None:
+        pipeline, _ = build_pipeline(['transparency obligations', GROUNDED])
+
+        trace = pipeline.ask(CHATBOT).retrieval
+
+        assert not set(trace.searched_ids) & set(trace.traversed_ids)
 
     def test_traversal_lifts_a_retrieved_paragraph_to_its_article(
         self, build_pipeline: BuildPipeline
