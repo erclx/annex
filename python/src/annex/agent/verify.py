@@ -19,9 +19,9 @@ than a hit count.
 A second check sits beside it and answers a different question. Grounding asks
 whether a statement is carried by the text it cites, and a question about a
 date can be answered fluently, faithfully and wrongly from provisions that
-carry no date at all. The v0.6 run recorded three of those as successes on the
-version-comparison flow, so a timing question whose surviving claims state no
-date their own citations carry is refused rather than returned.
+carry no date at all. The recorded evaluation scored three of those as
+successes on the version-comparison flow, so a timing question whose surviving
+claims state no date their own citations carry is refused rather than returned.
 
 That check reads the statements rather than the provisions supplied, and a
 weaker draft of it read the provisions. Article 2 and Article 6 of the
@@ -61,6 +61,17 @@ refusal on. Measured on 2026-09-06.
 What it gives up is a timing question phrased without an auxiliary. That
 degrades to the behavior before this check existed rather than to a false
 refusal, which is the direction to fail in.
+
+`deadline` stays a bare token and is the looser half, so a description
+mentioning one without asking about one reaches the check. It is kept on
+evidence rather than on symmetry. The gold set exercises neither what it buys
+nor what it costs: `q08` is the only description it matches, matches it
+descriptively rather than as a question, and refuses at the declared marker on
+both versions with this check never reached, so the token is load-bearing for
+no gold outcome either way. Tightening it on the singular, or dropping it,
+would be tuned on invented examples in a project whose whole argument is that a
+figure with no measurement behind it is a guess. A gold-set question asking for
+a deadline in those words is what settles it. Measured on 2026-09-06.
 """
 
 CALENDAR_DATE = re.compile(

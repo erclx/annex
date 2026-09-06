@@ -162,7 +162,7 @@ class TestVerify:
         assert verified.retrieval.searched_ids == ('art_50',)
 
     def test_a_timing_question_resting_on_no_dated_provision_is_refused(self) -> None:
-        """The v0.6 run scored three of these as successes.
+        """The recorded evaluation scored three of these as successes.
 
         A statement about deployer duties is faithful to the deployer article
         it cites and says nothing about when those duties begin, so grounding

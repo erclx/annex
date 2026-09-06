@@ -83,7 +83,7 @@ class TestRefusalIsAReturnValue:
 
 @pytest.mark.live
 class TestTheDeadlineFlow:
-    """The flow the v0.6 evaluation refused, held against the failure beside it.
+    """The flow the recorded evaluation refused, held against the failure beside it.
 
     Grandfathering above is a question the text leaves open, so a refusal there
     is the product working. A compliance date is not: the Act states it. What
@@ -91,7 +91,7 @@ class TestTheDeadlineFlow:
     since `nomic-embed-text` reaches neither Article 111 nor Article 113 on this
     question against the consolidated text, at any query form measured. Either
     the answer gives a date its own citation carries, or it refuses. What it may
-    not do is what three v0.6 runs did, which is answer "when do the obligations
+    not do is what three recorded runs did, which is answer "when do the obligations
     start" from provisions carrying no date and score as a success.
     """
 
