@@ -6,11 +6,16 @@ refused and answered at once, and a citation asserting the amendment moved a
 provision without saying what moved.
 """
 
+import json
+from pathlib import Path
+
 import pytest
 from pydantic import ValidationError
 
 from annex.answer import Answer, Citation, Claim, Refusal, RetrievalTrace
 from annex.corpus import CorpusVersion, ProvisionKind
+
+SCHEMA_PATH = Path(__file__).resolve().parents[2] / 'schema' / 'answer.schema.json'
 
 
 def make_citation(**overrides: object) -> Citation:
@@ -120,3 +125,17 @@ class TestAnswer:
         assert restored.refusal is not None
         assert restored.refusal.consulted[0].provision_id == 'art_6'
         assert restored.retrieval.traversal_enabled
+
+
+class TestTheCommittedSchema:
+    """The web half generates its types from the file rather than from the code.
+
+    So the file drifting from the models is a contract the server and the client
+    disagree about, with nothing at runtime to notice. Regenerate it with
+    `uv run python -m annex schema > schema/answer.schema.json`.
+    """
+
+    def test_the_committed_schema_matches_the_models(self) -> None:
+        committed = json.loads(SCHEMA_PATH.read_text())
+
+        assert committed == Answer.model_json_schema()

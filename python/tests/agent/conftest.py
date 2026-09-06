@@ -13,7 +13,8 @@ import pytest
 from annex.agent.pipeline import Pipeline
 from annex.corpus import CorpusVersion, load
 from annex.corpus.models import Corpus
-from annex.llm import Completion
+from annex.llm import Completion, ModelContextError, OllamaClient
+from annex.retrieval import INDEX_PATH
 from annex.retrieval.chunks import chunk
 from annex.retrieval.store import DIMENSIONS, write
 from annex.settings import Settings
@@ -92,6 +93,24 @@ def fixture_index(
         path=path,
     )
     return path
+
+
+@pytest.fixture(scope='session')
+def live_pipeline() -> Pipeline:
+    """The real index and the real model, for the `live` acceptance tests.
+
+    Skips rather than fails where either is absent, since CI has neither, and
+    session-scoped because building it parses both documents and loading the
+    27B into the GPU is the expensive part of every pass.
+    """
+    settings = Settings()
+    if not INDEX_PATH.exists():
+        pytest.skip(f'no index at {INDEX_PATH}. Run: uv run python -m annex embed')
+    try:
+        OllamaClient(settings).verify_context()
+    except (ModelContextError, OSError) as error:
+        pytest.skip(f'the generation model is not ready: {error}')
+    return Pipeline(settings=settings)
 
 
 BuildPipeline = Callable[[list[str]], tuple[Pipeline, ScriptedClient]]

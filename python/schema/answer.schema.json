@@ -39,13 +39,7 @@
           "$ref": "#/$defs/CorpusVersion"
         }
       },
-      "required": [
-        "provision_id",
-        "citation",
-        "kind",
-        "version",
-        "text"
-      ],
+      "required": ["provision_id", "citation", "kind", "version", "text"],
       "title": "Citation",
       "type": "object"
     },
@@ -64,30 +58,19 @@
           "type": "string"
         }
       },
-      "required": [
-        "statement",
-        "citations"
-      ],
+      "required": ["statement", "citations"],
       "title": "Claim",
       "type": "object"
     },
     "CorpusVersion": {
       "description": "Which of the two texts a provision was read from.",
-      "enum": [
-        "original",
-        "consolidated"
-      ],
+      "enum": ["original", "consolidated"],
       "title": "CorpusVersion",
       "type": "string"
     },
     "ProvisionKind": {
       "description": "What sort of unit a provision is.",
-      "enum": [
-        "article",
-        "annex",
-        "recital",
-        "paragraph"
-      ],
+      "enum": ["article", "annex", "recital", "paragraph"],
       "title": "ProvisionKind",
       "type": "string"
     },
@@ -114,15 +97,12 @@
           "type": "string"
         }
       },
-      "required": [
-        "reason",
-        "missing"
-      ],
+      "required": ["reason", "missing"],
       "title": "Refusal",
       "type": "object"
     },
     "RetrievalTrace": {
-      "description": "What the pipeline did to produce an answer, and what it cost.\n\nHeld on the answer rather than beside it. The evaluation harness scores hit\nrate and cost per question from this object, and a trace travelling\nseparately from the answer it describes is a trace something eventually\nmismatches.",
+      "description": "What the pipeline did to produce an answer, and what it cost.\n\nHeld on the answer rather than beside it. The evaluation harness scores hit\nrate and cost per question from this object, and a trace that travels\nseparately from the answer it describes is a trace something eventually\nmismatches.",
       "properties": {
         "completion_tokens": {
           "default": 0,
@@ -211,10 +191,7 @@
       "$ref": "#/$defs/CorpusVersion"
     }
   },
-  "required": [
-    "question",
-    "version"
-  ],
+  "required": ["question", "version"],
   "title": "Answer",
   "type": "object"
 }

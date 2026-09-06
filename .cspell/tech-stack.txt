@@ -21,10 +21,14 @@ frontmatter
 httpx
 IVXLC
 kwargs
+langgraph
+langsmith
 lintstagedrc
 logomark
 lxml
 mkhl
+Modelfile
+modelfiles
 modref
 monkeypatch
 mypy
@@ -43,6 +47,7 @@ pycache
 pydantic
 pyproject
 pytest
+pytestmark
 pythonpath
 qwen
 regen
@@ -58,6 +63,7 @@ threadpool
 timonwong
 toplevel
 typegen
+usefixtures
 uvicorn
 vec
 venv

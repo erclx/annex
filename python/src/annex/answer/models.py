@@ -83,7 +83,7 @@ class RetrievalTrace(BaseModel):
     """What the pipeline did to produce an answer, and what it cost.
 
     Held on the answer rather than beside it. The evaluation harness scores hit
-    rate and cost per question from this object, and a trace travelling
+    rate and cost per question from this object, and a trace that travels
     separately from the answer it describes is a trace something eventually
     mismatches.
     """

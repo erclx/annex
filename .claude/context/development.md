@@ -25,6 +25,8 @@ Each half verifies itself and the root chains both. Neither half's `package.json
 - Install [Bun](https://bun.sh): `curl -fsSL https://bun.sh/install | bash`
 - Install [uv](https://docs.astral.sh/uv/): `curl -LsSf https://astral.sh/uv/install.sh | sh`
 - Install [Ollama](https://ollama.com), then `ollama pull qwen3.8:27b` and `ollama pull nomic-embed-text`
+- **Build the derived generation model: `cd python && bash scripts/ollama-build.sh`.** The OpenAI-compatible `/v1` route accepts a per-request `num_ctx` and ignores it, so the context this project needs is carried by `python/ollama/annex-qwen3-27b.Modelfile` instead. Without this step `uv run python -m annex context` refuses by name and every agent call refuses with it. See the retrieval entry for the measurement
+- **Build the vector index: `cd python && uv run python -m annex embed`.** It takes a few minutes, needs Ollama up, and writes the gitignored `python/data/index/`. A fresh clone or a new worktree has no index and `search` says so rather than failing on a missing table
 - Root dependencies: `bun install`
 - Python dependencies: `cd python && uv sync`
 - **Playwright browsers: `cd web && bunx playwright install chromium`**. `bun install` does not fetch them, and the end-to-end run fails with an executable-not-found error until it has been done once.
@@ -57,6 +59,7 @@ The web app takes `4100` rather than the `3000` Next defaults to, so it does not
 
 ## Python specifics
 
+- **Tests needing a model are deselected by default.** `pytest.ini` runs `-m "not live"`. The `live` marker covers the acceptance tests that ask the real model a real question and the chunk-length check that counts real tokens against the embedder, since one pass of the 27B holds most of the GPU and CI has neither Ollama nor the models. Run them with `cd python && uv run pytest -m live` after changing chunking, routing, traversal or the prompts. They skip rather than fail where the index or the model is absent.
 - **`networkx` cannot be imported on this interpreter.** The library declares `requires_python: !=3.14.1` and `python/.python-version` pins 3.14, so the import raises inside `dataclasses` before any graph is built. The dependency is dropped and the reference graph is a plain in-process adjacency map. Repinning to 3.13 is the alternative, and it moves `mypy.ini`, `ruff.toml` and every task that follows.
 
 ## Web specifics

@@ -1,6 +1,6 @@
 """Embedding calls the configured model, batches, and refuses a truncated chunk.
 
-Stubbed rather than live. The behaviour under test is the client being asked
+Stubbed rather than live. The behavior under test is the client being asked
 for the right thing and the caller refusing a chunk the embedder had to cut,
 neither of which needs a model to run.
 """
