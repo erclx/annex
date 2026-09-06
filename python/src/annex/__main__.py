@@ -113,6 +113,14 @@ def _search(question: str, version: CorpusVersion, k: int) -> int:
     return 0
 
 
+def _ask(question: str, version: CorpusVersion, traversal: bool) -> int:
+    from annex.agent import Pipeline
+
+    answer = Pipeline().ask(question, version=version, traversal=traversal)
+    print(answer.model_dump_json(indent=2))
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog='annex')
     parser.add_argument(
@@ -134,6 +142,17 @@ def main(argv: list[str] | None = None) -> int:
     )
     searching.add_argument('--k', type=int, default=Settings().search_k)
 
+    asking = subcommands.add_parser('ask', help='answer a described system')
+    asking.add_argument('description')
+    asking.add_argument(
+        '--version', type=CorpusVersion, default=CorpusVersion.CONSOLIDATED
+    )
+    asking.add_argument(
+        '--no-traversal',
+        action='store_true',
+        help='search without following the citations outward',
+    )
+
     arguments = parser.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format='%(levelname)s %(message)s')
 
@@ -148,6 +167,10 @@ def main(argv: list[str] | None = None) -> int:
             return _embed(arguments.refresh)
         if arguments.command == 'search':
             return _search(arguments.question, arguments.version, arguments.k)
+        if arguments.command == 'ask':
+            return _ask(
+                arguments.description, arguments.version, not arguments.no_traversal
+            )
         return _graph(arguments.refresh)
     except CorpusCheckError as error:
         print(f'corpus check failed: {error}', file=sys.stderr)
