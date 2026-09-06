@@ -251,6 +251,7 @@ Dropped ids are named beside traversed ids and never omitted. Traversal reaches 
 - The traversal switch turns reference following off and re-asks. It exists to demonstrate the arm comparison rather than to serve a visitor, and it is labelled as a demo on screen so the layout does not pretend otherwise
 - Editing the description returns the surface to its empty state with the previous text in the input
 - The trace disclosure expands the three id lists in place. Nothing else on the surface opens, collapses, or overlays
+- The theme control chooses between matching the system, light, and dark, and starts on matching the system. A reader who chooses nothing is decided by `prefers-color-scheme`, and a choice is remembered per browser and applied before the first paint, so the page never renders in one theme and swaps to the other
 - Every state above replaces the answer region. None of them stack, except the moved-citation and cut-short states, which render on top of an answer
 
 ## Not on this surface
