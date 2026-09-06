@@ -15,6 +15,19 @@ Two things it deliberately does not do. It does not judge whether the reasoning
 is sound, which no lexical test can. And it does not reward a claim for quoting
 one distinctive word, since the threshold is a proportion of the claim rather
 than a hit count.
+
+A second check sits beside it and answers a different question. Grounding asks
+whether a statement is carried by the text it cites, and a question about a
+date can be answered fluently, faithfully and wrongly from provisions that
+carry no date at all. The v0.6 run recorded three of those as successes on the
+version-comparison flow, so a timing question whose surviving claims state no
+date their own citations carry is refused rather than returned.
+
+That check reads the statements rather than the provisions supplied, and a
+weaker draft of it read the provisions. Article 2 and Article 6 of the
+consolidated text carry a date apiece for reasons that have nothing to do with
+when an obligation begins, so a run supplied with either passed a gate meant to
+ask whether the answer had said when.
 """
 
 import logging
@@ -25,6 +38,26 @@ from annex.answer import Answer, Citation, Claim, Refusal
 logger = logging.getLogger('annex.agent.verify')
 
 WORD = re.compile(r"[a-z][a-z'-]{3,}")
+
+ASKS_WHEN = re.compile(r'\b(when|deadline|deadlines)\b', re.IGNORECASE)
+"""Whether a description is asking for a date rather than for a duty.
+
+Selects four of the twelve gold descriptions: the three deadline questions and
+`q08`, which says "before the deadline" and is one the gold set already expects
+a refusal on. Widening the set with `date` or with `apply` selects the same
+four, so it is narrow because widening bought nothing rather than because
+widening cost something. Measured on 2026-09-06.
+"""
+
+CALENDAR_DATE = re.compile(
+    r'\b\d{1,2} (?:January|February|March|April|May|June|July|August|September'
+    r'|October|November|December) \d{4}\b'
+)
+"""A date written the way the Official Journal writes one.
+
+Selects 41 provisions of each version, Article 111 and Article 113 among them.
+Measured against both parses on 2026-09-06.
+"""
 
 GROUNDING_THRESHOLD = 0.6
 """The share of a claim's content words that must appear in what it cites.
@@ -101,12 +134,60 @@ def is_grounded(claim: Claim, threshold: float = GROUNDING_THRESHOLD) -> bool:
     return grounding(claim.statement, claim.citations) >= threshold
 
 
+def asks_when(question: str) -> bool:
+    """Whether the description asks for a date rather than for a duty."""
+    return ASKS_WHEN.search(question) is not None
+
+
+def states_a_grounded_date(claim: Claim) -> bool:
+    """Whether the claim gives a date, and gives one the text it cites carries.
+
+    Both halves are load-bearing. A claim naming no date has not answered when
+    something applies whatever it cites, and a claim naming a date its cited
+    text does not carry has supplied one from outside the Act, which on a
+    compliance deadline is the most expensive thing this system can do.
+    """
+    stated = set(CALENDAR_DATE.findall(claim.statement))
+    if not stated:
+        return False
+    cited = {
+        date
+        for citation in claim.citations
+        for date in CALENDAR_DATE.findall(citation.text)
+    }
+    return bool(stated & cited)
+
+
+def rests_on_a_date(claims: tuple[Claim, ...]) -> bool:
+    """Whether the answer gives a date the text it cites carries."""
+    return any(states_a_grounded_date(claim) for claim in claims)
+
+
+def _refused(answer: Answer, reason: str, missing: str) -> Answer:
+    """The same refusal shape from either exit, carrying what was read."""
+    consulted = tuple(
+        dict.fromkeys(
+            citation for claim in answer.claims for citation in claim.citations
+        )
+    )
+    return answer.model_copy(
+        update={
+            'claims': (),
+            'refusal': Refusal(reason=reason, missing=(missing,), consulted=consulted),
+        }
+    )
+
+
 def verify(answer: Answer, *, threshold: float = GROUNDING_THRESHOLD) -> Answer:
     """Drop every ungrounded claim, and refuse where that leaves nothing.
 
     A refusal is a return value rather than an error, per the refusal decision
     in `.claude/ARCHITECTURE.md`, and it carries the citations that were read
     so it is evidenced rather than asserted.
+
+    Two of the pipeline's four refusal exits are here, and each logs which one
+    fired for the reason `annex.agent.pipeline.parse_draft` gives at the other
+    two: nothing downstream records the stage.
     """
     if answer.refusal is not None:
         return answer
@@ -116,26 +197,35 @@ def verify(answer: Answer, *, threshold: float = GROUNDING_THRESHOLD) -> Answer:
     if dropped:
         logger.info('verification dropped %d of %d claims', dropped, len(answer.claims))
 
+    if kept and asks_when(answer.question) and not rests_on_a_date(kept):
+        logger.info(
+            'refusal exit: verify timing, %d grounded claims on a question about '
+            'timing state no date the text they cite carries',
+            len(kept),
+        )
+        return _refused(
+            answer,
+            reason=(
+                'The question asks when an obligation applies, and no statement '
+                'drafted from the retrieved provisions gives a date those '
+                'provisions carry.'
+            ),
+            missing='the provision of the Act carrying the date this applies from',
+        )
+
     if kept:
         return answer.model_copy(update={'claims': kept})
 
-    consulted = tuple(
-        dict.fromkeys(
-            citation for claim in answer.claims for citation in claim.citations
-        )
+    logger.info(
+        'refusal exit: verify grounding, all %d claims fell below the %.2f threshold',
+        len(answer.claims),
+        threshold,
     )
-    return answer.model_copy(
-        update={
-            'claims': (),
-            'refusal': Refusal(
-                reason=(
-                    'Every statement drafted from the retrieved provisions failed '
-                    'the grounding check against the text it cited.'
-                ),
-                missing=(
-                    'a provision of the Act that settles the question as described',
-                ),
-                consulted=consulted,
-            ),
-        }
+    return _refused(
+        answer,
+        reason=(
+            'Every statement drafted from the retrieved provisions failed the '
+            'grounding check against the text it cited.'
+        ),
+        missing='a provision of the Act that settles the question as described',
     )

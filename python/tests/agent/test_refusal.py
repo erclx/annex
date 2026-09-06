@@ -13,6 +13,7 @@ refusal. The live half asks the real model the real question and carries the
 import pytest
 
 from annex.agent import Pipeline
+from annex.agent.verify import CALENDAR_DATE
 from annex.answer import Answer
 from annex.corpus import CorpusVersion
 from tests.agent.conftest import BuildPipeline
@@ -21,6 +22,8 @@ GRANDFATHERING = (
     'We put a CV screening system into service in 2024 and have not changed it '
     'since. Do the high-risk obligations apply to us now?'
 )
+
+DEADLINE = 'when do the obligations for a high-risk AI system start to apply to us'
 
 
 class TestRefusalIsAReturnValue:
@@ -76,6 +79,30 @@ class TestRefusalIsAReturnValue:
         answer = pipeline.ask(GRANDFATHERING)
 
         assert answer.retrieval.prompt_tokens > 0
+
+
+@pytest.mark.live
+class TestTheDeadlineFlow:
+    """The flow the v0.6 evaluation refused, held against the failure beside it.
+
+    Grandfathering above is a question the text leaves open, so a refusal there
+    is the product working. A compliance date is not: the Act states it. What
+    this holds is the weaker property the shipped embedder can actually deliver,
+    since `nomic-embed-text` reaches neither Article 111 nor Article 113 on this
+    question against the consolidated text, at any query form measured. Either
+    the answer gives a date its own citation carries, or it refuses. What it may
+    not do is what three v0.6 runs did, which is answer "when do the obligations
+    start" from provisions carrying no date and score as a success.
+    """
+
+    def test_a_deadline_answer_gives_a_date_or_refuses(
+        self, live_pipeline: Pipeline
+    ) -> None:
+        answer = live_pipeline.ask(DEADLINE, version=CorpusVersion.CONSOLIDATED)
+
+        stated = ' '.join(claim.statement for claim in answer.claims)
+
+        assert answer.is_refusal or CALENDAR_DATE.search(stated)
 
 
 @pytest.mark.live

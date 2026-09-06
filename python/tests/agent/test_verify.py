@@ -28,9 +28,27 @@ def make_citation(text: str = ARTICLE_50_TEXT) -> Citation:
     )
 
 
-def make_answer(*claims: Claim) -> Answer:
+DEPLOYER_TEXT = (
+    'Deployers of high-risk AI systems shall take appropriate technical and '
+    'organisational measures to ensure they use such systems in accordance with '
+    'the instructions for use accompanying the systems.'
+)
+
+DATED_TEXT = (
+    'This Regulation shall apply from 2 August 2026, save that Chapter III '
+    'Section 4 shall apply from 2 August 2027 to high-risk AI systems.'
+)
+
+TIMING_QUESTION = (
+    'when do the obligations for a high-risk AI system start to apply to us'
+)
+
+
+def make_answer(
+    *claims: Claim, question: str = 'Does Article 50 apply to my chatbot?'
+) -> Answer:
     return Answer(
-        question='Does Article 50 apply to my chatbot?',
+        question=question,
         version=CorpusVersion.CONSOLIDATED,
         claims=claims,
         retrieval=RetrievalTrace(searched_ids=('art_50',)),
@@ -132,6 +150,67 @@ class TestVerify:
         verified = verify(make_answer(fabricated))
 
         assert verified.retrieval.searched_ids == ('art_50',)
+
+    def test_a_timing_question_resting_on_no_dated_provision_is_refused(self) -> None:
+        """The v0.6 run scored three of these as successes.
+
+        A statement about deployer duties is faithful to the deployer article
+        it cites and says nothing about when those duties begin, so grounding
+        passes it and the reader gets a compliance date the text never gave.
+        """
+        deployer = Claim(
+            statement=(
+                'Deployers take appropriate technical and organisational measures '
+                'to use such systems in accordance with the instructions for use.'
+            ),
+            citations=(make_citation(DEPLOYER_TEXT),),
+        )
+
+        verified = verify(make_answer(deployer, question=TIMING_QUESTION))
+
+        assert verified.is_refusal
+        assert verified.claims == ()
+
+    def test_a_timing_question_resting_on_a_dated_provision_answers(self) -> None:
+        dated = Claim(
+            statement=(
+                'This Regulation shall apply from 2 August 2026, and Chapter III '
+                'Section 4 shall apply from 2 August 2027 to high-risk systems.'
+            ),
+            citations=(make_citation(DATED_TEXT),),
+        )
+
+        verified = verify(make_answer(dated, question=TIMING_QUESTION))
+
+        assert not verified.is_refusal
+        assert verified.claims == (dated,)
+
+    def test_a_question_that_is_not_about_timing_needs_no_date(self) -> None:
+        deployer = Claim(
+            statement=(
+                'Deployers take appropriate technical and organisational measures '
+                'to use such systems in accordance with the instructions for use.'
+            ),
+            citations=(make_citation(DEPLOYER_TEXT),),
+        )
+
+        verified = verify(make_answer(deployer))
+
+        assert not verified.is_refusal
+
+    def test_a_refusal_on_timing_names_the_provision_it_wanted(self) -> None:
+        deployer = Claim(
+            statement=(
+                'Deployers take appropriate technical and organisational measures '
+                'to use such systems in accordance with the instructions for use.'
+            ),
+            citations=(make_citation(DEPLOYER_TEXT),),
+        )
+
+        verified = verify(make_answer(deployer, question=TIMING_QUESTION))
+
+        assert verified.refusal is not None
+        assert 'date' in verified.refusal.missing[0]
 
     def test_an_answer_that_already_refused_passes_through(self) -> None:
         answer = Answer(
