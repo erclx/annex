@@ -59,6 +59,7 @@ The web app takes `4100` rather than the `3000` Next defaults to, so it does not
 
 ## Python specifics
 
+- **`pytest.ini` sets `pythonpath = src .` rather than `src` alone.** Without the project root on the path, `uv run pytest` cannot import `tests.agent.conftest` and collection fails, while `python -m pytest` succeeds because it puts the working directory on `sys.path` itself. The two invocations disagreeing is what lets the narrower setting pass in a shell and fail in the verify chain.
 - **Tests needing a model are deselected by default.** `pytest.ini` runs `-m "not live"`. The `live` marker covers the acceptance tests that ask the real model a real question and the chunk-length check that counts real tokens against the embedder, since one pass of the 27B holds most of the GPU and CI has neither Ollama nor the models. Run them with `cd python && uv run pytest -m live` after changing chunking, routing, traversal or the prompts. They skip rather than fail where the index or the model is absent.
 - **`networkx` cannot be imported on this interpreter.** The library declares `requires_python: !=3.14.1` and `python/.python-version` pins 3.14, so the import raises inside `dataclasses` before any graph is built. The dependency is dropped and the reference graph is a plain in-process adjacency map. Repinning to 3.13 is the alternative, and it moves `mypy.ini`, `ruff.toml` and every task that follows.
 
@@ -68,6 +69,10 @@ The web app takes `4100` rather than the `3000` Next defaults to, so it does not
 - **`agentRules` is off in `next.config.ts`.** Next 16 writes `AGENTS.md` and `CLAUDE.md` into `web/` on every run. The root `CLAUDE.md` governs this repository, and a second one under `web/` is loaded alongside it and competes with it.
 - The eslint config comes from canon's `web` tooling stack, which targets Vite. Three things were added by hand for Next: `.next` and `next-env.d.ts` in the ignore list, and a scoped override under `src/app/**` turning off `react-refresh/only-export-components`, which forbids the metadata export the App Router requires.
 - Vitest excludes `e2e/` so it stops collecting Playwright specs, which use fixtures it cannot provide.
+
+## Spelling
+
+Prose in this repository uses American spellings, and `bun run check` gates on it through cspell. `neighbour` and `neighbours` sit in `.cspell/project-terms.txt` as identifiers out of `annex.corpus.graph` rather than as a house style, and `categorisation` is there because the Act's own text spells it that way. A British spelling written into new prose is a failing check rather than a matter of taste.
 
 ## Shell scripts
 
