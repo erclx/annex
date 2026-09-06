@@ -15,7 +15,11 @@ An agent over the EU AI Act. It reports which articles apply to a described AI s
 ## Commands
 
 - These conventions came from a toolkit with its own CLI. A rule or standard naming a command is naming that CLI, present only where this project installed it.
-- Run `./scripts/verify.sh` before committing. No `package.json` exists yet, so dependency and script installation arrives with `canon tooling sync <stack> --write`. Full script reference in the development entry under `.claude/context/`.
+- Run `./scripts/verify.sh` before committing, and `bun run check` for the whole gate across both halves. Full script reference in the development entry under `.claude/context/`.
+
+## Constraints
+
+- A measurement holds only under the conditions it ran in. Read a setting back rather than trusting the call that set it, and reset a cache or a loaded model before timing a first call.
 
 ## Key paths
 
