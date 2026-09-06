@@ -194,7 +194,9 @@ class Pipeline:
         )
         return int(available * DENSEST_CHARACTERS_A_TOKEN)
 
-    def _within_budget(self, citations: tuple[Citation, ...]) -> tuple[Citation, ...]:
+    def _within_budget(
+        self, citations: tuple[Citation, ...]
+    ) -> tuple[tuple[Citation, ...], tuple[str, ...]]:
         """Drop provisions from the far end until the prompt fits the window.
 
         `_citations` builds its list in `Expansion.provision_ids` order, which
@@ -208,7 +210,12 @@ class Pipeline:
         the model reads as 29 170 prompt tokens, leaving 3 598 of a 32 768
         window to answer in. Generation then stops at the window rather than at
         the budget, mid-word, and the cut draft parses as a finished answer
-        with the obligations the model had not reached yet simply absent.
+        missing whatever obligations the model had yet to reach.
+
+        Returns what survived and the ids of what did not. The second half is
+        what a scorer cannot infer: `traversed_ids` names what traversal found,
+        and crediting traversal for all of it without subtracting what the
+        budget cut credits it for text nothing read.
         """
         budget = self._prompt_budget()
         kept: list[Citation] = []
@@ -220,20 +227,20 @@ class Pipeline:
             kept.append(citation)
             spent += cost
 
-        dropped = len(citations) - len(kept)
+        dropped = tuple(item.provision_id for item in citations[len(kept) :])
         if dropped:
             logger.info(
                 'prompt budget dropped %d of %d provisions, keeping %d characters '
                 'of a %d budget',
-                dropped,
+                len(dropped),
                 len(citations),
                 spent,
                 budget,
             )
-        return tuple(kept)
+        return tuple(kept), dropped
 
     def _synthesize(self, state: State) -> State:
-        citations = self._within_budget(self._citations(state))
+        citations, dropped_ids = self._within_budget(self._citations(state))
         numbered = '\n\n'.join(
             f'[{index}] {citation.citation}\n{citation.text}'
             for index, citation in enumerate(citations, start=1)
@@ -245,7 +252,9 @@ class Pipeline:
         trace = RetrievalTrace(
             searched_ids=state.get('searched_ids', ()),
             traversed_ids=state.get('traversed_ids', ()),
+            dropped_ids=dropped_ids,
             traversal_enabled=state.get('traversal_enabled', True),
+            truncated=completion.is_truncated,
             prompt_tokens=state.get('prompt_tokens', 0) + completion.prompt_tokens,
             completion_tokens=(
                 state.get('completion_tokens', 0) + completion.completion_tokens

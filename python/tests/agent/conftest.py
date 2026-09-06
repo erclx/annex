@@ -36,6 +36,7 @@ class ScriptedClient:
         self.replies = list(replies)
         self.prompts: list[str] = []
         self.settings = Settings()
+        self.finish_reason = 'stop'
 
     def complete(
         self, prompt: str, *, system: str | None = None, max_tokens: int | None = None
@@ -48,6 +49,7 @@ class ScriptedClient:
             prompt_tokens=100,
             completion_tokens=20,
             model='scripted',
+            finish_reason=self.finish_reason,
         )
 
     def embed(

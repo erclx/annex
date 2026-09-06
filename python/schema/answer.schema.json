@@ -102,12 +102,20 @@
       "type": "object"
     },
     "RetrievalTrace": {
-      "description": "What the pipeline did to produce an answer, and what it cost.\n\nHeld on the answer rather than beside it. The evaluation harness scores hit\nrate and cost per question from this object, and a trace that travels\nseparately from the answer it describes is a trace something eventually\nmismatches.",
+      "description": "What the pipeline did to produce an answer, and what it cost.\n\nHeld on the answer rather than beside it. The evaluation harness scores hit\nrate and cost per question from this object, and a trace that travels\nseparately from the answer it describes is a trace something eventually\nmismatches.\n\n`dropped_ids` is the part a scorer cannot infer. Retrieval reaches more\nprovisions than a prompt has room for, so `traversed_ids` names what\ntraversal found and `dropped_ids` names which of those the budget cut\nbefore the model saw them. Scoring traversal's contribution against the\nfirst without subtracting the second credits it for text nothing read. Ids\nrather than a count, because the scorer resolves them.\n\n`truncated` says the model stopped for want of room rather than because it\nhad finished. A cut answer reads as a complete one, so a caller that does\nnot check this field cannot tell them apart.",
       "properties": {
         "completion_tokens": {
           "default": 0,
           "title": "Completion Tokens",
           "type": "integer"
+        },
+        "dropped_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Dropped Ids",
+          "type": "array"
         },
         "duration_ms": {
           "default": 0,
@@ -144,6 +152,11 @@
           },
           "title": "Traversed Ids",
           "type": "array"
+        },
+        "truncated": {
+          "default": false,
+          "title": "Truncated",
+          "type": "boolean"
         }
       },
       "title": "RetrievalTrace",
@@ -179,12 +192,14 @@
       "$ref": "#/$defs/RetrievalTrace",
       "default": {
         "completion_tokens": 0,
+        "dropped_ids": [],
         "duration_ms": 0,
         "model": "",
         "prompt_tokens": 0,
         "searched_ids": [],
         "traversal_enabled": false,
-        "traversed_ids": []
+        "traversed_ids": [],
+        "truncated": false
       }
     },
     "version": {

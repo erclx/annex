@@ -167,7 +167,7 @@ class TestThePromptBudget:
         pipeline, _ = build_pipeline(['transparency obligations', GROUNDED])
         citations = tuple(make_citation(f'art_{n}', 'x' * 4000) for n in range(200))
 
-        kept = pipeline._within_budget(citations)
+        kept, _ = pipeline._within_budget(citations)
 
         assert len(kept) < len(citations)
 
@@ -177,7 +177,7 @@ class TestThePromptBudget:
         pipeline, _ = build_pipeline(['transparency obligations', GROUNDED])
         citations = tuple(make_citation(f'art_{n}', 'x' * 4000) for n in range(200))
 
-        kept = pipeline._within_budget(citations)
+        kept, _ = pipeline._within_budget(citations)
 
         assert [item.provision_id for item in kept] == [
             f'art_{n}' for n in range(len(kept))
@@ -187,7 +187,7 @@ class TestThePromptBudget:
         pipeline, _ = build_pipeline(['transparency obligations', GROUNDED])
         citations = tuple(make_citation(f'art_{n}', 'x' * 4000) for n in range(200))
 
-        kept = pipeline._within_budget(citations)
+        kept, _ = pipeline._within_budget(citations)
 
         assert sum(len(item.text) for item in kept) <= pipeline._prompt_budget()
 
@@ -198,7 +198,7 @@ class TestThePromptBudget:
         pipeline, _ = build_pipeline(['transparency obligations', GROUNDED])
         enormous = (make_citation('art_3', 'x' * 500_000),)
 
-        assert pipeline._within_budget(enormous) == enormous
+        assert pipeline._within_budget(enormous)[0] == enormous
 
     def test_a_result_inside_the_budget_is_untouched(
         self, build_pipeline: BuildPipeline
@@ -206,7 +206,36 @@ class TestThePromptBudget:
         pipeline, _ = build_pipeline(['transparency obligations', GROUNDED])
         citations = tuple(make_citation(f'art_{n}', 'x' * 100) for n in range(5))
 
-        assert pipeline._within_budget(citations) == citations
+        assert pipeline._within_budget(citations)[0] == citations
+
+    def test_nothing_dropped_reports_nothing_dropped(
+        self, build_pipeline: BuildPipeline
+    ) -> None:
+        pipeline, _ = build_pipeline(['transparency obligations', GROUNDED])
+        citations = tuple(make_citation(f'art_{n}', 'x' * 100) for n in range(5))
+
+        assert pipeline._within_budget(citations)[1] == ()
+
+    def test_the_dropped_provisions_are_named_rather_than_counted(
+        self, build_pipeline: BuildPipeline
+    ) -> None:
+        """The evaluation resolves ids, and a count says which is missing."""
+        pipeline, _ = build_pipeline(['transparency obligations', GROUNDED])
+        citations = tuple(make_citation(f'art_{n}', 'x' * 4000) for n in range(200))
+
+        kept, dropped = pipeline._within_budget(citations)
+
+        assert dropped == tuple(f'art_{n}' for n in range(len(kept), 200))
+
+    def test_kept_and_dropped_together_account_for_everything(
+        self, build_pipeline: BuildPipeline
+    ) -> None:
+        pipeline, _ = build_pipeline(['transparency obligations', GROUNDED])
+        citations = tuple(make_citation(f'art_{n}', 'x' * 4000) for n in range(200))
+
+        kept, dropped = pipeline._within_budget(citations)
+
+        assert len(kept) + len(dropped) == len(citations)
 
 
 class TestTheTrace:
@@ -290,3 +319,52 @@ class TestTheTrace:
         answer = pipeline.ask(CHATBOT)
 
         assert answer.retrieval.model == 'scripted'
+
+    def test_a_run_that_dropped_nothing_says_so(
+        self, build_pipeline: BuildPipeline
+    ) -> None:
+        pipeline, _ = build_pipeline(['transparency obligations', GROUNDED])
+
+        answer = pipeline.ask(CHATBOT)
+
+        assert answer.retrieval.dropped_ids == ()
+
+    def test_the_trace_names_what_the_prompt_budget_cut(
+        self, build_pipeline: BuildPipeline
+    ) -> None:
+        """Scoring traversal against a provision the model never saw is a lie.
+
+        `traversed_ids` names what traversal reached, and the budget can cut
+        some of it before synthesis, so the two fields together are what a
+        scorer needs to credit traversal for what it actually contributed.
+        """
+        pipeline, _ = build_pipeline(['transparency obligations', GROUNDED])
+        pipeline.settings = pipeline.settings.model_copy(
+            update={'generation_context': 1024}
+        )
+
+        answer = pipeline.ask(CHATBOT)
+
+        assert answer.retrieval.dropped_ids
+        assert set(answer.retrieval.dropped_ids) <= set(
+            answer.retrieval.searched_ids + answer.retrieval.traversed_ids
+        )
+
+    def test_an_uncut_generation_is_not_reported_as_truncated(
+        self, build_pipeline: BuildPipeline
+    ) -> None:
+        pipeline, _ = build_pipeline(['transparency obligations', GROUNDED])
+
+        answer = pipeline.ask(CHATBOT)
+
+        assert not answer.retrieval.truncated
+
+    def test_a_cut_generation_reaches_the_answer(
+        self, build_pipeline: BuildPipeline
+    ) -> None:
+        pipeline, client = build_pipeline(['transparency obligations', GROUNDED])
+        client.finish_reason = 'length'
+
+        answer = pipeline.ask(CHATBOT)
+
+        assert answer.retrieval.truncated

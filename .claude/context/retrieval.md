@@ -155,6 +155,16 @@ dense end.
 is a warning, and hitting the window is an error naming the prompt that left no
 room to answer in.
 
+Both halves reach the answer rather than only the log. `RetrievalTrace` carries
+`dropped_ids`, naming the provisions the budget cut, and `truncated`, saying the
+model stopped for want of room. The first is what a scorer cannot infer:
+`traversed_ids` names what traversal reached, and crediting traversal for all of
+it without subtracting what the budget cut credits it for text nothing read. On
+the Article 6 seed that is 16 of 51 provisions. Ids rather than a count, because
+the scorer resolves them, and the same field is what should say whether 2.6
+characters a token is too conservative, since the bounded run spends 18 229 of a
+32 768 window.
+
 ## Verification is lexical, not a second model call
 
 A model asked whether its own output was faithful mostly says yes, and a

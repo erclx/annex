@@ -86,13 +86,26 @@ class RetrievalTrace(BaseModel):
     rate and cost per question from this object, and a trace that travels
     separately from the answer it describes is a trace something eventually
     mismatches.
+
+    `dropped_ids` is the part a scorer cannot infer. Retrieval reaches more
+    provisions than a prompt has room for, so `traversed_ids` names what
+    traversal found and `dropped_ids` names which of those the budget cut
+    before the model saw them. Scoring traversal's contribution against the
+    first without subtracting the second credits it for text nothing read. Ids
+    rather than a count, because the scorer resolves them.
+
+    `truncated` says the model stopped for want of room rather than because it
+    had finished. A cut answer reads as a complete one, so a caller that does
+    not check this field cannot tell them apart.
     """
 
     model_config = ConfigDict(frozen=True)
 
     searched_ids: tuple[str, ...] = ()
     traversed_ids: tuple[str, ...] = ()
+    dropped_ids: tuple[str, ...] = ()
     traversal_enabled: bool = False
+    truncated: bool = False
     prompt_tokens: int = 0
     completion_tokens: int = 0
     duration_ms: int = 0
