@@ -1,69 +1,160 @@
-import Image from 'next/image'
+'use client'
 
+import { useCallback, useRef, useState } from 'react'
+
+import { AnswerView } from '@/components/answer-view'
+import { DescribedSystem } from '@/components/described-system'
+import { DescriptionForm } from '@/components/description-form'
+import { FailureRegion } from '@/components/failure-region'
+import { LoadingAnswer } from '@/components/loading-answer'
+import { RefusalView } from '@/components/refusal-view'
+import { RetrievalTrace } from '@/components/retrieval-trace'
+import { TopBar } from '@/components/top-bar'
+import type { CorpusVersion } from '@/components/versions'
+import { ask, type AskResult } from '@/lib/ask'
+
+/**
+ * One surface carries the whole product.
+ *
+ * A visitor describes a system, and the same page becomes the answer, the
+ * refusal, or the failure. There is no second screen and no navigation, per
+ * `.claude/wireframes/answer.md`.
+ *
+ * Every call to the service goes through `@/lib/ask` and nothing here touches
+ * `fetch`. That is what makes the deployed build's swap to captured fixtures a
+ * change to one module rather than to this file.
+ */
 export default function Home() {
+  const [description, setDescription] = useState('')
+  const [asked, setAsked] = useState<string | null>(null)
+  const [result, setResult] = useState<AskResult | null>(null)
+  const [pending, setPending] = useState(false)
+  const [touched, setTouched] = useState(false)
+  const [version, setVersion] = useState<CorpusVersion>('consolidated')
+  const [traversal, setTraversal] = useState(true)
+
+  /**
+   * The in-flight ask, so a re-ask replaces its answer rather than racing it.
+   *
+   * The version toggle and the traversal switch both re-ask, and an ask runs 21
+   * to 28 seconds, so two can overlap by a wide margin. Without this the slower
+   * of the two lands last and the surface shows an answer against the text the
+   * reader just toggled away from.
+   */
+  const inFlight = useRef<AbortController | null>(null)
+
+  const run = useCallback(
+    async (text: string, against: CorpusVersion, follow: boolean) => {
+      inFlight.current?.abort()
+      const controller = new AbortController()
+      inFlight.current = controller
+
+      setAsked(text)
+      setResult(null)
+      setPending(true)
+
+      const outcome = await ask(text, {
+        version: against,
+        traversal: follow,
+        signal: controller.signal,
+      })
+
+      if (controller.signal.aborted) return
+      setResult(outcome)
+      setPending(false)
+    },
+    [],
+  )
+
+  const submit = useCallback(() => {
+    setTouched(true)
+    if (description.trim() === '') return
+    void run(description, version, traversal)
+  }, [description, run, traversal, version])
+
+  const changeVersion = useCallback(
+    (next: CorpusVersion) => {
+      setVersion(next)
+      if (asked !== null) void run(asked, next, traversal)
+    },
+    [asked, run, traversal],
+  )
+
+  const changeTraversal = useCallback(
+    (next: boolean) => {
+      setTraversal(next)
+      if (asked !== null) void run(asked, version, next)
+    },
+    [asked, run, version],
+  )
+
+  const edit = useCallback(() => {
+    inFlight.current?.abort()
+    setAsked(null)
+    setResult(null)
+    setPending(false)
+  }, [])
+
+  const rejected = result?.state === 'invalid'
+  const answer =
+    result?.state === 'answered' || result?.state === 'refused'
+      ? result.answer
+      : null
+
+  // The invalid state renders on the input and never in the failure region,
+  // because the service never started work on it.
+  const onForm = asked === null || rejected
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div className="flex min-h-full flex-col bg-paper">
+      <TopBar
+        version={version}
+        onVersionChange={changeVersion}
+        traversal={traversal}
+        onTraversalChange={changeTraversal}
+        disabled={pending}
+      />
+
+      {onForm ? (
+        <DescriptionForm
+          description={description}
+          onDescriptionChange={(next) => {
+            setDescription(next)
+            setResult(null)
+          }}
+          onBlur={() => {
+            setTouched(true)
+          }}
+          onSubmit={submit}
+          invalid={rejected || (touched && description.trim() === '')}
+          pending={pending}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{' '}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{' '}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{' '}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{' '}
-            or the{' '}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{' '}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      ) : (
+        <>
+          <DescribedSystem description={asked} onEdit={edit} />
+          <main className="mx-auto w-full max-w-3xl flex-1 px-6">
+            {pending && <LoadingAnswer version={version} />}
+            {result?.state === 'answered' && (
+              <AnswerView answer={result.answer} />
+            )}
+            {result?.state === 'refused' && result.answer.refusal && (
+              <RefusalView refusal={result.answer.refusal} />
+            )}
+            {(result?.state === 'unavailable' ||
+              result?.state === 'timeout' ||
+              result?.state === 'failed') && (
+              <FailureRegion
+                state={result.state}
+                correlationId={result.correlationId}
+              />
+            )}
+            {result?.state === 'unreachable' && (
+              <FailureRegion state="unreachable" />
+            )}
+          </main>
+          {answer && <RetrievalTrace retrieval={answer.retrieval} />}
+        </>
+      )}
     </div>
   )
 }
