@@ -7,9 +7,10 @@ provision and retrieval degrades with nothing to point at.
 
 Ollama reports `usage.prompt_tokens` on the OpenAI-compatible route, and a
 truncated input reports exactly the context length. Measured on 2026-09-06: an
-over-length input returned `Usage(prompt_tokens=2048)` and a 768-dimension
-vector, with no error. That equality is the signal, and it raises
-`EmbeddingTruncatedError`.
+over-length input returned `Usage(prompt_tokens=2048)` and a vector of the
+model's width, with no error, under `nomic-embed-text` at 768 and
+`snowflake-arctic-embed2` at 1024 alike. That equality is the signal, and it
+raises `EmbeddingTruncatedError`.
 """
 
 import logging
@@ -72,10 +73,15 @@ def _refuse_truncated(
     cut. Measuring every chunk on its own would double the cost of the ingest,
     so a character screen picks the candidates first.
 
-    The screen is sound rather than convenient. The densest chunk measured
-    across both versions runs 3.13 characters a token, so nothing shorter than
-    `3 * limit` characters can reach the limit, and the screen sits at exactly
-    that.
+    The screen is sound rather than convenient. Nothing shorter than
+    `3 * limit` characters can reach the limit as long as no chunk is denser
+    than 3 characters a token, and the screen sits at exactly that.
+
+    The floor it rests on is a property of a tokenizer rather than arithmetic,
+    so it is re-measured whenever the embedding model changes. The densest
+    chunk across both versions runs 3.20 characters a token under
+    `snowflake-arctic-embed2` and ran 3.13 under `nomic-embed-text`, both above
+    3. A model denser than that would need this constant lowered with it.
     """
     for item in batch:
         if len(item.text) <= limit * 3:
