@@ -311,14 +311,26 @@ class Pipeline:
             )
         return tuple(citations)
 
-    def ask(
+    def ask_routed(
         self,
         question: str,
         *,
         version: CorpusVersion = CorpusVersion.CONSOLIDATED,
         traversal: bool = True,
-    ) -> Answer:
-        """Answer one question, or refuse it."""
+    ) -> tuple[Answer, str]:
+        """Answer one question, and say what search was actually run against.
+
+        Returns the answer and the routed query, in that order. The query is
+        the restatement `_route` produced, which is what the retrieval half of
+        a run cannot be reproduced without: the same description reaches search
+        as different text on two runs, and a recall figure with no record of
+        the text that produced it can be read but not re-derived.
+
+        Held apart from `ask` rather than folded into it because the query is
+        an evaluation's concern. Returned rather than recorded on the instance,
+        since one `Pipeline` is shared across concurrent requests by the
+        service and an attribute would be read by whichever call asked last.
+        """
         final = self.compiled.invoke(
             State(
                 question=question,
@@ -327,7 +339,17 @@ class Pipeline:
             )
         )
         answer: Answer = final['answer']
-        return answer
+        return answer, final.get('query', '')
+
+    def ask(
+        self,
+        question: str,
+        *,
+        version: CorpusVersion = CorpusVersion.CONSOLIDATED,
+        traversal: bool = True,
+    ) -> Answer:
+        """Answer one question, or refuse it."""
+        return self.ask_routed(question, version=version, traversal=traversal)[0]
 
 
 def _amendment(provision: Provision, other: Corpus) -> str | None:
