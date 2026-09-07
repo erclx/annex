@@ -12,6 +12,9 @@ import tseslint from 'typescript-eslint'
 export default defineConfig([
   globalIgnores([
     '.next',
+    // Where `output: 'export'` writes the deployed build. Minified output that
+    // no rule here describes, gitignored, and rebuilt on every deploy.
+    'out',
     'next-env.d.ts',
     'dist',
     'dist-ssr',
