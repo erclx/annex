@@ -1,9 +1,16 @@
 # Answer surface, as it renders
 
-Sixteen captures of the one surface this project has, every state in both
-themes, taken at 1280px against a production build. They are here so a reviewer
-can see what a change did to the surface without running it, and so a later
-change has something to be compared against.
+Twenty captures of the one surface this project has, every state in both themes,
+taken at 1280px against a production build. They are here so a reviewer can see
+what a change did to the surface without running it, and so a later change has
+something to be compared against.
+
+**The bodies behind them are captured, not written.** The answered, cut-short
+and refused states are driven by three files out of `web/src/fixtures/`, which
+`uv run python -m annex capture` fills from the real pipeline. An earlier
+version of these captures was built from hand-written statute text that no model
+produced, on a project whose whole argument is that a citation can be checked.
+Regenerating them from real output is what retired that.
 
 Both themes, symmetrically, because both ship and neither is a variant of the
 other. The dark theme re-values every role rather than inverting the light one,
@@ -34,6 +41,36 @@ on top of an answer rather than instead of it.
 | The text does not settle it, and what was read before saying so | [light](6-refused-light.png) | [dark](6-refused-dark.png) |
 | The model or the index is not running | [light](7-failure-unavailable-light.png) | [dark](7-failure-unavailable-dark.png) |
 | Nothing is listening on the service port | [light](8-failure-unreachable-light.png) | [dark](8-failure-unreachable-dark.png) |
+| The deployed build on arrival, the replay band and the recorded picks | [light](9-replay-empty-light.png) | [dark](9-replay-empty-dark.png) |
+| A description the recording does not hold | [light](10-unrecorded-light.png) | [dark](10-unrecorded-dark.png) |
+
+The last two are the deployed build and reach no service. They carry the replay
+band, which renders above every state there and on no local build, so the eight
+above show the surface as a developer running both halves sees it.
+
+## What the real bodies changed about these
+
+Swapping the invented bodies for captured ones moved the page height by a factor
+the invented ones hid, and the numbers are worth carrying:
+
+| State     | Height at 1280px |
+| --------- | ---------------- |
+| Answered  | 4388px           |
+| Cut short | 4102px           |
+| Refused   | 10022px          |
+
+The refusal is the outlier and the reason is in the data rather than in the
+layout. Its `consulted` list carries the twenty provisions the pipeline read
+before saying the text did not settle the question, quoted in full, which is
+67 320 characters of statute under one two-sentence refusal. The wireframe draws
+that list with two entries and never caps it, and a capture built from
+hand-written bodies carried two, so nothing before this showed what the section
+costs at real size.
+
+Whether to cap it, collapse it, or leave it is a layout decision, and this
+project settles those by rendering candidates and looking. No row owns that yet.
+What is recorded here is the measurement, so whoever opens the question starts
+from a number rather than an impression.
 
 ## The design these are measured against
 
@@ -64,8 +101,21 @@ CAPTURE_BASE_URL=http://localhost:4131 bun e2e/capture-states.ts
 ```
 
 It stubs the service at the network layer, which is the only way to reach a
-refusal, a cut-short answer or a named failure without a live model that happens
-to produce one.
+refusal, a cut-short answer or a named failure on demand. What it stubs with is
+read out of `src/fixtures/`, so the statute text in those three captures is text
+the pipeline returned rather than text anyone typed.
+
+The last two rows need the deployed build, which is a static export and answers
+from those same fixtures without a service to stub:
+
+```bash
+NEXT_PUBLIC_ANNEX_MODE=replay bun run build
+(cd out && python3 -m http.server 4132) &
+CAPTURE_REPLAY_BASE_URL=http://localhost:4132 bun e2e/capture-states.ts
+```
+
+Either run captures the cases its base URL can reach and prints the ones it
+skipped, so a half-refreshed folder says so rather than looking complete.
 
 It is a sibling of `e2e/screenshot.ts` rather than part of it. That script
 captures the routes a deployment serves and checks the console is clean, and it
