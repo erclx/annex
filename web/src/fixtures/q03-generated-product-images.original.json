@@ -1,0 +1,174 @@
+{
+  "question": "we generate product photographs with an image model and publish them in our online shop",
+  "version": "original",
+  "claims": [
+    {
+      "statement": "The system generates synthetic image content, placing it within the scope of the provider obligation to ensure outputs are marked in a machine-readable format and detectable as artificially generated or manipulated",
+      "citations": [
+        {
+          "provision_id": "art_50.2",
+          "citation": "Article 50(2)",
+          "kind": "paragraph",
+          "version": "original",
+          "text": "2. Providers of AI systems, including general-purpose AI systems, generating synthetic audio, image, video or text content, shall ensure that the outputs of the AI system are marked in a machine-readable format and detectable as artificially generated or manipulated. Providers shall ensure their technical solutions are effective, interoperable, robust and reliable as far as this is technically feasible, taking into account the specificities and limitations of various types of content, the costs of implementation and the generally acknowledged state of the art, as may be reflected in relevant technical standards. This obligation shall not apply to the extent the AI systems perform an assistive function for standard editing or do not substantially alter the input data provided by the deployer or the semantics thereof, or where authorised by law to detect, prevent, investigate or prosecute criminal offences.",
+          "changed": false,
+          "change_note": null
+        }
+      ]
+    },
+    {
+      "statement": "The described use must be read against the exception for AI systems performing an assistive function for standard editing or not substantially altering the input data provided by the deployer or the semantics thereof",
+      "citations": [
+        {
+          "provision_id": "art_50.2",
+          "citation": "Article 50(2)",
+          "kind": "paragraph",
+          "version": "original",
+          "text": "2. Providers of AI systems, including general-purpose AI systems, generating synthetic audio, image, video or text content, shall ensure that the outputs of the AI system are marked in a machine-readable format and detectable as artificially generated or manipulated. Providers shall ensure their technical solutions are effective, interoperable, robust and reliable as far as this is technically feasible, taking into account the specificities and limitations of various types of content, the costs of implementation and the generally acknowledged state of the art, as may be reflected in relevant technical standards. This obligation shall not apply to the extent the AI systems perform an assistive function for standard editing or do not substantially alter the input data provided by the deployer or the semantics thereof, or where authorised by law to detect, prevent, investigate or prosecute criminal offences.",
+          "changed": false,
+          "change_note": null
+        }
+      ]
+    },
+    {
+      "statement": "The deployer obligation to disclose that image content has been artificially generated or manipulated applies where the content constitutes a deep fake, i.e. content that appreciably resembles existing persons, objects, places, entities or events and would falsely appear to a person to be authentic or truthful",
+      "citations": [
+        {
+          "provision_id": "art_50.4",
+          "citation": "Article 50(4)",
+          "kind": "paragraph",
+          "version": "original",
+          "text": "4. Deployers of an AI system that generates or manipulates image, audio or video content constituting a deep fake, shall disclose that the content has been artificially generated or manipulated. This obligation shall not apply where the use is authorised by law to detect, prevent, investigate or prosecute criminal offence. Where the content forms part of an evidently artistic, creative, satirical, fictional or analogous work or programme, the transparency obligations set out in this paragraph are limited to disclosure of the existence of such generated or manipulated content in an appropriate manner that does not hamper the display or enjoyment of the work. Deployers of an AI system that generates or manipulates text which is published with the purpose of informing the public on matters of public interest shall disclose that the text has been artificially generated or manipulated. This obligation shall not apply where the use is authorised by law to detect, prevent, investigate or prosecute criminal offences or where the AI-generated content has undergone a process of human review or editorial control and where a natural or legal person holds editorial responsibility for the publication of the content.",
+          "changed": false,
+          "change_note": null
+        },
+        {
+          "provision_id": "rct_134",
+          "citation": "Recital 134",
+          "kind": "recital",
+          "version": "original",
+          "text": "(134) Further to the technical solutions employed by the providers of the AI system, deployers who use an AI system to generate or manipulate image, audio or video content that appreciably resembles existing persons, objects, places, entities or events and would falsely appear to a person to be authentic or truthful (deep fakes), should also clearly and distinguishably disclose that the content has been artificially created or manipulated by labelling the AI output accordingly and disclosing its artificial origin. Compliance with this transparency obligation should not be interpreted as indicating that the use of the AI system or its output impedes the right to freedom of expression and the right to freedom of the arts and sciences guaranteed in the Charter, in particular where the content is part of an evidently creative, satirical, artistic, fictional or analogous work or programme, subject to appropriate safeguards for the rights and freedoms of third parties. In those cases, the transparency obligation for deep fakes set out in this Regulation is limited to disclosure of the existence of such generated or manipulated content in an appropriate manner that does not hamper the display or enjoyment of the work, including its normal exploitation and use, while maintaining the utility and quality of the work. In addition, it is also appropriate to envisage a similar disclosure obligation in relation to AI-generated or manipulated text to the extent it is published with the purpose of informing the public on matters of public interest unless the AI-generated content has undergone a process of human review or editorial control and a natural or legal person holds editorial responsibility for the publication of the content.",
+          "changed": true,
+          "change_note": "Recital 134 appears in the original text and not in the consolidated text."
+        }
+      ]
+    },
+    {
+      "statement": "Any information required under Article 50(1) to (4) must be provided to the natural persons concerned in a clear and distinguishable manner at the latest at the time of the first interaction or exposure, and shall conform to applicable accessibility requirements",
+      "citations": [
+        {
+          "provision_id": "art_50.5",
+          "citation": "Article 50(5)",
+          "kind": "paragraph",
+          "version": "original",
+          "text": "5. The information referred to in paragraphs 1 to 4 shall be provided to the natural persons concerned in a clear and distinguishable manner at the latest at the time of the first interaction or exposure. The information shall conform to the applicable accessibility requirements.",
+          "changed": false,
+          "change_note": null
+        }
+      ]
+    },
+    {
+      "statement": "The system must be read against the obligation for AI systems intended to interact directly with natural persons to ensure those persons are informed they are interacting with an AI system, unless obvious to a reasonably well-informed person",
+      "citations": [
+        {
+          "provision_id": "art_50.1",
+          "citation": "Article 50(1)",
+          "kind": "paragraph",
+          "version": "original",
+          "text": "1. Providers shall ensure that AI systems intended to interact directly with natural persons are designed and developed in such a way that the natural persons concerned are informed that they are interacting with an AI system, unless this is obvious from the point of view of a natural person who is reasonably well-informed, observant and circumspect, taking into account the circumstances and the context of use. This obligation shall not apply to AI systems authorised by law to detect, prevent, investigate or prosecute criminal offences, subject to appropriate safeguards for the rights and freedoms of third parties, unless those systems are available for the public to report a criminal offence.",
+          "changed": false,
+          "change_note": null
+        }
+      ]
+    },
+    {
+      "statement": "The technical solutions for marking must be effective, interoperable, robust and reliable as far as technically feasible, taking into account the specificities and limitations of various types of content, the costs of implementation and the generally acknowledged state of the art",
+      "citations": [
+        {
+          "provision_id": "art_50.2",
+          "citation": "Article 50(2)",
+          "kind": "paragraph",
+          "version": "original",
+          "text": "2. Providers of AI systems, including general-purpose AI systems, generating synthetic audio, image, video or text content, shall ensure that the outputs of the AI system are marked in a machine-readable format and detectable as artificially generated or manipulated. Providers shall ensure their technical solutions are effective, interoperable, robust and reliable as far as this is technically feasible, taking into account the specificities and limitations of various types of content, the costs of implementation and the generally acknowledged state of the art, as may be reflected in relevant technical standards. This obligation shall not apply to the extent the AI systems perform an assistive function for standard editing or do not substantially alter the input data provided by the deployer or the semantics thereof, or where authorised by law to detect, prevent, investigate or prosecute criminal offences.",
+          "changed": false,
+          "change_note": null
+        },
+        {
+          "provision_id": "rct_133",
+          "citation": "Recital 133",
+          "kind": "recital",
+          "version": "original",
+          "text": "(133) A variety of AI systems can generate large quantities of synthetic content that becomes increasingly hard for humans to distinguish from human-generated and authentic content. The wide availability and increasing capabilities of those systems have a significant impact on the integrity and trust in the information ecosystem, raising new risks of misinformation and manipulation at scale, fraud, impersonation and consumer deception. In light of those impacts, the fast technological pace and the need for new methods and techniques to trace origin of information, it is appropriate to require providers of those systems to embed technical solutions that enable marking in a machine readable format and detection that the output has been generated or manipulated by an AI system and not a human. Such techniques and methods should be sufficiently reliable, interoperable, effective and robust as far as this is technically feasible, taking into account available techniques or a combination of such techniques, such as watermarks, metadata identifications, cryptographic methods for proving provenance and authenticity of content, logging methods, fingerprints or other techniques, as may be appropriate. When implementing this obligation, providers should also take into account the specificities and the limitations of the different types of content and the relevant technological and market developments in the field, as reflected in the generally acknowledged state of the art. Such techniques and methods can be implemented at the level of the AI system or at the level of the AI model, including general-purpose AI models generating content, thereby facilitating fulfilment of this obligation by the downstream provider of the AI system. To remain proportionate, it is appropriate to envisage that this marking obligation should not cover AI systems performing primarily an assistive function for standard editing or AI systems not substantially altering the input data provided by the deployer or the semantics thereof.",
+          "changed": true,
+          "change_note": "Recital 133 appears in the original text and not in the consolidated text."
+        }
+      ]
+    }
+  ],
+  "refusal": null,
+  "retrieval": {
+    "searched_ids": [
+      "art_50.2",
+      "art_50.4",
+      "rct_134",
+      "rct_133",
+      "art_50.1",
+      "rct_136",
+      "rct_137",
+      "art_13.1",
+      "art_50.6",
+      "rct_120",
+      "rct_135",
+      "art_50.5"
+    ],
+    "traversed_ids": [
+      "art_13",
+      "art_50",
+      "art_12",
+      "art_14",
+      "art_15",
+      "art_16",
+      "art_56",
+      "art_56.6",
+      "art_9",
+      "art_9.2",
+      "art_98",
+      "art_98.2",
+      "anx_III",
+      "art_14.5",
+      "art_17",
+      "art_18",
+      "art_19",
+      "art_20",
+      "art_26",
+      "art_26.5",
+      "art_43",
+      "art_47",
+      "art_48",
+      "art_49",
+      "art_49.1",
+      "art_53",
+      "art_53.1",
+      "art_55",
+      "art_60",
+      "art_72",
+      "art_79",
+      "art_79.1"
+    ],
+    "dropped_ids": [
+      "art_53",
+      "art_53.1",
+      "art_55",
+      "art_60",
+      "art_72",
+      "art_79",
+      "art_79.1"
+    ],
+    "traversal_enabled": true,
+    "truncated": false,
+    "prompt_tokens": 14650,
+    "completion_tokens": 4625,
+    "duration_ms": 42812,
+    "model": "annex-qwen3-27b"
+  }
+}

@@ -12,6 +12,12 @@ import tseslint from 'typescript-eslint'
 export default defineConfig([
   globalIgnores([
     '.next',
+    // Where `output: 'export'` writes the deployed build, and where the
+    // end-to-end run's replay export goes, kept off `.next` so it cannot
+    // interleave with the dev server started beside it. Minified output that no
+    // rule here describes, gitignored, and rebuilt on every run.
+    'out',
+    'out-replay',
     'next-env.d.ts',
     'dist',
     'dist-ssr',

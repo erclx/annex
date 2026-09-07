@@ -7,12 +7,28 @@
  * network layer, which is the only way to render a refusal or a cut-short
  * answer without a live model that happens to produce one.
  *
- * Run it against a production build, not a dev server, so the captures carry no
- * dev overlay:
+ * **The bodies it stubs are captured, not written.** They are read out of
+ * `src/fixtures/`, which `uv run python -m annex capture` fills from the real
+ * pipeline. An earlier version of this file carried hand-written statute text
+ * that no model produced, and those literals are what the sixteen tracked
+ * captures were built from. A surface evidence folder standing on invented
+ * quotes is worse than none, because a reviewer trusts it.
+ *
+ * Two builds are needed, because the replay states cannot be reached from a
+ * build that calls a service. Run the service-calling one first:
  *
  *   bun run build
  *   bunx next start --port 4131 &
  *   CAPTURE_BASE_URL=http://localhost:4131 bun e2e/capture-states.ts
+ *
+ * Then the deployed build, which is a static export and needs any file server:
+ *
+ *   NEXT_PUBLIC_ANNEX_MODE=replay bun run build
+ *   (cd out && python3 -m http.server 4132) &
+ *   CAPTURE_REPLAY_BASE_URL=http://localhost:4132 bun e2e/capture-states.ts
+ *
+ * Each run captures the cases its base URL can reach and says which it skipped,
+ * so neither half is silently absent from the folder.
  *
  * `.claude/rules/project/ui/900-surface-evidence.md` says when to run this and
  * what to do with what it writes.
@@ -20,10 +36,12 @@
 import { chromium, type Page } from '@playwright/test'
 import path from 'path'
 
-const BASE = process.env.CAPTURE_BASE_URL ?? 'http://localhost:4131'
-// Relative to the working directory, the way `screenshot.ts` resolves its own
-// output. Run this from `web/`.
-const OUT = 'ui-states'
+import answered from '../src/fixtures/q01-support-chatbot.consolidated.json'
+import refused from '../src/fixtures/q08-redesigned-interface.consolidated.json'
+import cutShort from '../src/fixtures/q09-wider-rollout.original.json'
+
+const BASE = process.env.CAPTURE_BASE_URL
+const REPLAY_BASE = process.env.CAPTURE_REPLAY_BASE_URL
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -32,107 +50,14 @@ const CORS = {
   'Content-Type': 'application/json',
 }
 
-const DESCRIPTION =
-  'A customer-service chatbot for a Swedish retail bank that also scores loan applications and passes a recommendation to a human underwriter.'
+// The description each stubbed case is typed with. It reaches no matcher, since
+// the service is stubbed by route rather than by body, and it is what the
+// captured surface shows under THE SYSTEM YOU DESCRIBED.
+const DESCRIPTION = answered.question
 
-const cite = (over: Record<string, unknown> = {}) => ({
-  provision_id: 'art_50.1',
-  citation: 'Article 50(1)',
-  kind: 'paragraph',
-  version: 'consolidated',
-  text: 'Providers shall ensure that AI systems intended to interact directly with natural persons are designed and developed in such a way that the natural persons concerned are informed.',
-  changed: false,
-  change_note: null,
-  ...over,
-})
-
-const trace = {
-  searched_ids: [
-    'art_6',
-    'art_6.2',
-    'art_43',
-    'art_50',
-    'art_50.1',
-    'anx_3.5.b',
-    'art_25',
-    'art_25.1',
-    'art_16',
-    'art_9',
-  ],
-  traversed_ids: [
-    'art_6.1',
-    'art_6.3',
-    'art_8',
-    'art_9',
-    'art_10',
-    'art_11',
-    'art_12',
-    'art_13',
-    'art_14',
-    'art_15',
-    'art_16',
-  ],
-  dropped_ids: ['art_19', 'art_20', 'art_21', 'art_22', 'anx_4'],
-  traversal_enabled: true,
-  truncated: false,
-  prompt_tokens: 18420,
-  completion_tokens: 612,
-  duration_ms: 21300,
-  model: 'qwen3.8:27b',
-}
-
-const ANSWERED = {
-  question: 'x',
-  version: 'consolidated',
-  claims: [
-    {
-      statement:
-        'A system used to evaluate the creditworthiness of natural persons is high-risk, and the human underwriter at the end does not remove that classification.',
-      citations: [
-        cite({
-          provision_id: 'anx_III.5.b',
-          citation: 'Annex III(5)(b)',
-          kind: 'annex',
-          text: 'AI systems intended to be used to evaluate the creditworthiness of natural persons or establish their credit score.',
-          changed: true,
-          change_note:
-            'Regulation (EU) 2026/1744 moved the date this bites. Read against the original text it was 2 August 2026.',
-        }),
-        cite({
-          provision_id: 'art_6.2',
-          citation: 'Article 6(2)',
-          text: 'In addition to the high-risk AI systems referred to in paragraph 1, AI systems referred to in Annex III shall be considered to be high-risk.',
-        }),
-      ],
-    },
-    {
-      statement:
-        'The chatbot half has to tell the person they are interacting with an AI system.',
-      citations: [cite()],
-    },
-  ],
-  refusal: null,
-  retrieval: trace,
-}
-
-const REFUSED = {
-  question: 'x',
-  version: 'consolidated',
-  claims: [],
-  refusal: {
-    reason:
-      'The Act makes substantial modification the trigger and never defines the threshold, so retraining on a quarterly cycle sits on neither side of it.',
-    missing: [
-      'what counts as a substantial modification',
-      'whether retraining on new data of the same kind changes the intended purpose',
-    ],
-    consulted: [
-      cite({ provision_id: 'art_25.1', citation: 'Article 25(1)' }),
-      cite({ provision_id: 'art_6', citation: 'Article 6', kind: 'article' }),
-    ],
-  },
-  retrieval: trace,
-}
+// The one description the recording cannot hold, for the state that says so.
+const UNRECORDED =
+  'a model that decides which crops to plant on our farm next season'
 
 interface Case {
   name: string
@@ -143,34 +68,37 @@ interface Case {
   blur?: boolean
   expand?: boolean
   reject?: boolean
+  describe?: string
+  replay?: boolean
 }
 
 const CASES: Case[] = [
   { name: '1-empty', skipAsk: true },
   { name: '2-invalid', skipAsk: true, blur: true },
   { name: '3-loading', hang: true },
-  { name: '4-answered', body: ANSWERED, expand: true },
-  {
-    name: '5-answered-cut-short',
-    body: { ...ANSWERED, retrieval: { ...trace, truncated: true } },
-  },
-  { name: '6-refused', body: REFUSED },
+  { name: '4-answered', body: answered, expand: true },
+  { name: '5-answered-cut-short', body: cutShort },
+  { name: '6-refused', body: refused },
   {
     name: '7-failure-unavailable',
     body: { state: 'unavailable', detail: 'x', correlationId: '8f2a-41d7' },
     status: 503,
   },
   { name: '8-failure-unreachable', reject: true },
+  { name: '9-replay-empty', skipAsk: true, replay: true },
+  { name: '10-unrecorded', describe: UNRECORDED, replay: true },
 ]
 
-async function drive(page: Page, captureCase: Case) {
-  await page.goto(BASE)
+async function drive(page: Page, captureCase: Case, base: string) {
+  await page.goto(base)
   if (captureCase.blur) {
     await page.getByLabel('Describe your system').click()
     await page.keyboard.press('Tab')
   }
   if (!captureCase.skipAsk) {
-    await page.getByLabel('Describe your system').fill(DESCRIPTION)
+    await page
+      .getByLabel('Describe your system')
+      .fill(captureCase.describe ?? DESCRIPTION)
     await page.getByRole('button', { name: 'Find the articles' }).click()
     await page.waitForTimeout(captureCase.hang ? 700 : 1200)
   }
@@ -180,34 +108,62 @@ async function drive(page: Page, captureCase: Case) {
   }
 }
 
+const wanted = CASES.filter((item) =>
+  item.replay ? REPLAY_BASE !== undefined : BASE !== undefined,
+)
+
+if (wanted.length === 0) {
+  console.error(
+    'Set CAPTURE_BASE_URL, CAPTURE_REPLAY_BASE_URL, or both. Neither is set, so there is nothing to drive.',
+  )
+  process.exit(1)
+}
+
+const skipped = CASES.filter((item) => !wanted.includes(item))
+if (skipped.length > 0) {
+  console.log(
+    `skipping ${skipped.map((item) => item.name).join(', ')}: no base URL for them`,
+  )
+}
+
 const browser = await chromium.launch()
 
 for (const theme of ['light', 'dark'] as const) {
-  for (const captureCase of CASES) {
+  for (const captureCase of wanted) {
+    const base = captureCase.replay ? REPLAY_BASE : BASE
+    // The filter above already dropped every case with no base URL. Narrowing
+    // again is what lets `drive` take a string rather than an assertion.
+    if (base === undefined) continue
+
     const context = await browser.newContext({
       viewport: { width: 1280, height: 900 },
       colorScheme: theme,
     })
     const page = await context.newPage()
 
-    if (captureCase.reject) await page.route('**/ask', (route) => route.abort())
-    else if (captureCase.hang) await page.route('**/ask', () => undefined)
-    else if (captureCase.body)
-      await page.route('**/ask', async (route) => {
-        if (route.request().method() === 'OPTIONS') {
-          await route.fulfill({ status: 204, headers: CORS })
-          return
-        }
-        await route.fulfill({
-          status: captureCase.status ?? 200,
-          headers: CORS,
-          body: JSON.stringify(captureCase.body),
+    // A replay build fetches nothing, so a route stub on it would answer no
+    // request and hide the fact that the page reads its own fixtures.
+    if (!captureCase.replay) {
+      if (captureCase.reject)
+        await page.route('**/ask', (route) => route.abort())
+      else if (captureCase.hang) await page.route('**/ask', () => undefined)
+      else if (captureCase.body)
+        await page.route('**/ask', async (route) => {
+          if (route.request().method() === 'OPTIONS') {
+            await route.fulfill({ status: 204, headers: CORS })
+            return
+          }
+          await route.fulfill({
+            status: captureCase.status ?? 200,
+            headers: CORS,
+            body: JSON.stringify(captureCase.body),
+          })
         })
-      })
+    }
 
-    await drive(page, captureCase)
+    await drive(page, captureCase, base)
 
-    const file = path.join(OUT, `${captureCase.name}-${theme}.png`)
+    const file = path.join('ui-states', `${captureCase.name}-${theme}.png`)
     await page.screenshot({ path: file, fullPage: true })
     console.log(`captured ui-states/${captureCase.name}-${theme}.png`)
     await context.close()

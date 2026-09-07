@@ -1,0 +1,170 @@
+{
+  "question": "software that ranks job applicants by reading their CVs and shortlists who we interview",
+  "version": "original",
+  "claims": [
+    {
+      "statement": "Under Article 6(2), AI systems referred to in Annex III shall be considered to be high-risk",
+      "citations": [
+        {
+          "provision_id": "art_6.2",
+          "citation": "Article 6(2)",
+          "kind": "paragraph",
+          "version": "original",
+          "text": "2. In addition to the high-risk AI systems referred to in paragraph 1, AI systems referred to in Annex III shall be considered to be high-risk.",
+          "changed": false,
+          "change_note": null
+        }
+      ]
+    },
+    {
+      "statement": "Article 6(3) provides that an Annex III system shall not be considered high-risk where it does not pose a significant risk of harm to health, safety or fundamental rights, including by not materially influencing the outcome of decision-making, and lists four conditions: narrow procedural task; improving the result of a previously completed human activity; detecting decision-making patterns or deviations; or performing a preparatory task",
+      "citations": [
+        {
+          "provision_id": "art_6.3",
+          "citation": "Article 6(3)",
+          "kind": "paragraph",
+          "version": "original",
+          "text": "3. By derogation from paragraph 2, an AI system referred to in Annex III shall not be considered to be high-risk where it does not pose a significant risk of harm to the health, safety or fundamental rights of natural persons, including by not materially influencing the outcome of decision making. The first subparagraph shall apply where any of the following conditions is fulfilled: (a) the AI system is intended to perform a narrow procedural task; (b) the AI system is intended to improve the result of a previously completed human activity; (c) the AI system is intended to detect decision-making patterns or deviations from prior decision-making patterns and is not meant to replace or influence the previously completed human assessment, without proper human review; or (d) the AI system is intended to perform a preparatory task to an assessment relevant for the purposes of the use cases listed in Annex III. Notwithstanding the first subparagraph, an AI system referred to in Annex III shall always be considered to be high-risk where the AI system performs profiling of natural persons.",
+          "changed": false,
+          "change_note": null
+        }
+      ]
+    },
+    {
+      "statement": "Article 6(3), last sentence, provides that an Annex III system shall always be considered high-risk where the AI system performs profiling of natural persons",
+      "citations": [
+        {
+          "provision_id": "art_6.3",
+          "citation": "Article 6(3)",
+          "kind": "paragraph",
+          "version": "original",
+          "text": "3. By derogation from paragraph 2, an AI system referred to in Annex III shall not be considered to be high-risk where it does not pose a significant risk of harm to the health, safety or fundamental rights of natural persons, including by not materially influencing the outcome of decision making. The first subparagraph shall apply where any of the following conditions is fulfilled: (a) the AI system is intended to perform a narrow procedural task; (b) the AI system is intended to improve the result of a previously completed human activity; (c) the AI system is intended to detect decision-making patterns or deviations from prior decision-making patterns and is not meant to replace or influence the previously completed human assessment, without proper human review; or (d) the AI system is intended to perform a preparatory task to an assessment relevant for the purposes of the use cases listed in Annex III. Notwithstanding the first subparagraph, an AI system referred to in Annex III shall always be considered to be high-risk where the AI system performs profiling of natural persons.",
+          "changed": false,
+          "change_note": null
+        }
+      ]
+    },
+    {
+      "statement": "Recital 57 states that AI systems used in employment, recruitment and selection should be classified as high-risk since they may have an appreciable impact on future career prospects, livelihoods and workers' rights, and may perpetuate historical patterns of discrimination",
+      "citations": [
+        {
+          "provision_id": "rct_57",
+          "citation": "Recital 57",
+          "kind": "recital",
+          "version": "original",
+          "text": "(57) AI systems used in employment, workers management and access to self-employment, in particular for the recruitment and selection of persons, for making decisions affecting terms of the work-related relationship, promotion and termination of work-related contractual relationships, for allocating tasks on the basis of individual behaviour, personal traits or characteristics and for monitoring or evaluation of persons in work-related contractual relationships, should also be classified as high-risk, since those systems may have an appreciable impact on future career prospects, livelihoods of those persons and workers’ rights. Relevant work-related contractual relationships should, in a meaningful manner, involve employees and persons providing services through platforms as referred to in the Commission Work Programme 2021. Throughout the recruitment process and in the evaluation, promotion, or retention of persons in work-related contractual relationships, such systems may perpetuate historical patterns of discrimination, for example against women, certain age groups, persons with disabilities, or persons of certain racial or ethnic origins or sexual orientation. AI systems used to monitor the performance and behaviour of such persons may also undermine their fundamental rights to data protection and privacy.",
+          "changed": true,
+          "change_note": "Recital 57 appears in the original text and not in the consolidated text."
+        }
+      ]
+    },
+    {
+      "statement": "Article 49(1) requires the provider to register themselves and their high-risk AI system listed in Annex III in the EU database before placing it on the market or putting it into service",
+      "citations": [
+        {
+          "provision_id": "art_49",
+          "citation": "Article 49",
+          "kind": "article",
+          "version": "original",
+          "text": "Article 49 Registration 1. Before placing on the market or putting into service a high-risk AI system listed in Annex III, with the exception of high-risk AI systems referred to in point 2 of Annex III, the provider or, where applicable, the authorised representative shall register themselves and their system in the EU database referred to in Article 71. 2. Before placing on the market or putting into service an AI system for which the provider has concluded that it is not high-risk according to Article 6(3), that provider or, where applicable, the authorised representative shall register themselves and that system in the EU database referred to in Article 71. 3. Before putting into service or using a high-risk AI system listed in Annex III, with the exception of high-risk AI systems listed in point 2 of Annex III, deployers that are public authorities, Union institutions, bodies, offices or agencies or persons acting on their behalf shall register themselves, select the system and register its use in the EU database referred to in Article 71. 4. For high-risk AI systems referred to in points 1, 6 and 7 of Annex III, in the areas of law enforcement, migration, asylum and border control management, the registration referred to in paragraphs 1, 2 and 3 of this Article shall be in a secure non-public section of the EU database referred to in Article 71 and shall include only the following information, as applicable, referred to in: (a) Section A, points 1 to 10, of Annex VIII, with the exception of points 6, 8 and 9; (b) Section B, points 1 to 5, and points 8 and 9 of Annex VIII; (c) Section C, points 1 to 3, of Annex VIII; (d) points 1, 2, 3 and 5, of Annex IX. Only the Commission and national authorities referred to in Article 74(8) shall have access to the respective restricted sections of the EU database listed in the first subparagraph of this paragraph. 5. High-risk AI systems referred to in point 2 of Annex III shall be registered at national level. CHAPTER IV TRANSPARENCY OBLIGATIONS FOR PROVIDERS AND DEPLOYERS OF CERTAIN AI SYSTEMS",
+          "changed": false,
+          "change_note": null
+        }
+      ]
+    }
+  ],
+  "refusal": null,
+  "retrieval": {
+    "searched_ids": [
+      "rct_57",
+      "anx_III",
+      "art_6.3",
+      "rct_58",
+      "rct_56",
+      "rct_61",
+      "rct_53",
+      "rct_132",
+      "rct_60",
+      "rct_54",
+      "rct_52",
+      "rct_63"
+    ],
+    "traversed_ids": [
+      "art_6",
+      "anx_I",
+      "art_3",
+      "art_4",
+      "art_49",
+      "art_49.2",
+      "art_6.2",
+      "art_7",
+      "art_7.1",
+      "art_96",
+      "art_97",
+      "anx_IX",
+      "anx_VIII",
+      "art_10",
+      "art_11",
+      "art_11.3",
+      "art_12",
+      "art_13",
+      "art_14",
+      "art_15",
+      "art_2",
+      "art_2.1",
+      "art_25",
+      "art_40",
+      "art_41",
+      "art_43",
+      "art_43.5",
+      "art_47",
+      "art_47.5",
+      "art_5",
+      "art_50",
+      "art_51",
+      "art_51.3",
+      "art_52",
+      "art_52.4",
+      "art_53",
+      "art_53.5",
+      "art_57",
+      "art_6.6",
+      "art_71"
+    ],
+    "dropped_ids": [
+      "art_10",
+      "art_11",
+      "art_11.3",
+      "art_12",
+      "art_13",
+      "art_14",
+      "art_15",
+      "art_2",
+      "art_2.1",
+      "art_25",
+      "art_40",
+      "art_41",
+      "art_43",
+      "art_43.5",
+      "art_47",
+      "art_47.5",
+      "art_5",
+      "art_50",
+      "art_51",
+      "art_51.3",
+      "art_52",
+      "art_52.4",
+      "art_53",
+      "art_53.5",
+      "art_57",
+      "art_6.6",
+      "art_71"
+    ],
+    "traversal_enabled": true,
+    "truncated": false,
+    "prompt_tokens": 15795,
+    "completion_tokens": 2624,
+    "duration_ms": 25692,
+    "model": "annex-qwen3-27b"
+  }
+}

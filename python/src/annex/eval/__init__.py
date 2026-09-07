@@ -14,6 +14,13 @@ scoring, and the runner.
 """
 
 from annex.eval.arms import Arm, Routed
+from annex.eval.capture import (
+    FIXTURES_PATH,
+    Asker,
+    Manifest,
+    capture,
+    fixture_filename,
+)
 from annex.eval.questions import (
     QUESTIONS,
     QUESTIONS_PATH,
@@ -44,21 +51,26 @@ from annex.eval.sensitivity import DEPTHS, DepthRow, depth_rows
 
 __all__ = [
     'DEPTHS',
+    'FIXTURES_PATH',
     'QUESTIONS',
     'QUESTIONS_PATH',
     'RESULTS_PATH',
     'RUNS_DIRECTORY_NAME',
     'AnswerScore',
     'Arm',
+    'Asker',
     'DepthRow',
     'Flow',
+    'Manifest',
     'Question',
     'Result',
     'RetrievalScore',
     'Routed',
     'answer_one',
     'by_id',
+    'capture',
     'depth_rows',
+    'fixture_filename',
     'read_results',
     'render',
     'run',

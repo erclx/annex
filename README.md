@@ -38,6 +38,14 @@ Refusal is still the weakest thing measured. Across eighteen chances to refuse a
 
 The web surface is built and calls the agent over HTTP. A description goes to a FastAPI endpoint, the answer object comes back, and the page renders the claims with each cited provision quoted under the claim it supports. A refusal renders as a result rather than an error, and a backend that is down, slow, or erroring lands as one of four named states rather than a stalled spinner. `.claude/wireframes/answer.md` carries the layout and every state it has to show, and `.claude/context/service.md` carries the seam between the two halves.
 
+## The deployed page is a recording
+
+[annex.erclx.dev](https://annex.erclx.dev) replays answers this system already gave. It is not asking a model, and it says so in a band on every screen.
+
+That is what a deployment can honestly be here. The generation model holds 30 GB of a card and nothing hosted answers these questions for free, so `uv run python -m annex capture` puts the twelve evaluation questions through the real pipeline on both texts, keeps the answers, and commits them. The page reads those. Type something the recording does not hold and it says so rather than answering with text a model produced for a different question.
+
+Both texts were captured, so the version toggle is live there and the amendment comparison works. The reference-traversal switch is not, because the capture ran with the walk on and both positions would return one answer. [docs/demo-script.md](docs/demo-script.md) is the walkthrough against the live local system, which is the only thing a recording cannot prove about itself.
+
 ## Setup
 
 Requires [bun](https://bun.sh), [uv](https://docs.astral.sh/uv/), and [Ollama](https://ollama.com) with `qwen3.8:27b` and `snowflake-arctic-embed2` pulled. Everything runs locally and nothing calls a paid API.
@@ -70,6 +78,7 @@ cd python && uv run python -m annex serve  # the answer endpoint on 4200
 cd web && bun run dev             # the answer surface
 bun run check                     # verify chain over both halves
 cd python && uv run pytest -m live  # the tests that need the model up
+cd python && uv run python -m annex capture  # record the answers the deployed page replays
 ```
 
 The surface calls the endpoint, so both have to be running to ask a question in a browser. A service that is down, slow, or erroring surfaces as a named state on the page rather than as a stalled spinner.

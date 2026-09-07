@@ -1,6 +1,6 @@
 ---
 title: Development
-description: Local dev workflow across the web and python halves, the scripts that verify them, and the git hooks
+description: Local dev workflow across the web and python halves, the scripts that verify them, the capture that records the deployed page, and the git hooks
 ---
 
 # Development
@@ -29,6 +29,7 @@ Each half verifies itself and the root chains both. Neither half's `package.json
 - **The two models are sized apart on purpose and cannot both be resident.** `annex-longctx` holds 29.8 to 30.4 GB of a 32.6 GB card, so Ollama unloads one to load the other and a run that alternates arms pays a model swap. The evaluation's own loop sweeps a whole arm before changing, which is why. Nothing else should generate on this card while the baseline arm runs, or layers spill to CPU and the wall-time column stops comparing
 - **Build the vector index: `cd python && uv run python -m annex embed`.** It needs Ollama up and writes the gitignored `python/data/index/`. A fresh clone or a new worktree has no index and `search` says so rather than failing on a missing table. It took 27.3 seconds over both versions under `snowflake-arctic-embed2` with the corpus cache warm and the model cold, rather than the few minutes this step once claimed, and the retrieval entry carries the conditions that figure holds under
 - Root dependencies: `bun install`
+- **Web dependencies: `cd web && bun install`.** The root install does not reach `web/`, which carries its own lockfile, so a fresh clone or a new worktree has no `web/node_modules` and every web command fails on a missing module until this has run once
 - Python dependencies: `cd python && uv sync`
 - **Playwright browsers: `cd web && bunx playwright install chromium`**. `bun install` does not fetch them, and the end-to-end run fails with an executable-not-found error until it has been done once.
 
@@ -53,14 +54,15 @@ The answer endpoint takes `4200`, above the 4100 to 4150 band that offset derive
 
 ## Scripts
 
-| Command                             | Purpose                                                                               |
-| ----------------------------------- | ------------------------------------------------------------------------------------- |
-| `bun run check`                     | The whole gate. Runs the shared verify chain, then the python half, then the web half |
-| `bun run check:python`              | `cd python && bun run check`: mypy, ruff, ruff format check, pytest                   |
-| `bun run check:web`                 | `cd web && bun run check`: prettier check, typecheck, eslint, vitest                  |
-| `bun run format`                    | Auto-fix prettier and shfmt formatting at the root                                    |
-| `cd web && bun run generate:answer` | Regenerate `web/src/lib/answer.ts` from `python/schema/answer.schema.json`            |
-| `cd web && bun run test:e2e`        | Playwright against the app, starting a server if one is not already up                |
+| Command                                       | Purpose                                                                                  |
+| --------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `bun run check`                               | The whole gate. Runs the shared verify chain, then the python half, then the web half    |
+| `bun run check:python`                        | `cd python && bun run check`: mypy, ruff, ruff format check, pytest                      |
+| `bun run check:web`                           | `cd web && bun run check`: prettier check, typecheck, eslint, vitest                     |
+| `bun run format`                              | Auto-fix prettier and shfmt formatting at the root                                       |
+| `cd web && bun run generate:answer`           | Regenerate `web/src/lib/answer.ts` from `python/schema/answer.schema.json`               |
+| `cd web && bun run test:e2e`                  | Playwright against the app, starting a server if one is not already up                   |
+| `cd python && uv run python -m annex capture` | Record the pipeline's answers into `web/src/fixtures/`, which the deployed build replays |
 
 `web/src/lib/answer.ts` is generated and committed. `web/scripts/verify.sh` hashes it, regenerates it, and fails when the two hashes differ, so a schema change nobody regenerated against stops the gate rather than drifting until a shape mismatch surfaces at runtime. Regenerate it after any change to the Pydantic models the schema is emitted from.
 
@@ -88,6 +90,22 @@ The generator resolves the schema's `$defs` references itself, in `web/scripts/g
 - **The baseline arm depends on Ollama's KV cache to stay affordable.** Every prompt in it is one version's corpus followed by the question, so the prefix repeats and only the first question of a version pays the full prefill. Measured on the consolidated text after `ollama stop annex-longctx`, which is the only reading here taken from a genuinely unloaded model: **70.1 s on the first call and 25.0 s across the next two**.
 - **A cold start is the only way to measure that prefill, and a killed run defeats it.** Ollama holds the prefix across processes, so a sweep started after an earlier attempt sent the same corpus reads its first call as cheap and reports a cache effect backwards. Stop the model with `ollama stop annex-longctx` before timing a first call, and write the probe somewhere else with `--results` so it does not overwrite the tracked run.
 
+## The capture
+
+`uv run python -m annex capture` answers the same twelve questions the evaluation scores, keeps the `Answer` objects rather than their scores, and writes them to `web/src/fixtures/` as the recording the deployed build replays. `--question`, `--version` and `--out` narrow it, the last so a trial run does not overwrite the committed set.
+
+- **It costs what an evaluation arm costs, not what a full run costs.** Twenty-four pipeline calls, one per question per version, at 21 to 28 seconds warm. Under ten minutes with the models loaded, against the tens of minutes `evaluate` takes over three arms.
+- **The setup is the expensive half.** Ollama up, both derived models built, and `annex embed` run, which is a further 27 seconds and needs the corpus cache. Nothing else may generate on the card while it runs.
+- **One question failing does not end the run.** The pair is left out and the manifest names what was captured, so a missing question is visible as an absent entry rather than as a fixture nobody can replay.
+- **A re-capture is the only repair for a stale fixture.** Any change to prompts, chunking, retrieval or the corpus invalidates the set, and only half of that is visible: the strict parse in `web/src/lib/replay.test.ts` fails on a schema change and nothing fails on a fixture that still parses and no longer matches. The manifest carries the commit and the date for that reason.
+- **Never hand-edit a captured answer.** A weak answer on a demo question is a defect belonging to the stage that produced it. Report it and keep what came back.
+
+`web/src/fixtures/index.ts` is generated by the same command and imports every fixture by name, because Next resolves a static import at build time and the glob import that would replace the list is an idiom its bundler does not offer.
+
+**Run `bun run format` after a capture.** The generator emits the repository's prettier style and cannot predict where prettier breaks a long line, so `check:format` fails on a re-capture nobody formatted. That is the same pairing `generate:answer` makes, which runs prettier over its own output inside the package script.
+
+`cspell.json` ignores the fixtures folder, the way it ignores `python/data/`, since the Act's own text carries spellings this project does not author.
+
 ## Python specifics
 
 - **`pytest.ini` sets `pythonpath = src .` rather than `src` alone.** Without the project root on the path, `uv run pytest` cannot import `tests.agent.conftest` and collection fails, while `python -m pytest` succeeds because it puts the working directory on `sys.path` itself. The two invocations disagreeing is what lets the narrower setting pass in a shell and fail in the verify chain.
@@ -100,6 +118,9 @@ The generator resolves the schema's `$defs` references itself, in `web/scripts/g
 - **`agentRules` is off in `next.config.ts`.** Next 16 writes `AGENTS.md` and `CLAUDE.md` into `web/` on every run. The root `CLAUDE.md` governs this repository, and a second one under `web/` is loaded alongside it and competes with it.
 - The eslint config comes from canon's `web` tooling stack, which targets Vite. Three things were added by hand for Next: `.next` and `next-env.d.ts` in the ignore list, and a scoped override under `src/app/**` turning off `react-refresh/only-export-components`, which forbids the metadata export the App Router requires.
 - Vitest excludes `e2e/` so it stops collecting Playwright specs, which use fixtures it cannot provide.
+- **Next 16 refuses a second `next dev` out of one project directory whatever port it is given.** It answers `Another next dev server is already running` and names the first server's PID. The end-to-end run needs two builds of the web half, since the replay flag is read at module scope, so `playwright.config.ts` serves the replay one as a static export behind `python3 -m http.server` rather than as a second dev server. That costs a production build at the head of the run and buys a test against the artifact the deploy uploads rather than against a development stand-in.
+- **The two servers must not share a build directory.** Both write `.next` by default and the dev server holds it, so `ANNEX_DIST_DIR` sends the replay build to `out-replay` instead. Under `output: 'export'` the exported site lands in that directory rather than in `out`, which is why the value reads as an output folder. A build setting neither variable writes `.next` and exports to `out`, which is what the deploy workflow and `capture-states.ts` both do.
+- **`out/` is gitignored and was not in eslint's ignore list.** `output: 'export'` writes minified bundles there, which `eslint . --max-warnings 0` then read as source and failed on. The entry is in `eslint.config.mjs` beside `.next`.
 
 ## Spelling
 
