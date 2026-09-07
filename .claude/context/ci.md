@@ -47,6 +47,8 @@ Defined in `.github/workflows/deploy.yml`, on a push to `main` and on a manual d
 | 📦 Static Export | `bun run build` under the replay flag, uploading `web/out` as an artifact        |
 | 🚀 Deploy        | `cloudflare/wrangler-action`, uploading that artifact rather than building again |
 
+**The deploy job builds nothing and still installs a toolchain.** Its checkout brings `bun.lock`, `wrangler-action` reads that lockfile, picks bun on the strength of it, and installs wrangler with bun, so the job fails before reaching Cloudflare when bun is not on the runner. Node and bun are set up ahead of the upload for that reason alone. The portfolio repository this pattern came from dropped those two steps as dead weight and broke its deploy on every push until they were restored.
+
 **The deploy builds its own artifact, which the pattern it copies does not.** `/home/erclx/repos/private/career/public/erclx.dev` gates its deploy on a `build-verify` job and downloads what that job produced. `verify.yml` here carries no build job and does not run on a push to `main`, so a deploy reusing its artifact would have nothing to download. The gate is kept by repeating the web checks in this file instead. Folding the two workflows together is the alternative and it is a change to the merge gate, which this row did not own.
 
 The flag decides both halves of what ships: `web/src/lib/ask.ts` answers from the committed fixtures rather than the service, and `next.config.ts` turns the build into a static export. A build without it deploys a page calling a localhost service nobody is running.

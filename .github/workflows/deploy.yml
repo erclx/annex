@@ -89,6 +89,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # This job builds nothing and still needs a toolchain. The checkout above
+      # brings `bun.lock`, `wrangler-action` reads it, picks bun on the strength
+      # of it, and installs wrangler with that, so a deploy with no bun on PATH
+      # fails before it reaches Cloudflare. Dropping these as dead weight is what
+      # broke the deploy on every push in the repository this pattern came from.
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
       - name: Download the export
         uses: actions/download-artifact@v4
         with:
