@@ -1,0 +1,191 @@
+{
+  "question": "a tool that monitors warehouse staff productivity and recommends who to promote",
+  "version": "consolidated",
+  "claims": [
+    {
+      "statement": "The system's functions of monitoring and evaluating the performance of warehouse staff and recommending promotions correspond to Annex III point 4(b), covering AI systems intended to monitor and evaluate the performance and behaviour of persons in work-related relationships and to make decisions affecting the promotion of work-related contractual relationships",
+      "citations": [
+        {
+          "provision_id": "anx_III",
+          "citation": "Annex III",
+          "kind": "annex",
+          "version": "consolidated",
+          "text": "ANNEX III High-risk AI systems referred to in Article 6(2) High-risk AI systems pursuant to Article 6(2) are the AI systems listed in any of the following areas: 1. Biometrics, in so far as their use is permitted under relevant Union or national law: (a) remote biometric identification systems. This shall not include AI systems intended to be used for biometric verification the sole purpose of which is to confirm that a specific natural person is the person he or she claims to be; (b) AI systems intended to be used for biometric categorisation, according to sensitive or protected attributes or characteristics based on the inference of those attributes or characteristics; (c) AI systems intended to be used for emotion recognition. 2. Critical infrastructure: AI systems intended to be used as safety components in the management and operation of critical digital infrastructure, road traffic, or in the supply of water, gas, heating or electricity. 3. Education and vocational training: (a) AI systems intended to be used to determine access or admission or to assign natural persons to educational and vocational training institutions at all levels; (b) AI systems intended to be used to evaluate learning outcomes, including when those outcomes are used to steer the learning process of natural persons in educational and vocational training institutions at all levels; (c) AI systems intended to be used for the purpose of assessing the appropriate level of education that an individual will receive or will be able to access, in the context of or within educational and vocational training institutions at all levels; (d) AI systems intended to be used for monitoring and detecting prohibited behaviour of students during tests in the context of or within educational and vocational training institutions at all levels. 4. Employment, workers’ management and access to self-employment: (a) AI systems intended to be used for the recruitment or selection of natural persons, in particular to place targeted job advertisements, to analyse and filter job applications, and to evaluate candidates; (b) AI systems intended to be used to make decisions affecting terms of work-related relationships, the promotion or termination of work-related contractual relationships, to allocate tasks based on individual behaviour or personal traits or characteristics or to monitor and evaluate the performance and behaviour of persons in such relationships. 5. Access to and enjoyment of essential private services and essential public services and benefits: (a) AI systems intended to be used by public authorities or on behalf of public authorities to evaluate the eligibility of natural persons for essential public assistance benefits and services, including healthcare services, as well as to grant, reduce, revoke, or reclaim such benefits and services; (b) AI systems intended to be used to evaluate the creditworthiness of natural persons or establish their credit score, with the exception of AI systems used for the purpose of detecting financial fraud; (c) AI systems intended to be used for risk assessment and pricing in relation to natural persons in the case of life and health insurance; (d) AI systems intended to evaluate and classify emergency calls by natural persons or to be used to dispatch, or to establish priority in the dispatching of, emergency first response services, including by police, firefighters and medical aid, as well as of emergency healthcare patient triage systems. 6. Law enforcement, in so far as their use is permitted under relevant Union or national law: (a) AI systems intended to be used by or on behalf of law enforcement authorities, or by Union institutions, bodies, offices or agencies in support of law enforcement authorities or on their behalf to assess the risk of a natural person becoming the victim of criminal offences; (b) AI systems intended to be used by or on behalf of law enforcement authorities or by Union institutions, bodies, offices or agencies in support of law enforcement authorities as polygraphs or similar tools; (c) AI systems intended to be used by or on behalf of law enforcement authorities, or by Union institutions, bodies, offices or agencies, in support of law enforcement authorities to evaluate the reliability of evidence in the course of the investigation or prosecution of criminal offences; (d) AI systems intended to be used by law enforcement authorities or on their behalf or by Union institutions, bodies, offices or agencies in support of law enforcement authorities for assessing the risk of a natural person offending or re-offending not solely on the basis of the profiling of natural persons as referred to in Article 3(4) of Directive (EU) 2016/680, or to assess personality traits and characteristics or past criminal behaviour of natural persons or groups; (e) AI systems intended to be used by or on behalf of law enforcement authorities or by Union institutions, bodies, offices or agencies in support of law enforcement authorities for the profiling of natural persons as referred to in Article 3(4) of Directive (EU) 2016/680 in the course of the detection, investigation or prosecution of criminal offences. 7. Migration, asylum and border control management, in so far as their use is permitted under relevant Union or national law: (a) AI systems intended to be used by or on behalf of competent public authorities or by Union institutions, bodies, offices or agencies as polygraphs or similar tools; (b) AI systems intended to be used by or on behalf of competent public authorities or by Union institutions, bodies, offices or agencies to assess a risk, including a security risk, a risk of irregular migration, or a health risk, posed by a natural person who intends to enter or who has entered into the territory of a Member State; (c) AI systems intended to be used by or on behalf of competent public authorities or by Union institutions, bodies, offices or agencies to assist competent public authorities for the examination of applications for asylum, visa or residence permits and for associated complaints with regard to the eligibility of the natural persons applying for a status, including related assessments of the reliability of evidence; (d) AI systems intended to be used by or on behalf of competent public authorities, or by Union institutions, bodies, offices or agencies, in the context of migration, asylum or border control management, for the purpose of detecting, recognising or identifying natural persons, with the exception of the verification of travel documents. 8. Administration of justice and democratic processes: (a) AI systems intended to be used by a judicial authority or on their behalf to assist a judicial authority in researching and interpreting facts and the law and in applying the law to a concrete set of facts, or to be used in a similar way in alternative dispute resolution; (b) AI systems intended to be used for influencing the outcome of an election or referendum or the voting behaviour of natural persons in the exercise of their vote in elections or referenda. This does not include AI systems to the output of which natural persons are not directly exposed, such as tools used to organise, optimise or structure political campaigns from an administrative or logistical point of view.",
+          "changed": false,
+          "change_note": null
+        }
+      ]
+    },
+    {
+      "statement": "Under Article 6(2), AI systems referred to in Annex III are considered to be high-risk",
+      "citations": [
+        {
+          "provision_id": "art_6",
+          "citation": "Article 6",
+          "kind": "article",
+          "version": "consolidated",
+          "text": "Article 6 Classification rules for high-risk AI systems 1. Irrespective of whether an AI system is placed on the market or put into service independently of the products referred to in points (a) and (b), that AI system shall be considered to be high-risk where both of the following conditions are fulfilled: (a) the AI system is intended to be used as a safety component of a product, or the AI system is itself a product, covered by the Union harmonisation legislation listed in Annex I; (b) the product whose safety component pursuant to point (a) is the AI system, or the AI system itself as a product, is required to undergo a third-party conformity assessment, with a view to the placing on the market or the putting into service of that product pursuant to the Union harmonisation legislation listed in Annex I. ▼M1 1a. For the purposes of this Regulation, including paragraph 1 of this Article, AI systems that are solely used for non-safety related aspects of user assistance, performance optimisation, service efficiency, automation or convenience or quality control shall not qualify as safety components. 1b. Notwithstanding paragraph 1a, AI systems the failure or malfunctioning of which would endanger health and safety shall qualify as safety components. 1c. A product that is required to undergo a third-party conformity assessment solely due to risks other than risks to health and safety, in particular risks relating to the distribution of radio spectrum or electromagnetic interference that do not affect health and safety, shall not be considered as fulfilling the condition in paragraph 1, point (b). ▼B 2. In addition to the high-risk AI systems referred to in paragraph 1, AI systems referred to in Annex III shall be considered to be high-risk. 3. By derogation from paragraph 2, an AI system referred to in Annex III shall not be considered to be high-risk where it does not pose a significant risk of harm to the health, safety or fundamental rights of natural persons, including by not materially influencing the outcome of decision making. The first subparagraph shall apply where any of the following conditions is fulfilled: (a) the AI system is intended to perform a narrow procedural task; (b) the AI system is intended to improve the result of a previously completed human activity; (c) the AI system is intended to detect decision-making patterns or deviations from prior decision-making patterns and is not meant to replace or influence the previously completed human assessment, without proper human review; or (d) the AI system is intended to perform a preparatory task to an assessment relevant for the purposes of the use cases listed in Annex III. Notwithstanding the first subparagraph, an AI system referred to in Annex III shall always be considered to be high-risk where the AI system performs profiling of natural persons. 4. A provider who considers that an AI system referred to in Annex III is not high-risk shall document its assessment before that system is placed on the market or put into service. Such provider shall be subject to the registration obligation set out in Article 49(2). Upon request of national competent authorities, the provider shall provide the documentation of the assessment. 5. The Commission shall, after consulting the European Artificial Intelligence Board (the ‘Board’), and no later than 2 February 2026, provide guidelines specifying the practical implementation of this Article in line with Article 96 together with a comprehensive list of practical examples of use cases of AI systems that are high-risk and not high-risk. 6. The Commission is empowered to adopt delegated acts in accordance with Article 97 in order to amend paragraph 3, second subparagraph, of this Article by adding new conditions to those laid down therein, or by modifying them, where there is concrete and reliable evidence of the existence of AI systems that fall under the scope of Annex III, but do not pose a significant risk of harm to the health, safety or fundamental rights of natural persons. 7. The Commission shall adopt delegated acts in accordance with Article 97 in order to amend paragraph 3, second subparagraph, of this Article by deleting any of the conditions laid down therein, where there is concrete and reliable evidence that this is necessary to maintain the level of protection of health, safety and fundamental rights provided for by this Regulation. 8. Any amendment to the conditions laid down in paragraph 3, second subparagraph, adopted in accordance with paragraphs 6 and 7 of this Article shall not decrease the overall level of protection of health, safety and fundamental rights provided for by this Regulation and shall ensure consistency with the delegated acts adopted pursuant to Article 7(1), and take account of market and technological developments.",
+          "changed": true,
+          "change_note": "The wording of Article 6 differs between the original and the consolidated text."
+        }
+      ]
+    },
+    {
+      "statement": "Article 6(3) provides a derogation whereby an Annex III system is not high-risk if, among other conditions, it is intended to perform a preparatory task to an assessment, but the system is always high-risk where it performs profiling of natural persons",
+      "citations": [
+        {
+          "provision_id": "art_6.3",
+          "citation": "Article 6(3)",
+          "kind": "paragraph",
+          "version": "consolidated",
+          "text": "3. By derogation from paragraph 2, an AI system referred to in Annex III shall not be considered to be high-risk where it does not pose a significant risk of harm to the health, safety or fundamental rights of natural persons, including by not materially influencing the outcome of decision making. The first subparagraph shall apply where any of the following conditions is fulfilled: (a) the AI system is intended to perform a narrow procedural task; (b) the AI system is intended to improve the result of a previously completed human activity; (c) the AI system is intended to detect decision-making patterns or deviations from prior decision-making patterns and is not meant to replace or influence the previously completed human assessment, without proper human review; or (d) the AI system is intended to perform a preparatory task to an assessment relevant for the purposes of the use cases listed in Annex III. Notwithstanding the first subparagraph, an AI system referred to in Annex III shall always be considered to be high-risk where the AI system performs profiling of natural persons.",
+          "changed": false,
+          "change_note": null
+        }
+      ]
+    },
+    {
+      "statement": "Before putting into service a high-risk AI system at the workplace, a deployer who is an employer shall inform workers' representatives and the affected workers that they will be subject to the use of the system",
+      "citations": [
+        {
+          "provision_id": "art_26.7",
+          "citation": "Article 26(7)",
+          "kind": "paragraph",
+          "version": "consolidated",
+          "text": "7. Before putting into service or using a high-risk AI system at the workplace, deployers who are employers shall inform workers’ representatives and the affected workers that they will be subject to the use of the high-risk AI system. This information shall be provided, where applicable, in accordance with the rules and procedures laid down in Union and national law and practice on information of workers and their representatives.",
+          "changed": false,
+          "change_note": null
+        }
+      ]
+    },
+    {
+      "statement": "A deployer of a high-risk AI system referred to in Annex III that assists in making decisions related to natural persons shall inform those natural persons that they are subject to the use of the system",
+      "citations": [
+        {
+          "provision_id": "art_26.11",
+          "citation": "Article 26(11)",
+          "kind": "paragraph",
+          "version": "consolidated",
+          "text": "11. Without prejudice to Article 50 of this Regulation, deployers of high-risk AI systems referred to in Annex III that make decisions or assist in making decisions related to natural persons shall inform the natural persons that they are subject to the use of the high-risk AI system. For high-risk AI systems used for law enforcement purposes Article 13 of Directive (EU) 2016/680 shall apply.",
+          "changed": false,
+          "change_note": null
+        }
+      ]
+    },
+    {
+      "statement": "The high-risk AI system shall be designed and developed, including with appropriate human-machine interface tools, so that it can be effectively overseen by natural persons during the period in which it is in use",
+      "citations": [
+        {
+          "provision_id": "art_14.1",
+          "citation": "Article 14(1)",
+          "kind": "paragraph",
+          "version": "consolidated",
+          "text": "1. High-risk AI systems shall be designed and developed in such a way, including with appropriate human-machine interface tools, that they can be effectively overseen by natural persons during the period in which they are in use.",
+          "changed": false,
+          "change_note": null
+        }
+      ]
+    }
+  ],
+  "refusal": null,
+  "retrieval": {
+    "searched_ids": [
+      "anx_III",
+      "art_6.3",
+      "art_5.1",
+      "art_14.4",
+      "art_14.1",
+      "art_27.1",
+      "art_3",
+      "art_14.5",
+      "art_7.2",
+      "art_26.7",
+      "art_26.11"
+    ],
+    "traversed_ids": [
+      "art_14",
+      "art_26",
+      "art_27",
+      "art_5",
+      "art_6",
+      "art_7",
+      "anx_I",
+      "anx_II",
+      "art_13",
+      "art_2",
+      "art_2.1",
+      "art_4",
+      "art_46",
+      "art_46.1",
+      "art_49",
+      "art_49.2",
+      "art_50",
+      "art_57",
+      "art_6.2",
+      "art_7.1",
+      "art_71",
+      "art_72",
+      "art_73",
+      "art_79",
+      "art_79.1",
+      "art_96",
+      "art_97",
+      "anx_IV",
+      "anx_IX",
+      "anx_VIII",
+      "art_10",
+      "art_102",
+      "art_103",
+      "art_104",
+      "art_105",
+      "art_106",
+      "art_107",
+      "art_108",
+      "art_109",
+      "art_11"
+    ],
+    "dropped_ids": [
+      "art_7",
+      "anx_I",
+      "anx_II",
+      "art_13",
+      "art_2",
+      "art_2.1",
+      "art_4",
+      "art_46",
+      "art_46.1",
+      "art_49",
+      "art_49.2",
+      "art_50",
+      "art_57",
+      "art_6.2",
+      "art_7.1",
+      "art_71",
+      "art_72",
+      "art_73",
+      "art_79",
+      "art_79.1",
+      "art_96",
+      "art_97",
+      "anx_IV",
+      "anx_IX",
+      "anx_VIII",
+      "art_10",
+      "art_102",
+      "art_103",
+      "art_104",
+      "art_105",
+      "art_106",
+      "art_107",
+      "art_108",
+      "art_109",
+      "art_11"
+    ],
+    "traversal_enabled": true,
+    "truncated": false,
+    "prompt_tokens": 14516,
+    "completion_tokens": 3425,
+    "duration_ms": 31238,
+    "model": "annex-qwen3-27b"
+  }
+}

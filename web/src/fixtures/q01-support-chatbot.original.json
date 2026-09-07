@@ -1,0 +1,110 @@
+{
+  "question": "a chatbot on our website that answers customer questions about our products",
+  "version": "original",
+  "claims": [
+    {
+      "statement": "Recital 132 confirms that natural persons should be notified they are interacting with an AI system unless this is obvious to a reasonably well-informed, observant and circumspect person, and that the characteristics of vulnerable groups due to age or disability should be taken into account",
+      "citations": [
+        {
+          "provision_id": "rct_132",
+          "citation": "Recital 132",
+          "kind": "recital",
+          "version": "original",
+          "text": "(132) Certain AI systems intended to interact with natural persons or to generate content may pose specific risks of impersonation or deception irrespective of whether they qualify as high-risk or not. In certain circumstances, the use of these systems should therefore be subject to specific transparency obligations without prejudice to the requirements and obligations for high-risk AI systems and subject to targeted exceptions to take into account the special need of law enforcement. In particular, natural persons should be notified that they are interacting with an AI system, unless this is obvious from the point of view of a natural person who is reasonably well-informed, observant and circumspect taking into account the circumstances and the context of use. When implementing that obligation, the characteristics of natural persons belonging to vulnerable groups due to their age or disability should be taken into account to the extent the AI system is intended to interact with those groups as well. Moreover, natural persons should be notified when they are exposed to AI systems that, by processing their biometric data, can identify or infer the emotions or intentions of those persons or assign them to specific categories. Such specific categories can relate to aspects such as sex, age, hair colour, eye colour, tattoos, personal traits, ethnic origin, personal preferences and interests. Such information and notifications should be provided in accessible formats for persons with disabilities.",
+          "changed": true,
+          "change_note": "Recital 132 appears in the original text and not in the consolidated text."
+        }
+      ]
+    },
+    {
+      "statement": "The information required under Article 50(1) must be provided to the natural persons concerned in a clear and distinguishable manner at the latest at the time of the first interaction",
+      "citations": [
+        {
+          "provision_id": "art_50.5",
+          "citation": "Article 50(5)",
+          "kind": "paragraph",
+          "version": "original",
+          "text": "5. The information referred to in paragraphs 1 to 4 shall be provided to the natural persons concerned in a clear and distinguishable manner at the latest at the time of the first interaction or exposure. The information shall conform to the applicable accessibility requirements.",
+          "changed": false,
+          "change_note": null
+        }
+      ]
+    },
+    {
+      "statement": "The transparency obligations in Article 50(1) to (4) do not affect the requirements and obligations set out in Chapter III and are without prejudice to other transparency obligations laid down in Union or national law",
+      "citations": [
+        {
+          "provision_id": "art_50.6",
+          "citation": "Article 50(6)",
+          "kind": "paragraph",
+          "version": "original",
+          "text": "6. Paragraphs 1 to 4 shall not affect the requirements and obligations set out in Chapter III, and shall be without prejudice to other transparency obligations laid down in Union or national law for deployers of AI systems.",
+          "changed": true,
+          "change_note": "The wording of Article 50(6) differs between the original and the consolidated text."
+        }
+      ]
+    },
+    {
+      "statement": "Compliance with the transparency obligations for the AI systems covered by this Regulation should not be interpreted as indicating that the use of the AI system or its output is lawful under this Regulation or other Union and Member State law",
+      "citations": [
+        {
+          "provision_id": "rct_137",
+          "citation": "Recital 137",
+          "kind": "recital",
+          "version": "original",
+          "text": "(137) Compliance with the transparency obligations for the AI systems covered by this Regulation should not be interpreted as indicating that the use of the AI system or its output is lawful under this Regulation or other Union and Member State law and should be without prejudice to other transparency obligations for deployers of AI systems laid down in Union or national law.",
+          "changed": true,
+          "change_note": "Recital 137 appears in the original text and not in the consolidated text."
+        }
+      ]
+    }
+  ],
+  "refusal": null,
+  "retrieval": {
+    "searched_ids": [
+      "art_50.1",
+      "rct_132",
+      "art_50.5",
+      "rct_72",
+      "art_50.3",
+      "art_50.2",
+      "art_13.1",
+      "rct_137",
+      "art_50.4",
+      "art_50.6",
+      "art_13.2",
+      "rct_13"
+    ],
+    "traversed_ids": [
+      "art_13",
+      "art_50",
+      "art_12",
+      "art_14",
+      "art_15",
+      "art_56",
+      "art_56.6",
+      "art_9",
+      "art_9.2",
+      "art_98",
+      "art_98.2",
+      "anx_III",
+      "art_14.5",
+      "art_26",
+      "art_26.5",
+      "art_53",
+      "art_53.1",
+      "art_55",
+      "art_60",
+      "art_72",
+      "art_79",
+      "art_79.1"
+    ],
+    "dropped_ids": ["art_79", "art_79.1"],
+    "traversal_enabled": true,
+    "truncated": false,
+    "prompt_tokens": 13744,
+    "completion_tokens": 3201,
+    "duration_ms": 29479,
+    "model": "annex-qwen3-27b"
+  }
+}
