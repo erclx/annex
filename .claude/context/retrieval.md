@@ -219,10 +219,11 @@ the consolidated text never splits at all.
 What put the footnotes inside the article is `annex.corpus.parse_oj` rather
 than the chunk rule, so filtering them out from inside retrieval would treat a
 symptom of an ingest defect, which is the move this entry already declines over
-Chapter membership edges. The fix is filed as its own row,
-`v01.2-footnotes-parsed-into-article-113`, and the embedder swap deliberately
-left it alone: changing a corpus unit in the same commit as the model would
-have left the re-run measuring two changes and able to separate neither.
+Chapter membership edges. The embedder swap therefore deferred the fix rather
+than taking it, because changing a corpus unit in the same commit as the model
+would have left the re-run measuring two changes and able to separate neither.
+Deferring it needs a row that owns it, `v01.2-footnotes-parsed-into-article-113`,
+and the defect is recorded here so it survives whatever happens to that row.
 
 ### The walk splits that result by model, and search recall hides it
 
