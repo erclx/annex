@@ -12,6 +12,10 @@ import { recordedQuestions } from '@/lib/replay'
  * own structure: three questions a flow, and the fourth column of the
  * evaluation is what the walkthrough reads instead of a screen.
  *
+ * The groups come from the recording and the labels below only name them, so a
+ * flow this file has no label for falls back to its own key rather than
+ * dropping every question under it.
+ *
  * Copy is owned by `.claude/wireframes/answer.md`.
  */
 const FLOW_LABELS: Record<string, string> = {
@@ -26,9 +30,12 @@ export function RecordedPicks({
 }: {
   onPick: (description: string) => void
 }) {
-  const flows = Object.keys(FLOW_LABELS).filter((flow) =>
-    recordedQuestions.some((question) => question.flow === flow),
-  )
+  // Grouped from the recording rather than from the map above, so a question
+  // whose flow this file has no label for is still offered. Reading the map
+  // first dropped it silently instead, and the gold set is a file another row
+  // adds to, which would have left a captured question committed and
+  // unreachable with nothing reporting it.
+  const flows = [...new Set(recordedQuestions.map((question) => question.flow))]
 
   return (
     <section className="mx-auto w-full max-w-4xl px-6 pb-16">
@@ -45,7 +52,7 @@ export function RecordedPicks({
         {flows.map((flow) => (
           <div key={flow} className="flex flex-col gap-[6px]">
             <span className="font-mono text-[9.5px] tracking-[0.06em] text-muted uppercase">
-              {FLOW_LABELS[flow]}
+              {FLOW_LABELS[flow] ?? flow}
             </span>
             {recordedQuestions
               .filter((question) => question.flow === flow)

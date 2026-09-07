@@ -262,6 +262,10 @@ Copy, verbatim:
 
 The consulted provisions are not decoration. They carry what was retrieved and found not to answer, which is the difference between a refusal and a shrug, so a refusal that renders without them has lost its argument.
 
+**The sketch above draws two and the shipped capture renders twenty.** The refusal this project actually produces consults the whole retrieved set, quoted in full, which is 67 320 characters under a two-sentence refusal and takes the surface to 10022px at 1280px. Measured on `q08-redesigned-interface` against the consolidated text, captured at `f829423` on 2026-09-07 and committed as `web/ui-states/6-refused-light.png`.
+
+Nothing here caps that list, and the argument for capping it is already made on this surface one section below. The trace disclosure holds each id list to roughly eight followed by a count of the rest, on the ground that an uncapped list swamps the answer it describes, and a refusal's argument is that the provisions were read and did not settle the question, which a count carries as well as twenty full quotations do. Capping it is a change to this file and to `RefusalView`, and it belongs to a row nobody has opened.
+
 ## Unrecorded
 
 Reached only on the deployed build, when a visitor types a description the recording does not hold. It renders in the failure region, where an answer would have been, and takes the neutral treatment rather than the error one.
@@ -286,7 +290,9 @@ The alternative was matching an unrecorded description to the nearest fixture. T
 
 ## The failure region
 
-One region, four copy variants. Only ever one at a time. Each variant names a different next action, which is why four rather than one, and a timeout is its own variant rather than a shade of error because it is the failure where the work started and waiting longer would not have helped.
+One region, five copy variants. Only ever one at a time. Each variant names a different next action, which is why five rather than one: start the model, narrow the description, quote the id, start the service, and pick a recorded question. A timeout is its own variant rather than a shade of error because it is the failure where the work started and waiting longer would not have helped.
+
+Four of the five are something going wrong. The fifth is `Unrecorded` above, which renders here because it sits where an answer would have been, and takes the neutral treatment rather than the error one because it is the deployed build working as built.
 
 ```plaintext
 │  ┌────────────────────────────────────────────────────────────────┐  │
@@ -297,14 +303,15 @@ One region, four copy variants. Only ever one at a time. Each variant names a di
 │  └────────────────────────────────────────────────────────────────┘  │
 ```
 
-The four, verbatim:
+The five, verbatim:
 
 - `The model or the index is not running.` / `The service is up and could not reach what it needs. Start the model and ask again.`
 - `The model did not answer inside the budget.` / `Waiting longer would not have helped. Narrow the description and ask again.`
 - `Something went wrong that we did not expect.` / `Quote the correlation id and the log will answer.`
 - `Nothing is listening on the service port.` / `The service is not running. Start it and ask again.`
+- `This page holds a recording, and your description is not in it.` / `Edit the description and pick one of the recorded questions, or run the system locally to ask your own.`
 
-The correlation id renders on the first three and not on the fourth, since nothing answered and so nothing logged one. These sentences are owned by the service seam. A change to them there is a change to this file.
+The correlation id renders on the first three and on neither of the last two, since nothing answered on either and so nothing logged one. These sentences are owned by the service seam. A change to them there is a change to this file.
 
 ## The trace
 

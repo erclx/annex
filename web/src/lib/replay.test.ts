@@ -87,6 +87,19 @@ describe('the committed fixtures', () => {
   it('stamps the capture with the date it ran', () => {
     expect(capturedOn).toMatch(/^\d{4}-\d{2}-\d{2}$/)
   })
+
+  it('offers every recorded question, whatever flow it carries', () => {
+    // The picks group by flow, and grouping from a hand-written label map
+    // instead dropped a question whose flow the map did not carry. The gold set
+    // is a file another row adds to, so that loss would have been silent.
+    const grouped = [
+      ...new Set(recordedQuestions.map((question) => question.flow)),
+    ].flatMap((flow) =>
+      recordedQuestions.filter((question) => question.flow === flow),
+    )
+
+    expect(grouped).toHaveLength(recordedQuestions.length)
+  })
 })
 
 describe('which path a build takes', () => {

@@ -53,6 +53,8 @@ The flag decides both halves of what ships: `web/src/lib/ask.ts` answers from th
 
 `github.ref_name` supplies the Pages branch, so only a run on `main` marks its upload as a production deployment and a dispatch from any other ref lands on a preview host. Two secrets are read, `CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN`, scoped to Pages Edit alone. The operator sets both, creates the Pages project, and attaches `annex.erclx.dev` as a custom domain. None of the three is a thing this tree can do, so the workflow lands ahead of the first upload rather than with it.
 
+**The upload is skipped rather than failed while the token is unset.** Both secrets are lifted to the job's `env` so the upload step's own `if` can read one, since a job-level conditional cannot reach the secrets context at all. Without that gate the first merge puts a red Deploy run on the trunk and every push keeps it there until the operator's two acts are done, which is a failing check that reports nothing anybody can act on from inside the repository. A skipped step reads as a green job and says nothing either, so a second step fires on the same condition inverted and writes a notice naming what did not upload and what would make it.
+
 ## Running CI locally
 
 `bun run check` runs everything the three jobs run, in the same order, and auto-formats first. It chains the shared verify script, then `check:python`, then `check:web`, so a green local run means a green CI run for the same commit.
