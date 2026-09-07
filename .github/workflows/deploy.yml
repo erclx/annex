@@ -1,0 +1,100 @@
+name: Deploy
+
+# The deployed page is a recording. The model this project runs holds 30 GB of
+# a card and nothing hosted answers these questions, so the build that ships is
+# the static export of `web/` in replay mode, serving the answers
+# `uv run python -m annex capture` took from the live system.
+#
+# Direct Upload, so Cloudflare never runs a build and no root directory is
+# configured outside this tree. The pattern is the one
+# `/home/erclx/repos/private/career/public/erclx.dev` records, with one
+# departure: that repository's verify workflow builds the artifact its deploy
+# uploads, and `verify.yml` here has no build job and no push trigger, so the
+# gate and the build sit in this file instead.
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  web-checks:
+    name: 🌐 Web Checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install Shell Tools
+        run: sudo apt-get install -y shfmt
+
+      - name: Install Dependencies
+        run: cd web && bun install --frozen-lockfile
+
+      - name: Typecheck, Lint and Test
+        run: bun run check:web
+
+  build:
+    name: 📦 Static Export
+    runs-on: ubuntu-latest
+    needs: web-checks
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install Dependencies
+        run: cd web && bun install --frozen-lockfile
+
+      # The flag decides both halves of what ships: `ask` answers from the
+      # fixtures rather than the service, and `next.config.ts` turns the build
+      # into a static export. A build without it would deploy a page calling a
+      # localhost service nobody is running.
+      - name: Build
+        run: cd web && bun run build
+        env:
+          NEXT_PUBLIC_ANNEX_MODE: replay
+
+      - name: Upload the export
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-out
+          path: web/out
+          retention-days: 7
+
+  deploy:
+    name: 🚀 Deploy
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      # Not for the source, which this job never builds, but because
+      # `wrangler-action` resolves its package manager against the working
+      # directory and an empty workspace gives it nothing to read.
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download the export
+        uses: actions/download-artifact@v4
+        with:
+          name: web-out
+          path: web/out
+
+      # The ref supplies the branch, so only a run on `main` marks its upload
+      # as a production deployment. A dispatch from any other ref exercises the
+      # whole job and lands on a preview host instead.
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: pages deploy web/out --project-name=annex --branch=${{ github.ref_name }}
