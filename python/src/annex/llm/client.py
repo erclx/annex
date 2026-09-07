@@ -60,16 +60,32 @@ UNCLOSED_THINKING = re.compile(r'<think>.*', re.DOTALL)
 
 EmbeddingPurpose = Literal['document', 'query']
 
-EMBEDDING_PREFIXES: dict[EmbeddingPurpose, str] = {
-    'document': 'search_document: ',
-    'query': 'search_query: ',
-}
-"""The task prefixes `nomic-embed-text` was trained with.
+NO_PREFIXES: dict[EmbeddingPurpose, str] = {'document': '', 'query': ''}
+"""What a model outside the map below gets, which is the text unchanged."""
 
-The model puts a corpus passage and a question into different regions of the
-same space, and it is told which it is reading by a prefix rather than by the
-call. Omitting them is not an error and costs retrieval quality silently, which
-is measured on `OllamaClient.embed`.
+EMBEDDING_PREFIXES: dict[str, dict[EmbeddingPurpose, str]] = {
+    'nomic-embed-text': {
+        'document': 'search_document: ',
+        'query': 'search_query: ',
+    },
+    'snowflake-arctic-embed2': {
+        'document': '',
+        'query': 'query: ',
+    },
+}
+"""The task prefixes each model was trained with, per model.
+
+An embedding model puts a corpus passage and a question into different regions
+of the same space, and it is told which it is reading by a prefix rather than
+by the call. Which prefix is a property of the model's training rather than of
+embedding, so the pair is keyed by model: `nomic-embed-text` marks both sides
+and `snowflake-arctic-embed2` marks the query alone. Sending one model's pair
+to another is not an error and costs retrieval quality silently, worth 0.10 and
+0.12 of recall over the two versions when the groundwork measured it.
+
+A model with no entry here embeds unprefixed and `verify_embedding_context`
+warns once, naming it. Refusing instead would block the workflow that measures
+a candidate model in the first place, which is pointing the CLI at one.
 """
 
 MINIMUM_GENERATION_BUDGET = 512
@@ -79,6 +95,18 @@ Measured by the evaluation planner: `num_predict=32` returned an eval count of
 32 against an empty response, the whole budget consumed by reasoning that never
 closed. A test asserting only that the call succeeded passes on that.
 """
+
+
+def embedding_prefixes(model: str) -> dict[EmbeddingPurpose, str]:
+    """The task prefixes one model was trained with, or no prefix at all.
+
+    The tag is dropped before the lookup. `ollama list` names a model
+    `snowflake-arctic-embed2:latest` and `Settings` names it without the tag,
+    so the two spellings have to reach one entry. Every tag is dropped rather
+    than `:latest` alone, since a quantization of a model was trained with the
+    prefixes the model was trained with.
+    """
+    return EMBEDDING_PREFIXES.get(model.partition(':')[0], NO_PREFIXES)
 
 
 class ModelContextError(RuntimeError):
@@ -210,21 +238,26 @@ class OllamaClient:
     ) -> list[list[float]]:
         """Embed a batch, in the order it was given.
 
-        `purpose` selects the task prefix the embedding model was trained with.
-        It is not cosmetic. Measured on 2026-09-06 over the consolidated text,
-        the question "a chatbot that talks to customers on our website" ranked
-        its best Article 50 chunk 27th without the prefixes and 5th with them,
-        against the same 587 chunks.
+        `purpose` selects the task prefix the configured embedding model was
+        trained with. It is not cosmetic. Measured on 2026-09-06 over the
+        consolidated text under `nomic-embed-text`, the question "a chatbot
+        that talks to customers on our website" ranked its best Article 50
+        chunk 27th without the prefixes and 5th with them, against the same 587
+        chunks.
         """
         if not texts:
             return []
-        prefix = EMBEDDING_PREFIXES[purpose]
+        prefix = self._prefix(purpose)
         response = self._client.embeddings.create(
             model=self.settings.embedding_model,
             input=[prefix + text for text in texts],
         )
         ordered = sorted(response.data, key=lambda item: item.index)
         return [list(item.embedding) for item in ordered]
+
+    def _prefix(self, purpose: EmbeddingPurpose) -> str:
+        """The prefix the configured embedding model wants for this purpose."""
+        return embedding_prefixes(self.settings.embedding_model)[purpose]
 
     def embedding_tokens(
         self, text: str, *, purpose: EmbeddingPurpose = 'document'
@@ -238,9 +271,28 @@ class OllamaClient:
         """
         response = self._client.embeddings.create(
             model=self.settings.embedding_model,
-            input=[EMBEDDING_PREFIXES[purpose] + text],
+            input=[self._prefix(purpose) + text],
         )
         return response.usage.prompt_tokens if response.usage else 0
+
+    def _warn_of_an_unlisted_model(self) -> None:
+        """Say once that this model is embedding without a task prefix.
+
+        Emitted from the context check rather than from `embed`, because both
+        `annex embed` and `annex context` run that check once per process while
+        `embed` runs per batch. An empty pair is a legitimate configuration for
+        a model trained without prefixes and it is also what a typo produces,
+        so it is reported rather than either refused or passed over.
+        """
+        model = self.settings.embedding_model
+        if embedding_prefixes(model) is not NO_PREFIXES:
+            return
+        logger.warning(
+            '%s has no task prefixes recorded, so it embeds a passage and a '
+            'question identically. Add its pair to EMBEDDING_PREFIXES if it '
+            'was trained with one.',
+            model,
+        )
 
     def verify_embedding_context(self) -> int:
         """Read back how much of an input the embedder will actually read.
@@ -252,6 +304,7 @@ class OllamaClient:
         screen in `annex.retrieval.embed` are both sized against this number
         and a different embedding model silently invalidates both.
         """
+        self._warn_of_an_unlisted_model()
         probe = 'The Commission shall adopt implementing acts. ' * 2000
         measured = self.embedding_tokens(probe)
         if measured != self.settings.embedding_context:

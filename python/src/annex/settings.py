@@ -23,7 +23,7 @@ class Settings(BaseSettings):
 
     ollama_base_url: str = 'http://localhost:11434/v1'
     generation_model: str = 'annex-qwen3-27b'
-    embedding_model: str = 'nomic-embed-text'
+    embedding_model: str = 'snowflake-arctic-embed2'
 
     generation_context: int = 32768
     embedding_context: int = 2048

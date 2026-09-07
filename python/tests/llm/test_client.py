@@ -16,7 +16,13 @@ from typing import Any
 
 import pytest
 
-from annex.llm import MINIMUM_GENERATION_BUDGET, OllamaClient, split_thinking
+from annex.llm import (
+    MINIMUM_GENERATION_BUDGET,
+    NO_PREFIXES,
+    OllamaClient,
+    embedding_prefixes,
+    split_thinking,
+)
 from annex.llm.client import ModelContextError
 from annex.settings import Settings
 
@@ -243,11 +249,92 @@ class StubEmbeddings:
         return StubEmbeddingResponse(len(kwargs['input']))
 
 
+class TestThePrefixFollowsTheModel:
+    """A prefix pair belongs to a model's training, not to embedding."""
+
+    def test_the_configured_model_gets_its_own_pair(self) -> None:
+        assert embedding_prefixes('nomic-embed-text') == {
+            'document': 'search_document: ',
+            'query': 'search_query: ',
+        }
+
+    def test_a_tagged_name_resolves_to_the_same_pair_as_the_untagged_one(
+        self,
+    ) -> None:
+        """`ollama list` names a model with a tag and `Settings` does not."""
+        assert embedding_prefixes('snowflake-arctic-embed2:latest') == (
+            embedding_prefixes('snowflake-arctic-embed2')
+        )
+
+    def test_an_unlisted_model_embeds_unprefixed(self) -> None:
+        assert embedding_prefixes('all-minilm') == NO_PREFIXES
+
+    def test_an_unlisted_model_is_warned_about_by_name(
+        self, monkeypatch: pytest.MonkeyPatch, caplog: pytest.LogCaptureFixture
+    ) -> None:
+        """The one report a silently empty pair would otherwise never make."""
+        client = OllamaClient(Settings(embedding_model='all-minilm'))
+        monkeypatch.setattr(client, 'embedding_tokens', lambda *_, **__: 2048)
+
+        with caplog.at_level(logging.WARNING, logger='annex.llm'):
+            client.verify_embedding_context()
+
+        assert 'all-minilm' in caplog.text
+        assert 'no task prefixes recorded' in caplog.text
+
+    def test_a_listed_model_is_not_warned_about(
+        self, monkeypatch: pytest.MonkeyPatch, caplog: pytest.LogCaptureFixture
+    ) -> None:
+        client = OllamaClient(Settings(embedding_model='snowflake-arctic-embed2'))
+        monkeypatch.setattr(client, 'embedding_tokens', lambda *_, **__: 2048)
+
+        with caplog.at_level(logging.WARNING, logger='annex.llm'):
+            client.verify_embedding_context()
+
+        assert 'no task prefixes recorded' not in caplog.text
+
+
 class TestEmbedding:
-    def test_a_document_carries_the_document_prefix(
+    def test_a_document_carries_the_configured_model_document_prefix(
         self, monkeypatch: pytest.MonkeyPatch
     ) -> None:
-        client = OllamaClient(Settings())
+        """The shipped model marks the query side alone, so a passage is bare."""
+        client = OllamaClient(Settings(embedding_model='snowflake-arctic-embed2'))
+        embeddings = StubEmbeddings()
+        monkeypatch.setattr(client._client, 'embeddings', embeddings)
+
+        client.embed(['Article 50 text'])
+
+        assert embeddings.calls[0]['input'] == ['Article 50 text']
+
+    def test_a_question_carries_the_configured_model_query_prefix(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        client = OllamaClient(Settings(embedding_model='snowflake-arctic-embed2'))
+        embeddings = StubEmbeddings()
+        monkeypatch.setattr(client._client, 'embeddings', embeddings)
+
+        client.embed(['does this apply'], purpose='query')
+
+        assert embeddings.calls[0]['input'] == ['query: does this apply']
+
+    def test_a_document_and_a_question_reach_the_model_differently(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """The two sides landing identically is the silent half of a bad swap."""
+        client = OllamaClient(Settings(embedding_model='snowflake-arctic-embed2'))
+        embeddings = StubEmbeddings()
+        monkeypatch.setattr(client._client, 'embeddings', embeddings)
+
+        client.embed(['high-risk classification'])
+        client.embed(['high-risk classification'], purpose='query')
+
+        assert embeddings.calls[0]['input'] != embeddings.calls[1]['input']
+
+    def test_another_model_gets_its_own_pair_rather_than_the_shipped_one(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        client = OllamaClient(Settings(embedding_model='nomic-embed-text'))
         embeddings = StubEmbeddings()
         monkeypatch.setattr(client._client, 'embeddings', embeddings)
 
@@ -255,14 +342,14 @@ class TestEmbedding:
 
         assert embeddings.calls[0]['input'] == ['search_document: Article 50 text']
 
-    def test_a_question_carries_the_query_prefix(
+    def test_a_token_count_is_measured_with_the_prefix_that_will_be_sent(
         self, monkeypatch: pytest.MonkeyPatch
     ) -> None:
-        client = OllamaClient(Settings())
+        client = OllamaClient(Settings(embedding_model='nomic-embed-text'))
         embeddings = StubEmbeddings()
         monkeypatch.setattr(client._client, 'embeddings', embeddings)
 
-        client.embed(['does this apply'], purpose='query')
+        client.embedding_tokens('does this apply', purpose='query')
 
         assert embeddings.calls[0]['input'] == ['search_query: does this apply']
 
