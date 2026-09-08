@@ -16,6 +16,9 @@
 # next.js
 /.next/
 /out/
+# Where the end-to-end run's replay export goes, so it does not share `.next`
+# with the dev server started beside it.
+/out-replay/
 
 # production
 /build

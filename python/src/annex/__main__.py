@@ -9,12 +9,16 @@ generates its types from, so neither side hand-copies the other's shape.
 arms and reports accuracy and cost for each, which is the number this project
 exists to produce. It is a multi-hour run at full size: see `--limit`, `--arm`
 and `--version`, and `docs/evaluation.md` for what a run costs.
+`uv run python -m annex capture` answers the same question set once, keeping
+the answers rather than their scores, and writes them to `web/src/fixtures/`
+as the recording the deployed build replays.
 """
 
 import argparse
 import json
 import logging
 import sys
+from collections.abc import Sequence
 from pathlib import Path
 
 from annex.answer import Answer
@@ -128,6 +132,47 @@ def _ask(question: str, version: CorpusVersion, traversal: bool) -> int:
 
     answer = Pipeline().ask(question, version=version, traversal=traversal)
     print(answer.model_dump_json(indent=2))
+    return 0
+
+
+def _capture(
+    question_ids: list[str],
+    versions: list[CorpusVersion],
+    out: Path | None,
+) -> int:
+    """Record what the pipeline says, as the fixtures the deployed build replays.
+
+    The pipeline is imported inside the handler for the reason `_arms` gives,
+    and it is called in process rather than over HTTP: the service defines no
+    response model of its own and returns this same object, so the transport
+    would add a hop and no fidelity.
+    """
+    from annex.agent import Pipeline
+    from annex.eval import FIXTURES_PATH, QUESTIONS, Question, by_id, capture
+
+    questions: Sequence[Question] = QUESTIONS
+    if question_ids:
+        try:
+            questions = [by_id(name) for name in question_ids]
+        except KeyError as error:
+            print(f'{error.args[0]}', file=sys.stderr)
+            return 1
+
+    pipeline = Pipeline()
+    manifest = capture(
+        lambda description, version: pipeline.ask(description, version=version),
+        questions=questions,
+        versions=versions,
+        out=out or FIXTURES_PATH,
+    )
+    refused = sum(1 for entry in manifest.entries if entry.refused)
+    print(
+        f'captured {len(manifest.entries)} answers, {refused} of them refusals, '
+        f'at {manifest.commit[:7]} on {manifest.captured_at}',
+        file=sys.stderr,
+    )
+    print(f'fixtures at {out or FIXTURES_PATH}')
+    print('now run: cd web && bun run format', file=sys.stderr)
     return 0
 
 
@@ -289,6 +334,29 @@ def main(argv: list[str] | None = None) -> int:
         help='search without following the citations outward',
     )
 
+    capturing = subcommands.add_parser(
+        'capture', help='record the pipeline answers the deployed build replays'
+    )
+    capturing.add_argument(
+        '--question',
+        dest='questions',
+        action='append',
+        help='capture one question by id, repeatable. The whole set by default',
+    )
+    capturing.add_argument(
+        '--version',
+        dest='versions',
+        action='append',
+        type=CorpusVersion,
+        help='capture one version, repeatable. Both by default',
+    )
+    capturing.add_argument(
+        '--out',
+        type=Path,
+        help='write somewhere other than web/src/fixtures, so a trial run does '
+        'not overwrite the committed recording',
+    )
+
     evaluating = subcommands.add_parser(
         'evaluate', help='run the three arms over the gold question set'
     )
@@ -350,6 +418,12 @@ def main(argv: list[str] | None = None) -> int:
             return _embed(arguments.refresh)
         if arguments.command == 'serve':
             return _serve()
+        if arguments.command == 'capture':
+            return _capture(
+                list(arguments.questions or ()),
+                list(arguments.versions or CorpusVersion),
+                arguments.out,
+            )
         if arguments.command == 'search':
             return _search(arguments.question, arguments.version, arguments.k)
         if arguments.command == 'ask':
