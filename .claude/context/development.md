@@ -55,8 +55,13 @@ The web app takes `4100` rather than the `3000` Next defaults to, so it does not
 | `bun run format`             | Auto-fix prettier and shfmt formatting at the root                                    |
 | `cd web && bun run test:e2e` | Playwright against the app, starting a server if one is not already up                |
 
+## Python specifics
+
+- **`networkx` cannot be imported on this interpreter.** The library declares `requires_python: !=3.14.1` and `python/.python-version` pins 3.14, so the import raises inside `dataclasses` before any graph is built. The dependency is dropped and the reference graph is a plain in-process adjacency map. Repinning to 3.13 is the alternative, and it moves `mypy.ini`, `ruff.toml` and every task that follows.
+
 ## Web specifics
 
+- **Route types are generated and no clone carries them.** `src/app/layout.tsx` uses `LayoutProps<'/'>`, a Next 16 global living in `.next/types/`, and `tsconfig.json` includes that path, so `tsc --noEmit` fails on a fresh checkout or a new worktree. `web/scripts/verify.sh` runs `bun run typegen` ahead of the typecheck, so the verify chain repairs it rather than reporting it.
 - **`agentRules` is off in `next.config.ts`.** Next 16 writes `AGENTS.md` and `CLAUDE.md` into `web/` on every run. The root `CLAUDE.md` governs this repository, and a second one under `web/` is loaded alongside it and competes with it.
 - The eslint config comes from canon's `web` tooling stack, which targets Vite. Three things were added by hand for Next: `.next` and `next-env.d.ts` in the ignore list, and a scoped override under `src/app/**` turning off `react-refresh/only-export-components`, which forbids the metadata export the App Router requires.
 - Vitest excludes `e2e/` so it stops collecting Playwright specs, which use fixtures it cannot provide.
