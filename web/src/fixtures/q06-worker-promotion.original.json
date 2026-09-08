@@ -3,7 +3,7 @@
   "version": "original",
   "claims": [
     {
-      "statement": "Annex III point 4(b) lists as a high-risk use AI systems intended to monitor and evaluate the performance and behaviour of persons in work-related contractual relationships, and to make decisions affecting the promotion of such persons",
+      "statement": "The system monitors warehouse staff productivity and recommends promotions, which corresponds to Annex III point 4(b): AI systems intended to be used to monitor and evaluate the performance and behaviour of persons in work-related relationships, and to make decisions affecting the promotion of work-related contractual relationships",
       "citations": [
         {
           "provision_id": "anx_III",
@@ -17,7 +17,7 @@
       ]
     },
     {
-      "statement": "Article 6(2) provides that AI systems referred to in Annex III shall be considered to be high-risk",
+      "statement": "Under Article 6(2), AI systems referred to in Annex III shall be considered to be high-risk",
       "citations": [
         {
           "provision_id": "art_6.2",
@@ -31,7 +31,7 @@
       ]
     },
     {
-      "statement": "Article 6(3) provides a derogation from that classification where the system does not pose a significant risk of harm, including by not materially influencing the outcome of decision-making, but states that an Annex III system always remains high-risk where it performs profiling of natural persons",
+      "statement": "Article 6(3) provides that an Annex III system shall not be considered high-risk where it does not pose a significant risk of harm and fulfils one of four listed conditions, but shall always be considered high-risk where the system performs profiling of natural persons",
       "citations": [
         {
           "provision_id": "art_6.3",
@@ -45,35 +45,35 @@
       ]
     },
     {
-      "statement": "Recital 57 states that AI systems used to monitor the performance and behaviour of persons in work-related contractual relationships, and for promotion, should be classified as high-risk since they may have an appreciable impact on career prospects and workers' rights",
+      "statement": "If the system is high-risk, Article 14 requires it to be designed so that it can be effectively overseen by natural persons, with measures enabling assigned persons to understand its capacities and limitations, remain aware of automation bias, correctly interpret its output, decide to disregard or override its output, and intervene or interrupt it through a stop button or similar procedure",
       "citations": [
         {
-          "provision_id": "rct_57",
-          "citation": "Recital 57",
-          "kind": "recital",
+          "provision_id": "art_14",
+          "citation": "Article 14",
+          "kind": "article",
           "version": "original",
-          "text": "(57) AI systems used in employment, workers management and access to self-employment, in particular for the recruitment and selection of persons, for making decisions affecting terms of the work-related relationship, promotion and termination of work-related contractual relationships, for allocating tasks on the basis of individual behaviour, personal traits or characteristics and for monitoring or evaluation of persons in work-related contractual relationships, should also be classified as high-risk, since those systems may have an appreciable impact on future career prospects, livelihoods of those persons and workers’ rights. Relevant work-related contractual relationships should, in a meaningful manner, involve employees and persons providing services through platforms as referred to in the Commission Work Programme 2021. Throughout the recruitment process and in the evaluation, promotion, or retention of persons in work-related contractual relationships, such systems may perpetuate historical patterns of discrimination, for example against women, certain age groups, persons with disabilities, or persons of certain racial or ethnic origins or sexual orientation. AI systems used to monitor the performance and behaviour of such persons may also undermine their fundamental rights to data protection and privacy.",
-          "changed": true,
-          "change_note": "Recital 57 appears in the original text and not in the consolidated text."
-        }
-      ]
-    },
-    {
-      "statement": "Article 14(4)(b) specifically addresses high-risk AI systems used to provide information or recommendations for decisions to be taken by natural persons, requiring that persons assigned to oversight remain aware of the possible tendency to automatically rely or over-rely on the system's output",
-      "citations": [
-        {
-          "provision_id": "art_14.4",
-          "citation": "Article 14(4)",
-          "kind": "paragraph",
-          "version": "original",
-          "text": "4. For the purpose of implementing paragraphs 1, 2 and 3, the high-risk AI system shall be provided to the deployer in such a way that natural persons to whom human oversight is assigned are enabled, as appropriate and proportionate: (a) to properly understand the relevant capacities and limitations of the high-risk AI system and be able to duly monitor its operation, including in view of detecting and addressing anomalies, dysfunctions and unexpected performance; (b) to remain aware of the possible tendency of automatically relying or over-relying on the output produced by a high-risk AI system (automation bias), in particular for high-risk AI systems used to provide information or recommendations for decisions to be taken by natural persons; (c) to correctly interpret the high-risk AI system’s output, taking into account, for example, the interpretation tools and methods available; (d) to decide, in any particular situation, not to use the high-risk AI system or to otherwise disregard, override or reverse the output of the high-risk AI system; (e) to intervene in the operation of the high-risk AI system or interrupt the system through a ‘stop’ button or a similar procedure that allows the system to come to a halt in a safe state.",
+          "text": "Article 14 Human oversight 1. High-risk AI systems shall be designed and developed in such a way, including with appropriate human-machine interface tools, that they can be effectively overseen by natural persons during the period in which they are in use. 2. Human oversight shall aim to prevent or minimise the risks to health, safety or fundamental rights that may emerge when a high-risk AI system is used in accordance with its intended purpose or under conditions of reasonably foreseeable misuse, in particular where such risks persist despite the application of other requirements set out in this Section. 3. The oversight measures shall be commensurate with the risks, level of autonomy and context of use of the high-risk AI system, and shall be ensured through either one or both of the following types of measures: (a) measures identified and built, when technically feasible, into the high-risk AI system by the provider before it is placed on the market or put into service; (b) measures identified by the provider before placing the high-risk AI system on the market or putting it into service and that are appropriate to be implemented by the deployer. 4. For the purpose of implementing paragraphs 1, 2 and 3, the high-risk AI system shall be provided to the deployer in such a way that natural persons to whom human oversight is assigned are enabled, as appropriate and proportionate: (a) to properly understand the relevant capacities and limitations of the high-risk AI system and be able to duly monitor its operation, including in view of detecting and addressing anomalies, dysfunctions and unexpected performance; (b) to remain aware of the possible tendency of automatically relying or over-relying on the output produced by a high-risk AI system (automation bias), in particular for high-risk AI systems used to provide information or recommendations for decisions to be taken by natural persons; (c) to correctly interpret the high-risk AI system’s output, taking into account, for example, the interpretation tools and methods available; (d) to decide, in any particular situation, not to use the high-risk AI system or to otherwise disregard, override or reverse the output of the high-risk AI system; (e) to intervene in the operation of the high-risk AI system or interrupt the system through a ‘stop’ button or a similar procedure that allows the system to come to a halt in a safe state. 5. For high-risk AI systems referred to in point 1(a) of Annex III, the measures referred to in paragraph 3 of this Article shall be such as to ensure that, in addition, no action or decision is taken by the deployer on the basis of the identification resulting from the system unless that identification has been separately verified and confirmed by at least two natural persons with the necessary competence, training and authority. The requirement for a separate verification by at least two natural persons shall not apply to high-risk AI systems used for the purposes of law enforcement, migration, border control or asylum, where Union or national law considers the application of this requirement to be disproportionate.",
           "changed": false,
           "change_note": null
         }
       ]
     },
     {
-      "statement": "Article 49(1) requires the provider to register a high-risk AI system listed in Annex III in the EU database before placing it on the market, and Article 49(2) requires registration where the provider has concluded the system is not high-risk under Article 6(3)",
+      "statement": "If the system is high-risk and uses techniques involving the training of AI models with data, Article 10 requires training, validation and testing data sets to be relevant, sufficiently representative, and to the best extent possible free of errors, and subject to data governance practices including examination for possible biases and appropriate measures to detect, prevent and mitigate them",
+      "citations": [
+        {
+          "provision_id": "art_10",
+          "citation": "Article 10",
+          "kind": "article",
+          "version": "original",
+          "text": "Article 10 Data and data governance 1. High-risk AI systems which make use of techniques involving the training of AI models with data shall be developed on the basis of training, validation and testing data sets that meet the quality criteria referred to in paragraphs 2 to 5 whenever such data sets are used. 2. Training, validation and testing data sets shall be subject to data governance and management practices appropriate for the intended purpose of the high-risk AI system. Those practices shall concern in particular: (a) the relevant design choices; (b) data collection processes and the origin of data, and in the case of personal data, the original purpose of the data collection; (c) relevant data-preparation processing operations, such as annotation, labelling, cleaning, updating, enrichment and aggregation; (d) the formulation of assumptions, in particular with respect to the information that the data are supposed to measure and represent; (e) an assessment of the availability, quantity and suitability of the data sets that are needed; (f) examination in view of possible biases that are likely to affect the health and safety of persons, have a negative impact on fundamental rights or lead to discrimination prohibited under Union law, especially where data outputs influence inputs for future operations; (g) appropriate measures to detect, prevent and mitigate possible biases identified according to point (f); (h) the identification of relevant data gaps or shortcomings that prevent compliance with this Regulation, and how those gaps and shortcomings can be addressed. 3. Training, validation and testing data sets shall be relevant, sufficiently representative, and to the best extent possible, free of errors and complete in view of the intended purpose. They shall have the appropriate statistical properties, including, where applicable, as regards the persons or groups of persons in relation to whom the high-risk AI system is intended to be used. Those characteristics of the data sets may be met at the level of individual data sets or at the level of a combination thereof. 4. Data sets shall take into account, to the extent required by the intended purpose, the characteristics or elements that are particular to the specific geographical, contextual, behavioural or functional setting within which the high-risk AI system is intended to be used. 5. To the extent that it is strictly necessary for the purpose of ensuring bias detection and correction in relation to the high-risk AI systems in accordance with paragraph (2), points (f) and (g) of this Article, the providers of such systems may exceptionally process special categories of personal data, subject to appropriate safeguards for the fundamental rights and freedoms of natural persons. In addition to the provisions set out in Regulations (EU) 2016/679 and (EU) 2018/1725 and Directive (EU) 2016/680, all the following conditions must be met in order for such processing to occur: (a) the bias detection and correction cannot be effectively fulfilled by processing other data, including synthetic or anonymised data; (b) the special categories of personal data are subject to technical limitations on the re-use of the personal data, and state-of-the-art security and privacy-preserving measures, including pseudonymisation; (c) the special categories of personal data are subject to measures to ensure that the personal data processed are secured, protected, subject to suitable safeguards, including strict controls and documentation of the access, to avoid misuse and ensure that only authorised persons have access to those personal data with appropriate confidentiality obligations; (d) the special categories of personal data are not to be transmitted, transferred or otherwise accessed by other parties; (e) the special categories of personal data are deleted once the bias has been corrected or the personal data has reached the end of its retention period, whichever comes first; (f) the records of processing activities pursuant to Regulations (EU) 2016/679 and (EU) 2018/1725 and Directive (EU) 2016/680 include the reasons why the processing of special categories of personal data was strictly necessary to detect and correct biases, and why that objective could not be achieved by processing other data. 6. For the development of high-risk AI systems not using techniques involving the training of AI models, paragraphs 2 to 5 apply only to the testing data sets.",
+          "changed": true,
+          "change_note": "The wording of Article 10 differs between the original and the consolidated text."
+        }
+      ]
+    },
+    {
+      "statement": "Under Article 49(1), before placing on the market or putting into service a high-risk AI system listed in Annex III (other than point 2), the provider or authorised representative shall register themselves and the system in the EU database",
       "citations": [
         {
           "provision_id": "art_49",
@@ -146,13 +146,15 @@
       "art_71"
     ],
     "dropped_ids": [
-      "anx_VIII",
-      "art_10",
-      "art_11",
-      "art_11.3",
-      "art_12",
-      "art_13",
-      "art_15",
+      "rct_57",
+      "rct_58",
+      "rct_31",
+      "rct_53",
+      "rct_132",
+      "rct_73",
+      "rct_61",
+      "rct_63",
+      "rct_60",
       "art_2",
       "art_2.1",
       "art_25",
@@ -176,9 +178,9 @@
     ],
     "traversal_enabled": true,
     "truncated": false,
-    "prompt_tokens": 15622,
-    "completion_tokens": 3929,
-    "duration_ms": 35659,
+    "prompt_tokens": 15754,
+    "completion_tokens": 3035,
+    "duration_ms": 26946,
     "model": "annex-qwen3-27b"
   }
 }

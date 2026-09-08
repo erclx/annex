@@ -3,7 +3,7 @@
   "version": "original",
   "claims": [
     {
-      "statement": "A recruitment tool intended to be used for the recruitment or selection of natural persons is listed as a high-risk AI system under Annex III, point 4(a)",
+      "statement": "The system is an AI system intended for the recruitment or selection of natural persons, which is listed in Annex III, point 4(a)",
       "citations": [
         {
           "provision_id": "anx_III",
@@ -17,7 +17,21 @@
       ]
     },
     {
-      "statement": "For a high-risk AI system placed on the market before 2 August 2026, the Regulation applies to its operators only if, as from that date, the system is subject to significant changes in its designs",
+      "statement": "Article 6(2) provides that AI systems referred to in Annex III shall be considered to be high-risk",
+      "citations": [
+        {
+          "provision_id": "art_6",
+          "citation": "Article 6",
+          "kind": "article",
+          "version": "original",
+          "text": "Article 6 Classification rules for high-risk AI systems 1. Irrespective of whether an AI system is placed on the market or put into service independently of the products referred to in points (a) and (b), that AI system shall be considered to be high-risk where both of the following conditions are fulfilled: (a) the AI system is intended to be used as a safety component of a product, or the AI system is itself a product, covered by the Union harmonisation legislation listed in Annex I; (b) the product whose safety component pursuant to point (a) is the AI system, or the AI system itself as a product, is required to undergo a third-party conformity assessment, with a view to the placing on the market or the putting into service of that product pursuant to the Union harmonisation legislation listed in Annex I. 2. In addition to the high-risk AI systems referred to in paragraph 1, AI systems referred to in Annex III shall be considered to be high-risk. 3. By derogation from paragraph 2, an AI system referred to in Annex III shall not be considered to be high-risk where it does not pose a significant risk of harm to the health, safety or fundamental rights of natural persons, including by not materially influencing the outcome of decision making. The first subparagraph shall apply where any of the following conditions is fulfilled: (a) the AI system is intended to perform a narrow procedural task; (b) the AI system is intended to improve the result of a previously completed human activity; (c) the AI system is intended to detect decision-making patterns or deviations from prior decision-making patterns and is not meant to replace or influence the previously completed human assessment, without proper human review; or (d) the AI system is intended to perform a preparatory task to an assessment relevant for the purposes of the use cases listed in Annex III. Notwithstanding the first subparagraph, an AI system referred to in Annex III shall always be considered to be high-risk where the AI system performs profiling of natural persons. 4. A provider who considers that an AI system referred to in Annex III is not high-risk shall document its assessment before that system is placed on the market or put into service. Such provider shall be subject to the registration obligation set out in Article 49(2). Upon request of national competent authorities, the provider shall provide the documentation of the assessment. 5. The Commission shall, after consulting the European Artificial Intelligence Board (the ‘Board’), and no later than 2 February 2026, provide guidelines specifying the practical implementation of this Article in line with Article 96 together with a comprehensive list of practical examples of use cases of AI systems that are high-risk and not high-risk. 6. The Commission is empowered to adopt delegated acts in accordance with Article 97 in order to amend paragraph 3, second subparagraph, of this Article by adding new conditions to those laid down therein, or by modifying them, where there is concrete and reliable evidence of the existence of AI systems that fall under the scope of Annex III, but do not pose a significant risk of harm to the health, safety or fundamental rights of natural persons. 7. The Commission shall adopt delegated acts in accordance with Article 97 in order to amend paragraph 3, second subparagraph, of this Article by deleting any of the conditions laid down therein, where there is concrete and reliable evidence that this is necessary to maintain the level of protection of health, safety and fundamental rights provided for by this Regulation. 8. Any amendment to the conditions laid down in paragraph 3, second subparagraph, adopted in accordance with paragraphs 6 and 7 of this Article shall not decrease the overall level of protection of health, safety and fundamental rights provided for by this Regulation and shall ensure consistency with the delegated acts adopted pursuant to Article 7(1), and take account of market and technological developments.",
+          "changed": true,
+          "change_note": "The wording of Article 6 differs between the original and the consolidated text."
+        }
+      ]
+    },
+    {
+      "statement": "Article 111(2) states that the Regulation applies to operators of high-risk AI systems placed on the market before 2 August 2026 only if, as from that date, those systems are subject to significant changes in their designs",
       "citations": [
         {
           "provision_id": "art_111.2",
@@ -31,21 +45,7 @@
       ]
     },
     {
-      "statement": "The concept of \"significant change\" in that transitional context is to be understood as equivalent in substance to the notion of \"substantial modification\"",
-      "citations": [
-        {
-          "provision_id": "rct_177",
-          "citation": "Recital 177",
-          "kind": "recital",
-          "version": "original",
-          "text": "(177) In order to ensure legal certainty, ensure an appropriate adaptation period for operators and avoid disruption to the market, including by ensuring continuity of the use of AI systems, it is appropriate that this Regulation applies to the high-risk AI systems that have been placed on the market or put into service before the general date of application thereof, only if, from that date, those systems are subject to significant changes in their design or intended purpose. It is appropriate to clarify that, in this respect, the concept of significant change should be understood as equivalent in substance to the notion of substantial modification, which is used with regard only to high-risk AI systems pursuant to this Regulation. On an exceptional basis and in light of public accountability, operators of AI systems which are components of the large-scale IT systems established by the legal acts listed in an annex to this Regulation and operators of high-risk AI systems that are intended to be used by public authorities should, respectively, take the necessary steps to comply with the requirements of this Regulation by end of 2030 and by 2 August 2030.",
-          "changed": true,
-          "change_note": "Recital 177 appears in the original text and not in the consolidated text."
-        }
-      ]
-    },
-    {
-      "statement": "A \"substantial modification\" is a change to an AI system after its placing on the market which is not foreseen or planned in the initial conformity assessment and as a result of which the compliance of the AI system with the requirements set out in Chapter III, Section 2 is affected or results in a modification to the intended purpose for which the AI system has been assessed",
+      "statement": "Article 3(23) defines \"substantial modification\" as a change after placing on the market that was not foreseen in the initial conformity assessment and as a result of which compliance with Chapter III, Section 2 is affected or the intended purpose is modified",
       "citations": [
         {
           "provision_id": "art_3",
@@ -59,7 +59,7 @@
       ]
     },
     {
-      "statement": "A high-risk AI system that has already been subject to a conformity assessment procedure shall undergo a new conformity assessment procedure in the event of a substantial modification, regardless of whether the modified system is intended to be further distributed or continues to be used by the current deployer",
+      "statement": "Article 43(4) requires that a high-risk AI system already subject to a conformity assessment undergo a new conformity assessment procedure in the event of a substantial modification",
       "citations": [
         {
           "provision_id": "art_43.4",
@@ -73,16 +73,16 @@
       ]
     },
     {
-      "statement": "A distributor, importer, deployer or other third-party that makes a substantial modification to a high-risk AI system already placed on the market in a way that it remains a high-risk AI system should be considered to be a provider of that system and assume all the relevant obligations",
+      "statement": "Annex IV, point 1(g) and (h), requires the technical documentation to include a basic description of the user-interface provided to the deployer and instructions for use",
       "citations": [
         {
-          "provision_id": "rct_84",
-          "citation": "Recital 84",
-          "kind": "recital",
+          "provision_id": "anx_IV",
+          "citation": "Annex IV",
+          "kind": "annex",
           "version": "original",
-          "text": "(84) To ensure legal certainty, it is necessary to clarify that, under certain specific conditions, any distributor, importer, deployer or other third-party should be considered to be a provider of a high-risk AI system and therefore assume all the relevant obligations. This would be the case if that party puts its name or trademark on a high-risk AI system already placed on the market or put into service, without prejudice to contractual arrangements stipulating that the obligations are allocated otherwise. This would also be the case if that party makes a substantial modification to a high-risk AI system that has already been placed on the market or has already been put into service in a way that it remains a high-risk AI system in accordance with this Regulation, or if it modifies the intended purpose of an AI system, including a general-purpose AI system, which has not been classified as high-risk and has already been placed on the market or put into service, in a way that the AI system becomes a high-risk AI system in accordance with this Regulation. Those provisions should apply without prejudice to more specific provisions established in certain Union harmonisation legislation based on the New Legislative Framework, together with which this Regulation should apply. For example, Article 16(2) of Regulation (EU) 2017/745, establishing that certain changes should not be considered to be modifications of a device that could affect its compliance with the applicable requirements, should continue to apply to high-risk AI systems that are medical devices within the meaning of that Regulation.",
-          "changed": true,
-          "change_note": "Recital 84 appears in the original text and not in the consolidated text."
+          "text": "ANNEX IV Technical documentation referred to in Article 11(1) The technical documentation referred to in Article 11(1) shall contain at least the following information, as applicable to the relevant AI system: 1. A general description of the AI system including: (a) its intended purpose, the name of the provider and the version of the system reflecting its relation to previous versions; (b) how the AI system interacts with, or can be used to interact with, hardware or software, including with other AI systems, that are not part of the AI system itself, where applicable; (c) the versions of relevant software or firmware, and any requirements related to version updates; (d) the description of all the forms in which the AI system is placed on the market or put into service, such as software packages embedded into hardware, downloads, or APIs; (e) the description of the hardware on which the AI system is intended to run; (f) where the AI system is a component of products, photographs or illustrations showing external features, the marking and internal layout of those products; (g) a basic description of the user-interface provided to the deployer; (h) instructions for use for the deployer, and a basic description of the user-interface provided to the deployer, where applicable; 2. A detailed description of the elements of the AI system and of the process for its development, including: (a) the methods and steps performed for the development of the AI system, including, where relevant, recourse to pre-trained systems or tools provided by third parties and how those were used, integrated or modified by the provider; (b) the design specifications of the system, namely the general logic of the AI system and of the algorithms; the key design choices including the rationale and assumptions made, including with regard to persons or groups of persons in respect of who, the system is intended to be used; the main classification choices; what the system is designed to optimise for, and the relevance of the different parameters; the description of the expected output and output quality of the system; the decisions about any possible trade-off made regarding the technical solutions adopted to comply with the requirements set out in Chapter III, Section 2; (c) the description of the system architecture explaining how software components build on or feed into each other and integrate into the overall processing; the computational resources used to develop, train, test and validate the AI system; (d) where relevant, the data requirements in terms of datasheets describing the training methodologies and techniques and the training data sets used, including a general description of these data sets, information about their provenance, scope and main characteristics; how the data was obtained and selected; labelling procedures (e.g. for supervised learning), data cleaning methodologies (e.g. outliers detection); (e) assessment of the human oversight measures needed in accordance with Article 14, including an assessment of the technical measures needed to facilitate the interpretation of the outputs of AI systems by the deployers, in accordance with Article 13(3), point (d); (f) where applicable, a detailed description of pre-determined changes to the AI system and its performance, together with all the relevant information related to the technical solutions adopted to ensure continuous compliance of the AI system with the relevant requirements set out in Chapter III, Section 2; (g) the validation and testing procedures used, including information about the validation and testing data used and their main characteristics; metrics used to measure accuracy, robustness and compliance with other relevant requirements set out in Chapter III, Section 2, as well as potentially discriminatory impacts; test logs and all test reports dated and signed by the responsible persons, including with regard to pre-determined changes as referred to under point (f); (h) cybersecurity measures put in place; 3. Detailed information about the monitoring, functioning and control of the AI system, in particular with regard to: its capabilities and limitations in performance, including the degrees of accuracy for specific persons or groups of persons on which the system is intended to be used and the overall expected level of accuracy in relation to its intended purpose; the foreseeable unintended outcomes and sources of risks to health and safety, fundamental rights and discrimination in view of the intended purpose of the AI system; the human oversight measures needed in accordance with Article 14, including the technical measures put in place to facilitate the interpretation of the outputs of AI systems by the deployers; specifications on input data, as appropriate; 4. A description of the appropriateness of the performance metrics for the specific AI system; 5. A detailed description of the risk management system in accordance with Article 9; 6. A description of relevant changes made by the provider to the system through its lifecycle; 7. A list of the harmonised standards applied in full or in part the references of which have been published in the Official Journal of the European Union; where no such harmonised standards have been applied, a detailed description of the solutions adopted to meet the requirements set out in Chapter III, Section 2, including a list of other relevant standards and technical specifications applied; 8. A copy of the EU declaration of conformity referred to in Article 47; 9. A detailed description of the system in place to evaluate the AI system performance in the post-market phase in accordance with Article 72, including the post-market monitoring plan referred to in Article 72(3).",
+          "changed": false,
+          "change_note": null
         }
       ]
     }
@@ -146,7 +146,14 @@
       "art_108"
     ],
     "dropped_ids": [
-      "anx_X",
+      "rct_177",
+      "rct_84",
+      "rct_53",
+      "rct_132",
+      "rct_178",
+      "rct_86",
+      "rct_57",
+      "rct_72",
       "art_113",
       "art_2",
       "art_2.1",
@@ -181,9 +188,9 @@
     ],
     "traversal_enabled": true,
     "truncated": false,
-    "prompt_tokens": 15550,
-    "completion_tokens": 3265,
-    "duration_ms": 29728,
+    "prompt_tokens": 14918,
+    "completion_tokens": 3886,
+    "duration_ms": 30719,
     "model": "annex-qwen3-27b"
   }
 }
