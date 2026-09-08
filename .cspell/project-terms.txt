@@ -1,6 +1,10 @@
+categorisation
 EASA
+embedder
 neighbour
 neighbours
+stopword
+stopwords
 subfolders
 unasserted
 unconfigured
