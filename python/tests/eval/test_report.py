@@ -129,6 +129,18 @@ class TestTheSummaryGroups:
 
         assert summarize(results)[0].faithfulness == 0.9
 
+    def test_recall_reached_averages_apart_from_delivered_recall(self) -> None:
+        """The budget cut is what separates the two columns, not scoring."""
+        results = [
+            make_result(0, recall=0.5, recall_reached=1.0),
+            make_result(1, recall=0.3, recall_reached=0.6),
+        ]
+
+        summary = summarize(results)[0]
+
+        assert summary.recall == 0.4
+        assert summary.recall_reached == 0.8
+
 
 class TestTheCostProjection:
     def test_the_projection_is_arithmetic_on_the_named_rate(self) -> None:
@@ -159,3 +171,9 @@ class TestWhatTheReportStates:
         rendered = render([make_result(0, error='ContextOverflowError: cut')])
 
         assert 'ContextOverflowError' in rendered
+
+    def test_the_report_carries_a_recall_reached_column_and_caveat(self) -> None:
+        rendered = render([make_result(0, recall=0.5, recall_reached=1.0)])
+
+        assert 'Recall reached' in rendered
+        assert '1.00' in rendered

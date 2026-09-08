@@ -63,6 +63,7 @@ class ArmSummary:
     answered: int
     failed: int
     recall: float
+    recall_reached: float
     precision_over_nodes: float
     precision_over_articles: float
     nodes_supplied: float
@@ -130,6 +131,7 @@ def summarize(results: Sequence[Result]) -> tuple[ArmSummary, ...]:
                 answered=len(scored),
                 failed=len(group) - len(scored),
                 recall=_mean([item.recall for item in scored]),
+                recall_reached=_mean([item.recall_reached for item in scored]),
                 precision_over_nodes=_mean(
                     [item.precision_over_nodes for item in scored]
                 ),
@@ -163,15 +165,17 @@ def _optional(value: float | None, spec: str = '.2f') -> str:
 
 def _accuracy_table(summaries: Sequence[ArmSummary]) -> list[str]:
     lines = [
-        '| Arm | Version | Answered | Failed | Recall | Precision, nodes | '
-        'Precision, articles | Nodes sent | Faithfulness | Correct refusals | '
-        'False refusals | Answers cut |',
-        '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |',
+        '| Arm | Version | Answered | Failed | Recall | Recall reached | '
+        'Precision, nodes | Precision, articles | Nodes sent | Faithfulness | '
+        'Correct refusals | False refusals | Answers cut |',
+        '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | '
+        '--- | --- |',
     ]
     for row in summaries:
         lines.append(
             f'| {row.arm} | {row.version} | {row.answered} | {row.failed} | '
-            f'{row.recall:.2f} | {row.precision_over_nodes:.3f} | '
+            f'{row.recall:.2f} | {row.recall_reached:.2f} | '
+            f'{row.precision_over_nodes:.3f} | '
             f'{row.precision_over_articles:.3f} | {row.nodes_supplied:.1f} | '
             f'{_optional(row.faithfulness)} | '
             f'{row.correct_refusals}/{row.refusal_questions} | '
@@ -311,6 +315,11 @@ def render(results: Sequence[Result], depths: Sequence[DepthRow] = ()) -> str:
             '- Recall and precision are read together or not at all. An arm '
             'reaching every gold provision by sending a quarter of the document '
             'scores 1.0 on recall, and the precision column is what that cost.',
+            '- Recall reached counts what the walk found before the synthesis '
+            'prompt budget cut anything from it; recall counts what survived '
+            'to reach the model. The gap between the two columns is the '
+            'budget spending what the walk already earned, not a retrieval '
+            'failure.',
             '- The two refusal columns run over different denominators and '
             'neither is a rate. Correct refusals count the questions the text '
             'does not settle, and false refusals count the ones it does. A '
