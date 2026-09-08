@@ -1,6 +1,10 @@
 EASA
+neighbour
+neighbours
 subfolders
+unasserted
 unconfigured
+unfetched
 unparseable
 unwired
 updatability
