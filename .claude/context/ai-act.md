@@ -75,6 +75,30 @@ Four things follow, and each has already cost a wrong assumption:
 - **A citation resolves in both versions.** The amendment inserts `1a` rather than renumbering, so `Article 6(2)` means one thing in both texts and the set difference per article is what changed. Two readings of how far that holds, both measured at `2c74d20` on 2026-09-06 and both true of a different predicate. Comparing only the articles that carry a parsed paragraph in both versions: **94 compared, 82 identical, 12 differing**. Comparing all 113 shared articles, counting an empty set on both sides as identical: **100 identical, 13 differing**. An earlier reading of this entry gave 94 as the count of identical label sets. It is not. 94 is the number of articles carrying at least one parsed paragraph in the original, which is also the number compared under the first predicate, and that coincidence is where the figure came from.
 - **The consolidated text carries no recitals.** Any answer resting on a recital reads the original, and the full-context baseline is a different size on each side.
 
+### Three word counts, and what each one counts
+
+The record carried three figures for one document and none of them said which predicate it answered. All three are defensible and they are not interchangeable. Measured on 2026-09-06 through the shipped loader.
+
+| Reading                        | Original | Consolidated | What it counts                                                         |
+| ------------------------------ | -------- | ------------ | ---------------------------------------------------------------------- |
+| Words, tags stripped           | 90 497   | 61 044       | The rendered document, headings and tables and closing matter included |
+| Words of parsed provision text | 89 825   | 60 142       | Articles, annexes and recitals as the loader yields them               |
+| Words the baseline arm sends   | 90 743   | 60 541       | The above, plus each block's citation line and its bracket number      |
+
+The middle row is the one every token figure in the record rests on: 581 082 characters of original and 384 515 of consolidated, which is what came back as 114 720 and 77 040 prompt tokens. The figure of 90 483 that `README.md`, `.claude/REQUIREMENTS.md` and `.claude/ARCHITECTURE.md` carry is the Act's own commonly quoted length and answers none of these three predicates exactly. It is kept because it is what a reader outside the project recognizes, and it is never the denominator of anything computed here.
+
+### What the full-context arm actually sends
+
+| Property                      | Original | Consolidated |
+| ----------------------------- | -------- | ------------ |
+| Provisions stuffed            | 306      | 133          |
+| Characters of numbered corpus | 586 231  | 386 655      |
+| Prompt tokens as sent         | 118 063  | 78 406       |
+
+The token row is `usage.prompt_tokens` read back off `annex-longctx`, and it counts the whole prompt: the numbered corpus, the synthesis instructions around it, and the question. It is therefore slightly above the 114 720 and 77 040 the record carries for the provision text alone, and the two answer different predicates rather than disagreeing.
+
+Provisions rather than every addressable id, because an article's parsed text already contains its paragraphs and stuffing both would send the Act twice. That is 306 of the 806 ids the original addresses and 133 of the 685 in the consolidated, which is also why the baseline's retrieval precision is near zero by construction rather than by failure.
+
 ## What this project does not claim
 
 These bound the output text itself, not only the documentation.
