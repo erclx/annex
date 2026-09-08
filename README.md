@@ -8,7 +8,7 @@ It won't tell you whether you comply. That's a judgment about your system that n
 
 The Act decides things in one place and states the consequences in another. Whether a CV-screening tool counts as high-risk is decided in Article 6, which points at a list in Annex III. What you then have to do sits in Articles 8 to 15, and how you prove it is Article 43. Four hops, and the phrase "CV screening" appears in only one of them.
 
-That's the interesting part. The document carries 518 explicit cross-references written into its own sentences, so the links between provisions can be parsed rather than guessed at.
+That's the interesting part. The Act writes its cross-references into its own sentences, so the links between provisions can be parsed rather than guessed at. Parsing the original text yields 523 of them and the amended text 607.
 
 ## The question behind it
 
