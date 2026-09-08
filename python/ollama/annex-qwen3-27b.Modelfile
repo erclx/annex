@@ -1,0 +1,18 @@
+# The generation model, built with the context this project needs.
+#
+# Ollama's OpenAI-compatible /v1 route accepts an `options` block and ignores
+# it, measured on 0.33.1 against both gemma2:9b and qwen3.8:27b. A Modelfile
+# parameter is honoured through that route, so the context lives here rather
+# than in each caller.
+#
+# 32768 rather than the 131072 ceiling the card holds. The agent sends a
+# retrieval result, not the whole Act, and the KV cache at 131072 accounts for
+# 11 to 12 GB of a 32.6 GB card that other work on this machine also wants.
+# The evaluation harness's full-context arm is what needs the ceiling, and it
+# builds its own model rather than widening this one.
+#
+# Build with scripts/ollama-build.sh.
+
+FROM qwen3.8:27b
+
+PARAMETER num_ctx 32768
