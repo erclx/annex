@@ -47,7 +47,7 @@ Supplied is not the same as retrieved. `traversed_ids` names what traversal reac
 
 ## The result
 
-72 runs, none failed. Measured on 2026-09-07 against `annex-longctx` and `annex-qwen3-27b`, both `qwen3.8:27b` derivatives, embedding with `snowflake-arctic-embed2`, on one RTX 5090.
+72 runs, none failed. Measured on 2026-09-08 against `annex-longctx` and `annex-qwen3-27b`, both `qwen3.8:27b` derivatives, embedding with `snowflake-arctic-embed2`, on one RTX 5090.
 
 **Stuffing the whole document still wins on recall, precision and faithfulness. It loses on tokens, and it loses on completeness. The gap narrowed by a third when the embedding model changed.**
 
@@ -55,9 +55,9 @@ Supplied is not the same as retrieved. `traversed_ids` names what traversal reac
 | ---------------- | ------------ | ------ | ---- | ---------------- | ---------- | ------------ | ---------------- | -------------- | ----------- |
 | full-context     | original     | 1.00   | 1.00 | 0.014            | 306.0      | 0.98         | 0/3              | 0/9            | 1           |
 | full-context     | consolidated | 1.00   | 1.00 | 0.032            | 133.0      | 0.97         | 2/3              | 0/9            | 2           |
-| search-only      | original     | 0.61   | 0.41 | 0.236            | 12.0       | 0.91         | 0/3              | 2/9            | 0           |
+| search-only      | original     | 0.61   | 0.41 | 0.236            | 12.0       | 0.91         | 1/3              | 0/9            | 1           |
 | search-only      | consolidated | 0.71   | 0.46 | 0.364            | 11.9       | 0.93         | 1/3              | 1/9            | 0           |
-| search-traversal | original     | 0.74   | 0.54 | 0.170            | 25.8       | 0.94         | 0/3              | 0/9            | 2           |
+| search-traversal | original     | 0.83   | 0.54 | 0.255            | 22.8       | 0.91         | 0/3              | 0/9            | 2           |
 | search-traversal | consolidated | 0.81   | 0.56 | 0.248            | 26.0       | 0.92         | 1/3              | 0/9            | 0           |
 
 The v0.6 column is the same harness over the same questions on `nomic-embed-text`, kept at `python/data/eval/runs/v0.6-nomic-embed-text.json` and recomputed from that file rather than copied from the old table. One change to the embedding model moved every retrieval row by 0.20 to 0.25 of recall, and it moved precision the same way rather than trading against it.
@@ -66,45 +66,47 @@ The completeness half of the headline is the last column. Three of the baseline'
 
 | Arm              | Version      | Prompt tokens | Wall time | First call | Later calls |
 | ---------------- | ------------ | ------------- | --------- | ---------- | ----------- |
-| full-context     | original     | 1 416 797     | 438.0 s   | 115.5 s    | 29.3 s      |
-| full-context     | consolidated | 940 889       | 327.7 s   | 62.7 s     | 24.1 s      |
-| search-only      | original     | 51 622        | 345.8 s   | 45.7 s     | 27.3 s      |
-| search-only      | consolidated | 54 072        | 338.5 s   | 34.1 s     | 27.7 s      |
-| search-traversal | original     | 187 225       | 387.7 s   | 28.5 s     | 32.7 s      |
-| search-traversal | consolidated | 189 460       | 406.2 s   | 34.7 s     | 33.8 s      |
+| full-context     | original     | 1 416 797     | 417.6 s   | 110.4 s    | 27.9 s      |
+| full-context     | consolidated | 940 889       | 325.0 s   | 63.4 s     | 23.8 s      |
+| search-only      | original     | 51 622        | 342.2 s   | 32.7 s     | 28.1 s      |
+| search-only      | consolidated | 54 072        | 312.7 s   | 30.3 s     | 25.7 s      |
+| search-traversal | original     | 193 575       | 362.0 s   | 28.8 s     | 30.3 s      |
+| search-traversal | consolidated | 189 460       | 369.8 s   | 29.5 s     | 30.9 s      |
 
-The baseline still reads 27 times the prompt tokens of search alone on the original text. Its first call is the one to read: 115.5 s against 29.3 s for the calls behind it, which is the cache filling rather than the model thinking.
+The baseline still reads 27 times the prompt tokens of search alone on the original text. Its first call is the one to read: 110.4 s against 27.9 s for the calls behind it, which is the cache filling rather than the model thinking.
 
-Recall of 1.00 on the baseline is not an achievement, it is a definition: the arm was handed every provision, so it cannot miss one. What the number does is set the bar. Neither retrieval arm reaches it, and the nearer one now reaches 0.81.
+Recall of 1.00 on the baseline is not an achievement, it is a definition: the arm was handed every provision, so it cannot miss one. What the number does is set the bar. Neither retrieval arm reaches it, and the nearer one now reaches 0.83.
 
 ### Traversal beats search alone, and the bottleneck behind it moved
 
-Following the Act's cross-references lifts recall from 0.61 to 0.74 on the original and from 0.71 to 0.81 on the consolidated. That is a real gain and it is the reason the reference graph exists. It costs precision, 0.236 falling to 0.170, as the walk brings in provisions the question did not need.
+Following the Act's cross-references lifts recall from 0.61 to 0.83 on the original and from 0.71 to 0.81 on the consolidated. That is a real gain and it is the reason the reference graph exists. The precision cost is uneven: 0.364 falls to 0.248 on the consolidated, where the walk still brings in provisions the question did not need, and 0.236 barely moves to 0.255 on the original, now that the budget spends on those provisions rather than on recitals search also returned.
 
 Where the walk pays for itself is the deadline flow. All three version-comparison questions went from 0.50 to 1.00 on both documents, each by recovering Article 113 from Article 111, which search returns and Article 113 is cited by. Article 113 is the only article in either version carrying the compliance dates, and search alone never returns it on the original text. Attribute that to the embedding swap and the merged routing change together rather than to either alone: the routing change is what stopped a temporal question reaching the index with its timing discarded, and the swap is what put Article 111 in the top twelve.
 
-At v0.6 the ceiling on this arm was search, because search never returned an entry point to walk from. That is no longer where the loss is. On `q06-worker-promotion` search now returns both `anx_III` and `art_6.3`, the walk lifts the paragraph to Article 6 and reaches Article 10 through Article 15 and Article 43, and the arm still scores 0.27.
+At v0.6 the ceiling on this arm was search, because search never returned an entry point to walk from. That is no longer where the loss is. On `q06-worker-promotion` search now returns both `anx_III` and `art_6.3`, the walk lifts the paragraph to Article 6 and reaches Article 10 through Article 15 and Article 43, and the arm now scores 0.73, up from 0.27, because the prompt budget no longer spends on the recitals search also returned before those articles get a turn.
 
 ```plaintext
 q06-worker-promotion, original
   searched    anx_III, art_6.3, art_14.4, and nine recitals
   traversed   art_6, art_10, art_11, art_12, art_13, art_15, art_43, and 33 more
-  dropped     art_10, art_11, art_12, art_13, art_15, art_43, and 21 more
-  scored      recall 0.27
+  dropped     nine recitals, art_43, and 19 more traversed articles
+  scored      recall 0.73
 ```
 
-Every obligation article the question needed was reached and then cut. `Pipeline._within_budget` drops from the far end until the prompt fits the 32 768-token window, and 40 traversed provisions of legal text do not fit. Scoring the same rows against everything the walk reached, before the budget trimmed it:
+Every obligation article the question needed was reached, and most of them are no longer cut. `q06`'s traversed set carried nine recitals search returned alongside the obligation articles, and the greedy fill used to spend the budget on them first because `_citations` builds its list in arrival order, search hits then traversal, nearest first. `Pipeline._within_budget` now sorts every citation by `(kind is RECITAL, position)` before that fill, so a recital sits behind every article, annex and paragraph the walk found rather than ahead of them. Scoring the same rows against everything the walk reached, before the budget trims it:
 
 | Version      | Arm scores | Walk reached | Lost to the budget |
 | ------------ | ---------- | ------------ | ------------------ |
-| original     | 0.74       | 0.89         | 0.149              |
+| original     | 0.83       | 0.89         | 0.058              |
 | consolidated | 0.81       | 0.85         | 0.045              |
 
-**That gap is what retrieval found and the model was never shown.** The reached column is not a recall the pipeline can achieve, since a prompt carrying all of it would truncate mid-answer, and it is quoted only to locate the loss.
+**Most of the gap that mattered is gone, and only on the text where a recital could ever sit ahead of an article.** The consolidated carries no recitals, so this fix has nothing to reorder there, and its column does not move outside noise. On the original, mean recall for the arm moves from 0.74 to 0.83 and the loss to the budget from 0.149 to 0.058. `q04-cv-screening` moves from 0.18 to 0.73 and `q06-worker-promotion` from 0.27 to 0.73, both by keeping `art_10` through `art_15` that recitals used to crowd out. `q05-university-admission` barely moves, 0.09 to 0.18, because search never returns `art_6` there and no ranking fix delivers a provision the walk never reached.
 
-The loss is three times larger on the original text, and that asymmetry is the useful half. The original carries 180 recitals the consolidated does not, so its walk pulls in more text per hop and fills the window sooner. The three high-risk chain questions carry all of it there: q04 scores 0.18 against 0.82 reached, q05 0.09 against 0.36, and q06 0.27 against 0.82.
+`art_43` still drops on both `q04` and `q06`, and `art_8` and `art_9` never enter either question's traversed set at all, excluded by the 40-node cap before the budget runs at all. The reached column is still not a recall the pipeline can achieve on the original text, since even the freed budget does not fit every one of the 40 traversed provisions, but it is a smaller diagnosis than it was.
 
-The harness is behaving as designed here rather than failing. `RetrievalTrace.dropped_ids` exists precisely so the scorer subtracts text nothing read, because crediting traversal for provisions the budget cut would credit it for text the model never saw. What changed is which limit binds. **The bottleneck is now the synthesis prompt budget, not the embedder and not the graph.** Widening it means a larger window, a smaller traversal cap, or sending provisions the walk ranked rather than the ones it reached first, and none of those is measured here.
+The harness is behaving as designed here rather than failing. `RetrievalTrace.dropped_ids` exists precisely so the scorer subtracts text nothing read, because crediting traversal for provisions the budget cut would credit it for text the model never saw. What changed is which citations spend that budget first. **The ceiling is still the synthesis prompt budget, narrower now than it was.** Widening it further means a larger window, a smaller traversal cap, or sending provisions the walk ranked by relevance rather than by kind and arrival, and none of those is measured here.
+
+Reordering the twelve citations search-only ever sends also moves their `[n]` markers wherever a recital sits among them, which is every high-risk-chain and transparency question on the original text. No claim's grounding depends on its marker's position, so faithfulness on those rows holds, but the model reads a differently ordered prompt and can draft a different answer from it: `search-only`'s refusal correctness on the original text moved from 0/3 to 1/3 and its false refusals from 2/9 to 0/9, on citations the ranking reordered without dropping any of them.
 
 ### Depth 2 is a cost setting rather than a forced one
 
@@ -119,15 +121,15 @@ The harness is behaving as designed here rather than failing. `RetrievalTrace.dr
 
 Depth 2 is now the setting on both documents, and for the first time the table says so without qualification. Depth 3 buys nothing on either version while sending four more nodes on the original, which reverses the v0.6 reading where it bought 0.06 there. Better seeds are what changed it: a walk that starts from the right provisions reaches the chain at depth 2 and has nowhere further worth going.
 
-These rows re-walk the recorded seeds and call no model, so they measure what the graph reaches rather than what the prompt carries. Read them against the 0.74 and 0.81 the arm actually scores, and the difference is the budget rather than the depth.
+These rows re-walk the recorded seeds and call no model, so they measure what the graph reaches rather than what the prompt carries. Read them against the 0.83 and 0.81 the arm actually scores, and the difference is the budget rather than the depth.
 
 ### The prompt cache is real, and it is what makes the baseline affordable
 
 Measured from a cold model, with `ollama stop annex-longctx` first, three questions against the consolidated text: **70.1 s on the first call and 25.0 s on the next two.** The corpus is a fixed prefix and the question a short suffix, so only the first question of a version pays the prefill.
 
-This is the local form of the prompt-caching argument that the record otherwise only asserts, and it matters because it is the whole cost case against retrieval. On the original text the baseline sends 7.6 times the prompt tokens of the traversal arm and 27 times the search-only arm, and still finishes a twelve-question sweep in about the same wall time, because those tokens are cached and the retrieval arms each pay two uncached model calls per question.
+This is the local form of the prompt-caching argument that the record otherwise only asserts, and it matters because it is the whole cost case against retrieval. On the original text the baseline sends 7.3 times the prompt tokens of the traversal arm and 27 times the search-only arm, and still finishes a twelve-question sweep in about the same wall time, because those tokens are cached and the retrieval arms each pay two uncached model calls per question.
 
-The first-call column in the tables above reads cold on this run, unlike the v0.6 one. Full-context on the original shows 115.5 s against a 29.3 s later mean, which is the prefill the controlled probe isolates rather than an artifact of an earlier partial run having warmed the same prefix.
+The first-call column in the tables above reads cold on this run, unlike the v0.6 one. Full-context on the original shows 110.4 s against a 27.9 s later mean, which is the prefill the controlled probe isolates rather than an artifact of an earlier partial run having warmed the same prefix.
 
 ### The wrong refusals are mostly gone, and the right ones are still rare
 
@@ -157,7 +159,7 @@ On this corpus, with this model, **retrieval still does not earn its place on ac
 
 What changed is the size of the gap and where the remaining loss sits. Swapping one embedding model closed a third of the distance to the baseline, 0.54 to 0.74 on the original and 0.56 to 0.81 on the consolidated, for no new dependency and a 27-second index rebuild. That is the cheapest change measured against this harness so far.
 
-Neither side comes out clean. The baseline pays for its recall with three cut answers out of twenty-four. The traversal arm now finds provisions it cannot show the model, losing 0.15 of recall to a prompt budget rather than to retrieval. A reader picking an arm off the recall column alone would get neither.
+Neither side comes out clean. The baseline pays for its recall with three cut answers out of twenty-four. The traversal arm still finds provisions it cannot show the model, losing 0.058 of recall to the prompt budget on the original text and 0.045 on the consolidated, down from 0.149 before this row ranked recitals behind articles in the fill. A reader picking an arm off the recall column alone would get neither.
 
 Three limits keep this from being a general claim, and all three are worth stating before someone else does.
 

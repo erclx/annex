@@ -18,11 +18,13 @@ CHATBOT = 'a chatbot that talks to customers on our website'
 DEADLINE = 'when do the obligations for a high-risk AI system start to apply to us'
 
 
-def make_citation(provision_id: str, text: str) -> Citation:
+def make_citation(
+    provision_id: str, text: str, kind: ProvisionKind = ProvisionKind.ARTICLE
+) -> Citation:
     return Citation(
         provision_id=provision_id,
         citation=provision_id,
-        kind=ProvisionKind.ARTICLE,
+        kind=kind,
         version=CorpusVersion.CONSOLIDATED,
         text=text,
     )
@@ -255,6 +257,52 @@ class TestThePromptBudget:
         kept, dropped = pipeline._within_budget(citations)
 
         assert len(kept) + len(dropped) == len(citations)
+
+    def test_a_recital_ahead_of_an_article_in_arrival_ranks_behind_it(
+        self, build_pipeline: BuildPipeline
+    ) -> None:
+        """A search-side recital no longer spends budget a traversed article needs."""
+        pipeline, _ = build_pipeline(['transparency obligations', GROUNDED])
+        citations = (
+            make_citation('rec_1', 'x' * 100, kind=ProvisionKind.RECITAL),
+            make_citation('art_10', 'x' * 100),
+        )
+
+        kept, _ = pipeline._within_budget(citations)
+
+        assert [item.provision_id for item in kept] == ['art_10', 'rec_1']
+
+    def test_a_recital_is_dropped_before_the_articles_behind_it_in_arrival(
+        self, build_pipeline: BuildPipeline
+    ) -> None:
+        pipeline, _ = build_pipeline(['transparency obligations', GROUNDED])
+        recitals = tuple(
+            make_citation(f'rec_{n}', 'x' * 4000, kind=ProvisionKind.RECITAL)
+            for n in range(10)
+        )
+        articles = tuple(make_citation(f'art_{n}', 'x' * 4000) for n in range(10))
+
+        kept, dropped = pipeline._within_budget(recitals + articles)
+
+        assert dropped
+        assert {item.provision_id for item in kept} >= {
+            item.provision_id for item in articles
+        }
+        assert set(dropped) <= {item.provision_id for item in recitals}
+
+    def test_citations_of_the_same_tier_keep_arrival_order(
+        self, build_pipeline: BuildPipeline
+    ) -> None:
+        pipeline, _ = build_pipeline(['transparency obligations', GROUNDED])
+        citations = (
+            make_citation('art_5', 'x' * 100),
+            make_citation('rec_1', 'x' * 100, kind=ProvisionKind.RECITAL),
+            make_citation('art_3', 'x' * 100),
+        )
+
+        kept, _ = pipeline._within_budget(citations)
+
+        assert [item.provision_id for item in kept] == ['art_5', 'art_3', 'rec_1']
 
 
 class TestTheTrace:

@@ -3,7 +3,7 @@
   "version": "original",
   "claims": [
     {
-      "statement": "The system's intended purpose—evaluating creditworthiness or establishing a credit score of natural persons—falls within Annex III point 5(b), and Article 6(2) classifies such systems as high-risk",
+      "statement": "The system is a credit-scoring system for natural persons, which is listed in Annex III point 5(b) and is therefore a high-risk AI system under Article 6(2)",
       "citations": [
         {
           "provision_id": "anx_III",
@@ -26,7 +26,7 @@
       ]
     },
     {
-      "statement": "Because the system was placed on the market in 2025, before 2 August 2026, Article 111(2) applies, providing that the Regulation applies to it only if, from that date, it is subject to significant changes in its designs",
+      "statement": "The system has been on the market since 2025, i.e. before 2 August 2026, so Article 111(2) determines whether the Regulation applies to it, applying only if, as from that date, the system is subject to significant changes in its designs",
       "citations": [
         {
           "provision_id": "art_111.2",
@@ -49,21 +49,7 @@
       ]
     },
     {
-      "statement": "Recital 177 clarifies that the concept of \"significant change\" in that transitional context is equivalent in substance to the notion of \"substantial modification\" used elsewhere in the Regulation",
-      "citations": [
-        {
-          "provision_id": "rct_177",
-          "citation": "Recital 177",
-          "kind": "recital",
-          "version": "original",
-          "text": "(177) In order to ensure legal certainty, ensure an appropriate adaptation period for operators and avoid disruption to the market, including by ensuring continuity of the use of AI systems, it is appropriate that this Regulation applies to the high-risk AI systems that have been placed on the market or put into service before the general date of application thereof, only if, from that date, those systems are subject to significant changes in their design or intended purpose. It is appropriate to clarify that, in this respect, the concept of significant change should be understood as equivalent in substance to the notion of substantial modification, which is used with regard only to high-risk AI systems pursuant to this Regulation. On an exceptional basis and in light of public accountability, operators of AI systems which are components of the large-scale IT systems established by the legal acts listed in an annex to this Regulation and operators of high-risk AI systems that are intended to be used by public authorities should, respectively, take the necessary steps to comply with the requirements of this Regulation by end of 2030 and by 2 August 2030.",
-          "changed": true,
-          "change_note": "Recital 177 appears in the original text and not in the consolidated text."
-        }
-      ]
-    },
-    {
-      "statement": "Article 43(4) provides that a high-risk AI system already subject to a conformity assessment procedure must undergo a new conformity assessment in the event of a substantial modification, regardless of whether it is further distributed or continues to be used by the current deployer",
+      "statement": "The retraining on newer data must be read against Article 43(4), which requires a new conformity assessment procedure in the event of a substantial modification, regardless of whether the modified system is further distributed or continues to be used by the current deployer",
       "citations": [
         {
           "provision_id": "art_43.4",
@@ -86,7 +72,7 @@
       ]
     },
     {
-      "statement": "Article 43(4), second sentence, provides that for high-risk AI systems that continue to learn after being placed on the market, changes pre-determined by the provider at the moment of the initial conformity assessment and recorded in the technical documentation under Annex IV point 2(f) do not constitute a substantial modification",
+      "statement": "Article 43(4), second sentence, provides that for high-risk AI systems that continue to learn after being placed on the market, changes pre-determined by the provider at the moment of the initial conformity assessment and contained in the technical documentation under Annex IV point 2(f) shall not constitute a substantial modification",
       "citations": [
         {
           "provision_id": "art_43.4",
@@ -96,15 +82,6 @@
           "text": "4. High-risk AI systems that have already been subject to a conformity assessment procedure shall undergo a new conformity assessment procedure in the event of a substantial modification, regardless of whether the modified system is intended to be further distributed or continues to be used by the current deployer. For high-risk AI systems that continue to learn after being placed on the market or put into service, changes to the high-risk AI system and its performance that have been pre-determined by the provider at the moment of the initial conformity assessment and are part of the information contained in the technical documentation referred to in point 2(f) of Annex IV, shall not constitute a substantial modification.",
           "changed": false,
           "change_note": null
-        },
-        {
-          "provision_id": "art_43",
-          "citation": "Article 43",
-          "kind": "article",
-          "version": "original",
-          "text": "Article 43 Conformity assessment 1. For high-risk AI systems listed in point 1 of Annex III, where, in demonstrating the compliance of a high-risk AI system with the requirements set out in Section 2, the provider has applied harmonised standards referred to in Article 40, or, where applicable, common specifications referred to in Article 41, the provider shall opt for one of the following conformity assessment procedures based on: (a) the internal control referred to in Annex VI; or (b) the assessment of the quality management system and the assessment of the technical documentation, with the involvement of a notified body, referred to in Annex VII. In demonstrating the compliance of a high-risk AI system with the requirements set out in Section 2, the provider shall follow the conformity assessment procedure set out in Annex VII where: (a) harmonised standards referred to in Article 40 do not exist, and common specifications referred to in Article 41 are not available; (b) the provider has not applied, or has applied only part of, the harmonised standard; (c) the common specifications referred to in point (a) exist, but the provider has not applied them; (d) one or more of the harmonised standards referred to in point (a) has been published with a restriction, and only on the part of the standard that was restricted. For the purposes of the conformity assessment procedure referred to in Annex VII, the provider may choose any of the notified bodies. However, where the high-risk AI system is intended to be put into service by law enforcement, immigration or asylum authorities or by Union institutions, bodies, offices or agencies, the market surveillance authority referred to in Article 74(8) or (9), as applicable, shall act as a notified body. 2. For high-risk AI systems referred to in points 2 to 8 of Annex III, providers shall follow the conformity assessment procedure based on internal control as referred to in Annex VI, which does not provide for the involvement of a notified body. 3. For high-risk AI systems covered by the Union harmonisation legislation listed in Section A of Annex I, the provider shall follow the relevant conformity assessment procedure as required under those legal acts. The requirements set out in Section 2 of this Chapter shall apply to those high-risk AI systems and shall be part of that assessment. Points 4.3., 4.4., 4.5. and the fifth paragraph of point 4.6 of Annex VII shall also apply. For the purposes of that assessment, notified bodies which have been notified under those legal acts shall be entitled to control the conformity of the high-risk AI systems with the requirements set out in Section 2, provided that the compliance of those notified bodies with requirements laid down in Article 31(4), (5), (10) and (11) has been assessed in the context of the notification procedure under those legal acts. Where a legal act listed in Section A of Annex I enables the product manufacturer to opt out from a third-party conformity assessment, provided that that manufacturer has applied all harmonised standards covering all the relevant requirements, that manufacturer may use that option only if it has also applied harmonised standards or, where applicable, common specifications referred to in Article 41, covering all requirements set out in Section 2 of this Chapter. 4. High-risk AI systems that have already been subject to a conformity assessment procedure shall undergo a new conformity assessment procedure in the event of a substantial modification, regardless of whether the modified system is intended to be further distributed or continues to be used by the current deployer. For high-risk AI systems that continue to learn after being placed on the market or put into service, changes to the high-risk AI system and its performance that have been pre-determined by the provider at the moment of the initial conformity assessment and are part of the information contained in the technical documentation referred to in point 2(f) of Annex IV, shall not constitute a substantial modification. 5. The Commission is empowered to adopt delegated acts in accordance with Article 97 in order to amend Annexes VI and VII by updating them in light of technical progress. 6. The Commission is empowered to adopt delegated acts in accordance with Article 97 in order to amend paragraphs 1 and 2 of this Article in order to subject high-risk AI systems referred to in points 2 to 8 of Annex III to the conformity assessment procedure referred to in Annex VII or parts thereof. The Commission shall adopt such delegated acts taking into account the effectiveness of the conformity assessment procedure based on internal control referred to in Annex VI in preventing or minimising the risks to health and safety and protection of fundamental rights posed by such systems, as well as the availability of adequate capacities and resources among notified bodies.",
-          "changed": true,
-          "change_note": "The wording of Article 43 differs between the original and the consolidated text."
         },
         {
           "provision_id": "anx_IV",
@@ -118,7 +95,7 @@
       ]
     },
     {
-      "statement": "Article 25(1)(b) provides that a party who makes a substantial modification to a high-risk AI system that remains high-risk pursuant to Article 6 is considered a provider and is subject to the obligations under Article 16",
+      "statement": "If the retraining amounts to a substantial modification, Article 25(1)(b) provides that the entity making that modification is considered a provider of the high-risk AI system and is subject to the obligations under Article 16",
       "citations": [
         {
           "provision_id": "art_25.1",
@@ -137,6 +114,29 @@
           "text": "Article 25 Responsibilities along the AI value chain 1. Any distributor, importer, deployer or other third-party shall be considered to be a provider of a high-risk AI system for the purposes of this Regulation and shall be subject to the obligations of the provider under Article 16, in any of the following circumstances: (a) they put their name or trademark on a high-risk AI system already placed on the market or put into service, without prejudice to contractual arrangements stipulating that the obligations are otherwise allocated; (b) they make a substantial modification to a high-risk AI system that has already been placed on the market or has already been put into service in such a way that it remains a high-risk AI system pursuant to Article 6; (c) they modify the intended purpose of an AI system, including a general-purpose AI system, which has not been classified as high-risk and has already been placed on the market or put into service in such a way that the AI system concerned becomes a high-risk AI system in accordance with Article 6. 2. Where the circumstances referred to in paragraph 1 occur, the provider that initially placed the AI system on the market or put it into service shall no longer be considered to be a provider of that specific AI system for the purposes of this Regulation. That initial provider shall closely cooperate with new providers and shall make available the necessary information and provide the reasonably expected technical access and other assistance that are required for the fulfilment of the obligations set out in this Regulation, in particular regarding the compliance with the conformity assessment of high-risk AI systems. This paragraph shall not apply in cases where the initial provider has clearly specified that its AI system is not to be changed into a high-risk AI system and therefore does not fall under the obligation to hand over the documentation. 3. In the case of high-risk AI systems that are safety components of products covered by the Union harmonisation legislation listed in Section A of Annex I, the product manufacturer shall be considered to be the provider of the high-risk AI system, and shall be subject to the obligations under Article 16 under either of the following circumstances: (a) the high-risk AI system is placed on the market together with the product under the name or trademark of the product manufacturer; (b) the high-risk AI system is put into service under the name or trademark of the product manufacturer after the product has been placed on the market. 4. The provider of a high-risk AI system and the third party that supplies an AI system, tools, services, components, or processes that are used or integrated in a high-risk AI system shall, by written agreement, specify the necessary information, capabilities, technical access and other assistance based on the generally acknowledged state of the art, in order to enable the provider of the high-risk AI system to fully comply with the obligations set out in this Regulation. This paragraph shall not apply to third parties making accessible to the public tools, services, processes, or components, other than general-purpose AI models, under a free and open-source licence. The AI Office may develop and recommend voluntary model terms for contracts between providers of high-risk AI systems and third parties that supply tools, services, components or processes that are used for or integrated into high-risk AI systems. When developing those voluntary model terms, the AI Office shall take into account possible contractual requirements applicable in specific sectors or business cases. The voluntary model terms shall be published and be available free of charge in an easily usable electronic format. 5. Paragraphs 2 and 3 are without prejudice to the need to observe and protect intellectual property rights, confidential business information and trade secrets in accordance with Union and national law.",
           "changed": true,
           "change_note": "The wording of Article 25 differs between the original and the consolidated text."
+        }
+      ]
+    },
+    {
+      "statement": "Article 111(2), second sentence, requires that, in any case, the providers and deployers of high-risk AI systems intended to be used by public authorities take the necessary steps to comply with the requirements and obligations of the Regulation by 2 August 2030",
+      "citations": [
+        {
+          "provision_id": "art_111.2",
+          "citation": "Article 111(2)",
+          "kind": "paragraph",
+          "version": "original",
+          "text": "2. Without prejudice to the application of Article 5 as referred to in Article 113(3), point (a), this Regulation shall apply to operators of high-risk AI systems, other than the systems referred to in paragraph 1 of this Article, that have been placed on the market or put into service before 2 August 2026, only if, as from that date, those systems are subject to significant changes in their designs. In any case, the providers and deployers of high-risk AI systems intended to be used by public authorities shall take the necessary steps to comply with the requirements and obligations of this Regulation by 2 August 2030.",
+          "changed": true,
+          "change_note": "The wording of Article 111(2) differs between the original and the consolidated text."
+        },
+        {
+          "provision_id": "art_111",
+          "citation": "Article 111",
+          "kind": "article",
+          "version": "original",
+          "text": "Article 111 AI systems already placed on the market or put into service and general-purpose AI models already placed on the marked 1. Without prejudice to the application of Article 5 as referred to in Article 113(3), point (a), AI systems which are components of the large-scale IT systems established by the legal acts listed in Annex X that have been placed on the market or put into service before 2 August 2027 shall be brought into compliance with this Regulation by 31 December 2030. The requirements laid down in this Regulation shall be taken into account in the evaluation of each large-scale IT system established by the legal acts listed in Annex X to be undertaken as provided for in those legal acts and where those legal acts are replaced or amended. 2. Without prejudice to the application of Article 5 as referred to in Article 113(3), point (a), this Regulation shall apply to operators of high-risk AI systems, other than the systems referred to in paragraph 1 of this Article, that have been placed on the market or put into service before 2 August 2026, only if, as from that date, those systems are subject to significant changes in their designs. In any case, the providers and deployers of high-risk AI systems intended to be used by public authorities shall take the necessary steps to comply with the requirements and obligations of this Regulation by 2 August 2030. 3. Providers of general-purpose AI models that have been placed on the market before 2 August 2025 shall take the necessary steps in order to comply with the obligations laid down in this Regulation by 2 August 2027.",
+          "changed": true,
+          "change_note": "The wording of Article 111 differs between the original and the consolidated text."
         }
       ]
     }
@@ -200,6 +200,11 @@
       "anx_VIII"
     ],
     "dropped_ids": [
+      "rct_177",
+      "rct_84",
+      "rct_58",
+      "rct_86",
+      "rct_178",
       "art_113",
       "art_13",
       "art_16",
@@ -231,9 +236,9 @@
     ],
     "traversal_enabled": true,
     "truncated": false,
-    "prompt_tokens": 16086,
-    "completion_tokens": 3522,
-    "duration_ms": 34108,
+    "prompt_tokens": 14785,
+    "completion_tokens": 3776,
+    "duration_ms": 30546,
     "model": "annex-qwen3-27b"
   }
 }
