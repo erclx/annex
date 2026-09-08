@@ -7,6 +7,7 @@ caplog
 cksum
 commitlint
 conftest
+contentinfo
 dataclass
 dataclasses
 dbaeumer
@@ -66,6 +67,7 @@ threadpool
 timonwong
 toplevel
 typegen
+unstub
 usefixtures
 uvicorn
 vec
