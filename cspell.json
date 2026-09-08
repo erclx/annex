@@ -16,5 +16,10 @@
     }
   ],
   "dictionaries": ["project-terms", "tech-stack"],
-  "ignorePaths": [".cspell/**", ".git/**", "python/data/**"]
+  "ignorePaths": [
+    ".cspell/**",
+    ".git/**",
+    "python/data/**",
+    "web/ui-states/settled-design.html"
+  ]
 }

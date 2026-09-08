@@ -131,6 +131,32 @@ def _ask(question: str, version: CorpusVersion, traversal: bool) -> int:
     return 0
 
 
+def _serve() -> int:
+    """Serve the answer endpoint the web half calls.
+
+    Imported here rather than at module scope for the reason `_arms` gives:
+    reaching the service pulls in FastAPI and compiles a LangGraph, and
+    `annex ingest` should not pay for either.
+
+    The pipeline is built inside the app's lifespan rather than here, so a
+    model that is not up leaves the service serving the `unavailable` state
+    instead of refusing to boot.
+    """
+    import uvicorn
+
+    from annex.service import create_app
+
+    settings = Settings()
+    logger.info('serving on http://%s:%d', settings.service_host, settings.service_port)
+    uvicorn.run(
+        create_app(settings=settings),
+        host=settings.service_host,
+        port=settings.service_port,
+        log_level='warning',
+    )
+    return 0
+
+
 ARM_NAMES = ('full-context', 'search-only', 'search-traversal')
 """The three arms, in the order the report reads best.
 
@@ -224,6 +250,7 @@ def main(argv: list[str] | None = None) -> int:
     subcommands.add_parser('schema', help='write the answer JSON Schema to stdout')
     subcommands.add_parser('context', help='report the context the models carry')
     subcommands.add_parser('embed', help='chunk both versions and build the index')
+    subcommands.add_parser('serve', help='serve the answer endpoint over HTTP')
 
     searching = subcommands.add_parser('search', help='search one version by meaning')
     searching.add_argument('question')
@@ -295,6 +322,8 @@ def main(argv: list[str] | None = None) -> int:
             return _context()
         if arguments.command == 'embed':
             return _embed(arguments.refresh)
+        if arguments.command == 'serve':
+            return _serve()
         if arguments.command == 'search':
             return _search(arguments.question, arguments.version, arguments.k)
         if arguments.command == 'ask':
