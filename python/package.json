@@ -1,0 +1,16 @@
+{
+  "name": "python",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "typecheck": "uv run mypy .",
+    "lint": "uv run ruff check .",
+    "lint:fix": "uv run ruff check --fix .",
+    "format": "uv run ruff format .",
+    "check:format": "uv run ruff format --check .",
+    "test": "uv run pytest",
+    "test:run": "uv run pytest -v",
+    "test:cov": "uv run pytest --cov --cov-report=term-missing --cov-report=html",
+    "check": "bun run typecheck && bun run lint && bun run check:format && bun run test:run"
+  }
+}
