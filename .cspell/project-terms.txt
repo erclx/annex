@@ -1,6 +1,8 @@
 categorisation
 checkability
 Consolas
+deployer
+deployers
 EASA
 embedder
 GPAI
@@ -8,6 +10,7 @@ Menlo
 neighbour
 neighbours
 Noto
+organisational
 Segoe
 stopword
 stopwords
