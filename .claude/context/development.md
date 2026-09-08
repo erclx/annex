@@ -34,11 +34,12 @@ Each half verifies itself and the root chains both. Neither half's `package.json
 
 ## Running each half
 
-| Command                               | What it starts                                  |
-| ------------------------------------- | ----------------------------------------------- |
-| `cd web && bun run dev --port 4100`   | The answer surface at `http://localhost:4100`   |
-| `cd python && uv run python -m annex` | The retrieval and evaluation side               |
-| `ollama serve`                        | The model backend, if it is not already running |
+| Command                                     | What it starts                                  |
+| ------------------------------------------- | ----------------------------------------------- |
+| `cd web && bun run dev --port 4100`         | The answer surface at `http://localhost:4100`   |
+| `cd python && uv run python -m annex`       | The retrieval and evaluation side               |
+| `cd python && uv run python -m annex serve` | The answer endpoint at `http://localhost:4200`  |
+| `ollama serve`                              | The model backend, if it is not already running |
 
 Ollama answers on `11434` and exposes an OpenAI-compatible endpoint at `/v1`, so the client is written against the OpenAI SDK with `base_url` pointed there. Confirm it is up with `curl http://localhost:11434/v1/models`, which lists the pulled models.
 
@@ -47,6 +48,8 @@ Ollama answers on `11434` and exposes an OpenAI-compatible endpoint at `/v1`, so
 The web app takes `4100` rather than the `3000` Next defaults to, so it does not collide with another local app.
 
 `web/scripts/worktree-port.sh` derives a per-worktree offset and the `test:e2e` scripts export it as `WORKTREE_PORT_OFFSET`. `web/playwright.config.ts` adds that offset to its base, so two worktrees of this repository never serve on one port. Override the base alone with `E2E_BASE_PORT`.
+
+The answer endpoint takes `4200`, above the 4100 to 4150 band that offset derives, so a linked worktree's web app cannot land on it and uvicorn's 8000 default is avoided. Override it with `ANNEX_SERVICE_PORT`, and point the browser somewhere else with `NEXT_PUBLIC_ANNEX_API_URL`. The service entry carries the rest.
 
 ## Scripts
 
