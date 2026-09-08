@@ -1,0 +1,248 @@
+[
+  {
+    "description": "a chatbot on our website that answers customer questions about our products",
+    "expects_refusal": false,
+    "flow": "transparency",
+    "gold": {
+      "consolidated": [
+        "art_50"
+      ],
+      "original": [
+        "art_50"
+      ]
+    },
+    "id": "q01-support-chatbot"
+  },
+  {
+    "description": "a voice agent that phones our customers to confirm appointments, speaking in a synthesized voice",
+    "expects_refusal": false,
+    "flow": "transparency",
+    "gold": {
+      "consolidated": [
+        "art_50"
+      ],
+      "original": [
+        "art_50"
+      ]
+    },
+    "id": "q02-synthetic-voice-agent"
+  },
+  {
+    "description": "we generate product photographs with an image model and publish them in our online shop",
+    "expects_refusal": false,
+    "flow": "transparency",
+    "gold": {
+      "consolidated": [
+        "art_50"
+      ],
+      "original": [
+        "art_50"
+      ]
+    },
+    "id": "q03-generated-product-images"
+  },
+  {
+    "description": "software that ranks job applicants by reading their CVs and shortlists who we interview",
+    "expects_refusal": false,
+    "flow": "high-risk-chain",
+    "gold": {
+      "consolidated": [
+        "anx_III",
+        "art_6",
+        "art_8",
+        "art_9",
+        "art_10",
+        "art_11",
+        "art_12",
+        "art_13",
+        "art_14",
+        "art_15",
+        "art_43"
+      ],
+      "original": [
+        "anx_III",
+        "art_6",
+        "art_8",
+        "art_9",
+        "art_10",
+        "art_11",
+        "art_12",
+        "art_13",
+        "art_14",
+        "art_15",
+        "art_43"
+      ]
+    },
+    "id": "q04-cv-screening"
+  },
+  {
+    "description": "a system that scores university applications and decides which applicants are admitted",
+    "expects_refusal": false,
+    "flow": "high-risk-chain",
+    "gold": {
+      "consolidated": [
+        "anx_III",
+        "art_6",
+        "art_8",
+        "art_9",
+        "art_10",
+        "art_11",
+        "art_12",
+        "art_13",
+        "art_14",
+        "art_15",
+        "art_43"
+      ],
+      "original": [
+        "anx_III",
+        "art_6",
+        "art_8",
+        "art_9",
+        "art_10",
+        "art_11",
+        "art_12",
+        "art_13",
+        "art_14",
+        "art_15",
+        "art_43"
+      ]
+    },
+    "id": "q05-university-admission"
+  },
+  {
+    "description": "a tool that monitors warehouse staff productivity and recommends who to promote",
+    "expects_refusal": false,
+    "flow": "high-risk-chain",
+    "gold": {
+      "consolidated": [
+        "anx_III",
+        "art_6",
+        "art_8",
+        "art_9",
+        "art_10",
+        "art_11",
+        "art_12",
+        "art_13",
+        "art_14",
+        "art_15",
+        "art_43"
+      ],
+      "original": [
+        "anx_III",
+        "art_6",
+        "art_8",
+        "art_9",
+        "art_10",
+        "art_11",
+        "art_12",
+        "art_13",
+        "art_14",
+        "art_15",
+        "art_43"
+      ]
+    },
+    "id": "q06-worker-promotion"
+  },
+  {
+    "description": "our credit scoring system has been on the market since 2025 and we have since retrained it on newer data",
+    "expects_refusal": true,
+    "flow": "substantial-modification",
+    "gold": {
+      "consolidated": [
+        "art_3",
+        "art_111",
+        "art_43"
+      ],
+      "original": [
+        "art_3",
+        "art_111",
+        "art_43"
+      ]
+    },
+    "id": "q07-retrained-credit-model"
+  },
+  {
+    "description": "our high-risk recruitment tool was placed on the market before the deadline and we have redesigned its user interface",
+    "expects_refusal": true,
+    "flow": "substantial-modification",
+    "gold": {
+      "consolidated": [
+        "art_3",
+        "art_111",
+        "art_43"
+      ],
+      "original": [
+        "art_3",
+        "art_111",
+        "art_43"
+      ]
+    },
+    "id": "q08-redesigned-interface"
+  },
+  {
+    "description": "we placed a high-risk system on the market in 2025 and have since rolled it out in two more member states",
+    "expects_refusal": true,
+    "flow": "substantial-modification",
+    "gold": {
+      "consolidated": [
+        "art_3",
+        "art_111",
+        "art_6"
+      ],
+      "original": [
+        "art_3",
+        "art_111",
+        "art_6"
+      ]
+    },
+    "id": "q09-wider-rollout"
+  },
+  {
+    "description": "when do the obligations for a high-risk AI system start to apply to us",
+    "expects_refusal": false,
+    "flow": "version-comparison",
+    "gold": {
+      "consolidated": [
+        "art_113",
+        "art_111"
+      ],
+      "original": [
+        "art_113",
+        "art_111"
+      ]
+    },
+    "id": "q10-high-risk-deadline"
+  },
+  {
+    "description": "from when are the prohibited practices in the Act enforceable",
+    "expects_refusal": false,
+    "flow": "version-comparison",
+    "gold": {
+      "consolidated": [
+        "art_113",
+        "art_5"
+      ],
+      "original": [
+        "art_113",
+        "art_5"
+      ]
+    },
+    "id": "q11-prohibited-deadline"
+  },
+  {
+    "description": "we train a general-purpose AI model, from when do its obligations apply to us",
+    "expects_refusal": false,
+    "flow": "version-comparison",
+    "gold": {
+      "consolidated": [
+        "art_113",
+        "art_53"
+      ],
+      "original": [
+        "art_113",
+        "art_53"
+      ]
+    },
+    "id": "q12-gpai-deadline"
+  }
+]

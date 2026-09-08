@@ -26,12 +26,14 @@ langgraph
 langsmith
 lintstagedrc
 logomark
+longctx
 lxml
 mkhl
 Modelfile
 modelfiles
 modref
 monkeypatch
+mxbai
 mypy
 networkidle
 networkx
