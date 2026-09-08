@@ -9,6 +9,29 @@ One surface carries the whole product. A visitor describes a system, and the sam
 
 The layout was chosen by rendering three candidates and looking at them. Citations sit inline under the claim they support, rather than in a right rail or a bottom drawer, because proximity is the one property that never breaks: a claim and its evidence need no reference number, no glance sideways, and no click. The cost is measured and real. Inline citations spread three claims over roughly twice the vertical run that a rail does, and every citation added spreads them further.
 
+## The replay band
+
+Rendered under the top bar in every state, and only on the deployed build. A local build calling the service never shows it.
+
+```plaintext
+├──────────────────────────────────────────────────────────────────────┤
+│ This page replays a recording. Nothing here is asking a model.       │
+│ Every answer below came back from the live system on 2026-09-07 and  │
+│ was captured as it stood.                             2c74d20        │
+├──────────────────────────────────────────────────────────────────────┤
+```
+
+Copy, verbatim:
+
+- `This page replays a recording. Nothing here is asking a model.`
+- `Every answer below came back from the live system on <date> and was captured as it stood.`
+
+The date and the short commit are read off the capture manifest rather than written here, so a re-capture moves them and a stale recording cannot claim to be fresh.
+
+The band is on the page rather than in a footnote because the claim a visitor would otherwise carry away is that they watched a model answer. They did not. The model this project runs holds 30 GB of a card, nothing hosted answers these questions, and what a deployment can honestly serve is what the live system already said.
+
+The traversal switch is held inactive on this build and its chip reads `recorded` rather than `demo`. Capture ran with reference following on, so both positions would return one answer and a live switch would lie about it. Beside it the version control is untouched, since both texts were captured and comparing them is what the deployed page is for.
+
 ## Empty
 
 Reached on arrival, before anything is asked.
@@ -50,6 +73,40 @@ Copy, verbatim:
 - Action: `Find the articles`
 
 The last sentence of that supporting text is doing compliance work rather than tone work. No label, heading, or button anywhere on this surface may imply a verdict on whether an organization complies, and the empty state states that boundary before a visitor has asked anything.
+
+### The recorded picks
+
+Rendered under the form on the deployed build alone, so the ordinary path there reaches a question the recording holds.
+
+```plaintext
+│   [ Find the articles ]                                              │
+│                                                                      │
+│   Or read one of the recorded questions                              │
+│   These are the twelve descriptions the live system was asked,       │
+│   against both texts. Anything else reaches a state saying the       │
+│   recording does not hold it.                                        │
+│                                                                      │
+│   TELLING A PERSON THEY ARE DEALING WITH AN AI SYSTEM   ← flow label │
+│   ┌──────────────────────────────────────────────┐                   │
+│   │ a chatbot on our website that answers…       │   ← one pick,     │
+│   └──────────────────────────────────────────────┘      one question │
+│   ┌──────────────────────────────────────────────┐                   │
+│   │ a voice agent that phones our customers…     │                   │
+│   └──────────────────────────────────────────────┘                   │
+│                                                                      │
+│   WHETHER A SYSTEM IS HIGH RISK, AND WHAT FOLLOWS                    │
+│   …four groups, three questions each                                 │
+```
+
+Copy, verbatim:
+
+- Heading: `Or read one of the recorded questions`
+- Supporting text: `These are the twelve descriptions the live system was asked, against both texts. Anything else reaches a state saying the recording does not hold it.`
+- Flow labels: `Telling a person they are dealing with an AI system`, `Whether a system is high risk, and what follows`, `Changing a system already on the market`, `When an obligation starts to apply`
+
+The picks sit beside the input rather than in place of it. Narrowing the input to a picker would remove the unrecorded state below and change the surface the design was settled on, and the free-text field is what a visitor arrives expecting.
+
+The four flow labels are the evaluation's own grouping, three questions apiece. The fifth demo flow, the three-arm result, has no screen here and belongs to `docs/evaluation.md` and the recorded walkthrough.
 
 ## Invalid
 
@@ -205,9 +262,37 @@ Copy, verbatim:
 
 The consulted provisions are not decoration. They carry what was retrieved and found not to answer, which is the difference between a refusal and a shrug, so a refusal that renders without them has lost its argument.
 
+**The sketch above draws two and the shipped capture renders twenty.** The refusal this project actually produces consults the whole retrieved set, quoted in full, which is 67 320 characters under a two-sentence refusal and takes the surface to 10022px at 1280px. Measured on `q08-redesigned-interface` against the consolidated text, captured at `f829423` on 2026-09-07 and committed as `web/ui-states/6-refused-light.png`.
+
+Nothing here caps that list, and the argument for capping it is already made on this surface one section below. The trace disclosure holds each id list to roughly eight followed by a count of the rest, on the ground that an uncapped list swamps the answer it describes, and a refusal's argument is that the provisions were read and did not settle the question, which a count carries as well as twenty full quotations do. Capping it is a change to this file and to `RefusalView`, and it belongs to a row nobody has opened.
+
+## Unrecorded
+
+Reached only on the deployed build, when a visitor types a description the recording does not hold. It renders in the failure region, where an answer would have been, and takes the neutral treatment rather than the error one.
+
+```plaintext
+│  ┌────────────────────────────────────────────────────────────────┐  │
+│  │ This page holds a recording, and your description is not in    │  │
+│  │ it.                                                            │  │
+│  │ Edit the description and pick one of the recorded questions,   │  │
+│  │ or run the system locally to ask your own.                     │  │
+│  └────────────────────────────────────────────────────────────────┘  │
+```
+
+Copy, verbatim:
+
+- `This page holds a recording, and your description is not in it.`
+- `Edit the description and pick one of the recorded questions, or run the system locally to ask your own.`
+
+The neutral treatment is the point. The four variants below are something going wrong and this one is the deployment working as built, so painting it in the error role would report a fault where there is none.
+
+The alternative was matching an unrecorded description to the nearest fixture. That answers a question nobody asked with text a model produced for a different one, which is the invention this surface exists to avoid, so the recording says it does not hold the question instead.
+
 ## The failure region
 
-One region, four copy variants. Only ever one at a time. Each variant names a different next action, which is why four rather than one, and a timeout is its own variant rather than a shade of error because it is the failure where the work started and waiting longer would not have helped.
+One region, five copy variants. Only ever one at a time. Each variant names a different next action, which is why five rather than one: start the model, narrow the description, quote the id, start the service, and pick a recorded question. A timeout is its own variant rather than a shade of error because it is the failure where the work started and waiting longer would not have helped.
+
+Four of the five are something going wrong. The fifth is `Unrecorded` above, which renders here because it sits where an answer would have been, and takes the neutral treatment rather than the error one because it is the deployed build working as built.
 
 ```plaintext
 │  ┌────────────────────────────────────────────────────────────────┐  │
@@ -218,14 +303,15 @@ One region, four copy variants. Only ever one at a time. Each variant names a di
 │  └────────────────────────────────────────────────────────────────┘  │
 ```
 
-The four, verbatim:
+The five, verbatim:
 
 - `The model or the index is not running.` / `The service is up and could not reach what it needs. Start the model and ask again.`
 - `The model did not answer inside the budget.` / `Waiting longer would not have helped. Narrow the description and ask again.`
 - `Something went wrong that we did not expect.` / `Quote the correlation id and the log will answer.`
 - `Nothing is listening on the service port.` / `The service is not running. Start it and ask again.`
+- `This page holds a recording, and your description is not in it.` / `Edit the description and pick one of the recorded questions, or run the system locally to ask your own.`
 
-The correlation id renders on the first three and not on the fourth, since nothing answered and so nothing logged one. These sentences are owned by the service seam. A change to them there is a change to this file.
+The correlation id renders on the first three and on neither of the last two, since nothing answered on either and so nothing logged one. These sentences are owned by the service seam. A change to them there is a change to this file.
 
 ## The trace
 
@@ -252,7 +338,8 @@ Dropped ids are named beside traversed ids and never omitted. Traversal reaches 
 - Editing the description returns the surface to its empty state with the previous text in the input
 - The trace disclosure expands the three id lists in place. Nothing else on the surface opens, collapses, or overlays
 - The theme control chooses between matching the system, light, and dark, and starts on matching the system. A reader who chooses nothing is decided by `prefers-color-scheme`, and a choice is remembered per browser and applied before the first paint, so the page never renders in one theme and swaps to the other
-- Every state above replaces the answer region. None of them stack, except the moved-citation and cut-short states, which render on top of an answer
+- Every state above replaces the answer region. None of them stack, except the moved-citation and cut-short states, which render on top of an answer, and the replay band, which sits above every one of them
+- On the deployed build a pick answers immediately and the loading skeleton never renders, because nothing is being asked. The skeleton belongs to the local build and to the recorded walkthrough, where the wait is real
 
 ## Not on this surface
 

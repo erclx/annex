@@ -20,6 +20,7 @@
     ".cspell/**",
     ".git/**",
     "python/data/**",
+    "web/src/fixtures/**",
     "web/ui-states/settled-design.html"
   ]
 }
