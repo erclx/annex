@@ -34,6 +34,8 @@ The reason the retrieval arms stop where they do is worth more than the headline
 
 Refusal came out worst of anything measured. Across eighteen chances to refuse a question the text does not settle, the arms took five, and every false refusal a retrieval arm made landed on the flow that asks what the amendment changed. Saying so is the point of running the evaluation rather than asserting the design. [docs/evaluation.md](docs/evaluation.md) carries the numbers, the depth sensitivity, the prompt-cache measurement and which production concerns were built against which were only reasoned about. The web surface is not built yet.
 
+It is drawn, though. `.claude/wireframes/answer.md` carries its layout and every state it has to show, so the components that follow build against a specification rather than discovering one.
+
 ## Setup
 
 Requires [bun](https://bun.sh), [uv](https://docs.astral.sh/uv/), and [Ollama](https://ollama.com) with `qwen3.8:27b` and `nomic-embed-text` pulled. Everything runs locally and nothing calls a paid API.
@@ -73,7 +75,7 @@ cd python && uv run pytest -m live  # the tests that need the model up
 
 A question runs through four stages. It is restated in the Act's own vocabulary, searched against the index, expanded over the citations the retrieved provisions carry, and answered. Every claim is then checked against the text it cites, and one that cannot be grounded is dropped rather than softened. An answer with nothing left becomes a refusal.
 
-`docs/evaluation.md` carries the measured comparison between the three arms and how to reproduce it. `.claude/ARCHITECTURE.md` carries the decisions and what's still open. `.claude/REQUIREMENTS.md` carries the scope. `.claude/context/ai-act.md` carries the corpus itself: the amended deadlines, the reference structure, and the claims this project does not make. `.claude/context/retrieval.md` carries the chunking rule, the traversal decision and the measurements behind both.
+`docs/evaluation.md` carries the measured comparison between the three arms and how to reproduce it. `.claude/ARCHITECTURE.md` carries the decisions and what's still open. `.claude/REQUIREMENTS.md` carries the scope. `.claude/context/ai-act.md` carries the corpus itself: the amended deadlines, the reference structure, and the claims this project does not make. `.claude/context/retrieval.md` carries the chunking rule, the traversal decision and the measurements behind both. `.claude/wireframes/answer.md` carries the answer surface and every state it has to show, and `.claude/DESIGN.md` the tokens behind it.
 
 ## What it doesn't do
 
