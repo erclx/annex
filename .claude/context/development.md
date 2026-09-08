@@ -25,7 +25,8 @@ Each half verifies itself and the root chains both. Neither half's `package.json
 - Install [Bun](https://bun.sh): `curl -fsSL https://bun.sh/install | bash`
 - Install [uv](https://docs.astral.sh/uv/): `curl -LsSf https://astral.sh/uv/install.sh | sh`
 - Install [Ollama](https://ollama.com), then `ollama pull qwen3.8:27b` and `ollama pull nomic-embed-text`
-- **Build the derived generation model: `cd python && bash scripts/ollama-build.sh`.** The OpenAI-compatible `/v1` route accepts a per-request `num_ctx` and ignores it, so the context this project needs is carried by `python/ollama/annex-qwen3-27b.Modelfile` instead. Without this step `uv run python -m annex context` refuses by name and every agent call refuses with it. See the retrieval entry for the measurement
+- **Build the derived generation models: `cd python && bash scripts/ollama-build.sh`.** The OpenAI-compatible `/v1` route accepts a per-request `num_ctx` and ignores it, so the context this project needs is carried by a Modelfile instead. The script walks `python/ollama/*.Modelfile` and builds both: `annex-qwen3-27b` at 32 768, which every agent call uses, and `annex-longctx` at 131 072, which only the evaluation's full-context arm uses. Without this step `uv run python -m annex context` refuses by name and every agent call refuses with it. See the retrieval entry for the measurement
+- **The two models are sized apart on purpose and cannot both be resident.** `annex-longctx` holds 29.8 to 30.4 GB of a 32.6 GB card, so Ollama unloads one to load the other and a run that alternates arms pays a model swap. The evaluation's own loop sweeps a whole arm before changing, which is why. Nothing else should generate on this card while the baseline arm runs, or layers spill to CPU and the wall-time column stops comparing
 - **Build the vector index: `cd python && uv run python -m annex embed`.** It takes a few minutes, needs Ollama up, and writes the gitignored `python/data/index/`. A fresh clone or a new worktree has no index and `search` says so rather than failing on a missing table
 - Root dependencies: `bun install`
 - Python dependencies: `cd python && uv sync`
@@ -56,6 +57,24 @@ The web app takes `4100` rather than the `3000` Next defaults to, so it does not
 | `bun run check:web`          | `cd web && bun run check`: prettier check, typecheck, eslint, vitest                  |
 | `bun run format`             | Auto-fix prettier and shfmt formatting at the root                                    |
 | `cd web && bun run test:e2e` | Playwright against the app, starting a server if one is not already up                |
+
+## The evaluation
+
+`uv run python -m annex evaluate` answers the gold question set with all three arms and writes `python/data/eval/results.json` beside the report it prints. Both files are tracked, so a figure in `docs/evaluation.md` is checkable against the run that produced it.
+
+| Flag               | What it does                                                        |
+| ------------------ | ------------------------------------------------------------------- |
+| `--arm <name>`     | One arm, repeatable. Every arm by default                           |
+| `--version <name>` | One version, repeatable. Both by default                            |
+| `--limit <n>`      | The first n questions of the set                                    |
+| `--report-only`    | Re-render the report from the last run rather than running it again |
+| `--questions-only` | Write `python/data/eval/questions.json` from the models and stop    |
+| `--results <path>` | Write somewhere other than the tracked file                         |
+
+- **The full run takes tens of minutes rather than minutes.** Three arms over twelve questions and two versions is 72 model runs, and the baseline arm reads the whole Act on each of its 24. Start it expecting to leave it. Results are written after every question, so a run stopped halfway is still readable and `--report-only` renders what landed.
+- **One question failing does not end the run.** A cut prompt, a model nobody built or a missing index is recorded against the question that met it and the sweep continues. The report lists those separately rather than averaging them into a score.
+- **The baseline arm depends on Ollama's KV cache to stay affordable.** Every prompt in it is one version's corpus followed by the question, so the prefix repeats and only the first question of a version pays the full prefill. Measured on the consolidated text after `ollama stop annex-longctx`, which is the only reading here taken from a genuinely unloaded model: **70.1 s on the first call and 25.0 s across the next two**.
+- **A cold start is the only way to measure that prefill, and a killed run defeats it.** Ollama holds the prefix across processes, so a sweep started after an earlier attempt sent the same corpus reads its first call as cheap and reports a cache effect backwards. Stop the model with `ollama stop annex-longctx` before timing a first call, and write the probe somewhere else with `--results` so it does not overwrite the tracked run.
 
 ## Python specifics
 

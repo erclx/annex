@@ -37,6 +37,7 @@ class ScriptedClient:
         self.prompts: list[str] = []
         self.settings = Settings()
         self.finish_reason = 'stop'
+        self.prompt_tokens = 100
 
     def complete(
         self, prompt: str, *, system: str | None = None, max_tokens: int | None = None
@@ -46,7 +47,7 @@ class ScriptedClient:
         return Completion(
             text=text,
             thinking='',
-            prompt_tokens=100,
+            prompt_tokens=self.prompt_tokens,
             completion_tokens=20,
             model='scripted',
             finish_reason=self.finish_reason,
