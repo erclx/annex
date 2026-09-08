@@ -58,6 +58,19 @@ tokens. `annex.retrieval.embed` is what refuses an over-length chunk, because
 only the embedder knows the real count, and `tests/retrieval/test_chunk_tokens.py`
 measures every chunk against it under the `live` marker.
 
+### The embedder is the untested part of the stack
+
+`nomic-embed-text` was chosen for its context limit, which is what set the
+chunk rule above, and it has never been compared against another embedder. The
+v0.6 evaluation makes that the open question worth answering first: search
+alone reached 0.41 and 0.46 of the gold provisions, and every later stage
+inherits that ceiling, so what is wrong sits in front of the graph rather than
+behind it.
+
+`annex.retrieval.store` fixes the vector width at `DIMENSIONS = 768`, so a
+1024-dimension model such as `mxbai-embed-large` or `bge-m3` costs that constant
+and a full `annex embed` rebuild. Nothing else in the pipeline reads the width.
+
 ## The embedding model needs its task prefixes
 
 `nomic-embed-text` puts a corpus passage and a question into different regions
@@ -107,6 +120,33 @@ the evaluation reports a recall miss that traces to structure.
 Depth 2 and a cap of 40 are the shipped defaults, so the cap bites gently at
 the demo's own worst case rather than never. Both are `Settings` fields and the
 evaluation is what should move them.
+
+The evaluation has now read them, over twelve questions at v0.6, by re-walking
+the seeds the search-only arm recorded. Recall runs 0.49, 0.60 and 0.66 for
+depths 1, 2 and 3 on the original text, and 0.57, 0.61 and 0.61 on the
+consolidated. Depth 3 is therefore a defensible setting on the original rather
+than the waste an earlier reading predicted, and it buys that 0.06 for seven
+more nodes. The consolidated pair is identical at 2 and 3 because both hit the
+cap of 40, so that row measures the cap rather than the depth. Depth 2 ships on
+cost rather than because nothing above it helps.
+
+### Traversal is capped by what search returned
+
+The table above is a property of the graph and not of the pipeline, and the
+distinction cost a wrong expectation. Reaching every obligation article from
+`art_6` requires `art_6` to be among the seeds, and search has to return it
+first. Where search misses the entry point, the walk expands nothing: measured
+on `q06-worker-promotion`, search returned neither `art_6` nor `anx_III`, so
+traversal recovered neither and the question scored 0.18 against a gold set of
+eleven.
+
+Across the whole set the walk lifts recall from 0.41 to 0.54 on the original
+and 0.46 to 0.56 on the consolidated, while precision over nodes falls from
+0.188 to 0.137. That is a real gain and it does not reach the 1.00 the
+full-context arm scores by construction. **The ceiling on traversal is search,
+so the reference graph cannot be scored apart from the embedder in front of
+it.** `python/tests/corpus/test_graph.py` still asserts the graph half and
+still passes.
 
 ## A paragraph seed is lifted to its article before the walk
 

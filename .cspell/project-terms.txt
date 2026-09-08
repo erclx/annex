@@ -1,6 +1,8 @@
 categorisation
+checkability
 EASA
 embedder
+GPAI
 neighbour
 neighbours
 stopword
