@@ -3,21 +3,21 @@
   "version": "original",
   "claims": [
     {
-      "statement": "Recital 132 confirms that natural persons should be notified they are interacting with an AI system unless this is obvious to a reasonably well-informed, observant and circumspect person, and that the characteristics of vulnerable groups due to age or disability should be taken into account",
+      "statement": "A chatbot that answers customer questions on a website is an AI system intended to interact directly with natural persons, so the provider must ensure those persons are informed they are interacting with an AI system, unless this is obvious to a reasonably well-informed, observant and circumspect person in the circumstances and context of use",
       "citations": [
         {
-          "provision_id": "rct_132",
-          "citation": "Recital 132",
-          "kind": "recital",
+          "provision_id": "art_50.1",
+          "citation": "Article 50(1)",
+          "kind": "paragraph",
           "version": "original",
-          "text": "(132) Certain AI systems intended to interact with natural persons or to generate content may pose specific risks of impersonation or deception irrespective of whether they qualify as high-risk or not. In certain circumstances, the use of these systems should therefore be subject to specific transparency obligations without prejudice to the requirements and obligations for high-risk AI systems and subject to targeted exceptions to take into account the special need of law enforcement. In particular, natural persons should be notified that they are interacting with an AI system, unless this is obvious from the point of view of a natural person who is reasonably well-informed, observant and circumspect taking into account the circumstances and the context of use. When implementing that obligation, the characteristics of natural persons belonging to vulnerable groups due to their age or disability should be taken into account to the extent the AI system is intended to interact with those groups as well. Moreover, natural persons should be notified when they are exposed to AI systems that, by processing their biometric data, can identify or infer the emotions or intentions of those persons or assign them to specific categories. Such specific categories can relate to aspects such as sex, age, hair colour, eye colour, tattoos, personal traits, ethnic origin, personal preferences and interests. Such information and notifications should be provided in accessible formats for persons with disabilities.",
-          "changed": true,
-          "change_note": "Recital 132 appears in the original text and not in the consolidated text."
+          "text": "1. Providers shall ensure that AI systems intended to interact directly with natural persons are designed and developed in such a way that the natural persons concerned are informed that they are interacting with an AI system, unless this is obvious from the point of view of a natural person who is reasonably well-informed, observant and circumspect, taking into account the circumstances and the context of use. This obligation shall not apply to AI systems authorised by law to detect, prevent, investigate or prosecute criminal offences, subject to appropriate safeguards for the rights and freedoms of third parties, unless those systems are available for the public to report a criminal offence.",
+          "changed": false,
+          "change_note": null
         }
       ]
     },
     {
-      "statement": "The information required under Article 50(1) must be provided to the natural persons concerned in a clear and distinguishable manner at the latest at the time of the first interaction",
+      "statement": "The information required under Article 50(1) to (4) must be provided to the natural persons concerned in a clear and distinguishable manner at the latest at the time of the first interaction, and must conform to applicable accessibility requirements",
       "citations": [
         {
           "provision_id": "art_50.5",
@@ -31,7 +31,35 @@
       ]
     },
     {
-      "statement": "The transparency obligations in Article 50(1) to (4) do not affect the requirements and obligations set out in Chapter III and are without prejudice to other transparency obligations laid down in Union or national law",
+      "statement": "As a system generating text content, the provider must ensure the outputs are marked in a machine-readable format and detectable as artificially generated or manipulated, unless the system performs an assistive function for standard editing or does not substantially alter the input data or its semantics",
+      "citations": [
+        {
+          "provision_id": "art_50.2",
+          "citation": "Article 50(2)",
+          "kind": "paragraph",
+          "version": "original",
+          "text": "2. Providers of AI systems, including general-purpose AI systems, generating synthetic audio, image, video or text content, shall ensure that the outputs of the AI system are marked in a machine-readable format and detectable as artificially generated or manipulated. Providers shall ensure their technical solutions are effective, interoperable, robust and reliable as far as this is technically feasible, taking into account the specificities and limitations of various types of content, the costs of implementation and the generally acknowledged state of the art, as may be reflected in relevant technical standards. This obligation shall not apply to the extent the AI systems perform an assistive function for standard editing or do not substantially alter the input data provided by the deployer or the semantics thereof, or where authorised by law to detect, prevent, investigate or prosecute criminal offences.",
+          "changed": false,
+          "change_note": null
+        }
+      ]
+    },
+    {
+      "statement": "Where the generated text is published with the purpose of informing the public on matters of public interest, the deployer must disclose that the text has been artificially generated or manipulated, subject to the exception where the content has undergone human review or editorial control and a natural or legal person holds editorial responsibility",
+      "citations": [
+        {
+          "provision_id": "art_50.4",
+          "citation": "Article 50(4)",
+          "kind": "paragraph",
+          "version": "original",
+          "text": "4. Deployers of an AI system that generates or manipulates image, audio or video content constituting a deep fake, shall disclose that the content has been artificially generated or manipulated. This obligation shall not apply where the use is authorised by law to detect, prevent, investigate or prosecute criminal offence. Where the content forms part of an evidently artistic, creative, satirical, fictional or analogous work or programme, the transparency obligations set out in this paragraph are limited to disclosure of the existence of such generated or manipulated content in an appropriate manner that does not hamper the display or enjoyment of the work. Deployers of an AI system that generates or manipulates text which is published with the purpose of informing the public on matters of public interest shall disclose that the text has been artificially generated or manipulated. This obligation shall not apply where the use is authorised by law to detect, prevent, investigate or prosecute criminal offences or where the AI-generated content has undergone a process of human review or editorial control and where a natural or legal person holds editorial responsibility for the publication of the content.",
+          "changed": false,
+          "change_note": null
+        }
+      ]
+    },
+    {
+      "statement": "The transparency obligations in Article 50(1) to (4) do not affect the requirements and obligations set out in Chapter III, and are without prejudice to other transparency obligations laid down in Union or national law for deployers of AI systems",
       "citations": [
         {
           "provision_id": "art_50.6",
@@ -45,16 +73,16 @@
       ]
     },
     {
-      "statement": "Compliance with the transparency obligations for the AI systems covered by this Regulation should not be interpreted as indicating that the use of the AI system or its output is lawful under this Regulation or other Union and Member State law",
+      "statement": "Recital 132 states that natural persons should be notified they are interacting with an AI system and that, when implementing that obligation, the characteristics of natural persons belonging to vulnerable groups due to their age or disability should be taken into account to the extent the system is intended to interact with those groups",
       "citations": [
         {
-          "provision_id": "rct_137",
-          "citation": "Recital 137",
+          "provision_id": "rct_132",
+          "citation": "Recital 132",
           "kind": "recital",
           "version": "original",
-          "text": "(137) Compliance with the transparency obligations for the AI systems covered by this Regulation should not be interpreted as indicating that the use of the AI system or its output is lawful under this Regulation or other Union and Member State law and should be without prejudice to other transparency obligations for deployers of AI systems laid down in Union or national law.",
+          "text": "(132) Certain AI systems intended to interact with natural persons or to generate content may pose specific risks of impersonation or deception irrespective of whether they qualify as high-risk or not. In certain circumstances, the use of these systems should therefore be subject to specific transparency obligations without prejudice to the requirements and obligations for high-risk AI systems and subject to targeted exceptions to take into account the special need of law enforcement. In particular, natural persons should be notified that they are interacting with an AI system, unless this is obvious from the point of view of a natural person who is reasonably well-informed, observant and circumspect taking into account the circumstances and the context of use. When implementing that obligation, the characteristics of natural persons belonging to vulnerable groups due to their age or disability should be taken into account to the extent the AI system is intended to interact with those groups as well. Moreover, natural persons should be notified when they are exposed to AI systems that, by processing their biometric data, can identify or infer the emotions or intentions of those persons or assign them to specific categories. Such specific categories can relate to aspects such as sex, age, hair colour, eye colour, tattoos, personal traits, ethnic origin, personal preferences and interests. Such information and notifications should be provided in accessible formats for persons with disabilities.",
           "changed": true,
-          "change_note": "Recital 137 appears in the original text and not in the consolidated text."
+          "change_note": "Recital 132 appears in the original text and not in the consolidated text."
         }
       ]
     }
@@ -99,12 +127,12 @@
       "art_79",
       "art_79.1"
     ],
-    "dropped_ids": ["art_79", "art_79.1"],
+    "dropped_ids": ["rct_72", "rct_137", "rct_13"],
     "traversal_enabled": true,
     "truncated": false,
-    "prompt_tokens": 13744,
-    "completion_tokens": 3201,
-    "duration_ms": 29479,
+    "prompt_tokens": 14269,
+    "completion_tokens": 3465,
+    "duration_ms": 27953,
     "model": "annex-qwen3-27b"
   }
 }

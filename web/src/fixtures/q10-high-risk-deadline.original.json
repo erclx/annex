@@ -3,7 +3,7 @@
   "version": "original",
   "claims": [
     {
-      "statement": "The Regulation applies from 2 August 2026, with Chapters I and II applying from 2 February 2025 and Chapter III Section 4, Chapter V, Chapter VII, Chapter XII and Article 78 applying from 2 August 2025",
+      "statement": "The Regulation applies from 2 August 2026",
       "citations": [
         {
           "provision_id": "art_113",
@@ -17,7 +17,35 @@
       ]
     },
     {
-      "statement": "Article 6(1) and the corresponding obligations in the Regulation apply from 2 August 2027",
+      "statement": "For high-risk AI systems placed on the market or put into service before 2 August 2026, the Regulation applies only if, as from that date, those systems are subject to significant changes in their designs",
+      "citations": [
+        {
+          "provision_id": "art_111.2",
+          "citation": "Article 111(2)",
+          "kind": "paragraph",
+          "version": "original",
+          "text": "2. Without prejudice to the application of Article 5 as referred to in Article 113(3), point (a), this Regulation shall apply to operators of high-risk AI systems, other than the systems referred to in paragraph 1 of this Article, that have been placed on the market or put into service before 2 August 2026, only if, as from that date, those systems are subject to significant changes in their designs. In any case, the providers and deployers of high-risk AI systems intended to be used by public authorities shall take the necessary steps to comply with the requirements and obligations of this Regulation by 2 August 2030.",
+          "changed": true,
+          "change_note": "The wording of Article 111(2) differs between the original and the consolidated text."
+        }
+      ]
+    },
+    {
+      "statement": "Providers and deployers of high-risk AI systems intended to be used by public authorities shall take the necessary steps to comply with the requirements and obligations of this Regulation by 2 August 2030",
+      "citations": [
+        {
+          "provision_id": "art_111.2",
+          "citation": "Article 111(2)",
+          "kind": "paragraph",
+          "version": "original",
+          "text": "2. Without prejudice to the application of Article 5 as referred to in Article 113(3), point (a), this Regulation shall apply to operators of high-risk AI systems, other than the systems referred to in paragraph 1 of this Article, that have been placed on the market or put into service before 2 August 2026, only if, as from that date, those systems are subject to significant changes in their designs. In any case, the providers and deployers of high-risk AI systems intended to be used by public authorities shall take the necessary steps to comply with the requirements and obligations of this Regulation by 2 August 2030.",
+          "changed": true,
+          "change_note": "The wording of Article 111(2) differs between the original and the consolidated text."
+        }
+      ]
+    },
+    {
+      "statement": "Article 6(1) and the corresponding obligations in this Regulation shall apply from 2 August 2027",
       "citations": [
         {
           "provision_id": "art_113",
@@ -31,76 +59,30 @@
       ]
     },
     {
-      "statement": "For high-risk AI systems placed on the market or put into service before 2 August 2026, the Regulation applies to their operators only if, from that date, those systems are subject to significant changes in their designs",
+      "statement": "Where a market surveillance authority finds that an AI system is high-risk, it shall without undue delay require the relevant provider to take all necessary actions to bring the AI system into compliance within a period the market surveillance authority may prescribe",
       "citations": [
         {
-          "provision_id": "art_111.2",
-          "citation": "Article 111(2)",
+          "provision_id": "art_80.2",
+          "citation": "Article 80(2)",
           "kind": "paragraph",
           "version": "original",
-          "text": "2. Without prejudice to the application of Article 5 as referred to in Article 113(3), point (a), this Regulation shall apply to operators of high-risk AI systems, other than the systems referred to in paragraph 1 of this Article, that have been placed on the market or put into service before 2 August 2026, only if, as from that date, those systems are subject to significant changes in their designs. In any case, the providers and deployers of high-risk AI systems intended to be used by public authorities shall take the necessary steps to comply with the requirements and obligations of this Regulation by 2 August 2030.",
-          "changed": true,
-          "change_note": "The wording of Article 111(2) differs between the original and the consolidated text."
-        },
-        {
-          "provision_id": "art_111",
-          "citation": "Article 111",
-          "kind": "article",
-          "version": "original",
-          "text": "Article 111 AI systems already placed on the market or put into service and general-purpose AI models already placed on the marked 1. Without prejudice to the application of Article 5 as referred to in Article 113(3), point (a), AI systems which are components of the large-scale IT systems established by the legal acts listed in Annex X that have been placed on the market or put into service before 2 August 2027 shall be brought into compliance with this Regulation by 31 December 2030. The requirements laid down in this Regulation shall be taken into account in the evaluation of each large-scale IT system established by the legal acts listed in Annex X to be undertaken as provided for in those legal acts and where those legal acts are replaced or amended. 2. Without prejudice to the application of Article 5 as referred to in Article 113(3), point (a), this Regulation shall apply to operators of high-risk AI systems, other than the systems referred to in paragraph 1 of this Article, that have been placed on the market or put into service before 2 August 2026, only if, as from that date, those systems are subject to significant changes in their designs. In any case, the providers and deployers of high-risk AI systems intended to be used by public authorities shall take the necessary steps to comply with the requirements and obligations of this Regulation by 2 August 2030. 3. Providers of general-purpose AI models that have been placed on the market before 2 August 2025 shall take the necessary steps in order to comply with the obligations laid down in this Regulation by 2 August 2027.",
-          "changed": true,
-          "change_note": "The wording of Article 111 differs between the original and the consolidated text."
-        }
-      ]
-    },
-    {
-      "statement": "Providers and deployers of high-risk AI systems intended to be used by public authorities shall take the necessary steps to comply with the requirements and obligations of the Regulation by 2 August 2030",
-      "citations": [
-        {
-          "provision_id": "art_111.2",
-          "citation": "Article 111(2)",
-          "kind": "paragraph",
-          "version": "original",
-          "text": "2. Without prejudice to the application of Article 5 as referred to in Article 113(3), point (a), this Regulation shall apply to operators of high-risk AI systems, other than the systems referred to in paragraph 1 of this Article, that have been placed on the market or put into service before 2 August 2026, only if, as from that date, those systems are subject to significant changes in their designs. In any case, the providers and deployers of high-risk AI systems intended to be used by public authorities shall take the necessary steps to comply with the requirements and obligations of this Regulation by 2 August 2030.",
-          "changed": true,
-          "change_note": "The wording of Article 111(2) differs between the original and the consolidated text."
-        },
-        {
-          "provision_id": "art_111",
-          "citation": "Article 111",
-          "kind": "article",
-          "version": "original",
-          "text": "Article 111 AI systems already placed on the market or put into service and general-purpose AI models already placed on the marked 1. Without prejudice to the application of Article 5 as referred to in Article 113(3), point (a), AI systems which are components of the large-scale IT systems established by the legal acts listed in Annex X that have been placed on the market or put into service before 2 August 2027 shall be brought into compliance with this Regulation by 31 December 2030. The requirements laid down in this Regulation shall be taken into account in the evaluation of each large-scale IT system established by the legal acts listed in Annex X to be undertaken as provided for in those legal acts and where those legal acts are replaced or amended. 2. Without prejudice to the application of Article 5 as referred to in Article 113(3), point (a), this Regulation shall apply to operators of high-risk AI systems, other than the systems referred to in paragraph 1 of this Article, that have been placed on the market or put into service before 2 August 2026, only if, as from that date, those systems are subject to significant changes in their designs. In any case, the providers and deployers of high-risk AI systems intended to be used by public authorities shall take the necessary steps to comply with the requirements and obligations of this Regulation by 2 August 2030. 3. Providers of general-purpose AI models that have been placed on the market before 2 August 2025 shall take the necessary steps in order to comply with the obligations laid down in this Regulation by 2 August 2027.",
-          "changed": true,
-          "change_note": "The wording of Article 111 differs between the original and the consolidated text."
-        }
-      ]
-    },
-    {
-      "statement": "A provider of a high-risk AI system must ensure the system undergoes the relevant conformity assessment procedure prior to its being placed on the market or put into service",
-      "citations": [
-        {
-          "provision_id": "art_16",
-          "citation": "Article 16",
-          "kind": "article",
-          "version": "original",
-          "text": "Article 16 Obligations of providers of high-risk AI systems Providers of high-risk AI systems shall: (a) ensure that their high-risk AI systems are compliant with the requirements set out in Section 2; (b) indicate on the high-risk AI system or, where that is not possible, on its packaging or its accompanying documentation, as applicable, their name, registered trade name or registered trade mark, the address at which they can be contacted; (c) have a quality management system in place which complies with Article 17; (d) keep the documentation referred to in Article 18; (e) when under their control, keep the logs automatically generated by their high-risk AI systems as referred to in Article 19; (f) ensure that the high-risk AI system undergoes the relevant conformity assessment procedure as referred to in Article 43, prior to its being placed on the market or put into service; (g) draw up an EU declaration of conformity in accordance with Article 47; (h) affix the CE marking to the high-risk AI system or, where that is not possible, on its packaging or its accompanying documentation, to indicate conformity with this Regulation, in accordance with Article 48; (i) comply with the registration obligations referred to in Article 49(1); (j) take the necessary corrective actions and provide information as required in Article 20; (k) upon a reasoned request of a national competent authority, demonstrate the conformity of the high-risk AI system with the requirements set out in Section 2; (l) ensure that the high-risk AI system complies with accessibility requirements in accordance with Directives (EU) 2016/2102 and (EU) 2019/882.",
+          "text": "2. Where, in the course of that evaluation, the market surveillance authority finds that the AI system concerned is high-risk, it shall without undue delay require the relevant provider to take all necessary actions to bring the AI system into compliance with the requirements and obligations laid down in this Regulation, as well as take appropriate corrective action within a period the market surveillance authority may prescribe.",
           "changed": false,
           "change_note": null
         }
       ]
     },
     {
-      "statement": "Providers of high-risk AI systems are encouraged to start to comply, on a voluntary basis, with the relevant obligations of the Regulation already during the transitional period",
+      "statement": "AI systems which are components of the large-scale IT systems established by the legal acts listed in Annex X that have been placed on the market or put into service before 2 August 2027 shall be brought into compliance with this Regulation by 31 December 2030",
       "citations": [
         {
-          "provision_id": "rct_178",
-          "citation": "Recital 178",
-          "kind": "recital",
+          "provision_id": "art_111",
+          "citation": "Article 111",
+          "kind": "article",
           "version": "original",
-          "text": "(178) Providers of high-risk AI systems are encouraged to start to comply, on a voluntary basis, with the relevant obligations of this Regulation already during the transitional period.",
+          "text": "Article 111 AI systems already placed on the market or put into service and general-purpose AI models already placed on the marked 1. Without prejudice to the application of Article 5 as referred to in Article 113(3), point (a), AI systems which are components of the large-scale IT systems established by the legal acts listed in Annex X that have been placed on the market or put into service before 2 August 2027 shall be brought into compliance with this Regulation by 31 December 2030. The requirements laid down in this Regulation shall be taken into account in the evaluation of each large-scale IT system established by the legal acts listed in Annex X to be undertaken as provided for in those legal acts and where those legal acts are replaced or amended. 2. Without prejudice to the application of Article 5 as referred to in Article 113(3), point (a), this Regulation shall apply to operators of high-risk AI systems, other than the systems referred to in paragraph 1 of this Article, that have been placed on the market or put into service before 2 August 2026, only if, as from that date, those systems are subject to significant changes in their designs. In any case, the providers and deployers of high-risk AI systems intended to be used by public authorities shall take the necessary steps to comply with the requirements and obligations of this Regulation by 2 August 2030. 3. Providers of general-purpose AI models that have been placed on the market before 2 August 2025 shall take the necessary steps in order to comply with the obligations laid down in this Regulation by 2 August 2027.",
           "changed": true,
-          "change_note": "Recital 178 appears in the original text and not in the consolidated text."
+          "change_note": "The wording of Article 111 differs between the original and the consolidated text."
         }
       ]
     }
@@ -164,7 +146,10 @@
       "art_12.1"
     ],
     "dropped_ids": [
-      "art_43",
+      "rct_177",
+      "rct_178",
+      "rct_86",
+      "rct_84",
       "art_47",
       "art_48",
       "art_49",
@@ -194,9 +179,9 @@
     ],
     "traversal_enabled": true,
     "truncated": false,
-    "prompt_tokens": 18797,
-    "completion_tokens": 2632,
-    "duration_ms": 27080,
+    "prompt_tokens": 19057,
+    "completion_tokens": 2825,
+    "duration_ms": 25184,
     "model": "annex-qwen3-27b"
   }
 }
