@@ -13,7 +13,7 @@ what a caller needs to hold a run: the question set, the arm protocol, the
 scoring, and the runner.
 """
 
-from annex.eval.arms import Arm
+from annex.eval.arms import Arm, Routed
 from annex.eval.questions import (
     QUESTIONS,
     QUESTIONS_PATH,
@@ -25,10 +25,12 @@ from annex.eval.questions import (
 from annex.eval.report import render, summarize
 from annex.eval.runner import (
     RESULTS_PATH,
+    RUNS_DIRECTORY_NAME,
     Result,
     answer_one,
     read_results,
     run,
+    run_path,
     write_results,
 )
 from annex.eval.scoring import (
@@ -45,6 +47,7 @@ __all__ = [
     'QUESTIONS',
     'QUESTIONS_PATH',
     'RESULTS_PATH',
+    'RUNS_DIRECTORY_NAME',
     'AnswerScore',
     'Arm',
     'DepthRow',
@@ -52,12 +55,14 @@ __all__ = [
     'Question',
     'Result',
     'RetrievalScore',
+    'Routed',
     'answer_one',
     'by_id',
     'depth_rows',
     'read_results',
     'render',
     'run',
+    'run_path',
     'score_answer',
     'score_retrieval',
     'summarize',

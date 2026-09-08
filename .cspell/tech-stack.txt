@@ -76,3 +76,4 @@ wireframe
 wireframes
 worktree
 worktrees
+minilm

@@ -4,11 +4,17 @@
 preference and recorded in `.claude/ARCHITECTURE.md`. It was exercised on this
 interpreter rather than assumed, which is the check `networkx` failed:
 `sqlite_vec` 0.1.9 loads on Python 3.14.1, `vec_version()` returns `v0.1.9`,
-and a `vec0` virtual table over `float[768]` is created against SQLite 3.50.4.
+and a `vec0` virtual table over `float[1024]` is created against SQLite 3.50.4.
 
-Roughly 1300 chunks across both versions at 768 dimensions is a few megabytes
+Roughly 1300 chunks across both versions at 1024 dimensions is a few megabytes
 in one file. A service and a connection string buy operational realism nobody
 is going to exercise inside this project's window.
+
+`DIMENSIONS` is the width of the shipped embedding model rather than a property
+of the store, which is why `write` takes a width instead of reading the
+constant. A sweep comparing candidate models writes tables of several widths
+against one file, and before the parameter existed it had to restate `connect`,
+`_pack` and the `vec0` statement to do it.
 
 One table per version, because the two documents are different corpora rather
 than two revisions of one. The original carries 180 recitals and the
@@ -28,7 +34,14 @@ import sqlite_vec
 from annex.corpus import CorpusVersion
 from annex.retrieval.chunks import Chunk
 
-DIMENSIONS = 768
+DIMENSIONS = 1024
+"""The vector width of `Settings.embedding_model`, read off the model.
+
+`snowflake-arctic-embed2` returns 1024 floats, measured through
+`verify_embedding_context` on 2026-09-06. A table written at one width and
+searched with a vector of another is refused by `vec0` rather than answered
+badly, which is the one mismatch in this project that fails loudly.
+"""
 INDEX_PATH = Path(__file__).resolve().parents[3] / 'data' / 'index' / 'annex.db'
 
 
@@ -108,18 +121,23 @@ def write(
     embedded: list[tuple[Chunk, list[float]]],
     *,
     path: Path = INDEX_PATH,
+    dimensions: int = DIMENSIONS,
 ) -> int:
     """Replace one version's table with the chunks given. Returns the count.
 
     Replaced rather than appended. The index is derived, rebuilding it is
     cheap, and a half-updated table is the state nothing downstream can detect.
+
+    `dimensions` defaults to the shipped model's width, so every caller that
+    embeds through `annex.retrieval.embed` passes nothing. A caller measuring a
+    candidate model states the width it is writing at instead.
     """
     with connect(path, read_only=False) as connection:
         table = _table(version)
         connection.execute(f'DROP TABLE IF EXISTS {table}')
         connection.execute(f'DROP TABLE IF EXISTS {table}_meta')
         connection.execute(
-            f'CREATE VIRTUAL TABLE {table} USING vec0(embedding float[{DIMENSIONS}])'
+            f'CREATE VIRTUAL TABLE {table} USING vec0(embedding float[{dimensions}])'
         )
         connection.execute(
             f'CREATE TABLE {table}_meta ('

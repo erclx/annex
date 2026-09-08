@@ -53,7 +53,9 @@ The question this project exists to answer is whether structure-aware retrieval 
 
 The answer is allowed to be that the baseline wins. Reporting that is the point, not a failure of it.
 
-It won. Measured over 72 runs at v0.6, full-context stuffing reached every gold provision, vector search alone reached 0.41 of them on the original text and 0.46 on the consolidated, and search plus traversal reached 0.54 and 0.56. Retrieval's case on this corpus is cost and checkability rather than accuracy. `docs/evaluation.md` carries the numbers and the two limits that keep it from being a general claim, being twelve questions and one embedder nothing has been compared against.
+It won, and the margin has since narrowed. Measured over 72 runs at v0.6, full-context stuffing reached every gold provision, vector search alone reached 0.41 of them on the original text and 0.46 on the consolidated, and search plus traversal reached 0.54 and 0.56. Re-running the same harness at v0.9 on `snowflake-arctic-embed2`, the winner of a five-model comparison, moved the retrieval arms to 0.61 and 0.71 for search alone and 0.74 and 0.81 with the walk. The baseline still reaches everything, so it still wins on accuracy, and retrieval's case on this corpus remains cost and checkability.
+
+Where the remaining loss sits is no longer the embedder. The walk reaches 0.89 of the gold provisions on the original text and the arm scores 0.74, because the synthesis prompt budget drops what will not fit a 32 768-token window before the model sees it. `docs/evaluation.md` carries the numbers, both runs, and the limits that keep this from being a general claim, being twelve questions and five open-weight embedding models on one card.
 
 ## Constraints
 

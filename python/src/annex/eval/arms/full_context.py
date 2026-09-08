@@ -46,6 +46,7 @@ from annex.agent.pipeline import SYNTHESIS_BUDGET, parse_draft
 from annex.agent.verify import verify
 from annex.answer import Answer, Citation, RetrievalTrace
 from annex.corpus import Corpus, CorpusVersion, Provision, ProvisionKind
+from annex.eval.arms import Routed
 from annex.eval.questions import Question
 from annex.llm import OllamaClient
 from annex.settings import Settings
@@ -188,8 +189,13 @@ class FullContextArm:
             f'{self.settings.generation_context}: run scripts/ollama-build.sh.'
         )
 
-    def answer(self, question: Question, version: CorpusVersion) -> Answer:
-        """Send one version whole, with the question last."""
+    def answer(self, question: Question, version: CorpusVersion) -> Routed:
+        """Send one version whole, with the question last.
+
+        The routed query comes back empty, which is this arm's whole argument
+        written as a field: it searches nothing, so there is no query to
+        record. That absence is the reading rather than a value not filled in.
+        """
         numbered, citations = self._block(version)
         started = time.monotonic()
         completion = self.client.complete(
@@ -211,12 +217,15 @@ class FullContextArm:
             duration_ms=int((time.monotonic() - started) * 1000),
             model=completion.model,
         )
-        return verify(
-            Answer(
-                question=question.description,
-                version=version,
-                claims=claims,
-                refusal=refusal,
-                retrieval=trace,
-            )
+        return Routed(
+            answer=verify(
+                Answer(
+                    question=question.description,
+                    version=version,
+                    claims=claims,
+                    refusal=refusal,
+                    retrieval=trace,
+                )
+            ),
+            query='',
         )

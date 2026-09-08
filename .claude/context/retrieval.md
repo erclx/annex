@@ -15,7 +15,12 @@ own citations outward from what search returned.
 The corpus and its reference graph are the CI entry's neighbours rather than
 this one's. This entry starts where `annex.corpus` stops.
 
-Every figure below was read off the shipped modules at `2c74d20` on 2026-09-06.
+Every figure below was read off the shipped modules rather than estimated. The
+corpus and capacity figures date from 2026-09-06, and everything touching the
+embedding model, the index and the evaluation was re-measured on 2026-09-07
+when `snowflake-arctic-embed2` replaced `nomic-embed-text`. Each figure names
+the model it belongs to, because the last swap found three of them recorded as
+properties of embedding when they were properties of one model.
 
 ## The chunk rule
 
@@ -37,14 +42,23 @@ budget does.
 
 ## The budget is set from the embedder, not from a ratio
 
-`nomic-embed-text` reports a 2048-token context and 768 dimensions. Over-length
-input comes back looking successful: measured on 2026-09-06, an input past the
-limit returned a 768-dimension vector and `usage.prompt_tokens` of exactly 2048,
-with no error. A chunk that overflows is a silent quality loss.
+Both embedding models this project has run report a 2048-token context, which
+is why the swap re-cut nothing. `snowflake-arctic-embed2` declares 8192 and Ollama
+serves 2048 of it, at 1024 dimensions. `nomic-embed-text` declares and serves
+2048, at 768. Over-length input comes back looking successful under either:
+measured on 2026-09-06, an input past the limit returned a full-width vector
+and `usage.prompt_tokens` of exactly 2048, with no error. A chunk that
+overflows is a silent quality loss.
+
+The declared 8192 is worth measuring one day and is not reachable from here. A
+model serving its full declared context would fit every article whole and drop
+the index from 716 and 587 chunks to 113 and 119, which is a different corpus
+unit and its own comparison. Reaching it needs a Modelfile for the embedder,
+the way `annex-qwen3-27b` reaches its window.
 
 The document-wide ratio of 5.03 characters a token is an average and is wrong
-per provision in both directions. Measured across every chunk of both versions,
-the real ratio runs from **3.13 to 6.43**. So:
+per provision in both directions. Measured across every chunk of both versions
+under `nomic-embed-text`, the real ratio runs from **3.13 to 6.43**. So:
 
 - At a budget of 8000 characters the widest chunk measured **2007 tokens** of
   the 2048 available, which is 41 tokens of headroom on a limit that truncates
@@ -58,30 +72,91 @@ tokens. `annex.retrieval.embed` is what refuses an over-length chunk, because
 only the embedder knows the real count, and `tests/retrieval/test_chunk_tokens.py`
 measures every chunk against it under the `live` marker.
 
-### The embedder is the untested part of the stack
+### A swap re-measures the ratio rather than inheriting it
 
-`nomic-embed-text` was chosen for its context limit, which is what set the
-chunk rule above, and it has never been compared against another embedder. The
-v0.6 evaluation makes that the open question worth answering first: search
-alone reached 0.41 and 0.46 of the gold provisions, and every later stage
-inherits that ceiling, so what is wrong sits in front of the graph rather than
+Those token figures belong to `nomic-embed-text`, and the swap re-measured them
+rather than assuming they carried across. Under `snowflake-arctic-embed2` the
+same 716 and 587 chunks reach 1586 and 1615 tokens at their widest, densest at
+3.21 and 3.20 characters a token, so `CHARACTER_BUDGET` holds at 6000 and the
+live gate passes unchanged.
+
+The `limit * 3` screen in `_refuse_truncated` rests on that density rather than
+on arithmetic. Nothing shorter than three characters a token can reach the
+limit, and both models measured sit above three, so the screen is a
+tokenizer-specific floor that a denser model would move.
+
+### The embedder was the untested part of the stack, and the test moved it
+
+`nomic-embed-text` reached this project on its context limit, which is what set
+the chunk rule above, and nothing had ever been compared against it. The v0.6
+evaluation made that the first open question worth closing: search alone
+reached 0.41 and 0.46 of the gold provisions, and every later stage inherits
+that ceiling, so whatever is wrong sits in front of the graph rather than
 behind it.
 
-`annex.retrieval.store` fixes the vector width at `DIMENSIONS = 768`, so a
-1024-dimension model such as `mxbai-embed-large` or `bge-m3` costs that constant
-and a full `annex embed` rebuild. Nothing else in the pipeline reads the width.
+`.canon/groundwork/01-embedder-benchmark/` compared five models over both
+versions and `snowflake-arctic-embed2` won, so it ships. Re-measured here on
+the built index at `search_k` 12, searching the raw description rather than a
+routed query, over the nine questions carrying a gold set:
 
-## The embedding model needs its task prefixes
+| Model                     | Original recall | Consolidated recall |
+| ------------------------- | --------------- | ------------------- |
+| `snowflake-arctic-embed2` | 0.475           | 0.475               |
+| `nomic-embed-text`        | 0.288           | 0.273               |
 
-`nomic-embed-text` puts a corpus passage and a question into different regions
-of one space, and it is told which it is reading by a prefix rather than by the
-call. Omitting them is not an error and costs retrieval quality silently.
+Both figures come from one index build apiece and one scoring pass, so the
+gain is **+0.187 and +0.202** on identical footing. Read them against each
+other rather than against the pipeline numbers below, which search a routed
+query and average over all twelve questions.
 
-Measured over the consolidated text, the question "a chatbot that talks to
-customers on our website" ranked its best Article 50 chunk **27th of 587**
-without the prefixes and **5th** with them. `annex.llm.client` carries them, as
-`search_document: ` and `search_query: `, and `OllamaClient.embed` takes which
-one through its `purpose` argument.
+Read the query form before comparing this table to the benchmark's. Searching
+the raw description, `q06-worker-promotion` returns neither `art_6` nor
+`anx_III` inside the top 12 on either version under either model. The benchmark
+scored the routed form instead and found both, so the two results measure
+different queries rather than disagreeing, and the routed form is the one the
+pipeline sends. The run below records its routed query per row, which is what
+lets the next reader check that rather than re-derive it.
+
+`annex.retrieval.store` fixes the shipped width at `DIMENSIONS`, now 1024, and
+`write` takes the width as a keyword so a sweep can hold tables of several
+widths in one file without restating `connect`, `_pack` and the `vec0`
+statement. Nothing else in the pipeline reads the width.
+
+Comparing the next candidate is cheap, and a bad estimate is what delayed this
+one for as long as it went unmeasured. A scored search sweep is 24 query
+embeddings and 24 index lookups, never calls the generation model, and finishes
+in under a second. An `annex evaluate` arm costs about 350 seconds. Anyone
+sizing the next embedding comparison wants the first number rather than the
+second.
+
+## The task prefixes belong to the model, not to embedding
+
+An embedding model puts a corpus passage and a question into different regions
+of one space, and a prefix is what tells it which of the two it is reading.
+Omitting the prefix raises no error and costs retrieval quality silently.
+
+Which prefix is a fact about one model's training. `annex.llm.client` therefore
+keys the pair by model name and `embedding_prefixes` resolves it, dropping any
+tag so that `snowflake-arctic-embed2:latest` and the untagged name reach one
+entry.
+
+| Model                     | Document side       | Query side       |
+| ------------------------- | ------------------- | ---------------- |
+| `snowflake-arctic-embed2` | none                | `query: `        |
+| `nomic-embed-text`        | `search_document: ` | `search_query: ` |
+| Anything unlisted         | none                | none             |
+
+An unlisted model embeds unprefixed, and `verify_embedding_context` warns once
+per process naming it. Refusing outright would block the one workflow that
+measures a candidate model, which is pointing the CLI at it.
+
+Measured over the consolidated text under `nomic-embed-text`, the question "a
+chatbot that talks to customers on our website" ranked its best Article 50
+chunk **27th of 587** without that model's prefixes and **5th** with them.
+Sending one model's pair to another is the quiet failure: the groundwork
+measured it at 0.10 and 0.12 of recall across the two versions. A width
+mismatch is the loud one, since `vec0` refuses a vector that is not the table's
+width, so the pair is the half that needs a test rather than a stack trace.
 
 ## Routing exists because the vocabulary gap is measurable
 
@@ -117,6 +192,38 @@ date-bearing text is diluted before anything embeds it. The queued embedder row
 owns both halves, being the swap and the parse, because it rebuilds the index
 and doing that twice is waste. Measured on #6 on 2026-09-06, over both
 documents, both routed query forms and both candidate models.
+
+### Two of Article 113's three original-text chunks are footnotes
+
+The article carrying every compliance date is also the article the original
+parse pollutes, and the two facts together are why the deadline questions are
+hard to retrieve.
+
+| Version      | Characters | Chunks | Split at                        |
+| ------------ | ---------- | ------ | ------------------------------- |
+| Original     | 14 847     | 3      | `#0` 5841, `#1` 5961, `#2` 3043 |
+| Consolidated | 1052       | 1      | no split                        |
+
+The dates sit in `art_113#0`. Its two siblings are the Official Journal
+footnote block, on agricultural vehicles and on prudential requirements for
+credit institutions, which is text Article 113 is not about. Two of the three
+vectors under that id therefore describe the wrong subject, which dilutes the
+article before any query reaches it.
+
+The damage stops at the embedding. All three chunks carry `provision_id`
+`art_113`, so a hit on any one scores as having found the article, and
+`Pipeline._citations` resolves through `corpus.get` and returns the whole
+provision rather than the matched chunk. Article-level recall is unaffected and
+the consolidated text never splits at all.
+
+What put the footnotes inside the article is `annex.corpus.parse_oj` rather
+than the chunk rule, so filtering them out from inside retrieval would treat a
+symptom of an ingest defect, which is the move this entry already declines over
+Chapter membership edges. The embedder swap therefore deferred the fix rather
+than taking it, because changing a corpus unit in the same commit as the model
+would have left the re-run measuring two changes and able to separate neither.
+Deferring it needs a row that owns it, `v01.2-footnotes-parsed-into-article-113`,
+and the defect is recorded here so it survives whatever happens to that row.
 
 ### The walk splits that result by model, and search recall hides it
 
@@ -168,32 +275,43 @@ Depth 2 and a cap of 40 are the shipped defaults, so the cap bites gently at
 the demo's own worst case rather than never. Both are `Settings` fields and the
 evaluation is what should move them.
 
-The evaluation has now read them, over twelve questions at v0.6, by re-walking
-the seeds the search-only arm recorded. Recall runs 0.49, 0.60 and 0.66 for
-depths 1, 2 and 3 on the original text, and 0.57, 0.61 and 0.61 on the
-consolidated. Depth 3 is therefore a defensible setting on the original rather
-than the waste an earlier reading predicted, and it buys that 0.06 for seven
-more nodes. The consolidated pair is identical at 2 and 3 because both hit the
-cap of 40, so that row measures the cap rather than the depth. Depth 2 ships on
-cost rather than because nothing above it helps.
+The evaluation has now read them twice, by re-walking the seeds the search-only
+arm recorded. At v0.9 recall runs 0.78, 0.89 and 0.89 for depths 1, 2 and 3 on
+the original text, and 0.82, 0.85 and 0.85 on the consolidated. Depth 3 buys
+nothing on either document while sending four more nodes on the original, which
+reverses the v0.6 reading of 0.49, 0.60 and 0.66, where it bought 0.06 there.
+Better seeds are what changed it: a walk starting from the right provisions
+reaches the chain at depth 2 and has nowhere further worth going. Depth 2 ships
+on the measurement rather than on cost alone.
 
-### Traversal is capped by what search returned
+### Traversal was capped by search, and is now capped by the prompt budget
 
-The table above is a property of the graph and not of the pipeline, and the
-distinction cost a wrong expectation. Reaching every obligation article from
-`art_6` requires `art_6` to be among the seeds, and search has to return it
-first. Where search misses the entry point, the walk expands nothing: measured
-on `q06-worker-promotion`, search returned neither `art_6` nor `anx_III`, so
-traversal recovered neither and the question scored 0.18 against a gold set of
-eleven.
+The table above is a property of the graph and not of the pipeline. Reaching
+every obligation article from `art_6` requires `art_6` among the seeds, and
+search has to return it first. That is where the v0.6 loss sat: on
+`q06-worker-promotion` search returned neither `art_6` nor `anx_III`, so the
+walk expanded nothing and the question scored 0.18 against a gold set of eleven.
 
-Across the whole set the walk lifts recall from 0.41 to 0.54 on the original
-and 0.46 to 0.56 on the consolidated, while precision over nodes falls from
-0.188 to 0.137. That is a real gain and it does not reach the 1.00 the
-full-context arm scores by construction. **The ceiling on traversal is search,
-so the reference graph cannot be scored apart from the embedder in front of
-it.** `python/tests/corpus/test_graph.py` still asserts the graph half and
-still passes.
+The embedder swap moved that. On the same question `snowflake-arctic-embed2`
+returns `anx_III` and `art_6.3`, `traverse` lifts the paragraph to `art_6`, and
+the walk reaches `art_10` through `art_15` and `art_43`. The question scores
+0.27.
+
+Every one of those obligation articles is in `dropped_ids`.
+`Pipeline._within_budget` trims from the far end until the prompt fits the
+window, and 40 traversed provisions of legal text do not fit 32 768 tokens at
+2.6 characters a token. Across the whole set the walk lifts recall from 0.61 to
+0.74 on the original and 0.71 to 0.81 on the consolidated, while precision over
+nodes falls from 0.236 to 0.170. Scored against everything the walk reached
+before the budget cut it, the arm makes 0.89 on the original rather than 0.74.
+
+**The ceiling on traversal is now the prompt budget.** The 0.15 between those
+two figures is what retrieval found and the model never saw, and it lands
+entirely on the three high-risk chain questions: `q04` scores 0.18 against 0.82
+reached, `q05` 0.09 against 0.36, `q06` 0.27 against 0.82. Read 0.89 as a
+diagnosis rather than an achievable score, since a prompt carrying all of it
+would truncate mid-answer. `python/tests/corpus/test_graph.py` still asserts the
+graph half and still passes. Measured on 2026-09-07 over 72 runs.
 
 ## A paragraph seed is lifted to its article before the walk
 
@@ -311,7 +429,10 @@ that fits is unaffected.
 - `annex-qwen3-27b` is built at 32 768 rather than the ceiling. The agent sends
   a retrieval result rather than the whole Act, and the evaluation's
   full-context arm is what needs the window
-- `nomic-embed-text` is 137M with a 2048 context and 768 dimensions
+- `snowflake-arctic-embed2` is the shipped embedder, a 566.70M-parameter BERT
+  at 1.2 GB, declaring 8192 of context and serving 2048, at 1024 dimensions
+- `nomic-embed-text` is 137M with a 2048 context and 768 dimensions, and shipped
+  until the benchmark replaced it
 
 ## Recitals are embedded for the original and cannot be for the consolidated
 
@@ -326,11 +447,13 @@ the trace rather than hidden inside one shared table.
 - **The index is derived and gitignored.** `python/data/index/` is rebuilt by
   `uv run python -m annex embed`, which needs Ollama. A fresh clone has no index
   and `search` says so by name rather than failing on a missing table. The
-  rebuild took 10.6 seconds over 716 chunks of the original and 587 of the
-  consolidated, with the corpus cache warm and `nomic-embed-text` already
-  resident. A cold figure is unmeasured, and the few minutes this entry and the
-  setup step in `.claude/context/development.md` both carried was never measured
-  at all
+  rebuild took **27.3 seconds** over 716 chunks of the original and 587 of the
+  consolidated under `snowflake-arctic-embed2`, with the corpus cache warm and
+  the model cold, against 10.6 seconds under `nomic-embed-text` with that model
+  already resident. Neither figure is the other's cold or warm counterpart, so
+  read the gap as two models rather than as a slowdown. The few minutes this
+  entry and the setup step in `.claude/context/development.md` both carried was
+  never measured at all
 - **One writer, four readers.** `embed` writes the index, and `search`,
   `traverse`, the agent and the evaluation read it. A rule about chunk ids or the
   per-version table has to hold for the writer as well as the reader that
