@@ -1,6 +1,6 @@
 ---
 title: Service
-description: HTTP boundary between the web app and the agent, the seven results a call can return, the ports and timeouts, and the CORS and TLS position
+description: HTTP boundary between the web app and the agent, the eight results a call can return, the ports and timeouts, the replay seam the deployed build takes instead, and the CORS and TLS position
 ---
 
 # Service
@@ -14,6 +14,8 @@ The answer object is not defined here and must not be. The evaluation harness re
 ## The seven results
 
 Five of these are failures and two are not. Each names a different next action, which is why the surface draws one inline validation state and a failure region carrying four copy variants rather than one generic region.
+
+An eighth, `unrecorded`, belongs to the deployed build alone and no server writes it either. It is described under the replay seam below rather than in this table, which is the transport's own.
 
 | Result        | Transport                                | What happened                                       |
 | ------------- | ---------------------------------------- | --------------------------------------------------- |
@@ -77,6 +79,20 @@ The browser reaches the service directly rather than through a Next route handle
 **The web build deploys first, or both deploy together.** `web/src/lib/answer.ts` is generated strict, so a client rejecting an unknown field rejects the whole response rather than degrading, and a field added to the Pydantic models and deployed ahead of the web build fails every request at runtime. `.claude/context/development.md` carries the measurement behind that, which is `RetrievalTrace` gaining `dropped_ids` and `truncated` inside one week.
 
 This row ships both halves on one branch, so they land together and the coupling is satisfied by construction rather than by anyone remembering it. A later change touching the Pydantic models alone does not have that protection.
+
+## The deployed build calls nothing
+
+The seam above describes a local run. A deployed build has no service on the other side of it, because the model this project runs holds 30 GB of a card and nothing hosted answers these questions for free. What ships instead is a static export that replays answers the live system already gave.
+
+The swap sits in one module. `web/src/lib/ask.ts` returns to `replay` when `NEXT_PUBLIC_ANNEX_MODE` reads `replay`, and `web/src/lib/replay.ts` is the only module that knows fixtures exist. Nothing above either one changes: the surface reads the same `AskResult` union, which is what that seam was drawn for and what `.claude/wireframes/answer.md` was built against.
+
+**The fixtures come from the pipeline, not from a hand.** `uv run python -m annex capture` walks the same twelve questions the evaluation scores, calls `Pipeline.ask` in process on each version, and writes one `Answer` per pair into `web/src/fixtures/` with a manifest carrying the commit and the date. In process rather than over HTTP, because this service defines no response model of its own and returns that same object, so the transport would add a hop and no fidelity. The recorded walkthrough is what proves the HTTP path live.
+
+The union gained an eighth result for this build alone. `unrecorded` is what a description the recording does not hold returns, and it is a state rather than a nearest-fixture match on purpose: the nearest fixture to an unasked question is text a model produced for a different one, which is the invention the capture exists to retire. It renders in the failure region under the neutral treatment, since it is the deployment working as built rather than a fault.
+
+**The traversal switch cannot be honored on that build.** Capture ran with reference following on, so a recording holds one answer a question and both positions of the switch would return it. That control is held inactive there and relabelled `recorded`. Beside it the version toggle is untouched, since both texts were captured, and comparing them is what the deployed page is for.
+
+**A fixture expires against the pipeline that produced it, and only half of that is visible.** `web/src/lib/answer.ts` is strict, so a field added to the Pydantic models makes every committed fixture fail to parse, and `web/src/lib/replay.test.ts` parses all of them in the gate. The invisible half is a fixture that still parses and no longer matches what the pipeline says. Any later change to prompts, chunking, retrieval or the corpus invalidates the set that way and nothing will report it, so the manifest carries the commit and the date and a re-capture is the repair. It costs minutes of GPU rather than a day of work.
 
 ## What is not built
 

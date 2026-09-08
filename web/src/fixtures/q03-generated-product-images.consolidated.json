@@ -1,0 +1,150 @@
+{
+  "question": "we generate product photographs with an image model and publish them in our online shop",
+  "version": "consolidated",
+  "claims": [
+    {
+      "statement": "The system generates synthetic image content for commercial publication, so the provider obligation to mark outputs in a machine-readable format and make them detectable as artificially generated or manipulated applies, subject to the carve-out where the system performs an assistive function for standard editing or does not substantially alter the deployer's input data",
+      "citations": [
+        {
+          "provision_id": "art_50.2",
+          "citation": "Article 50(2)",
+          "kind": "paragraph",
+          "version": "consolidated",
+          "text": "2. Providers of AI systems, including general-purpose AI systems, generating synthetic audio, image, video or text content, shall ensure that the outputs of the AI system are marked in a machine-readable format and detectable as artificially generated or manipulated. Providers shall ensure their technical solutions are effective, interoperable, robust and reliable as far as this is technically feasible, taking into account the specificities and limitations of various types of content, the costs of implementation and the generally acknowledged state of the art, as may be reflected in relevant technical standards. This obligation shall not apply to the extent the AI systems perform an assistive function for standard editing or do not substantially alter the input data provided by the deployer or the semantics thereof, or where authorised by law to detect, prevent, investigate or prosecute criminal offences.",
+          "changed": false,
+          "change_note": null
+        }
+      ]
+    },
+    {
+      "statement": "Any transparency information triggered by paragraphs 1 to 4 of Article 50 must be provided to the natural persons concerned in a clear and distinguishable manner at the latest at the time of the first interaction or exposure, and must conform to applicable accessibility requirements",
+      "citations": [
+        {
+          "provision_id": "art_50.5",
+          "citation": "Article 50(5)",
+          "kind": "paragraph",
+          "version": "consolidated",
+          "text": "5. The information referred to in paragraphs 1 to 4 shall be provided to the natural persons concerned in a clear and distinguishable manner at the latest at the time of the first interaction or exposure. The information shall conform to the applicable accessibility requirements.",
+          "changed": false,
+          "change_note": null
+        }
+      ]
+    },
+    {
+      "statement": "If the AI system generating the product photographs was placed on the market before 2 August 2026, the provider must take the necessary steps to comply with Article 50(2) by 2 December 2026",
+      "citations": [
+        {
+          "provision_id": "art_111.4",
+          "citation": "Article 111(4)",
+          "kind": "paragraph",
+          "version": "consolidated",
+          "text": "4. Providers of AI systems, including general-purpose AI systems, generating synthetic audio, image, video or text content, that have been placed on the market before 2 August 2026 shall take the necessary steps in order to comply with Article 50(2) by 2 December 2026. ▼B",
+          "changed": true,
+          "change_note": "Article 111(4) appears in the consolidated text and not in the original text."
+        }
+      ]
+    },
+    {
+      "statement": "The Commission is to encourage and facilitate codes of practice at Union level for the detection, marking and labelling of artificially generated or manipulated content, and may assess whether adherence to those codes is adequate to ensure compliance with the obligations in paragraphs 2 and 4 of Article 50",
+      "citations": [
+        {
+          "provision_id": "art_50.7",
+          "citation": "Article 50(7)",
+          "kind": "paragraph",
+          "version": "consolidated",
+          "text": "7. The Commission shall encourage and facilitate the drawing up of codes of practice at Union level to facilitate the effective implementation of the obligations regarding the detection, marking and labelling of artificially generated or manipulated content. The Commission, taking utmost account of the opinion of the Board, shall assess whether adherence to those codes of practice is adequate to ensure compliance with the obligations laid down in paragraphs 2 and 4 of this Article, in accordance with the procedure laid down in Article 56(6). If it deems the code of practice to be inadequate, the Commission may adopt an implementing act specifying common rules for the implementation of those obligations in accordance with the examination procedure laid down in Article 98(2). ▼B CHAPTER V GENERAL-PURPOSE AI MODELS SECTION 1 Classification rules",
+          "changed": true,
+          "change_note": "The wording of Article 50(7) differs between the original and the consolidated text."
+        }
+      ]
+    }
+  ],
+  "refusal": null,
+  "retrieval": {
+    "searched_ids": [
+      "art_50.2",
+      "art_50.4",
+      "art_50.1",
+      "art_13.1",
+      "art_111.4",
+      "art_50.5",
+      "art_50.6",
+      "art_50.7",
+      "art_53.1",
+      "art_13.2",
+      "art_54.6",
+      "art_50.3"
+    ],
+    "traversed_ids": [
+      "art_111",
+      "art_13",
+      "art_50",
+      "art_53",
+      "art_54",
+      "anx_X",
+      "anx_XI",
+      "anx_XII",
+      "art_113",
+      "art_12",
+      "art_14",
+      "art_15",
+      "art_5",
+      "art_55",
+      "art_56",
+      "art_56.6",
+      "art_78",
+      "art_9",
+      "art_9.2",
+      "art_97",
+      "art_97.2",
+      "art_98",
+      "art_98.2",
+      "anx_I",
+      "anx_II",
+      "anx_III",
+      "anx_IV",
+      "art_101",
+      "art_102",
+      "art_103",
+      "art_104",
+      "art_105",
+      "art_106",
+      "art_107",
+      "art_108",
+      "art_109",
+      "art_11",
+      "art_11.3",
+      "art_110",
+      "art_14.5"
+    ],
+    "dropped_ids": [
+      "art_97",
+      "art_97.2",
+      "art_98",
+      "art_98.2",
+      "anx_I",
+      "anx_II",
+      "anx_III",
+      "anx_IV",
+      "art_101",
+      "art_102",
+      "art_103",
+      "art_104",
+      "art_105",
+      "art_106",
+      "art_107",
+      "art_108",
+      "art_109",
+      "art_11",
+      "art_11.3",
+      "art_110",
+      "art_14.5"
+    ],
+    "traversal_enabled": true,
+    "truncated": false,
+    "prompt_tokens": 15293,
+    "completion_tokens": 3550,
+    "duration_ms": 35211,
+    "model": "annex-qwen3-27b"
+  }
+}

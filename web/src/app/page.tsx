@@ -7,11 +7,14 @@ import { DescribedSystem } from '@/components/described-system'
 import { DescriptionForm } from '@/components/description-form'
 import { FailureRegion } from '@/components/failure-region'
 import { LoadingAnswer } from '@/components/loading-answer'
+import { RecordedPicks } from '@/components/recorded-picks'
 import { RefusalView } from '@/components/refusal-view'
+import { ReplayNotice } from '@/components/replay-notice'
 import { RetrievalTrace } from '@/components/retrieval-trace'
 import { TopBar } from '@/components/top-bar'
 import type { CorpusVersion } from '@/components/versions'
 import { ask, type AskResult } from '@/lib/ask'
+import { REPLAY_MODE } from '@/lib/replay'
 
 /**
  * One surface carries the whole product.
@@ -105,6 +108,15 @@ export default function Home() {
   // because the service never started work on it.
   const onForm = asked === null || rejected
 
+  const pick = useCallback(
+    (recorded: string) => {
+      setDescription(recorded)
+      setTouched(false)
+      void run(recorded, version, traversal)
+    },
+    [run, traversal, version],
+  )
+
   return (
     <div className="flex min-h-full flex-col bg-paper">
       <TopBar
@@ -113,22 +125,32 @@ export default function Home() {
         traversal={traversal}
         onTraversalChange={changeTraversal}
         disabled={pending}
+        // The capture ran with reference following on, so a recording holds one
+        // answer a question and the switch would return the same one either
+        // way. Held inactive rather than removed, since the control is part of
+        // what the recorded walkthrough demonstrates against the live system.
+        traversalFixed={REPLAY_MODE}
       />
 
+      {REPLAY_MODE && <ReplayNotice />}
+
       {onForm ? (
-        <DescriptionForm
-          description={description}
-          onDescriptionChange={(next) => {
-            setDescription(next)
-            setResult(null)
-          }}
-          onBlur={() => {
-            setTouched(true)
-          }}
-          onSubmit={submit}
-          invalid={rejected || (touched && description.trim() === '')}
-          pending={pending}
-        />
+        <>
+          <DescriptionForm
+            description={description}
+            onDescriptionChange={(next) => {
+              setDescription(next)
+              setResult(null)
+            }}
+            onBlur={() => {
+              setTouched(true)
+            }}
+            onSubmit={submit}
+            invalid={rejected || (touched && description.trim() === '')}
+            pending={pending}
+          />
+          {REPLAY_MODE && <RecordedPicks onPick={pick} />}
+        </>
       ) : (
         <>
           <DescribedSystem description={asked} onEdit={edit} />
@@ -150,6 +172,9 @@ export default function Home() {
             )}
             {result?.state === 'unreachable' && (
               <FailureRegion state="unreachable" />
+            )}
+            {result?.state === 'unrecorded' && (
+              <FailureRegion state="unrecorded" />
             )}
           </main>
           {answer && <RetrievalTrace retrieval={answer.retrieval} />}

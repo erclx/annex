@@ -9,6 +9,12 @@ import type { CorpusVersion } from '@/components/versions'
  * traversal control is a drawn switch rather than a checkbox, per the
  * iconography rule in `.claude/DESIGN.md`: no icons and no icon library, so a
  * switch is a shape this file draws.
+ *
+ * `traversalFixed` is the deployed build's case. That build replays a capture
+ * taken with reference following on, so both positions of the switch would
+ * return one answer. It is held inactive and relabelled rather than removed,
+ * because the version control beside it does still re-ask and a missing switch
+ * would read as a surface that never had one.
  */
 export function TopBar({
   version,
@@ -16,12 +22,14 @@ export function TopBar({
   traversal,
   onTraversalChange,
   disabled,
+  traversalFixed = false,
 }: {
   version: CorpusVersion
   onVersionChange: (version: CorpusVersion) => void
   traversal: boolean
   onTraversalChange: (traversal: boolean) => void
   disabled: boolean
+  traversalFixed?: boolean
 }) {
   return (
     <header className="border-b border-rule bg-surface">
@@ -67,7 +75,12 @@ export function TopBar({
               role="switch"
               aria-checked={traversal}
               aria-label="Reference traversal"
-              disabled={disabled}
+              disabled={disabled || traversalFixed}
+              title={
+                traversalFixed
+                  ? 'The recording holds one answer a question, taken with reference following on.'
+                  : undefined
+              }
               onClick={() => {
                 onTraversalChange(!traversal)
               }}
@@ -83,7 +96,7 @@ export function TopBar({
             </button>
             <span>Reference traversal</span>
             <span className="rounded-[3px] border border-dashed border-rule px-[5px] py-px font-mono text-[9.5px] tracking-[0.06em] uppercase">
-              demo
+              {traversalFixed ? 'recorded' : 'demo'}
             </span>
           </div>
 
