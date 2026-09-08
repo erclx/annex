@@ -96,6 +96,53 @@ The gap is vocabulary rather than meaning, and the agent's route node is what
 closes it. That is the whole argument for spending a model call before the
 search rather than searching the user's words directly.
 
+### Article 113 stays out of reach on two of the three deadline questions
+
+`art_113` carries the compliance dates and is the only article in either
+version that does. One model reaches it and on one question:
+`snowflake-arctic-embed2` returns it inside the top 12 on `q11`, at rank 10 of
+587 on the consolidated text before the route prompt asked for timing and rank
+9 after. On `q10` and `q12` no model measured returns it at any query form.
+
+Asking for the timing narrows that gap without closing it. On the consolidated
+text `art_113` moves from rank 338 of 587 to 109 on `q10` and from 438 to 185
+on `q12` for `nomic-embed-text`, and from 266 to 84 and from 385 to 163 for
+`snowflake-arctic-embed2`, against a search that takes 12.
+
+The original text is where the gap does not narrow. `art_113` sits between rank
+367 and 692 of 716 there on `q10` and `q12` under both routed forms measured,
+which is the parse rather than the query: two of the three original-text chunks
+under that `provision_id` are the Official Journal footnote apparatus, so the
+date-bearing text is diluted before anything embeds it. The queued embedder row
+owns both halves, being the swap and the parse, because it rebuilds the index
+and doing that twice is waste. Measured on #6 on 2026-09-06, over both
+documents, both routed query forms and both candidate models.
+
+### The walk splits that result by model, and search recall hides it
+
+Scoring the same searched sets again with `traverse` applied at the shipped
+depth of 2 and cap of 40 answers a question top-12 search recall cannot. Mean
+recall over the twelve questions moves from 0.6035 to 0.5656 for
+`nomic-embed-text` on the original text, from 0.6086 to 0.7247 on the
+consolidated, and from 0.7955 to 0.8889 and 0.8182 to 0.8510 for
+`snowflake-arctic-embed2`. Three pairs gain and the shipped model on the
+original text loses.
+
+Two things follow that the search-only view could not show.
+
+- **The deadline flow is answerable on the candidate embedder.** `q10` on the original text goes from 0.00 to 1.00 under the walk for `arctic2`, reaching `art_111` and `art_113` both. Search never returns `art_113` on that question, and the walk arrives at it from `art_111`, which the amended routing is what put in reach.
+- **The same walk loses `art_113` for `nomic-embed-text`.** `q11` drops from 1.00 to 0.50 on both documents and `q12` on the original does the same, each losing `art_113` alone. Search recall on those cells did not move, so the loss is in what else the top 12 held: the old sentence returned a provision citing Article 113 and the new one does not.
+
+Five of the six provisions the amended routing costs search are recovered by
+the walk, including all three cells that lost `art_6`. Only `art_43` on `q07`
+for `nomic-embed-text` on the original text stays lost. Reaching `art_6` by
+traversal is not the same as searching it, though: `q05` for `arctic2` on the
+original text reaches `art_6` at depth 2 and still drops from 0.91 to 0.36,
+because a provision the walk arrives at is where the walk stops rather than
+somewhere it continues from. Measured on #6 on 2026-09-06, and this scores
+what the walk reaches rather than what a prompt would carry, since the budget
+that trims a real prompt needs the provision text and a generation window.
+
 ## Traversal walks citation edges only
 
 No Chapter or Section membership edges. The decisive fact is that they do not
@@ -277,9 +324,13 @@ the trace rather than hidden inside one shared table.
 ## Gotchas
 
 - **The index is derived and gitignored.** `python/data/index/` is rebuilt by
-  `uv run python -m annex embed`, which takes a few minutes and needs Ollama.
-  A fresh clone has no index and `search` says so by name rather than failing
-  on a missing table
+  `uv run python -m annex embed`, which needs Ollama. A fresh clone has no index
+  and `search` says so by name rather than failing on a missing table. The
+  rebuild took 10.6 seconds over 716 chunks of the original and 587 of the
+  consolidated, with the corpus cache warm and `nomic-embed-text` already
+  resident. A cold figure is unmeasured, and the few minutes this entry and the
+  setup step in `.claude/context/development.md` both carried was never measured
+  at all
 - **One writer, four readers.** `embed` writes the index, and `search`,
   `traverse`, the agent and the evaluation read it. A rule about chunk ids or the
   per-version table has to hold for the writer as well as the reader that
@@ -290,6 +341,11 @@ the trace rather than hidden inside one shared table.
 - **A tightly budgeted generation returns nothing.** The model spends the
   budget inside a thinking block: `num_predict=32` gave 32 eval tokens and an
   empty response. `MINIMUM_GENERATION_BUDGET` is 512 and no caller gets less
+- **Routing meets that at 2048, not only at 32.** `Pipeline._route` gives the
+  model 2048 tokens and searches the raw description when the completion comes
+  back empty. Observed once on `q05` across three routing passes over the twelve
+  gold questions, after the route prompt gained its paragraph asking for timing.
+  The fallback is what keeps it a quiet loss of routing rather than a failure
 - **`live` tests are deselected by default.** `pytest.ini` runs `-m "not live"`,
   so the acceptance tests and the real token counts need `pytest -m live` and a
   running Ollama. CI has neither and skips them

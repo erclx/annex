@@ -15,6 +15,8 @@ from tests.agent.conftest import BuildPipeline
 
 CHATBOT = 'a chatbot that talks to customers on our website'
 
+DEADLINE = 'when do the obligations for a high-risk AI system start to apply to us'
+
 
 def make_citation(provision_id: str, text: str) -> Citation:
     return Citation(
@@ -82,6 +84,23 @@ class TestRouting:
         pipeline.ask(CHATBOT)
 
         assert CHATBOT in client.prompts[0]
+
+    def test_a_question_about_timing_is_routed_asking_for_the_timing(
+        self, build_pipeline: BuildPipeline
+    ) -> None:
+        """The prompt asked for subject matter alone and got exactly that.
+
+        `q10` and `q12` of the gold set came back as sentences carrying no
+        temporal word, and Article 113 is the only provision in either version
+        carrying a date, so the half of the question the answer was in never
+        reached the index. The routed sentence is the model's, and what this
+        can hold is the instruction that produces it.
+        """
+        pipeline, client = build_pipeline(['the date of application', GROUNDED])
+
+        pipeline.ask(DEADLINE)
+
+        assert 'date of application' in client.prompts[0]
 
     def test_a_routing_step_that_returns_nothing_falls_back_to_the_question(
         self, build_pipeline: BuildPipeline
