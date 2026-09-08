@@ -1,0 +1,25 @@
+{
+  "name": "annex",
+  "private": true,
+  "devDependencies": {
+    "@commitlint/cli": "^21.2.2",
+    "@commitlint/config-conventional": "^21.2.2",
+    "@types/bun": "latest",
+    "cspell": "^10.2.2",
+    "husky": "^9.1.7",
+    "prettier": "^3.9.6"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "scripts": {
+    "check:spell": "cspell '**' '.*/**' '.*' --no-progress --color --show-context",
+    "check:format": "prettier --check --log-level warn --ignore-path .gitignore --ignore-path .prettierignore . && shfmt --diff --indent 2 scripts/",
+    "check:shell": "find scripts -name '*.sh' -exec shellcheck --severity=warning {} +",
+    "format": "prettier --write --log-level warn --ignore-path .gitignore --ignore-path .prettierignore . && shfmt --write --indent 2 scripts/",
+    "prepare": "husky",
+    "check": "./scripts/verify.sh && bun run check:python && bun run check:web",
+    "check:python": "cd python && bun run check",
+    "check:web": "cd web && bun run check"
+  }
+}
