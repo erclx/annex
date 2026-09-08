@@ -16,13 +16,13 @@ The graph and the vector index are two views of the same corpus rather than two 
 
 The Act ships as structured legal text with numbered articles, annexes and recitals, and its cross-references are written into the sentences themselves. That makes the graph a parsing job over an explicit reference structure rather than an extraction job handing text to a model and trusting what comes back.
 
-Parsing wins twice. It is roughly a day cheaper than model extraction, and it is checkable: a parsed edge either matches a reference in the text or it does not, where an extracted edge is only ever as good as the extraction. The Official Journal text carries 518 explicit cross-reference phrases across 113 articles, 13 annexes and 180 recitals. Measured at 43d4ead on 2026-09-05. On a corpus whose whole value is traceability, a graph nobody can verify would undercut the thing being built.
+Parsing wins twice. It is roughly a day cheaper than model extraction, and it is checkable: a parsed edge either matches a reference in the text or it does not, where an extracted edge is only ever as good as the extraction. The Official Journal text carries 113 articles, 13 annexes and 180 recitals, and the text consolidated at 2026-07-27 carries 119 articles, 14 annexes and no recitals. The shipped predicate yields 523 reference edges on the first and 607 on the second. An earlier figure of 518 phrases appears in the record with no rule attached and no rule reproduces it, so it is retired rather than carried. Measured at 15d72ca on 2026-09-05. On a corpus whose whole value is traceability, a graph nobody can verify would undercut the thing being built.
 
 ### The whole Act is ingested, and only the demo question is narrowed
 
 An early proposal cut the corpus down to Article 50, on the grounds that the high-risk obligations were postponed. That confuses two things. The postponement changes when obligations bite. It removes no cross-reference from the text.
 
-The reference structure is what the graph is built from, and the richest chain in the Act runs from Article 6 through Annex III to the obligation articles and on to conformity assessment. Cutting the corpus to one article would remove the only part of the text where traversal visibly beats semantic search. Parsing every article costs nothing over parsing one.
+The reference structure is what the graph is built from, and the richest chain in the Act runs from Article 6 to the obligation articles and on to conformity assessment. Traversal reaches all eight obligation articles and Article 43 from Article 6 in two hops, in both versions. It does not pass through Annex III, which cites only Article 6 and Article 6(2), so the chain is a reachability claim rather than the four-hop route the earlier wording drew. Measured at 15d72ca on 2026-09-05. Cutting the corpus to one article would remove the only part of the text where traversal visibly beats semantic search, and parsing every article costs nothing over parsing one.
 
 ### Refusal is a feature, not a safety net
 
@@ -61,7 +61,7 @@ The window does not fit all seven at a quality worth showing, and thin coverage 
 ## Risks / open questions
 
 - **Vector store.** Undecided. `sqlite-vec` keeps the whole system in one file and has been shipped before. `pgvector` costs a service and buys operational realism.
-- **Graph representation.** Undecided. An in-process graph over parsed references may be sufficient at the Act's scale, which is hundreds of articles rather than millions of nodes. A graph database would be more legible as an architectural claim and more expensive to stand up.
+- **Graph representation.** Settled by measurement rather than by preference. `networkx` declares `requires_python: !=3.14.1` against this project's pinned 3.14, so it cannot be imported at all, and the graph is a plain in-process adjacency map over parsed references. At hundreds of articles and hundreds of edges that carries the two operations this project needs, a bounded walk and a reverse lookup. A graph database stays unjustified at this scale.
 - **Chunking strategy.** Legal text has natural units, since an article or a numbered paragraph is a coherent span. Whether article-level chunks retrieve better than fixed-size windows is unmeasured, and the eval harness is what should decide it.
 - **Frontend scope.** A chat surface with a citation panel is the minimum. Whether the reference graph is visualized is open and depends on time remaining.
 - **Prompt injection surface is narrower than it first appears.** The corpus is trusted public law. The untrusted input is the user's own system description. Worth defending, not worth overstating.

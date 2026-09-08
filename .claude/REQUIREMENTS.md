@@ -49,7 +49,7 @@ Specific library choices are open and tracked in `.claude/ARCHITECTURE.md` under
 
 The Act is 90 483 words, roughly 145 000 tokens. That fits inside a current model's context window, so a model can read the whole document and answer from it. Retrieval is therefore not obviously worth doing here, and prompt caching removes most of the cost argument for repeated questions against a fixed corpus.
 
-The question this project exists to answer is whether structure-aware retrieval earns its place against that baseline. The document carries 518 explicit cross-reference phrases, which is what makes the question answerable rather than rhetorical: a corpus with no structure could not be measured this way.
+The question this project exists to answer is whether structure-aware retrieval earns its place against that baseline. The document carries 523 parsed reference edges in its original text and 607 in the amended one, which is what makes the question answerable rather than rhetorical: a corpus with no structure could not be measured this way.
 
 The answer is allowed to be that the baseline wins. Reporting that is the point, not a failure of it.
 

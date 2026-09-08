@@ -33,3 +33,47 @@ jobs:
 
       - name: Check Shell
         run: bun run check:shell
+
+  python-checks:
+    name: 🐍 Python Checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install Dependencies
+        run: cd python && uv sync --frozen
+
+      - name: Typecheck, Lint and Test
+        run: bun run check:python
+
+  web-checks:
+    name: 🌐 Web Checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install Shell Tools
+        run: sudo apt-get install -y shfmt
+
+      - name: Install Dependencies
+        run: cd web && bun install --frozen-lockfile
+
+      - name: Typecheck, Lint and Test
+        run: bun run check:web
