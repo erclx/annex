@@ -158,7 +158,7 @@ class TestACutPromptFailsRatherThanAnswering:
     ) -> None:
         arm, _ = build_arm(corpora)
 
-        assert arm.answer(CHATBOT, CorpusVersion.CONSOLIDATED).claims
+        assert arm.answer(CHATBOT, CorpusVersion.CONSOLIDATED).answer.claims
 
 
 class TestTheTraceTheArmFills:
@@ -168,18 +168,28 @@ class TestTheTraceTheArmFills:
         """Filled honestly rather than left empty, so precision has a denominator."""
         arm, _ = build_arm(corpora)
 
-        answer = arm.answer(CHATBOT, CorpusVersion.CONSOLIDATED)
+        answer = arm.answer(CHATBOT, CorpusVersion.CONSOLIDATED).answer
 
         assert len(answer.retrieval.searched_ids) == len(
             stuffed(corpora[CorpusVersion.CONSOLIDATED])
         )
+
+    def test_the_arm_reports_no_query_because_it_searched_for_nothing(
+        self, corpora: dict[CorpusVersion, Corpus]
+    ) -> None:
+        """The absence is the arm's argument, not a value left unfilled."""
+        arm, _ = build_arm(corpora)
+
+        routed = arm.answer(CHATBOT, CorpusVersion.CONSOLIDATED)
+
+        assert routed.query == ''
 
     def test_the_arm_reports_that_it_traversed_nothing(
         self, corpora: dict[CorpusVersion, Corpus]
     ) -> None:
         arm, _ = build_arm(corpora)
 
-        trace = arm.answer(CHATBOT, CorpusVersion.CONSOLIDATED).retrieval
+        trace = arm.answer(CHATBOT, CorpusVersion.CONSOLIDATED).answer.retrieval
 
         assert not trace.traversal_enabled
         assert trace.traversed_ids == ()
@@ -189,7 +199,7 @@ class TestTheTraceTheArmFills:
     ) -> None:
         arm, _ = build_arm(corpora)
 
-        trace = arm.answer(CHATBOT, CorpusVersion.CONSOLIDATED).retrieval
+        trace = arm.answer(CHATBOT, CorpusVersion.CONSOLIDATED).answer.retrieval
 
         assert trace.dropped_ids == ()
 
@@ -200,13 +210,15 @@ class TestTheTraceTheArmFills:
         arm, client = build_arm(corpora)
         client.finish_reason = 'length'
 
-        assert arm.answer(CHATBOT, CorpusVersion.CONSOLIDATED).retrieval.truncated
+        assert arm.answer(
+            CHATBOT, CorpusVersion.CONSOLIDATED
+        ).answer.retrieval.truncated
 
     def test_a_declared_refusal_comes_back_as_one(
         self, corpora: dict[CorpusVersion, Corpus]
     ) -> None:
         arm, _ = build_arm(corpora, ['REFUSE\nwhat a substantial modification is'])
 
-        answer = arm.answer(CHATBOT, CorpusVersion.CONSOLIDATED)
+        answer = arm.answer(CHATBOT, CorpusVersion.CONSOLIDATED).answer
 
         assert answer.is_refusal

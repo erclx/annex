@@ -28,23 +28,25 @@ The command line answers questions. Describe a system and it returns the provisi
 
 The three-arm evaluation is built and has been run, over 72 model runs on a local RTX 5090.
 
-**The baseline won.** Putting the whole Act in the context window reached every provision a correct answer needed. Vector search alone reached 41 to 46 per cent of them, and adding the reference walk lifted that to 54 to 56 per cent without closing the gap. Retrieval's case here is cost and checkability rather than accuracy. The shipped pipeline, which is search plus traversal, sends an eighth of the baseline's prompt tokens, and search alone sends a 39th. And the exact passages either one sent are known, so a citation can be verified against them rather than trusted.
+**The baseline won, and the margin narrowed.** Putting the whole Act in the context window reached every provision a correct answer needed. Vector search alone reached 61 to 71 per cent of them, and adding the reference walk lifted that to 74 to 81 per cent without closing the gap. Retrieval's case here is cost and checkability rather than accuracy. The shipped pipeline, which is search plus traversal, sends an eighth of the baseline's prompt tokens, and search alone sends a 27th. And the exact passages either one sent are known, so a citation can be verified against them rather than trusted.
 
-The reason the retrieval arms stop where they do is worth more than the headline. A graph walk cannot recover an entry point search never found, so the reference graph is capped by the embedder in front of it.
+Those figures moved by changing one thing. An earlier run scored 41 to 46 and 54 to 56 per cent on a different embedding model, chosen for its context limit and never compared against anything. Comparing it against four alternatives and shipping the winner cost no new dependency and a 27-second index rebuild.
 
-Refusal came out worst of anything measured. Across eighteen chances to refuse a question the text does not settle, the arms took five, and every false refusal a retrieval arm made landed on the flow that asks what the amendment changed. Saying so is the point of running the evaluation rather than asserting the design. [docs/evaluation.md](docs/evaluation.md) carries the numbers, the depth sensitivity, the prompt-cache measurement and which production concerns were built against which were only reasoned about.
+Where the retrieval arms now stop is worth more than the headline, and it is not where it was. Search finds the entry points it used to miss, the walk reaches the obligations they lead to, and the synthesis prompt then drops most of them to fit a 32,768-token window. The walk reaches 89 per cent of what the original text's questions need and the model is shown 74. The bottleneck is the prompt budget rather than the embedder or the graph.
+
+Refusal is still the weakest thing measured. Across eighteen chances to refuse a question the text does not settle, the arms took four. Refusing wrongly improved sharply, from eight false refusals to three, and the pattern where every retrieval arm refused the flow asking what the amendment changed is gone. Saying both is the point of running the evaluation rather than asserting the design. [docs/evaluation.md](docs/evaluation.md) carries the numbers, the depth sensitivity, the prompt-cache measurement and which production concerns were built against which were only reasoned about.
 
 The web surface is built and calls the agent over HTTP. A description goes to a FastAPI endpoint, the answer object comes back, and the page renders the claims with each cited provision quoted under the claim it supports. A refusal renders as a result rather than an error, and a backend that is down, slow, or erroring lands as one of four named states rather than a stalled spinner. `.claude/wireframes/answer.md` carries the layout and every state it has to show, and `.claude/context/service.md` carries the seam between the two halves.
 
 ## Setup
 
-Requires [bun](https://bun.sh), [uv](https://docs.astral.sh/uv/), and [Ollama](https://ollama.com) with `qwen3.8:27b` and `nomic-embed-text` pulled. Everything runs locally and nothing calls a paid API.
+Requires [bun](https://bun.sh), [uv](https://docs.astral.sh/uv/), and [Ollama](https://ollama.com) with `qwen3.8:27b` and `snowflake-arctic-embed2` pulled. Everything runs locally and nothing calls a paid API.
 
 ```bash
 bun install
 cd python && uv sync
 bash scripts/ollama-build.sh   # the models, built with the context each needs
-uv run python -m annex embed   # the vector index, a few minutes
+uv run python -m annex embed   # the vector index, about 30 seconds
 cd .. && bun run check
 ```
 

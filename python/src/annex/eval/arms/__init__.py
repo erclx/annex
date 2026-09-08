@@ -9,14 +9,32 @@ provision of the version it read, which is literally the set it was handed.
 
 Concrete arms are not re-exported here. `full_context` needs the corpus and the
 model, and the two retrieval arms need a compiled LangGraph pipeline, so
-importing the protocol should not drag either in.
+importing the protocol should not drag either in. `Routed` is declared here for
+the same reason: it is the protocol's return type, and putting it beside
+`Pipeline` where it is produced would pull LangGraph in behind the protocol.
 """
 
-from typing import Protocol
+from typing import NamedTuple, Protocol
 
 from annex.answer import Answer
 from annex.corpus import CorpusVersion
 from annex.eval.questions import Question
+
+
+class Routed(NamedTuple):
+    """An answer, and the query the arm searched with to reach it.
+
+    The query is carried beside the answer rather than inside it because
+    `annex.answer` generates the web half's types, and a run's recall figure
+    needs the text that produced it while a reader of one answer does not.
+
+    An empty query is a reading rather than a gap. The baseline is handed the
+    whole document and searches nothing, so it has no query to report, and the
+    absence is what distinguishes it from the arms that do.
+    """
+
+    answer: Answer
+    query: str
 
 
 class Arm(Protocol):
@@ -24,6 +42,6 @@ class Arm(Protocol):
 
     name: str
 
-    def answer(self, question: Question, version: CorpusVersion) -> Answer:
+    def answer(self, question: Question, version: CorpusVersion) -> Routed:
         """Answer one question against one version of the Act, or refuse it."""
         ...

@@ -14,8 +14,8 @@ that configuration is an arm, which is the part worth reading.
 from dataclasses import dataclass
 
 from annex.agent.pipeline import Pipeline
-from annex.answer import Answer
 from annex.corpus import CorpusVersion
+from annex.eval.arms import Routed
 from annex.eval.questions import Question
 
 
@@ -27,7 +27,9 @@ class PipelineArm:
     traversal: bool
     pipeline: Pipeline
 
-    def answer(self, question: Question, version: CorpusVersion) -> Answer:
-        return self.pipeline.ask(
+    def answer(self, question: Question, version: CorpusVersion) -> Routed:
+        """Answer, and report the query the router restated the question as."""
+        answered, query = self.pipeline.ask_routed(
             question.description, version=version, traversal=self.traversal
         )
+        return Routed(answer=answered, query=query)
