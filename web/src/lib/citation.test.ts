@@ -7,6 +7,10 @@ describe('citationLabel', () => {
     expect(citationLabel('art_6')).toBe('Article 6')
   })
 
+  it('writes an article paragraph the way the corpus writes it', () => {
+    expect(citationLabel('art_50.3')).toBe('Article 50(3)')
+  })
+
   it('names an annex by its roman numeral', () => {
     expect(citationLabel('anx_III')).toBe('Annex III')
   })
@@ -17,5 +21,9 @@ describe('citationLabel', () => {
 
   it('returns an unrecognized id unchanged', () => {
     expect(citationLabel('preamble')).toBe('preamble')
+  })
+
+  it('returns an id carrying a prefix and nothing else unchanged', () => {
+    expect(citationLabel('art_')).toBe('art_')
   })
 })
