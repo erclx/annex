@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "generate:answer": "bun scripts/generate-answer.ts && prettier --write --log-level warn src/lib/answer.ts",
     "typecheck": "tsc --noEmit",
     "typegen": "next typegen",
     "lint": "eslint . --max-warnings 0",
@@ -28,7 +29,8 @@
   "dependencies": {
     "next": "16.3.4",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "zod": "^4.5.4"
   },
   "devDependencies": {
     "@commitlint/cli": "^21.2.2",
@@ -57,6 +59,7 @@
     "globals": "^17.12.0",
     "husky": "^9.1.7",
     "jsdom": "^30.0.1",
+    "json-schema-to-zod": "^2.8.1",
     "prettier": "^3.9.6",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "tailwindcss": "^4",
