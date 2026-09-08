@@ -55,7 +55,7 @@ The pipeline's own INFO line at `python/src/annex/agent/pipeline.py` logs the ro
 
 **The timeout bounds the model call rather than the request.** An `asyncio.wait_for` around the threadpool call returns to the caller promptly and leaves the worker thread running until the model answers, which under a stuck Ollama runs to the 600 seconds `Settings.request_timeout_seconds` defaults to. Handing the budget to the SDK instead means the call itself raises `APITimeoutError`, the service maps it to a named 504, and no thread is left behind. An ask makes two model calls, so the worst case is 240 seconds against a measured warm ask of 21 to 28. The client aborts at 300, above the server's worst case, so the named 504 arrives rather than the browser giving up first.
 
-Warm figures were measured at `b08b598` on 2026-09-06 over two questions. The first request after Ollama evicts the model from the card pays a load nothing here has measured.
+Warm figures were measured in PR #2 on 2026-09-06 over two questions. The first request after Ollama evicts the model from the card pays a load nothing here has measured.
 
 ## What the endpoint refuses
 

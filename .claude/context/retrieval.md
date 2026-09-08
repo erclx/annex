@@ -313,6 +313,35 @@ diagnosis rather than an achievable score, since a prompt carrying all of it
 would truncate mid-answer. `python/tests/corpus/test_graph.py` still asserts the
 graph half and still passes. Measured on 2026-09-07 over 72 runs.
 
+### The budget was spending on recitals search returned, not on what the walk added
+
+The 0.15 gap above was never a property of traversal depth. On `q04`, `q05`
+and `q06` of the original text, recitals are 8 to 10 of the 12 search hits and
+0 of the 40 traversed provisions, on all three rows: the walk itself adds no
+recitals at all, so the volume that filled the window came from search. But
+`_citations` builds its list in arrival order, search hits then traversal,
+nearest first, and the greedy fill in `Pipeline._within_budget` spent on those
+recitals before an obligation article the walk had already found got a turn.
+
+`_within_budget` now sorts every citation by `(kind is RECITAL, position)`
+before that fill, so a recital sits behind every article, annex and paragraph
+the walk reached and spends only the budget nothing else wants. The original
+text is the only place this can move anything, because the consolidated text
+carries no recitals to reorder: its 0.81 does not change. On the original,
+mean recall for the arm moves from 0.74 to 0.83 and the gap to the walk's own
+0.89 ceiling narrows from 0.149 to 0.058. `q04-cv-screening` moves from 0.18 to
+0.73 and `q06-worker-promotion` from 0.27 to 0.73, both by keeping `art_10`
+through `art_15` that recitals used to crowd out. `q05-university-admission`
+barely moves, 0.09 to 0.18, because search never returns `art_6` there and no
+ranking fix delivers a provision the walk never reached.
+
+`art_43` still drops on both `q04` and `q06`, and `art_8` and `art_9` never
+enter either question's traversed set at all, excluded by the 40-node cap
+before the budget ever runs. Freeing the recitals' budget does not guarantee
+every gold provision now fits, and recall short of the walk's own reach is a
+cap question rather than a ranking one. Measured at this branch on
+2026-09-08, over 72 runs.
+
 ## A paragraph seed is lifted to its article before the walk
 
 Chunks are paragraphs, so search returns ids like `art_50.1`. The reference
@@ -336,7 +365,7 @@ context boundary rather than at its budget, mid-word, returning a cut draft
 that parses as a finished answer, missing whatever obligations it had yet to
 reach.
 
-Measured at `6e7d6e0`, seeded on Article 6's paragraphs of the consolidated
+Measured in PR #2, seeded on Article 6's paragraphs of the consolidated
 text: traversal returns 51 provisions, which assemble to 137 759 characters and
 read back as 29 154 prompt tokens, leaving under 3 700 of a 32 768 window to
 answer in. Whether that run truncates depends on how long the answer runs, and

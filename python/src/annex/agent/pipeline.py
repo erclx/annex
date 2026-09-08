@@ -34,7 +34,7 @@ from langgraph.graph.state import CompiledStateGraph
 from annex.agent import prompts
 from annex.agent.verify import verify
 from annex.answer import Answer, Citation, Claim, Refusal, RetrievalTrace
-from annex.corpus import Corpus, CorpusVersion, Provision, build, load
+from annex.corpus import Corpus, CorpusVersion, Provision, ProvisionKind, build, load
 from annex.corpus.graph import ReferenceGraph
 from annex.llm import OllamaClient
 from annex.retrieval import INDEX_PATH, Hit, search, traverse
@@ -201,8 +201,12 @@ class Pipeline:
 
         `_citations` builds its list in `Expansion.provision_ids` order, which
         is everything search returned followed by everything traversal reached,
-        ranked nearest first. Truncating that list therefore drops the
-        furthest-traversed provisions and keeps what search actually matched.
+        ranked nearest first. That order puts a recital search returns ahead of
+        an article traversal reached, and on the high-risk chain a recital
+        never appears in a gold set. This sorts every citation by
+        `(kind is RECITAL, position)` before the greedy fill, so a recital sits
+        behind every article, annex and paragraph and spends only the budget
+        nothing else wants. Ties within a tier keep arrival order.
 
         Without this the prompt grows with the traversal cap and nothing stops
         it reaching the window. Measured on the Article 6 chain of the
@@ -212,22 +216,30 @@ class Pipeline:
         the budget, mid-word, and the cut draft parses as a finished answer
         missing whatever obligations the model had yet to reach.
 
-        Returns what survived and the ids of what did not. The second half is
-        what a scorer cannot infer: `traversed_ids` names what traversal found,
-        and crediting traversal for all of it without subtracting what the
-        budget cut credits it for text nothing read.
+        Returns what survived and the ids of what did not, both in the sorted
+        order rather than the arrival order the caller passed in. The second
+        half is what a scorer cannot infer: `traversed_ids` names what
+        traversal found, and crediting traversal for all of it without
+        subtracting what the budget cut credits it for text nothing read.
         """
         budget = self._prompt_budget()
+        ranked = sorted(
+            enumerate(citations),
+            key=lambda pair: (pair[1].kind is ProvisionKind.RECITAL, pair[0]),
+        )
         kept: list[Citation] = []
         spent = 0
-        for citation in citations:
+        for _, citation in ranked:
             cost = len(citation.text) + len(citation.citation) + 8
             if kept and spent + cost > budget:
                 break
             kept.append(citation)
             spent += cost
 
-        dropped = tuple(item.provision_id for item in citations[len(kept) :])
+        kept_ids = {item.provision_id for item in kept}
+        dropped = tuple(
+            item.provision_id for item in citations if item.provision_id not in kept_ids
+        )
         if dropped:
             logger.info(
                 'prompt budget dropped %d of %d provisions, keeping %d characters '
