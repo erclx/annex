@@ -6,29 +6,35 @@ part search cannot do: Article 6 does not restate the obligations it classifies
 a system into, it cites them, so a question about high-risk duties retrieves
 Article 6 and needs the text to reach Articles 8 to 15.
 
-Depth 2, which is `Settings.traversal_depth`. It ships on cost rather than
-because nothing above it helps: re-walking the recorded seeds measured recall at
-0.49, 0.60 and 0.66 for depths 1, 2 and 3 on the original text, and 0.57, 0.61
-and 0.61 on the consolidated. Depth 3 therefore buys 0.06 on the original for
-seven more nodes, and the consolidated pair is equal only because both hit the
-cap of 40. `annex.eval.sensitivity` reports all three beside each other.
+Depth 2, which is `Settings.traversal_depth`. Re-walking the recorded seeds
+measures recall at 0.78, 0.89 and 0.89 for depths 1, 2 and 3 on the original
+text, and 0.82, 0.85 and 0.85 on the consolidated, so depth 3 now buys nothing
+on either document while sending four more nodes on the original. Better seeds
+are what settled it: a walk starting from the right provisions reaches the chain
+at depth 2. `annex.eval.sensitivity` reports all three beside each other.
 
 ## What this arm scored, against what the graph can do
 
-Measured over twelve questions: **0.54 recall on the original and 0.56 on the
-consolidated**, against 0.41 and 0.46 for search alone and 1.00 for the arm that
-is handed the whole document. Precision over nodes falls from 0.188 to 0.137 as
-the walk brings in provisions the question did not need, so the gain is real and
-it is paid for.
+Measured over twelve questions on `snowflake-arctic-embed2`: **0.74 recall on
+the original and 0.81 on the consolidated**, against 0.61 and 0.71 for search
+alone and 1.00 for the arm handed the whole document. Precision over nodes falls
+from 0.236 to 0.170 as the walk brings in provisions the question did not need,
+so the gain is real and it is paid for. The walk earns most of it on the
+deadline questions, which go 0.50 to 1.00 on both documents by reaching
+`art_113` from `art_111`.
 
 Depth 2 from `art_6` reaching every obligation article and `art_43` is a
 property of the reference graph, asserted by `python/tests/corpus/test_graph.py`
-and still true. It is not this arm's score, and the difference is the finding:
-the walk starts from what search returned, so where search misses the entry
-point it expands nothing. On `q06-worker-promotion` search returned neither
-`art_6` nor `anx_III`, and traversal recovered neither.
+and still true. Whether it is this arm's score is a separate question, and the
+answer moved. At v0.6 search returned neither `art_6` nor `anx_III` on
+`q06-worker-promotion` and the walk had no entry point. It now returns both, the
+walk lifts `art_6.3` to its article and reaches `art_10` through `art_15` and
+`art_43`, and the arm still scores 0.27 there, because `Pipeline._within_budget`
+drops all of them to fit the window.
 
-**The ceiling on this arm is search.** `docs/evaluation.md` carries the run.
+**The ceiling on this arm is now the prompt budget rather than search.** Scored
+against everything the walk reached, it makes 0.89 on the original against the
+0.74 it delivers. `docs/evaluation.md` carries the run.
 """
 
 from annex.agent.pipeline import Pipeline

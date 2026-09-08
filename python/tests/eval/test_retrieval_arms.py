@@ -25,7 +25,7 @@ class TestTheTwoArmsDifferByOneSwitch:
     ) -> None:
         pipeline, _ = build_pipeline(REPLIES)
 
-        answer = search_only.build(pipeline).answer(CV_SCREENING, CONSOLIDATED)
+        answer = search_only.build(pipeline).answer(CV_SCREENING, CONSOLIDATED).answer
 
         assert not answer.retrieval.traversal_enabled
         assert answer.retrieval.traversed_ids == ()
@@ -35,10 +35,44 @@ class TestTheTwoArmsDifferByOneSwitch:
     ) -> None:
         pipeline, _ = build_pipeline(REPLIES)
 
-        answer = search_traversal.build(pipeline).answer(CV_SCREENING, CONSOLIDATED)
+        answer = (
+            search_traversal.build(pipeline).answer(CV_SCREENING, CONSOLIDATED).answer
+        )
 
         assert answer.retrieval.traversal_enabled
         assert answer.retrieval.traversed_ids
+
+
+class TestTheRoutedQueryIsRecorded:
+    """A recall figure is re-derivable only beside the text search ran against."""
+
+    def test_the_arm_reports_the_query_the_router_produced(
+        self, build_pipeline: BuildPipeline
+    ) -> None:
+        pipeline, _ = build_pipeline(REPLIES)
+
+        routed = search_only.build(pipeline).answer(CV_SCREENING, CONSOLIDATED)
+
+        assert routed.query == REPLIES[0]
+
+    def test_the_query_is_not_the_description_it_was_routed_from(
+        self, build_pipeline: BuildPipeline
+    ) -> None:
+        """Recording the description would record what the file already carries."""
+        pipeline, _ = build_pipeline(REPLIES)
+
+        routed = search_traversal.build(pipeline).answer(CV_SCREENING, CONSOLIDATED)
+
+        assert routed.query != CV_SCREENING.description
+
+    def test_the_answer_comes_back_beside_the_query(
+        self, build_pipeline: BuildPipeline
+    ) -> None:
+        pipeline, _ = build_pipeline(REPLIES)
+
+        routed = search_traversal.build(pipeline).answer(CV_SCREENING, CONSOLIDATED)
+
+        assert routed.answer.question == CV_SCREENING.description
 
 
 class TestWhatTraversalAdds:
@@ -46,9 +80,11 @@ class TestWhatTraversalAdds:
         self, build_pipeline: BuildPipeline
     ) -> None:
         pipeline, _ = build_pipeline(REPLIES)
-        searched = search_only.build(pipeline).answer(CV_SCREENING, CONSOLIDATED)
+        searched = search_only.build(pipeline).answer(CV_SCREENING, CONSOLIDATED).answer
         pipeline, _ = build_pipeline(REPLIES)
-        walked = search_traversal.build(pipeline).answer(CV_SCREENING, CONSOLIDATED)
+        walked = (
+            search_traversal.build(pipeline).answer(CV_SCREENING, CONSOLIDATED).answer
+        )
 
         assert set(supplied_ids(searched.retrieval)) < set(
             supplied_ids(walked.retrieval)
@@ -59,9 +95,11 @@ class TestWhatTraversalAdds:
     ) -> None:
         """Article 6 cites the duties rather than restating them, so search cannot."""
         pipeline, _ = build_pipeline(REPLIES)
-        searched = search_only.build(pipeline).answer(CV_SCREENING, CONSOLIDATED)
+        searched = search_only.build(pipeline).answer(CV_SCREENING, CONSOLIDATED).answer
         pipeline, _ = build_pipeline(REPLIES)
-        walked = search_traversal.build(pipeline).answer(CV_SCREENING, CONSOLIDATED)
+        walked = (
+            search_traversal.build(pipeline).answer(CV_SCREENING, CONSOLIDATED).answer
+        )
 
         alone = score_retrieval(CV_SCREENING, CONSOLIDATED, searched.retrieval)
         expanded = score_retrieval(CV_SCREENING, CONSOLIDATED, walked.retrieval)
@@ -126,7 +164,9 @@ class TestPrecisionIsReportedBesideRecall:
     ) -> None:
         """Recall alone scores this arm as a win while it sends far more text."""
         pipeline, _ = build_pipeline(REPLIES)
-        walked = search_traversal.build(pipeline).answer(CV_SCREENING, CONSOLIDATED)
+        walked = (
+            search_traversal.build(pipeline).answer(CV_SCREENING, CONSOLIDATED).answer
+        )
 
         score = score_retrieval(CV_SCREENING, CONSOLIDATED, walked.retrieval)
 
@@ -136,7 +176,9 @@ class TestPrecisionIsReportedBesideRecall:
         self, build_pipeline: BuildPipeline
     ) -> None:
         pipeline, _ = build_pipeline(REPLIES)
-        walked = search_traversal.build(pipeline).answer(CV_SCREENING, CONSOLIDATED)
+        walked = (
+            search_traversal.build(pipeline).answer(CV_SCREENING, CONSOLIDATED).answer
+        )
 
         score = score_retrieval(CV_SCREENING, CONSOLIDATED, walked.retrieval)
 

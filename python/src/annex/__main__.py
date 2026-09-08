@@ -199,6 +199,7 @@ def _evaluate(
     report_only: bool,
     questions_only: bool,
     results_path: Path | None = None,
+    label: str | None = None,
 ) -> int:
     """Run the arms over the question set, or re-read a run that already ran."""
     from annex.eval import (
@@ -208,6 +209,7 @@ def _evaluate(
         read_results,
         render,
         run,
+        run_path,
         write_questions,
     )
     from annex.eval.runner import Result
@@ -218,9 +220,23 @@ def _evaluate(
         return 0
 
     written = results_path or RESULTS_PATH
+    kept: Path | None = None
+    if label is not None:
+        try:
+            kept = run_path(label, written)
+        except ValueError as error:
+            print(f'{error}', file=sys.stderr)
+            return 1
+
     corpora = {version: load(version) for version in CorpusVersion}
     results: tuple[Result, ...]
     if report_only:
+        if kept is not None:
+            print(
+                f'--label {label} ignored: rendering a report is not a run, so '
+                'there is nothing new to keep',
+                file=sys.stderr,
+            )
         results = read_results(written)
     else:
         questions = QUESTIONS[:limit] if limit else QUESTIONS
@@ -230,8 +246,11 @@ def _evaluate(
             questions=questions,
             versions=versions,
             results_path=written,
+            label=label,
         )
         print(f'results at {written}', file=sys.stderr)
+        if kept is not None:
+            print(f'kept as {kept}', file=sys.stderr)
 
     print(render(results, depth_rows(results, corpora)))
     return 0
@@ -308,6 +327,13 @@ def main(argv: list[str] | None = None) -> int:
             'sweep or a timing probe does not overwrite a full run'
         ),
     )
+    evaluating.add_argument(
+        '--label',
+        help=(
+            'also keep this run under data/eval/runs/<label>.json, so the run '
+            'before it survives. Letters, digits, dots, dashes, underscores'
+        ),
+    )
 
     arguments = parser.parse_args(argv)
     logging.basicConfig(level=logging.WARNING, format='%(levelname)s %(message)s')
@@ -338,6 +364,7 @@ def main(argv: list[str] | None = None) -> int:
                 arguments.report_only,
                 arguments.questions_only,
                 arguments.results,
+                arguments.label,
             )
         return _graph(arguments.refresh)
     except CorpusCheckError as error:
