@@ -5,6 +5,7 @@ first, carrying the provision id a citation resolves through. The embedding
 model has no bearing on that, so the vectors here are hand-written.
 """
 
+import sqlite3
 from pathlib import Path
 
 import pytest
@@ -73,6 +74,34 @@ class TestRoundTrip:
         hits = nearest(CorpusVersion.ORIGINAL, unit_vector(0), k=3, path=index)
 
         assert [hit.distance for hit in hits] == sorted(hit.distance for hit in hits)
+
+
+class TestWidth:
+    """The width is the model's rather than the store's, so it is a parameter."""
+
+    def test_a_table_written_at_a_given_width_round_trips_that_width(
+        self, tmp_path: Path
+    ) -> None:
+        narrow = [0.0] * 384
+        narrow[3] = 1.0
+        path = tmp_path / 'narrow.db'
+        write(
+            CorpusVersion.ORIGINAL,
+            [(make_chunk('art_6'), narrow)],
+            path=path,
+            dimensions=384,
+        )
+
+        hits = nearest(CorpusVersion.ORIGINAL, narrow, k=1, path=path)
+
+        assert hits[0].chunk_id == 'art_6'
+
+    def test_a_vector_of_another_width_is_refused_rather_than_answered(
+        self, index: Path
+    ) -> None:
+        """The loud half of a model swap, and the reason a width can be trusted."""
+        with pytest.raises(sqlite3.Error):
+            nearest(CorpusVersion.ORIGINAL, [1.0] * (DIMENSIONS - 1), k=1, path=index)
 
 
 class TestVersions:
