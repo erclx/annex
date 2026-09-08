@@ -103,6 +103,21 @@ class TestRetrievalScoring:
 
         assert score.missed == ('art_3',)
 
+    def test_a_gold_provision_the_budget_cut_still_counts_toward_recall_reached(
+        self,
+    ) -> None:
+        """`recall_reached` is the one metric that runs over the walk, not the cut."""
+        score = score_retrieval(
+            ANSWERABLE,
+            CONSOLIDATED,
+            make_trace(
+                searched=('art_50.1',), traversed=('art_3',), dropped=('art_3',)
+            ),
+        )
+
+        assert score.recall == 0.5
+        assert score.recall_reached == 1.0
+
     def test_precision_over_nodes_counts_every_node_that_was_sent(self) -> None:
         score = score_retrieval(
             ANSWERABLE,
