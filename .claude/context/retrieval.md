@@ -365,7 +365,7 @@ context boundary rather than at its budget, mid-word, returning a cut draft
 that parses as a finished answer, missing whatever obligations it had yet to
 reach.
 
-Measured at `6e7d6e0`, seeded on Article 6's paragraphs of the consolidated
+Measured in PR #2, seeded on Article 6's paragraphs of the consolidated
 text: traversal returns 51 provisions, which assemble to 137 759 characters and
 read back as 29 154 prompt tokens, leaving under 3 700 of a 32 768 window to
 answer in. Whether that run truncates depends on how long the answer runs, and
