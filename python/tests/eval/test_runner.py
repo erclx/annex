@@ -123,3 +123,16 @@ class TestTheQueryField:
         write_results([make_result(arm='full-context', query='')], current)
 
         assert read_results(current)[0].query == ''
+
+
+class TestTheRecallReachedField:
+    def test_a_result_written_before_the_field_existed_reads_back_defaulted(
+        self, tmp_path: Path
+    ) -> None:
+        """A run recorded before this field existed is still a readable run."""
+        current = tmp_path / 'results.json'
+        recorded = make_result().model_dump(mode='json')
+        del recorded['recall_reached']
+        current.write_text(json.dumps([recorded]))
+
+        assert read_results(current)[0].recall_reached == 0.0

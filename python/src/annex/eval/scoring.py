@@ -88,9 +88,21 @@ def containment(statement: str, supporting: set[str]) -> float:
 
 @dataclass(frozen=True)
 class RetrievalScore:
-    """What one arm found on one question, against the gold set for its version."""
+    """What one arm found on one question, against the gold set for its version.
+
+    `recall_reached` is the one field here that runs over `dropped_ids` rather
+    than the difference: recall over everything `searched_ids` and
+    `traversed_ids` name, with nothing subtracted for what the prompt budget
+    cut. Every other metric in this module follows the module docstring's rule
+    that a score runs over what the model was actually handed. This one is the
+    deliberate exception, because it answers a different question: not what the
+    delivered answer could cite, but what the walk itself reached before a
+    synthesis-prompt window took anything away. Read beside `recall`, the gap
+    between the two is the budget's cost rather than retrieval's.
+    """
 
     recall: float
+    recall_reached: float
     precision_over_nodes: float
     precision_over_articles: float
     nodes_supplied: int
@@ -114,16 +126,26 @@ class AnswerScore:
 def score_retrieval(
     question: Question, version: CorpusVersion, trace: RetrievalTrace
 ) -> RetrievalScore:
-    """Recall and both precisions, over what the model was actually handed."""
+    """Recall and both precisions, over what the model was actually handed.
+
+    `recall_reached` is the one exception, scored over everything the walk
+    reached rather than what survived the budget cut. See `RetrievalScore`.
+    """
     gold = set(question.gold_for(version))
     supplied = supplied_ids(trace)
     articles = {article_root(provision_id) for provision_id in supplied}
     found = gold & articles
+    reached_articles = {
+        article_root(provision_id)
+        for provision_id in trace.searched_ids + trace.traversed_ids
+    }
+    found_reached = gold & reached_articles
     relevant = [
         provision_id for provision_id in supplied if article_root(provision_id) in gold
     ]
     return RetrievalScore(
         recall=len(found) / len(gold),
+        recall_reached=len(found_reached) / len(gold),
         precision_over_nodes=len(relevant) / len(supplied) if supplied else 0.0,
         precision_over_articles=len(found) / len(articles) if articles else 0.0,
         nodes_supplied=len(supplied),

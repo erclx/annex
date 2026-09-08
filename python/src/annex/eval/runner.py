@@ -121,6 +121,7 @@ class Result(BaseModel):
     dropped_ids: tuple[str, ...] = ()
 
     recall: float = 0.0
+    recall_reached: float = 0.0
     precision_over_nodes: float = 0.0
     precision_over_articles: float = 0.0
     nodes_supplied: int = 0
@@ -170,6 +171,7 @@ def _scored(
         traversed_ids=trace.traversed_ids,
         dropped_ids=trace.dropped_ids,
         recall=retrieval.recall,
+        recall_reached=retrieval.recall_reached,
         precision_over_nodes=retrieval.precision_over_nodes,
         precision_over_articles=retrieval.precision_over_articles,
         nodes_supplied=retrieval.nodes_supplied,
