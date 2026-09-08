@@ -1,0 +1,166 @@
+{
+  "question": "we train a general-purpose AI model, from when do its obligations apply to us",
+  "version": "original",
+  "claims": [
+    {
+      "statement": "The obligations for providers of general-purpose AI models apply once the model is placed on the market",
+      "citations": [
+        {
+          "provision_id": "rct_97",
+          "citation": "Recital 97",
+          "kind": "recital",
+          "version": "original",
+          "text": "(97) The notion of general-purpose AI models should be clearly defined and set apart from the notion of AI systems to enable legal certainty. The definition should be based on the key functional characteristics of a general-purpose AI model, in particular the generality and the capability to competently perform a wide range of distinct tasks. These models are typically trained on large amounts of data, through various methods, such as self-supervised, unsupervised or reinforcement learning. General-purpose AI models may be placed on the market in various ways, including through libraries, application programming interfaces (APIs), as direct download, or as physical copy. These models may be further modified or fine-tuned into new models. Although AI models are essential components of AI systems, they do not constitute AI systems on their own. AI models require the addition of further components, such as for example a user interface, to become AI systems. AI models are typically integrated into and form part of AI systems. This Regulation provides specific rules for general-purpose AI models and for general-purpose AI models that pose systemic risks, which should apply also when these models are integrated or form part of an AI system. It should be understood that the obligations for the providers of general-purpose AI models should apply once the general-purpose AI models are placed on the market. When the provider of a general-purpose AI model integrates an own model into its own AI system that is made available on the market or put into service, that model should be considered to be placed on the market and, therefore, the obligations in this Regulation for models should continue to apply in addition to those for AI systems. The obligations laid down for models should in any case not apply when an own model is used for purely internal processes that are not essential for providing a product or a service to third parties and the rights of natural persons are not affected. Considering their potential significantly negative effects, the general-purpose AI models with systemic risk should always be subject to the relevant obligations under this Regulation. The definition should not cover AI models used before their placing on the market for the sole purpose of research, development and prototyping activities. This is without prejudice to the obligation to comply with this Regulation when, following such activities, a model is placed on the market.",
+          "changed": true,
+          "change_note": "Recital 97 appears in the original text and not in the consolidated text."
+        }
+      ]
+    },
+    {
+      "statement": "The definition does not cover AI models used before their placing on the market for the sole purpose of research, development and prototyping activities",
+      "citations": [
+        {
+          "provision_id": "rct_97",
+          "citation": "Recital 97",
+          "kind": "recital",
+          "version": "original",
+          "text": "(97) The notion of general-purpose AI models should be clearly defined and set apart from the notion of AI systems to enable legal certainty. The definition should be based on the key functional characteristics of a general-purpose AI model, in particular the generality and the capability to competently perform a wide range of distinct tasks. These models are typically trained on large amounts of data, through various methods, such as self-supervised, unsupervised or reinforcement learning. General-purpose AI models may be placed on the market in various ways, including through libraries, application programming interfaces (APIs), as direct download, or as physical copy. These models may be further modified or fine-tuned into new models. Although AI models are essential components of AI systems, they do not constitute AI systems on their own. AI models require the addition of further components, such as for example a user interface, to become AI systems. AI models are typically integrated into and form part of AI systems. This Regulation provides specific rules for general-purpose AI models and for general-purpose AI models that pose systemic risks, which should apply also when these models are integrated or form part of an AI system. It should be understood that the obligations for the providers of general-purpose AI models should apply once the general-purpose AI models are placed on the market. When the provider of a general-purpose AI model integrates an own model into its own AI system that is made available on the market or put into service, that model should be considered to be placed on the market and, therefore, the obligations in this Regulation for models should continue to apply in addition to those for AI systems. The obligations laid down for models should in any case not apply when an own model is used for purely internal processes that are not essential for providing a product or a service to third parties and the rights of natural persons are not affected. Considering their potential significantly negative effects, the general-purpose AI models with systemic risk should always be subject to the relevant obligations under this Regulation. The definition should not cover AI models used before their placing on the market for the sole purpose of research, development and prototyping activities. This is without prejudice to the obligation to comply with this Regulation when, following such activities, a model is placed on the market.",
+          "changed": true,
+          "change_note": "Recital 97 appears in the original text and not in the consolidated text."
+        }
+      ]
+    },
+    {
+      "statement": "The obligations do not apply when an own model is used for purely internal processes that are not essential for providing a product or a service to third parties and the rights of natural persons are not affected",
+      "citations": [
+        {
+          "provision_id": "rct_97",
+          "citation": "Recital 97",
+          "kind": "recital",
+          "version": "original",
+          "text": "(97) The notion of general-purpose AI models should be clearly defined and set apart from the notion of AI systems to enable legal certainty. The definition should be based on the key functional characteristics of a general-purpose AI model, in particular the generality and the capability to competently perform a wide range of distinct tasks. These models are typically trained on large amounts of data, through various methods, such as self-supervised, unsupervised or reinforcement learning. General-purpose AI models may be placed on the market in various ways, including through libraries, application programming interfaces (APIs), as direct download, or as physical copy. These models may be further modified or fine-tuned into new models. Although AI models are essential components of AI systems, they do not constitute AI systems on their own. AI models require the addition of further components, such as for example a user interface, to become AI systems. AI models are typically integrated into and form part of AI systems. This Regulation provides specific rules for general-purpose AI models and for general-purpose AI models that pose systemic risks, which should apply also when these models are integrated or form part of an AI system. It should be understood that the obligations for the providers of general-purpose AI models should apply once the general-purpose AI models are placed on the market. When the provider of a general-purpose AI model integrates an own model into its own AI system that is made available on the market or put into service, that model should be considered to be placed on the market and, therefore, the obligations in this Regulation for models should continue to apply in addition to those for AI systems. The obligations laid down for models should in any case not apply when an own model is used for purely internal processes that are not essential for providing a product or a service to third parties and the rights of natural persons are not affected. Considering their potential significantly negative effects, the general-purpose AI models with systemic risk should always be subject to the relevant obligations under this Regulation. The definition should not cover AI models used before their placing on the market for the sole purpose of research, development and prototyping activities. This is without prejudice to the obligation to comply with this Regulation when, following such activities, a model is placed on the market.",
+          "changed": true,
+          "change_note": "Recital 97 appears in the original text and not in the consolidated text."
+        }
+      ]
+    },
+    {
+      "statement": "Providers of general-purpose AI models placed on the market before 2 August 2025 shall take the necessary steps to comply with the obligations by 2 August 2027",
+      "citations": [
+        {
+          "provision_id": "art_111.3",
+          "citation": "Article 111(3)",
+          "kind": "paragraph",
+          "version": "original",
+          "text": "3. Providers of general-purpose AI models that have been placed on the market before 2 August 2025 shall take the necessary steps in order to comply with the obligations laid down in this Regulation by 2 August 2027.",
+          "changed": true,
+          "change_note": "The wording of Article 111(3) differs between the original and the consolidated text."
+        }
+      ]
+    },
+    {
+      "statement": "When a provider integrates its own model into its own AI system that is made available on the market or put into service, that model is considered placed on the market and the obligations for models continue to apply",
+      "citations": [
+        {
+          "provision_id": "rct_97",
+          "citation": "Recital 97",
+          "kind": "recital",
+          "version": "original",
+          "text": "(97) The notion of general-purpose AI models should be clearly defined and set apart from the notion of AI systems to enable legal certainty. The definition should be based on the key functional characteristics of a general-purpose AI model, in particular the generality and the capability to competently perform a wide range of distinct tasks. These models are typically trained on large amounts of data, through various methods, such as self-supervised, unsupervised or reinforcement learning. General-purpose AI models may be placed on the market in various ways, including through libraries, application programming interfaces (APIs), as direct download, or as physical copy. These models may be further modified or fine-tuned into new models. Although AI models are essential components of AI systems, they do not constitute AI systems on their own. AI models require the addition of further components, such as for example a user interface, to become AI systems. AI models are typically integrated into and form part of AI systems. This Regulation provides specific rules for general-purpose AI models and for general-purpose AI models that pose systemic risks, which should apply also when these models are integrated or form part of an AI system. It should be understood that the obligations for the providers of general-purpose AI models should apply once the general-purpose AI models are placed on the market. When the provider of a general-purpose AI model integrates an own model into its own AI system that is made available on the market or put into service, that model should be considered to be placed on the market and, therefore, the obligations in this Regulation for models should continue to apply in addition to those for AI systems. The obligations laid down for models should in any case not apply when an own model is used for purely internal processes that are not essential for providing a product or a service to third parties and the rights of natural persons are not affected. Considering their potential significantly negative effects, the general-purpose AI models with systemic risk should always be subject to the relevant obligations under this Regulation. The definition should not cover AI models used before their placing on the market for the sole purpose of research, development and prototyping activities. This is without prejudice to the obligation to comply with this Regulation when, following such activities, a model is placed on the market.",
+          "changed": true,
+          "change_note": "Recital 97 appears in the original text and not in the consolidated text."
+        }
+      ]
+    }
+  ],
+  "refusal": null,
+  "retrieval": {
+    "searched_ids": [
+      "art_53.2",
+      "art_53.1",
+      "art_53.3",
+      "art_111.3",
+      "art_54.6",
+      "rct_97",
+      "art_53.4",
+      "rct_101",
+      "rct_109",
+      "art_55.1",
+      "anx_XII",
+      "rct_112"
+    ],
+    "traversed_ids": [
+      "art_111",
+      "art_53",
+      "art_54",
+      "art_55",
+      "anx_X",
+      "anx_XI",
+      "art_113",
+      "art_5",
+      "art_56",
+      "art_78",
+      "art_97",
+      "art_97.2",
+      "anx_II",
+      "anx_III",
+      "anx_IV",
+      "art_101",
+      "art_11",
+      "art_11.3",
+      "art_27",
+      "art_43",
+      "art_43.5",
+      "art_47",
+      "art_47.5",
+      "art_49",
+      "art_51",
+      "art_51.3",
+      "art_52",
+      "art_52.4",
+      "art_53.5",
+      "art_6",
+      "art_6.1",
+      "art_6.6",
+      "art_7",
+      "art_7.1",
+      "art_74",
+      "art_74.8",
+      "art_98",
+      "art_98.2"
+    ],
+    "dropped_ids": [
+      "anx_III",
+      "anx_IV",
+      "art_101",
+      "art_11",
+      "art_11.3",
+      "art_27",
+      "art_43",
+      "art_43.5",
+      "art_47",
+      "art_47.5",
+      "art_49",
+      "art_51",
+      "art_51.3",
+      "art_52",
+      "art_52.4",
+      "art_53.5",
+      "art_6",
+      "art_6.1",
+      "art_6.6",
+      "art_7",
+      "art_7.1",
+      "art_74",
+      "art_74.8",
+      "art_98",
+      "art_98.2"
+    ],
+    "traversal_enabled": true,
+    "truncated": false,
+    "prompt_tokens": 17522,
+    "completion_tokens": 2332,
+    "duration_ms": 23570,
+    "model": "annex-qwen3-27b"
+  }
+}

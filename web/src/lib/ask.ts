@@ -3,8 +3,13 @@
  *
  * Everything above this module reads `AskResult` and never `fetch`, which is
  * what makes the deployed build's swap to captured fixtures a change to this
- * file rather than to the surface. The seven results are the published state
- * table, five of them failures, and each names a different next action.
+ * file rather than to the surface. Seven of the eight results are the published
+ * state table, five of them failures, and each names a different next action.
+ *
+ * The eighth is `unrecorded`, and it belongs to the deployed build alone. That
+ * build replays a recording and the input is free text, so a visitor can type
+ * something the recording does not hold. `src/lib/replay.ts` carries why the
+ * answer to that is a state of its own rather than the nearest fixture.
  *
  * The response body is parsed rather than cast. `answerSchema` is generated
  * from the Python models and emitted strict, so a field the service added and
@@ -15,6 +20,7 @@
 import { z } from 'zod'
 
 import { type Answer, answerSchema } from '@/lib/answer'
+import { replay, REPLAY_MODE } from '@/lib/replay'
 
 export const ASK_TIMEOUT_MS = 300_000
 
@@ -43,6 +49,7 @@ export type AskResult =
   | { state: 'timeout'; detail: string; correlationId?: string }
   | { state: 'failed'; detail: string; correlationId?: string }
   | { state: 'unreachable' }
+  | { state: 'unrecorded' }
 
 export type AskState = AskResult['state']
 
@@ -79,6 +86,11 @@ export async function ask(
   description: string,
   options: AskOptions = {},
 ): Promise<AskResult> {
+  // The deployed build has no service to reach, so it answers from the
+  // recording instead. Every caller above this line is unchanged either way,
+  // which is the property this module was split out to hold.
+  if (REPLAY_MODE) return replay(description, options)
+
   const controller = new AbortController()
   const timer = setTimeout(() => {
     controller.abort()

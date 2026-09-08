@@ -1,0 +1,151 @@
+{
+  "question": "we train a general-purpose AI model, from when do its obligations apply to us",
+  "version": "consolidated",
+  "claims": [
+    {
+      "statement": "The obligations applicable to providers of general-purpose AI models are set out in Articles 53, 54, and 55",
+      "citations": [
+        {
+          "provision_id": "art_53",
+          "citation": "Article 53",
+          "kind": "article",
+          "version": "consolidated",
+          "text": "Article 53 Obligations for providers of general-purpose AI models 1. Providers of general-purpose AI models shall: (a) draw up and keep up-to-date the technical documentation of the model, including its training and testing process and the results of its evaluation, which shall contain, at a minimum, the information set out in Annex XI for the purpose of providing it, upon request, to the AI Office and the national competent authorities; (b) draw up, keep up-to-date and make available information and documentation to providers of AI systems who intend to integrate the general-purpose AI model into their AI systems. Without prejudice to the need to observe and protect intellectual property rights and confidential business information or trade secrets in accordance with Union and national law, the information and documentation shall: (i) enable providers of AI systems to have a good understanding of the capabilities and limitations of the general-purpose AI model and to comply with their obligations pursuant to this Regulation; and (ii) contain, at a minimum, the elements set out in Annex XII; (c) put in place a policy to comply with Union law on copyright and related rights, and in particular to identify and comply with, including through state-of-the-art technologies, a reservation of rights expressed pursuant to Article 4(3) of Directive (EU) 2019/790; (d) draw up and make publicly available a sufficiently detailed summary about the content used for training of the general-purpose AI model, according to a template provided by the AI Office. 2. The obligations set out in paragraph 1, points (a) and (b), shall not apply to providers of AI models that are released under a free and open-source licence that allows for the access, usage, modification, and distribution of the model, and whose parameters, including the weights, the information on the model architecture, and the information on model usage, are made publicly available. This exception shall not apply to general-purpose AI models with systemic risks. 3. Providers of general-purpose AI models shall cooperate as necessary with the Commission and the national competent authorities in the exercise of their competences and powers pursuant to this Regulation. 4. Providers of general-purpose AI models may rely on codes of practice within the meaning of Article 56 to demonstrate compliance with the obligations set out in paragraph 1 of this Article, until a harmonised standard is published. Compliance with European harmonised standards grants providers the presumption of conformity to the extent that those standards cover those obligations. Providers of general-purpose AI models who do not adhere to an approved code of practice or do not comply with a European harmonised standard shall demonstrate alternative adequate means of compliance for assessment by the Commission. 5. For the purpose of facilitating compliance with Annex XI, in particular points 2 (d) and (e) thereof, the Commission is empowered to adopt delegated acts in accordance with Article 97 to detail measurement and calculation methodologies with a view to allowing for comparable and verifiable documentation. 6. The Commission is empowered to adopt delegated acts in accordance with Article 97(2) to amend Annexes XI and XII in light of evolving technological developments. 7. Any information or documentation obtained pursuant to this Article, including trade secrets, shall be treated in accordance with the confidentiality obligations set out in Article 78.",
+          "changed": false,
+          "change_note": null
+        },
+        {
+          "provision_id": "art_54",
+          "citation": "Article 54",
+          "kind": "article",
+          "version": "consolidated",
+          "text": "Article 54 Authorised representatives of providers of general-purpose AI models 1. Prior to placing a general-purpose AI model on the Union market, providers established in third countries shall, by written mandate, appoint an authorised representative which is established in the Union. 2. The provider shall enable its authorised representative to perform the tasks specified in the mandate received from the provider. 3. The authorised representative shall perform the tasks specified in the mandate received from the provider. It shall provide a copy of the mandate to the AI Office upon request, in one of the official languages of the institutions of the Union. For the purposes of this Regulation, the mandate shall empower the authorised representative to carry out the following tasks: (a) verify that the technical documentation specified in Annex XI has been drawn up and all obligations referred to in Article 53 and, where applicable, Article 55 have been fulfilled by the provider; (b) keep a copy of the technical documentation specified in Annex XI at the disposal of the AI Office and national competent authorities, for a period of 10 years after the general-purpose AI model has been placed on the market, and the contact details of the provider that appointed the authorised representative; (c) provide the AI Office, upon a reasoned request, with all the information and documentation, including that referred to in point (b), necessary to demonstrate compliance with the obligations in this Chapter; (d) cooperate with the AI Office and competent authorities, upon a reasoned request, in any action they take in relation to the general-purpose AI model, including when the model is integrated into AI systems placed on the market or put into service in the Union. 4. The mandate shall empower the authorised representative to be addressed, in addition to or instead of the provider, by the AI Office or the competent authorities, on all issues related to ensuring compliance with this Regulation. 5. The authorised representative shall terminate the mandate if it considers or has reason to consider the provider to be acting contrary to its obligations pursuant to this Regulation. In such a case, it shall also immediately inform the AI Office about the termination of the mandate and the reasons therefor. 6. The obligation set out in this Article shall not apply to providers of general-purpose AI models that are released under a free and open-source licence that allows for the access, usage, modification, and distribution of the model, and whose parameters, including the weights, the information on the model architecture, and the information on model usage, are made publicly available, unless the general-purpose AI models present systemic risks. SECTION 3 Obligations of providers of general-purpose AI models with systemic risk",
+          "changed": false,
+          "change_note": null
+        },
+        {
+          "provision_id": "art_55",
+          "citation": "Article 55",
+          "kind": "article",
+          "version": "consolidated",
+          "text": "Article 55 Obligations of providers of general-purpose AI models with systemic risk 1. In addition to the obligations listed in Articles 53 and 54, providers of general-purpose AI models with systemic risk shall: (a) perform model evaluation in accordance with standardised protocols and tools reflecting the state of the art, including conducting and documenting adversarial testing of the model with a view to identifying and mitigating systemic risks; (b) assess and mitigate possible systemic risks at Union level, including their sources, that may stem from the development, the placing on the market, or the use of general-purpose AI models with systemic risk; (c) keep track of, document, and report, without undue delay, to the AI Office and, as appropriate, to national competent authorities, relevant information about serious incidents and possible corrective measures to address them; (d) ensure an adequate level of cybersecurity protection for the general-purpose AI model with systemic risk and the physical infrastructure of the model. 2. Providers of general-purpose AI models with systemic risk may rely on codes of practice within the meaning of Article 56 to demonstrate compliance with the obligations set out in paragraph 1 of this Article, until a harmonised standard is published. Compliance with European harmonised standards grants providers the presumption of conformity to the extent that those standards cover those obligations. Providers of general-purpose AI models with systemic risks who do not adhere to an approved code of practice or do not comply with a European harmonised standard shall demonstrate alternative adequate means of compliance for assessment by the Commission. 3. Any information or documentation obtained pursuant to this Article, including trade secrets, shall be treated in accordance with the confidentiality obligations set out in Article 78. SECTION 4 Codes of practice",
+          "changed": false,
+          "change_note": null
+        }
+      ]
+    },
+    {
+      "statement": "If the model was placed on the market before 2 August 2025, the provider shall take the necessary steps to comply with the obligations laid down in the Regulation by 2 August 2027",
+      "citations": [
+        {
+          "provision_id": "art_111.3",
+          "citation": "Article 111(3)",
+          "kind": "paragraph",
+          "version": "consolidated",
+          "text": "3. Providers of general-purpose AI models that have been placed on the market before 2 August 2025 shall take the necessary steps in order to comply with the obligations laid down in this Regulation by 2 August 2027. ▼M1",
+          "changed": true,
+          "change_note": "The wording of Article 111(3) differs between the original and the consolidated text."
+        }
+      ]
+    },
+    {
+      "statement": "Where the model is classified as a general-purpose AI model with systemic risk, additional obligations apply, including adversarial testing, systemic-risk assessment and mitigation, serious-incident reporting, and cybersecurity protection",
+      "citations": [
+        {
+          "provision_id": "art_55",
+          "citation": "Article 55",
+          "kind": "article",
+          "version": "consolidated",
+          "text": "Article 55 Obligations of providers of general-purpose AI models with systemic risk 1. In addition to the obligations listed in Articles 53 and 54, providers of general-purpose AI models with systemic risk shall: (a) perform model evaluation in accordance with standardised protocols and tools reflecting the state of the art, including conducting and documenting adversarial testing of the model with a view to identifying and mitigating systemic risks; (b) assess and mitigate possible systemic risks at Union level, including their sources, that may stem from the development, the placing on the market, or the use of general-purpose AI models with systemic risk; (c) keep track of, document, and report, without undue delay, to the AI Office and, as appropriate, to national competent authorities, relevant information about serious incidents and possible corrective measures to address them; (d) ensure an adequate level of cybersecurity protection for the general-purpose AI model with systemic risk and the physical infrastructure of the model. 2. Providers of general-purpose AI models with systemic risk may rely on codes of practice within the meaning of Article 56 to demonstrate compliance with the obligations set out in paragraph 1 of this Article, until a harmonised standard is published. Compliance with European harmonised standards grants providers the presumption of conformity to the extent that those standards cover those obligations. Providers of general-purpose AI models with systemic risks who do not adhere to an approved code of practice or do not comply with a European harmonised standard shall demonstrate alternative adequate means of compliance for assessment by the Commission. 3. Any information or documentation obtained pursuant to this Article, including trade secrets, shall be treated in accordance with the confidentiality obligations set out in Article 78. SECTION 4 Codes of practice",
+          "changed": false,
+          "change_note": null
+        }
+      ]
+    }
+  ],
+  "refusal": null,
+  "retrieval": {
+    "searched_ids": [
+      "art_53.2",
+      "art_53.1",
+      "art_53.3",
+      "art_54.6",
+      "art_111.3",
+      "art_53.4",
+      "art_55.1",
+      "anx_XII",
+      "art_111.4",
+      "art_55.2",
+      "art_52.1",
+      "art_53.6"
+    ],
+    "traversed_ids": [
+      "art_111",
+      "art_52",
+      "art_53",
+      "art_54",
+      "art_55",
+      "anx_X",
+      "anx_XI",
+      "anx_XIII",
+      "art_113",
+      "art_5",
+      "art_50",
+      "art_50.2",
+      "art_51",
+      "art_51.1",
+      "art_56",
+      "art_78",
+      "art_90",
+      "art_90.1",
+      "art_97",
+      "art_97.2",
+      "anx_I",
+      "anx_II",
+      "anx_III",
+      "anx_IV",
+      "art_101",
+      "art_102",
+      "art_103",
+      "art_104",
+      "art_105",
+      "art_106",
+      "art_107",
+      "art_108",
+      "art_109",
+      "art_11",
+      "art_11.3",
+      "art_110",
+      "art_2",
+      "art_2.13",
+      "art_27",
+      "art_30"
+    ],
+    "dropped_ids": [
+      "anx_III",
+      "anx_IV",
+      "art_101",
+      "art_102",
+      "art_103",
+      "art_104",
+      "art_105",
+      "art_106",
+      "art_107",
+      "art_108",
+      "art_109",
+      "art_11",
+      "art_11.3",
+      "art_110",
+      "art_2",
+      "art_2.13",
+      "art_27",
+      "art_30"
+    ],
+    "traversal_enabled": true,
+    "truncated": false,
+    "prompt_tokens": 17095,
+    "completion_tokens": 2369,
+    "duration_ms": 23685,
+    "model": "annex-qwen3-27b"
+  }
+}
