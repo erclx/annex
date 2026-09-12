@@ -1,5 +1,5 @@
 /**
- * Captures every state of the answer surface, in both themes, into `ui-evidence/`.
+ * Captures every state of the answer surface, in both themes, into `evidence/`.
  *
  * A sibling of `screenshot.ts` rather than part of it. That one captures the
  * routes a deployment serves and checks the console is clean. This one drives
@@ -232,7 +232,7 @@ for (const theme of ['light', 'dark'] as const) {
     await drive(page, captureCase, base)
     await reached(page, captureCase)
 
-    const file = path.join('ui-evidence', captureCase.name, `${theme}.png`)
+    const file = path.join('evidence', captureCase.name, `${theme}.png`)
     await page.screenshot({ path: file, fullPage: true })
     console.log(`captured ${file}`)
     await context.close()

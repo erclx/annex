@@ -11,4 +11,4 @@ web/.next/
 # imported artifact carrying its own vocabulary and its own formatting, so it is
 # kept as it was rendered rather than reformatted into this project's style.
 # `cspell.json` excludes it for the same reason.
-web/ui-evidence/
+web/evidence/
