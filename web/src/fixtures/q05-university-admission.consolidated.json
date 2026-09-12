@@ -3,7 +3,21 @@
   "version": "consolidated",
   "claims": [
     {
-      "statement": "The system is a high-risk AI system under Annex III, point 3(a), which covers AI systems intended to be used to determine access or admission to educational and vocational training institutions at all levels",
+      "statement": "The system is an \"AI system\" within the meaning of the Regulation, being a machine-based system that infers from the input it receives how to generate outputs such as decisions that can influence physical or virtual environments",
+      "citations": [
+        {
+          "provision_id": "art_3",
+          "citation": "Article 3",
+          "kind": "article",
+          "version": "consolidated",
+          "text": "Article 3 Definitions For the purposes of this Regulation, the following definitions apply: (1) ‘AI system’ means a machine-based system that is designed to operate with varying levels of autonomy and that may exhibit adaptiveness after deployment, and that, for explicit or implicit objectives, infers, from the input it receives, how to generate outputs such as predictions, content, recommendations, or decisions that can influence physical or virtual environments; (2) ‘risk’ means the combination of the probability of an occurrence of harm and the severity of that harm; (3) ‘provider’ means a natural or legal person, public authority, agency or other body that develops an AI system or a general-purpose AI model or that has an AI system or a general-purpose AI model developed and places it on the market or puts the AI system into service under its own name or trademark, whether for payment or free of charge; (4) ‘deployer’ means a natural or legal person, public authority, agency or other body using an AI system under its authority except where the AI system is used in the course of a personal non-professional activity; (5) ‘authorised representative’ means a natural or legal person located or established in the Union who has received and accepted a written mandate from a provider of an AI system or a general-purpose AI model to, respectively, perform and carry out on its behalf the obligations and procedures established by this Regulation; (6) ‘importer’ means a natural or legal person located or established in the Union that places on the market an AI system that bears the name or trademark of a natural or legal person established in a third country; (7) ‘distributor’ means a natural or legal person in the supply chain, other than the provider or the importer, that makes an AI system available on the Union market; (8) ‘operator’ means a provider, product manufacturer, deployer, authorised representative, importer or distributor; (9) ‘placing on the market’ means the first making available of an AI system or a general-purpose AI model on the Union market; (10) ‘making available on the market’ means the supply of an AI system or a general-purpose AI model for distribution or use on the Union market in the course of a commercial activity, whether in return for payment or free of charge; (11) ‘putting into service’ means the supply of an AI system for first use directly to the deployer or for own use in the Union for its intended purpose; (12) ‘intended purpose’ means the use for which an AI system is intended by the provider, including the specific context and conditions of use, as specified in the information supplied by the provider in the instructions for use, promotional or sales materials and statements, as well as in the technical documentation; (13) ‘reasonably foreseeable misuse’ means the use of an AI system in a way that is not in accordance with its intended purpose, but which may result from reasonably foreseeable human behaviour or interaction with other systems, including other AI systems; ▼M1 (14) ‘safety component’ means a component of a product or of an AI system which fulfils a safety function for that product or AI system, or the failure or malfunctioning of which endangers the health and safety of persons or property; for the purposes of this definition, a component fulfils a safety function where its intended purpose is to prevent or mitigate risks to health and safety of persons or property; ▼M1 (14a) ‘micro, small and medium-sized enterprise’ or ‘SME’ means a micro, small or medium-sized enterprise as defined in Article 2 of the Annex to Recommendation 2003/361/EC; (14b) ‘small mid-cap enterprise’ or ‘SMC’ means a small mid-cap enterprise as defined in point (2) of the Annex to Recommendation (EU) 2025/1099; ▼B (15) ‘instructions for use’ means the information provided by the provider to inform the deployer of, in particular, an AI system’s intended purpose and proper use; (16) ‘recall of an AI system’ means any measure aiming to achieve the return to the provider or taking out of service or disabling the use of an AI system made available to deployers; (17) ‘withdrawal of an AI system’ means any measure aiming to prevent an AI system in the supply chain being made available on the market; (18) ‘performance of an AI system’ means the ability of an AI system to achieve its intended purpose; (19) ‘notifying authority’ means the national authority responsible for setting up and carrying out the necessary procedures for the assessment, designation and notification of conformity assessment bodies and for their monitoring; (20) ‘conformity assessment’ means the process of demonstrating whether the requirements set out in Chapter III, Section 2 relating to a high-risk AI system have been fulfilled; (21) ‘conformity assessment body’ means a body that performs third-party conformity assessment activities, including testing, certification and inspection; (22) ‘notified body’ means a conformity assessment body notified in accordance with this Regulation and other relevant Union harmonisation legislation; (23) ‘substantial modification’ means a change to an AI system after its placing on the market or putting into service which is not foreseen or planned in the initial conformity assessment carried out by the provider and as a result of which the compliance of the AI system with the requirements set out in Chapter III, Section 2 is affected or results in a modification to the intended purpose for which the AI system has been assessed; (24) ‘CE marking’ means a marking by which a provider indicates that an AI system is in conformity with the requirements set out in Chapter III, Section 2 and other applicable Union harmonisation legislation providing for its affixing; (25) ‘post-market monitoring system’ means all activities carried out by providers of AI systems to collect and review experience gained from the use of AI systems they place on the market or put into service for the purpose of identifying any need to immediately apply any necessary corrective or preventive actions; (26) ‘market surveillance authority’ means the national authority carrying out the activities and taking the measures pursuant to Regulation (EU) 2019/1020; (27) ‘harmonised standard’ means a harmonised standard as defined in Article 2(1), point (c), of Regulation (EU) No 1025/2012; (28) ‘common specification’ means a set of technical specifications as defined in Article 2, point (4) of Regulation (EU) No 1025/2012, providing means to comply with certain requirements established under this Regulation; (29) ‘training data’ means data used for training an AI system through fitting its learnable parameters; (30) ‘validation data’ means data used for providing an evaluation of the trained AI system and for tuning its non-learnable parameters and its learning process in order, inter alia, to prevent underfitting or overfitting; (31) ‘validation data set’ means a separate data set or part of the training data set, either as a fixed or variable split; (32) ‘testing data’ means data used for providing an independent evaluation of the AI system in order to confirm the expected performance of that system before its placing on the market or putting into service; (33) ‘input data’ means data provided to or directly acquired by an AI system on the basis of which the system produces an output; (34) ‘biometric data’ means personal data resulting from specific technical processing relating to the physical, physiological or behavioural characteristics of a natural person, such as facial images or dactyloscopic data; (35) ‘biometric identification’ means the automated recognition of physical, physiological, behavioural, or psychological human features for the purpose of establishing the identity of a natural person by comparing biometric data of that individual to biometric data of individuals stored in a database; (36) ‘biometric verification’ means the automated, one-to-one verification, including authentication, of the identity of natural persons by comparing their biometric data to previously provided biometric data; (37) ‘special categories of personal data’ means the categories of personal data referred to in Article 9(1) of Regulation (EU) 2016/679, Article 10 of Directive (EU) 2016/680 and Article 10(1) of Regulation (EU) 2018/1725; (38) ‘sensitive operational data’ means operational data related to activities of prevention, detection, investigation or prosecution of criminal offences, the disclosure of which could jeopardise the integrity of criminal proceedings; (39) ‘emotion recognition system’ means an AI system for the purpose of identifying or inferring emotions or intentions of natural persons on the basis of their biometric data; (40) ‘biometric categorisation system’ means an AI system for the purpose of assigning natural persons to specific categories on the basis of their biometric data, unless it is ancillary to another commercial service and strictly necessary for objective technical reasons; (41) ‘remote biometric identification system’ means an AI system for the purpose of identifying natural persons, without their active involvement, typically at a distance through the comparison of a person’s biometric data with the biometric data contained in a reference database; (42) ‘real-time remote biometric identification system’ means a remote biometric identification system, whereby the capturing of biometric data, the comparison and the identification all occur without a significant delay, comprising not only instant identification, but also limited short delays in order to avoid circumvention; (43) ‘post-remote biometric identification system’ means a remote biometric identification system other than a real-time remote biometric identification system; (44) ‘publicly accessible space’ means any publicly or privately owned physical place accessible to an undetermined number of natural persons, regardless of whether certain conditions for access may apply, and regardless of the potential capacity restrictions; (45) ‘law enforcement authority’ means: (a) any public authority competent for the prevention, investigation, detection or prosecution of criminal offences or the execution of criminal penalties, including the safeguarding against and the prevention of threats to public security; or (b) any other body or entity entrusted by Member State law to exercise public authority and public powers for the purposes of the prevention, investigation, detection or prosecution of criminal offences or the execution of criminal penalties, including the safeguarding against and the prevention of threats to public security; (46) ‘law enforcement’ means activities carried out by law enforcement authorities or on their behalf for the prevention, investigation, detection or prosecution of criminal offences or the execution of criminal penalties, including safeguarding against and preventing threats to public security; (47) ‘AI Office’ means the Commission’s function of contributing to the implementation, monitoring and supervision of AI systems and general-purpose AI models, and AI governance, provided for in Commission Decision of 24 January 2024; references in this Regulation to the AI Office shall be construed as references to the Commission; (48) ‘national competent authority’ means a notifying authority or a market surveillance authority; as regards AI systems put into service or used by Union institutions, agencies, offices and bodies, references to national competent authorities or market surveillance authorities in this Regulation shall be construed as references to the European Data Protection Supervisor; (49) ‘serious incident’ means an incident or malfunctioning of an AI system that directly or indirectly leads to any of the following: (a) the death of a person, or serious harm to a person’s health; (b) a serious and irreversible disruption of the management or operation of critical infrastructure; (c) the infringement of obligations under Union law intended to protect fundamental rights; (d) serious harm to property or the environment; (50) ‘personal data’ means personal data as defined in Article 4, point (1), of Regulation (EU) 2016/679; (51) ‘non-personal data’ means data other than personal data as defined in Article 4, point (1), of Regulation (EU) 2016/679; (52) ‘profiling’ means profiling as defined in Article 4, point (4), of Regulation (EU) 2016/679; (53) ‘real-world testing plan’ means a document that describes the objectives, methodology, geographical, population and temporal scope, monitoring, organisation and conduct of testing in real-world conditions; (54) ‘sandbox plan’ means a document agreed between the participating provider and the competent authority describing the objectives, conditions, timeframe, methodology and requirements for the activities carried out within the sandbox; (55) ‘AI regulatory sandbox’ means a controlled framework set up by a competent authority which offers providers or prospective providers of AI systems the possibility to develop, train, validate and test, where appropriate in real-world conditions, an innovative AI system, pursuant to a sandbox plan for a limited time under regulatory supervision; (56) ‘AI literacy’ means skills, knowledge and understanding that allow providers, deployers and affected persons, taking into account their respective rights and obligations in the context of this Regulation, to make an informed deployment of AI systems, as well as to gain awareness about the opportunities and risks of AI and possible harm it can cause; (57) ‘testing in real-world conditions’ means the temporary testing of an AI system for its intended purpose in real-world conditions outside a laboratory or otherwise simulated environment, with a view to gathering reliable and robust data and to assessing and verifying the conformity of the AI system with the requirements of this Regulation and it does not qualify as placing the AI system on the market or putting it into service within the meaning of this Regulation, provided that all the conditions laid down in Article 57 or 60 are fulfilled; (58) ‘subject’, for the purpose of real-world testing, means a natural person who participates in testing in real-world conditions; (59) ‘informed consent’ means a subject’s freely given, specific, unambiguous and voluntary expression of his or her willingness to participate in a particular testing in real-world conditions, after having been informed of all aspects of the testing that are relevant to the subject’s decision to participate; (60) ‘deep fake’ means AI-generated or manipulated image, audio or video content that resembles existing persons, objects, places, entities or events and would falsely appear to a person to be authentic or truthful; (61) ‘widespread infringement’ means any act or omission contrary to Union law protecting the interest of individuals, which: (a) has harmed or is likely to harm the collective interests of individuals residing in at least two Member States other than the Member State in which: (i) the act or omission originated or took place; (ii) the provider concerned, or, where applicable, its authorised representative is located or established; or (iii) the deployer is established, when the infringement is committed by the deployer; (b) has caused, causes or is likely to cause harm to the collective interests of individuals and has common features, including the same unlawful practice or the same interest being infringed, and is occurring concurrently, committed by the same operator, in at least three Member States; (62) ‘critical infrastructure’ means critical infrastructure as defined in Article 2, point (4), of Directive (EU) 2022/2557; (63) ‘general-purpose AI model’ means an AI model, including where such an AI model is trained with a large amount of data using self-supervision at scale, that displays significant generality and is capable of competently performing a wide range of distinct tasks regardless of the way the model is placed on the market and that can be integrated into a variety of downstream systems or applications, except AI models that are used for research, development or prototyping activities before they are placed on the market; (64) ‘high-impact capabilities’ means capabilities that match or exceed the capabilities recorded in the most advanced general-purpose AI models; (65) ‘systemic risk’ means a risk that is specific to the high-impact capabilities of general-purpose AI models, having a significant impact on the Union market due to their reach, or due to actual or reasonably foreseeable negative effects on public health, safety, public security, fundamental rights, or the society as a whole, that can be propagated at scale across the value chain; (66) ‘general-purpose AI system’ means an AI system which is based on a general-purpose AI model and which has the capability to serve a variety of purposes, both for direct use as well as for integration in other AI systems; (67) ‘floating-point operation’ means any mathematical operation or assignment involving floating-point numbers, which are a subset of the real numbers typically represented on computers by an integer of fixed precision scaled by an integer exponent of a fixed base; (68) ‘downstream provider’ means a provider of an AI system, including a general-purpose AI system, which integrates an AI model, regardless of whether the AI model is provided by themselves and vertically integrated or provided by another entity based on contractual relations. ▼M1",
+          "changed": true,
+          "change_note": "The wording of Article 3 differs between the original and the consolidated text."
+        }
+      ]
+    },
+    {
+      "statement": "The system falls within Annex III, point 3(a), as an AI system intended to be used to determine access or admission to educational and vocational training institutions at all levels",
       "citations": [
         {
           "provision_id": "anx_III",
@@ -17,7 +31,7 @@
       ]
     },
     {
-      "statement": "The system meets the definition of an \"AI system\" in Article 3(1), being a machine-based system that, for explicit objectives, infers from the input it receives how to generate outputs such as decisions that can influence environments",
+      "statement": "The \"intended purpose\" of the system, as specified by the provider in the instructions for use, promotional or sales materials, or technical documentation, encompasses scoring university applications and deciding which applicants are admitted",
       "citations": [
         {
           "provision_id": "art_3",
@@ -31,21 +45,7 @@
       ]
     },
     {
-      "statement": "The system's \"intended purpose\" under Article 3(12) is the use specified by the provider—scoring university applications and deciding admission—as set out in the instructions for use, promotional or sales materials, or technical documentation",
-      "citations": [
-        {
-          "provision_id": "art_3",
-          "citation": "Article 3",
-          "kind": "article",
-          "version": "consolidated",
-          "text": "Article 3 Definitions For the purposes of this Regulation, the following definitions apply: (1) ‘AI system’ means a machine-based system that is designed to operate with varying levels of autonomy and that may exhibit adaptiveness after deployment, and that, for explicit or implicit objectives, infers, from the input it receives, how to generate outputs such as predictions, content, recommendations, or decisions that can influence physical or virtual environments; (2) ‘risk’ means the combination of the probability of an occurrence of harm and the severity of that harm; (3) ‘provider’ means a natural or legal person, public authority, agency or other body that develops an AI system or a general-purpose AI model or that has an AI system or a general-purpose AI model developed and places it on the market or puts the AI system into service under its own name or trademark, whether for payment or free of charge; (4) ‘deployer’ means a natural or legal person, public authority, agency or other body using an AI system under its authority except where the AI system is used in the course of a personal non-professional activity; (5) ‘authorised representative’ means a natural or legal person located or established in the Union who has received and accepted a written mandate from a provider of an AI system or a general-purpose AI model to, respectively, perform and carry out on its behalf the obligations and procedures established by this Regulation; (6) ‘importer’ means a natural or legal person located or established in the Union that places on the market an AI system that bears the name or trademark of a natural or legal person established in a third country; (7) ‘distributor’ means a natural or legal person in the supply chain, other than the provider or the importer, that makes an AI system available on the Union market; (8) ‘operator’ means a provider, product manufacturer, deployer, authorised representative, importer or distributor; (9) ‘placing on the market’ means the first making available of an AI system or a general-purpose AI model on the Union market; (10) ‘making available on the market’ means the supply of an AI system or a general-purpose AI model for distribution or use on the Union market in the course of a commercial activity, whether in return for payment or free of charge; (11) ‘putting into service’ means the supply of an AI system for first use directly to the deployer or for own use in the Union for its intended purpose; (12) ‘intended purpose’ means the use for which an AI system is intended by the provider, including the specific context and conditions of use, as specified in the information supplied by the provider in the instructions for use, promotional or sales materials and statements, as well as in the technical documentation; (13) ‘reasonably foreseeable misuse’ means the use of an AI system in a way that is not in accordance with its intended purpose, but which may result from reasonably foreseeable human behaviour or interaction with other systems, including other AI systems; ▼M1 (14) ‘safety component’ means a component of a product or of an AI system which fulfils a safety function for that product or AI system, or the failure or malfunctioning of which endangers the health and safety of persons or property; for the purposes of this definition, a component fulfils a safety function where its intended purpose is to prevent or mitigate risks to health and safety of persons or property; ▼M1 (14a) ‘micro, small and medium-sized enterprise’ or ‘SME’ means a micro, small or medium-sized enterprise as defined in Article 2 of the Annex to Recommendation 2003/361/EC; (14b) ‘small mid-cap enterprise’ or ‘SMC’ means a small mid-cap enterprise as defined in point (2) of the Annex to Recommendation (EU) 2025/1099; ▼B (15) ‘instructions for use’ means the information provided by the provider to inform the deployer of, in particular, an AI system’s intended purpose and proper use; (16) ‘recall of an AI system’ means any measure aiming to achieve the return to the provider or taking out of service or disabling the use of an AI system made available to deployers; (17) ‘withdrawal of an AI system’ means any measure aiming to prevent an AI system in the supply chain being made available on the market; (18) ‘performance of an AI system’ means the ability of an AI system to achieve its intended purpose; (19) ‘notifying authority’ means the national authority responsible for setting up and carrying out the necessary procedures for the assessment, designation and notification of conformity assessment bodies and for their monitoring; (20) ‘conformity assessment’ means the process of demonstrating whether the requirements set out in Chapter III, Section 2 relating to a high-risk AI system have been fulfilled; (21) ‘conformity assessment body’ means a body that performs third-party conformity assessment activities, including testing, certification and inspection; (22) ‘notified body’ means a conformity assessment body notified in accordance with this Regulation and other relevant Union harmonisation legislation; (23) ‘substantial modification’ means a change to an AI system after its placing on the market or putting into service which is not foreseen or planned in the initial conformity assessment carried out by the provider and as a result of which the compliance of the AI system with the requirements set out in Chapter III, Section 2 is affected or results in a modification to the intended purpose for which the AI system has been assessed; (24) ‘CE marking’ means a marking by which a provider indicates that an AI system is in conformity with the requirements set out in Chapter III, Section 2 and other applicable Union harmonisation legislation providing for its affixing; (25) ‘post-market monitoring system’ means all activities carried out by providers of AI systems to collect and review experience gained from the use of AI systems they place on the market or put into service for the purpose of identifying any need to immediately apply any necessary corrective or preventive actions; (26) ‘market surveillance authority’ means the national authority carrying out the activities and taking the measures pursuant to Regulation (EU) 2019/1020; (27) ‘harmonised standard’ means a harmonised standard as defined in Article 2(1), point (c), of Regulation (EU) No 1025/2012; (28) ‘common specification’ means a set of technical specifications as defined in Article 2, point (4) of Regulation (EU) No 1025/2012, providing means to comply with certain requirements established under this Regulation; (29) ‘training data’ means data used for training an AI system through fitting its learnable parameters; (30) ‘validation data’ means data used for providing an evaluation of the trained AI system and for tuning its non-learnable parameters and its learning process in order, inter alia, to prevent underfitting or overfitting; (31) ‘validation data set’ means a separate data set or part of the training data set, either as a fixed or variable split; (32) ‘testing data’ means data used for providing an independent evaluation of the AI system in order to confirm the expected performance of that system before its placing on the market or putting into service; (33) ‘input data’ means data provided to or directly acquired by an AI system on the basis of which the system produces an output; (34) ‘biometric data’ means personal data resulting from specific technical processing relating to the physical, physiological or behavioural characteristics of a natural person, such as facial images or dactyloscopic data; (35) ‘biometric identification’ means the automated recognition of physical, physiological, behavioural, or psychological human features for the purpose of establishing the identity of a natural person by comparing biometric data of that individual to biometric data of individuals stored in a database; (36) ‘biometric verification’ means the automated, one-to-one verification, including authentication, of the identity of natural persons by comparing their biometric data to previously provided biometric data; (37) ‘special categories of personal data’ means the categories of personal data referred to in Article 9(1) of Regulation (EU) 2016/679, Article 10 of Directive (EU) 2016/680 and Article 10(1) of Regulation (EU) 2018/1725; (38) ‘sensitive operational data’ means operational data related to activities of prevention, detection, investigation or prosecution of criminal offences, the disclosure of which could jeopardise the integrity of criminal proceedings; (39) ‘emotion recognition system’ means an AI system for the purpose of identifying or inferring emotions or intentions of natural persons on the basis of their biometric data; (40) ‘biometric categorisation system’ means an AI system for the purpose of assigning natural persons to specific categories on the basis of their biometric data, unless it is ancillary to another commercial service and strictly necessary for objective technical reasons; (41) ‘remote biometric identification system’ means an AI system for the purpose of identifying natural persons, without their active involvement, typically at a distance through the comparison of a person’s biometric data with the biometric data contained in a reference database; (42) ‘real-time remote biometric identification system’ means a remote biometric identification system, whereby the capturing of biometric data, the comparison and the identification all occur without a significant delay, comprising not only instant identification, but also limited short delays in order to avoid circumvention; (43) ‘post-remote biometric identification system’ means a remote biometric identification system other than a real-time remote biometric identification system; (44) ‘publicly accessible space’ means any publicly or privately owned physical place accessible to an undetermined number of natural persons, regardless of whether certain conditions for access may apply, and regardless of the potential capacity restrictions; (45) ‘law enforcement authority’ means: (a) any public authority competent for the prevention, investigation, detection or prosecution of criminal offences or the execution of criminal penalties, including the safeguarding against and the prevention of threats to public security; or (b) any other body or entity entrusted by Member State law to exercise public authority and public powers for the purposes of the prevention, investigation, detection or prosecution of criminal offences or the execution of criminal penalties, including the safeguarding against and the prevention of threats to public security; (46) ‘law enforcement’ means activities carried out by law enforcement authorities or on their behalf for the prevention, investigation, detection or prosecution of criminal offences or the execution of criminal penalties, including safeguarding against and preventing threats to public security; (47) ‘AI Office’ means the Commission’s function of contributing to the implementation, monitoring and supervision of AI systems and general-purpose AI models, and AI governance, provided for in Commission Decision of 24 January 2024; references in this Regulation to the AI Office shall be construed as references to the Commission; (48) ‘national competent authority’ means a notifying authority or a market surveillance authority; as regards AI systems put into service or used by Union institutions, agencies, offices and bodies, references to national competent authorities or market surveillance authorities in this Regulation shall be construed as references to the European Data Protection Supervisor; (49) ‘serious incident’ means an incident or malfunctioning of an AI system that directly or indirectly leads to any of the following: (a) the death of a person, or serious harm to a person’s health; (b) a serious and irreversible disruption of the management or operation of critical infrastructure; (c) the infringement of obligations under Union law intended to protect fundamental rights; (d) serious harm to property or the environment; (50) ‘personal data’ means personal data as defined in Article 4, point (1), of Regulation (EU) 2016/679; (51) ‘non-personal data’ means data other than personal data as defined in Article 4, point (1), of Regulation (EU) 2016/679; (52) ‘profiling’ means profiling as defined in Article 4, point (4), of Regulation (EU) 2016/679; (53) ‘real-world testing plan’ means a document that describes the objectives, methodology, geographical, population and temporal scope, monitoring, organisation and conduct of testing in real-world conditions; (54) ‘sandbox plan’ means a document agreed between the participating provider and the competent authority describing the objectives, conditions, timeframe, methodology and requirements for the activities carried out within the sandbox; (55) ‘AI regulatory sandbox’ means a controlled framework set up by a competent authority which offers providers or prospective providers of AI systems the possibility to develop, train, validate and test, where appropriate in real-world conditions, an innovative AI system, pursuant to a sandbox plan for a limited time under regulatory supervision; (56) ‘AI literacy’ means skills, knowledge and understanding that allow providers, deployers and affected persons, taking into account their respective rights and obligations in the context of this Regulation, to make an informed deployment of AI systems, as well as to gain awareness about the opportunities and risks of AI and possible harm it can cause; (57) ‘testing in real-world conditions’ means the temporary testing of an AI system for its intended purpose in real-world conditions outside a laboratory or otherwise simulated environment, with a view to gathering reliable and robust data and to assessing and verifying the conformity of the AI system with the requirements of this Regulation and it does not qualify as placing the AI system on the market or putting it into service within the meaning of this Regulation, provided that all the conditions laid down in Article 57 or 60 are fulfilled; (58) ‘subject’, for the purpose of real-world testing, means a natural person who participates in testing in real-world conditions; (59) ‘informed consent’ means a subject’s freely given, specific, unambiguous and voluntary expression of his or her willingness to participate in a particular testing in real-world conditions, after having been informed of all aspects of the testing that are relevant to the subject’s decision to participate; (60) ‘deep fake’ means AI-generated or manipulated image, audio or video content that resembles existing persons, objects, places, entities or events and would falsely appear to a person to be authentic or truthful; (61) ‘widespread infringement’ means any act or omission contrary to Union law protecting the interest of individuals, which: (a) has harmed or is likely to harm the collective interests of individuals residing in at least two Member States other than the Member State in which: (i) the act or omission originated or took place; (ii) the provider concerned, or, where applicable, its authorised representative is located or established; or (iii) the deployer is established, when the infringement is committed by the deployer; (b) has caused, causes or is likely to cause harm to the collective interests of individuals and has common features, including the same unlawful practice or the same interest being infringed, and is occurring concurrently, committed by the same operator, in at least three Member States; (62) ‘critical infrastructure’ means critical infrastructure as defined in Article 2, point (4), of Directive (EU) 2022/2557; (63) ‘general-purpose AI model’ means an AI model, including where such an AI model is trained with a large amount of data using self-supervision at scale, that displays significant generality and is capable of competently performing a wide range of distinct tasks regardless of the way the model is placed on the market and that can be integrated into a variety of downstream systems or applications, except AI models that are used for research, development or prototyping activities before they are placed on the market; (64) ‘high-impact capabilities’ means capabilities that match or exceed the capabilities recorded in the most advanced general-purpose AI models; (65) ‘systemic risk’ means a risk that is specific to the high-impact capabilities of general-purpose AI models, having a significant impact on the Union market due to their reach, or due to actual or reasonably foreseeable negative effects on public health, safety, public security, fundamental rights, or the society as a whole, that can be propagated at scale across the value chain; (66) ‘general-purpose AI system’ means an AI system which is based on a general-purpose AI model and which has the capability to serve a variety of purposes, both for direct use as well as for integration in other AI systems; (67) ‘floating-point operation’ means any mathematical operation or assignment involving floating-point numbers, which are a subset of the real numbers typically represented on computers by an integer of fixed precision scaled by an integer exponent of a fixed base; (68) ‘downstream provider’ means a provider of an AI system, including a general-purpose AI system, which integrates an AI model, regardless of whether the AI model is provided by themselves and vertically integrated or provided by another entity based on contractual relations. ▼M1",
-          "changed": true,
-          "change_note": "The wording of Article 3 differs between the original and the consolidated text."
-        }
-      ]
-    },
-    {
-      "statement": "As an AI system covered by Annex III, any conformity certificate issued for it shall not exceed four years in validity, and any extension at the provider's request shall not exceed four years per period, based on a re-assessment",
+      "statement": "As an AI system covered by Annex III, any conformity certificate issued for it shall be valid for a period not exceeding four years, extendable for further periods each not exceeding four years based on re-assessment",
       "citations": [
         {
           "provision_id": "art_44",
@@ -59,21 +59,21 @@
       ]
     },
     {
-      "statement": "The conformity assessment of this system is subject to the Annex VII procedure, which requires the notified body to assess the provider's quality management system and to examine the technical documentation, including granting access to training, validation, and testing data sets where necessary",
+      "statement": "Where a market surveillance authority has sufficient reason to consider that the system, classified by the provider as non-high-risk pursuant to Article 6(3), is indeed high-risk, the authority shall carry out an evaluation of the system in respect of its classification based on the conditions set out in Article 6(3) and the Commission guidelines",
       "citations": [
         {
-          "provision_id": "anx_VII",
-          "citation": "Annex VII",
-          "kind": "annex",
+          "provision_id": "art_80",
+          "citation": "Article 80",
+          "kind": "article",
           "version": "consolidated",
-          "text": "ANNEX VII Conformity based on an assessment of the quality management system and an assessment of the technical documentation 1. Introduction Conformity based on an assessment of the quality management system and an assessment of the technical documentation is the conformity assessment procedure based on points 2 to 5. 2. Overview The approved quality management system for the design, development and testing of AI systems pursuant to Article 17 shall be examined in accordance with point 3 and shall be subject to surveillance as specified in point 5. The technical documentation of the AI system shall be examined in accordance with point 4. 3. Quality management system 3.1. The application of the provider shall include: (a) the name and address of the provider and, if the application is lodged by an authorised representative, also their name and address; (b) the list of AI systems covered under the same quality management system; (c) the technical documentation for each AI system covered under the same quality management system; (d) the documentation concerning the quality management system which shall cover all the aspects listed under Article 17; (e) a description of the procedures in place to ensure that the quality management system remains adequate and effective; (f) a written declaration that the same application has not been lodged with any other notified body. 3.2. The quality management system shall be assessed by the notified body, which shall determine whether it satisfies the requirements referred to in Article 17. The decision shall be notified to the provider or its authorised representative. The notification shall contain the conclusions of the assessment of the quality management system and the reasoned assessment decision. 3.3. The quality management system as approved shall continue to be implemented and maintained by the provider so that it remains adequate and efficient. 3.4. Any intended change to the approved quality management system or the list of AI systems covered by the latter shall be brought to the attention of the notified body by the provider. The proposed changes shall be examined by the notified body, which shall decide whether the modified quality management system continues to satisfy the requirements referred to in point 3.2 or whether a reassessment is necessary. The notified body shall notify the provider of its decision. The notification shall contain the conclusions of the examination of the changes and the reasoned assessment decision. 4. Control of the technical documentation. 4.1. In addition to the application referred to in point 3, an application with a notified body of their choice shall be lodged by the provider for the assessment of the technical documentation relating to the AI system which the provider intends to place on the market or put into service and which is covered by the quality management system referred to under point 3. 4.2. The application shall include: (a) the name and address of the provider; (b) a written declaration that the same application has not been lodged with any other notified body; (c) the technical documentation referred to in Annex IV. 4.3. The technical documentation shall be examined by the notified body. Where relevant, and limited to what is necessary to fulfil its tasks, the notified body shall be granted full access to the training, validation, and testing data sets used, including, where appropriate and subject to security safeguards, through API or other relevant technical means and tools enabling remote access. 4.4. In examining the technical documentation, the notified body may require that the provider supply further evidence or carry out further tests so as to enable a proper assessment of the conformity of the AI system with the requirements set out in Chapter III, Section 2. Where the notified body is not satisfied with the tests carried out by the provider, the notified body shall itself directly carry out adequate tests, as appropriate. 4.5. Where necessary to assess the conformity of the high-risk AI system with the requirements set out in Chapter III, Section 2, after all other reasonable means to verify conformity have been exhausted and have proven to be insufficient, and upon a reasoned request, the notified body shall also be granted access to the training and trained models of the AI system, including its relevant parameters. Such access shall be subject to existing Union law on the protection of intellectual property and trade secrets. 4.6. The decision of the notified body shall be notified to the provider or its authorised representative. The notification shall contain the conclusions of the assessment of the technical documentation and the reasoned assessment decision. Where the AI system is in conformity with the requirements set out in Chapter III, Section 2, the notified body shall issue a Union technical documentation assessment certificate. The certificate shall indicate the name and address of the provider, the conclusions of the examination, the conditions (if any) for its validity and the data necessary for the identification of the AI system. The certificate and its annexes shall contain all relevant information to allow the conformity of the AI system to be evaluated, and to allow for control of the AI system while in use, where applicable. Where the AI system is not in conformity with the requirements set out in Chapter III, Section 2, the notified body shall refuse to issue a Union technical documentation assessment certificate and shall inform the applicant accordingly, giving detailed reasons for its refusal. Where the AI system does not meet the requirement relating to the data used to train it, re-training of the AI system will be needed prior to the application for a new conformity assessment. In this case, the reasoned assessment decision of the notified body refusing to issue the Union technical documentation assessment certificate shall contain specific considerations on the quality data used to train the AI system, in particular on the reasons for non-compliance. 4.7. Any change to the AI system that could affect the compliance of the AI system with the requirements or its intended purpose shall be assessed by the notified body which issued the Union technical documentation assessment certificate. The provider shall inform such notified body of its intention to introduce any of the abovementioned changes, or if it otherwise becomes aware of the occurrence of such changes. The intended changes shall be assessed by the notified body, which shall decide whether those changes require a new conformity assessment in accordance with Article 43(4) or whether they could be addressed by means of a supplement to the Union technical documentation assessment certificate. In the latter case, the notified body shall assess the changes, notify the provider of its decision and, where the changes are approved, issue to the provider a supplement to the Union technical documentation assessment certificate. 5. Surveillance of the approved quality management system. 5.1. The purpose of the surveillance carried out by the notified body referred to in Point 3 is to make sure that the provider duly complies with the terms and conditions of the approved quality management system. 5.2. For assessment purposes, the provider shall allow the notified body to access the premises where the design, development, testing of the AI systems is taking place. The provider shall further share with the notified body all necessary information. 5.3. The notified body shall carry out periodic audits to make sure that the provider maintains and applies the quality management system and shall provide the provider with an audit report. In the context of those audits, the notified body may carry out additional tests of the AI systems for which a Union technical documentation assessment certificate was issued.",
+          "text": "Article 80 Procedure for dealing with AI systems classified by the provider as non-high-risk in application of Annex III 1. Where a market surveillance authority has sufficient reason to consider that an AI system classified by the provider as non-high-risk pursuant to Article 6(3) is indeed high-risk, the market surveillance authority shall carry out an evaluation of the AI system concerned in respect of its classification as a high-risk AI system based on the conditions set out in Article 6(3) and the Commission guidelines. 2. Where, in the course of that evaluation, the market surveillance authority finds that the AI system concerned is high-risk, it shall without undue delay require the relevant provider to take all necessary actions to bring the AI system into compliance with the requirements and obligations laid down in this Regulation, as well as take appropriate corrective action within a period the market surveillance authority may prescribe. 3. Where the market surveillance authority considers that the use of the AI system concerned is not restricted to its national territory, it shall inform the Commission and the other Member States without undue delay of the results of the evaluation and of the actions which it has required the provider to take. 4. The provider shall ensure that all necessary action is taken to bring the AI system into compliance with the requirements and obligations laid down in this Regulation. Where the provider of an AI system concerned does not bring the AI system into compliance with those requirements and obligations within the period referred to in paragraph 2 of this Article, the provider shall be subject to fines in accordance with Article 99. 5. The provider shall ensure that all appropriate corrective action is taken in respect of all the AI systems concerned that it has made available on the Union market. 6. Where the provider of the AI system concerned does not take adequate corrective action within the period referred to in paragraph 2 of this Article, Article 79(5) to (9) shall apply. 7. Where, in the course of the evaluation pursuant to paragraph 1 of this Article, the market surveillance authority establishes that the AI system was misclassified by the provider as non-high-risk in order to circumvent the application of requirements in Chapter III, Section 2, the provider shall be subject to fines in accordance with Article 99. 8. In exercising their power to monitor the application of this Article, and in accordance with Article 11 of Regulation (EU) 2019/1020, market surveillance authorities may perform appropriate checks, taking into account in particular information stored in the EU database referred to in Article 71 of this Regulation.",
           "changed": false,
           "change_note": null
         }
       ]
     },
     {
-      "statement": "If the provider classifies the system as non-high-risk pursuant to Article 6(3), a market surveillance authority with sufficient reason to consider it high-risk shall carry out an evaluation under Article 80(1), and upon finding it high-risk shall require the provider to bring the system into compliance within a prescribed period",
+      "statement": "Where, in the course of that evaluation, the market surveillance authority establishes that the system was misclassified by the provider as non-high-risk in order to circumvent the application of requirements in Chapter III, Section 2, the provider shall be subject to fines in accordance with Article 99",
       "citations": [
         {
           "provision_id": "art_80",
@@ -177,11 +177,223 @@
       "art_105",
       "art_106"
     ],
+    "edges": [
+      {
+        "source_id": "art_80.5",
+        "target_id": "art_80",
+        "hop": 0
+      },
+      {
+        "source_id": "art_28.8",
+        "target_id": "art_28",
+        "hop": 0
+      },
+      {
+        "source_id": "art_29.2",
+        "target_id": "art_29",
+        "hop": 0
+      },
+      {
+        "source_id": "art_82.4",
+        "target_id": "art_82",
+        "hop": 0
+      },
+      {
+        "source_id": "art_112.11",
+        "target_id": "art_112",
+        "hop": 0
+      },
+      {
+        "source_id": "art_30.2",
+        "target_id": "art_30",
+        "hop": 0
+      },
+      {
+        "source_id": "art_80.7",
+        "target_id": "art_80",
+        "hop": 0
+      },
+      {
+        "source_id": "art_82.5",
+        "target_id": "art_82",
+        "hop": 0
+      },
+      {
+        "source_id": "art_44.3",
+        "target_id": "art_44",
+        "hop": 0
+      },
+      {
+        "source_id": "anx_III",
+        "target_id": "art_6.2",
+        "hop": 1
+      },
+      {
+        "source_id": "anx_III",
+        "target_id": "art_6",
+        "hop": 1
+      },
+      {
+        "source_id": "anx_IX",
+        "target_id": "art_60",
+        "hop": 1
+      },
+      {
+        "source_id": "art_3",
+        "target_id": "art_2",
+        "hop": 1
+      },
+      {
+        "source_id": "art_3",
+        "target_id": "art_2.1",
+        "hop": 1
+      },
+      {
+        "source_id": "art_3",
+        "target_id": "art_4",
+        "hop": 1
+      },
+      {
+        "source_id": "art_3",
+        "target_id": "art_57",
+        "hop": 1
+      },
+      {
+        "source_id": "art_80",
+        "target_id": "art_6.3",
+        "hop": 1
+      },
+      {
+        "source_id": "art_80",
+        "target_id": "art_99",
+        "hop": 1
+      },
+      {
+        "source_id": "art_80",
+        "target_id": "art_79.5",
+        "hop": 1
+      },
+      {
+        "source_id": "art_80",
+        "target_id": "art_79",
+        "hop": 1
+      },
+      {
+        "source_id": "art_80",
+        "target_id": "art_71",
+        "hop": 1
+      },
+      {
+        "source_id": "art_28",
+        "target_id": "art_78",
+        "hop": 1
+      },
+      {
+        "source_id": "art_28",
+        "target_id": "anx_I",
+        "hop": 1
+      },
+      {
+        "source_id": "art_29",
+        "target_id": "art_31",
+        "hop": 1
+      },
+      {
+        "source_id": "art_82",
+        "target_id": "art_77.1",
+        "hop": 1
+      },
+      {
+        "source_id": "art_82",
+        "target_id": "art_77",
+        "hop": 1
+      },
+      {
+        "source_id": "art_112",
+        "target_id": "art_5",
+        "hop": 1
+      },
+      {
+        "source_id": "art_112",
+        "target_id": "art_97",
+        "hop": 1
+      },
+      {
+        "source_id": "art_112",
+        "target_id": "art_50",
+        "hop": 1
+      },
+      {
+        "source_id": "art_112",
+        "target_id": "art_99.1",
+        "hop": 1
+      },
+      {
+        "source_id": "art_30",
+        "target_id": "anx_XIV",
+        "hop": 1
+      },
+      {
+        "source_id": "art_30",
+        "target_id": "art_29.3",
+        "hop": 1
+      },
+      {
+        "source_id": "art_44",
+        "target_id": "anx_VII",
+        "hop": 1
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_102",
+        "hop": 2
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_103",
+        "hop": 2
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_104",
+        "hop": 2
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_105",
+        "hop": 2
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_106",
+        "hop": 2
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_10",
+        "hop": 2
+      },
+      {
+        "source_id": "art_71",
+        "target_id": "anx_VIII",
+        "hop": 2
+      },
+      {
+        "source_id": "art_78",
+        "target_id": "anx_IV",
+        "hop": 2
+      },
+      {
+        "source_id": "art_5",
+        "target_id": "anx_II",
+        "hop": 2
+      }
+    ],
     "traversal_enabled": true,
     "truncated": false,
     "prompt_tokens": 15152,
-    "completion_tokens": 4745,
-    "duration_ms": 40387,
+    "completion_tokens": 3914,
+    "duration_ms": 39643,
     "model": "annex-qwen3-27b"
   }
 }

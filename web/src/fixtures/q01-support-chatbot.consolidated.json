@@ -3,7 +3,7 @@
   "version": "consolidated",
   "claims": [
     {
-      "statement": "The system is an \"AI system\" within the meaning of Article 3(1), being a machine-based system that infers from input how to generate outputs (text responses) that can influence a virtual environment",
+      "statement": "The system must be assessed against the definition of \"AI system\" in Article 3(1), which covers a machine-based system that, for explicit or implicit objectives, infers from input how to generate outputs such as content",
       "citations": [
         {
           "provision_id": "art_3",
@@ -17,7 +17,7 @@
       ]
     },
     {
-      "statement": "The Regulation's scope in Article 2(1) covers providers placing AI systems on the market in the Union and deployers located in the Union, subject to the exclusions in Article 2(10) for purely personal non-professional use",
+      "statement": "The Regulation's scope must be confirmed: it applies to providers placing AI systems on the Union market, to deployers established in the Union, and to providers and deployers in a third country where the output is used in the Union",
       "citations": [
         {
           "provision_id": "art_2",
@@ -31,7 +31,7 @@
       ]
     },
     {
-      "statement": "Article 50(1) requires that an AI system intended to interact directly with natural persons be designed so those persons are informed they are interacting with an AI system, unless this is obvious to a reasonably well-informed, observant and circumspect person in the context of use",
+      "statement": "As an AI system intended to interact directly with natural persons, the provider must ensure the natural persons concerned are informed they are interacting with an AI system, unless this is obvious from the point of view of a reasonably well-informed, observant and circumspect person taking into account the circumstances and context of use",
       "citations": [
         {
           "provision_id": "art_50.1",
@@ -45,7 +45,7 @@
       ]
     },
     {
-      "statement": "Article 50(2) requires providers of AI systems generating synthetic text content to ensure outputs are marked in a machine-readable format and detectable as artificially generated, with an exception where the system performs an assistive function for standard editing or does not substantially alter the deployer's input data",
+      "statement": "As a system generating synthetic text content, the provider must ensure the outputs are marked in a machine-readable format and detectable as artificially generated or manipulated, subject to the exception where the system performs an assistive function for standard editing or does not substantially alter the input data provided by the deployer or the semantics thereof",
       "citations": [
         {
           "provision_id": "art_50.2",
@@ -59,7 +59,7 @@
       ]
     },
     {
-      "statement": "Article 50(5) requires that the information under paragraphs 1 to 4 be provided to the natural persons concerned in a clear and distinguishable manner at the latest at the time of the first interaction, conforming to applicable accessibility requirements",
+      "statement": "The information required under Article 50(1) to (4) must be provided to the natural persons concerned in a clear and distinguishable manner at the latest at the time of the first interaction, and must conform to applicable accessibility requirements",
       "citations": [
         {
           "provision_id": "art_50.5",
@@ -73,7 +73,7 @@
       ]
     },
     {
-      "statement": "Article 50(6) provides that paragraphs 1 to 4 do not affect the requirements and obligations set out in Chapter III and are without prejudice to other transparency obligations laid down in Union or national law",
+      "statement": "The obligations in Article 50(1) to (4) do not affect the requirements and obligations set out in Chapter III and are without prejudice to other transparency obligations laid down in Union or national law for deployers of AI systems",
       "citations": [
         {
           "provision_id": "art_50.6",
@@ -169,11 +169,248 @@
       "art_57",
       "art_58"
     ],
+    "edges": [
+      {
+        "source_id": "art_50.1",
+        "target_id": "art_50",
+        "hop": 0
+      },
+      {
+        "source_id": "art_2.10",
+        "target_id": "art_2",
+        "hop": 0
+      },
+      {
+        "source_id": "art_13.1",
+        "target_id": "art_13",
+        "hop": 0
+      },
+      {
+        "source_id": "art_50.5",
+        "target_id": "art_50",
+        "hop": 0
+      },
+      {
+        "source_id": "art_50.3",
+        "target_id": "art_50",
+        "hop": 0
+      },
+      {
+        "source_id": "art_50.6",
+        "target_id": "art_50",
+        "hop": 0
+      },
+      {
+        "source_id": "art_13.2",
+        "target_id": "art_13",
+        "hop": 0
+      },
+      {
+        "source_id": "art_50.2",
+        "target_id": "art_50",
+        "hop": 0
+      },
+      {
+        "source_id": "art_26.5",
+        "target_id": "art_26",
+        "hop": 0
+      },
+      {
+        "source_id": "art_26.11",
+        "target_id": "art_26",
+        "hop": 0
+      },
+      {
+        "source_id": "art_50.4",
+        "target_id": "art_50",
+        "hop": 0
+      },
+      {
+        "source_id": "art_3",
+        "target_id": "art_2.1",
+        "hop": 1
+      },
+      {
+        "source_id": "art_3",
+        "target_id": "art_4",
+        "hop": 1
+      },
+      {
+        "source_id": "art_3",
+        "target_id": "art_57",
+        "hop": 1
+      },
+      {
+        "source_id": "art_50",
+        "target_id": "art_56.6",
+        "hop": 1
+      },
+      {
+        "source_id": "art_50",
+        "target_id": "art_56",
+        "hop": 1
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "anx_I",
+        "hop": 1
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_102",
+        "hop": 1
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_103",
+        "hop": 1
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_104",
+        "hop": 1
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_105",
+        "hop": 1
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_106",
+        "hop": 1
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_107",
+        "hop": 1
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_108",
+        "hop": 1
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_109",
+        "hop": 1
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_110",
+        "hop": 1
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_111",
+        "hop": 1
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_112",
+        "hop": 1
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_58",
+        "hop": 1
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_4a",
+        "hop": 1
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_5",
+        "hop": 1
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_10",
+        "hop": 1
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_11",
+        "hop": 1
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_12",
+        "hop": 1
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_14",
+        "hop": 1
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_15",
+        "hop": 1
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_17",
+        "hop": 1
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_18",
+        "hop": 1
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_19",
+        "hop": 1
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_20",
+        "hop": 1
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_21",
+        "hop": 1
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_22",
+        "hop": 1
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_23",
+        "hop": 1
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_24",
+        "hop": 1
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_25",
+        "hop": 1
+      },
+      {
+        "source_id": "art_26",
+        "target_id": "art_49",
+        "hop": 1
+      },
+      {
+        "source_id": "art_26",
+        "target_id": "anx_III",
+        "hop": 1
+      }
+    ],
     "traversal_enabled": true,
     "truncated": false,
     "prompt_tokens": 16433,
-    "completion_tokens": 3520,
-    "duration_ms": 35878,
+    "completion_tokens": 4176,
+    "duration_ms": 40911,
     "model": "annex-qwen3-27b"
   }
 }

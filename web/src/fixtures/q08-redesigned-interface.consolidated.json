@@ -5,8 +5,8 @@
   "refusal": {
     "reason": "The retrieved provisions do not settle the question.",
     "missing": [
-      "Whether a user-interface redesign constitutes a \"significant change in design\" under Article 111(2)",
-      "Whether a user-interface redesign meets the definition of \"substantial modification\" under Article 3(23), i.e. whether it affects compliance with Chapter III Section 2 or modifies the intended purpose"
+      "Whether a redesign of the user interface constitutes a \"significant change in design\" within the meaning of Article 111(2)",
+      "Whether a redesign of the user interface constitutes a \"substantial modification\" within the meaning of Article 3(23)"
     ],
     "consulted": [
       {
@@ -282,11 +282,223 @@
       "art_71",
       "art_72"
     ],
+    "edges": [
+      {
+        "source_id": "art_27.2",
+        "target_id": "art_27",
+        "hop": 0
+      },
+      {
+        "source_id": "art_6.3",
+        "target_id": "art_6",
+        "hop": 0
+      },
+      {
+        "source_id": "art_13.3",
+        "target_id": "art_13",
+        "hop": 0
+      },
+      {
+        "source_id": "art_111.2",
+        "target_id": "art_111",
+        "hop": 0
+      },
+      {
+        "source_id": "art_82.1",
+        "target_id": "art_82",
+        "hop": 0
+      },
+      {
+        "source_id": "art_6.1",
+        "target_id": "art_6",
+        "hop": 0
+      },
+      {
+        "source_id": "art_43.4",
+        "target_id": "art_43",
+        "hop": 0
+      },
+      {
+        "source_id": "art_25.1",
+        "target_id": "art_25",
+        "hop": 0
+      },
+      {
+        "source_id": "art_26.11",
+        "target_id": "art_26",
+        "hop": 0
+      },
+      {
+        "source_id": "art_13.2",
+        "target_id": "art_13",
+        "hop": 0
+      },
+      {
+        "source_id": "anx_III",
+        "target_id": "art_6.2",
+        "hop": 1
+      },
+      {
+        "source_id": "art_3",
+        "target_id": "art_2",
+        "hop": 1
+      },
+      {
+        "source_id": "art_3",
+        "target_id": "art_2.1",
+        "hop": 1
+      },
+      {
+        "source_id": "art_3",
+        "target_id": "art_4",
+        "hop": 1
+      },
+      {
+        "source_id": "art_3",
+        "target_id": "art_57",
+        "hop": 1
+      },
+      {
+        "source_id": "art_27",
+        "target_id": "art_46.1",
+        "hop": 1
+      },
+      {
+        "source_id": "art_27",
+        "target_id": "art_46",
+        "hop": 1
+      },
+      {
+        "source_id": "art_6",
+        "target_id": "anx_I",
+        "hop": 1
+      },
+      {
+        "source_id": "art_6",
+        "target_id": "art_49.2",
+        "hop": 1
+      },
+      {
+        "source_id": "art_6",
+        "target_id": "art_49",
+        "hop": 1
+      },
+      {
+        "source_id": "art_6",
+        "target_id": "art_7.1",
+        "hop": 1
+      },
+      {
+        "source_id": "art_6",
+        "target_id": "art_7",
+        "hop": 1
+      },
+      {
+        "source_id": "art_13",
+        "target_id": "art_15",
+        "hop": 1
+      },
+      {
+        "source_id": "art_13",
+        "target_id": "art_14",
+        "hop": 1
+      },
+      {
+        "source_id": "art_13",
+        "target_id": "art_12",
+        "hop": 1
+      },
+      {
+        "source_id": "art_111",
+        "target_id": "art_5",
+        "hop": 1
+      },
+      {
+        "source_id": "art_111",
+        "target_id": "art_113",
+        "hop": 1
+      },
+      {
+        "source_id": "art_111",
+        "target_id": "anx_X",
+        "hop": 1
+      },
+      {
+        "source_id": "art_111",
+        "target_id": "art_50.2",
+        "hop": 1
+      },
+      {
+        "source_id": "art_111",
+        "target_id": "art_50",
+        "hop": 1
+      },
+      {
+        "source_id": "art_43",
+        "target_id": "art_40",
+        "hop": 1
+      },
+      {
+        "source_id": "art_43",
+        "target_id": "art_41",
+        "hop": 1
+      },
+      {
+        "source_id": "art_43",
+        "target_id": "anx_VI",
+        "hop": 1
+      },
+      {
+        "source_id": "art_43",
+        "target_id": "anx_VII",
+        "hop": 1
+      },
+      {
+        "source_id": "art_43",
+        "target_id": "art_17",
+        "hop": 1
+      },
+      {
+        "source_id": "art_43",
+        "target_id": "art_31.4",
+        "hop": 1
+      },
+      {
+        "source_id": "art_43",
+        "target_id": "art_31",
+        "hop": 1
+      },
+      {
+        "source_id": "art_43",
+        "target_id": "art_28",
+        "hop": 1
+      },
+      {
+        "source_id": "art_43",
+        "target_id": "anx_IV",
+        "hop": 1
+      },
+      {
+        "source_id": "art_25",
+        "target_id": "art_16",
+        "hop": 1
+      },
+      {
+        "source_id": "art_26",
+        "target_id": "art_72",
+        "hop": 1
+      },
+      {
+        "source_id": "art_26",
+        "target_id": "art_71",
+        "hop": 1
+      }
+    ],
     "traversal_enabled": true,
     "truncated": false,
     "prompt_tokens": 14008,
-    "completion_tokens": 3236,
-    "duration_ms": 27082,
+    "completion_tokens": 4730,
+    "duration_ms": 42968,
     "model": "annex-qwen3-27b"
   }
 }

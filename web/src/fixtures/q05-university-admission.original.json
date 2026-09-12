@@ -3,7 +3,7 @@
   "version": "original",
   "claims": [
     {
-      "statement": "The system is an \"AI system\" within the meaning of Article 3(1), as it is a machine-based system that, for explicit objectives, infers from the input it receives how to generate decisions that can influence physical or virtual environments",
+      "statement": "The system, which infers from application data how to generate admission decisions, meets the definition of \"AI system\" in Article 3(1)",
       "citations": [
         {
           "provision_id": "art_3",
@@ -17,7 +17,7 @@
       ]
     },
     {
-      "statement": "The system falls within Annex III, point 3(a), which lists AI systems intended to be used to determine access or admission to educational and vocational training institutions at all levels",
+      "statement": "Annex III, point 3(a), lists as a high-risk use case \"AI systems intended to be used to determine access or admission or to assign natural persons to educational and vocational training institutions at all levels\"",
       "citations": [
         {
           "provision_id": "anx_III",
@@ -31,7 +31,7 @@
       ]
     },
     {
-      "statement": "Under Article 6(2), AI systems referred to in Annex III are considered to be high-risk",
+      "statement": "Article 6(2) provides that AI systems referred to in Annex III shall be considered to be high-risk",
       "citations": [
         {
           "provision_id": "art_6.2",
@@ -45,7 +45,7 @@
       ]
     },
     {
-      "statement": "Under Article 6(3), an Annex III system escapes the high-risk classification only where it does not pose a significant risk of harm and satisfies one of the four listed conditions, but it is always high-risk where it performs profiling of natural persons",
+      "statement": "Article 6(3) carves out an Annex III system from high-risk classification where it performs a narrow procedural task, improves a previously completed human activity, detects decision-making patterns, or performs a preparatory task, but provides that the system is always high-risk where it performs profiling of natural persons",
       "citations": [
         {
           "provision_id": "art_6",
@@ -59,21 +59,7 @@
       ]
     },
     {
-      "statement": "Under Article 6(4), a provider who considers that an Annex III system is not high-risk must document that assessment before the system is placed on the market or put into service and is subject to the registration obligation in Article 49(2)",
-      "citations": [
-        {
-          "provision_id": "art_6",
-          "citation": "Article 6",
-          "kind": "article",
-          "version": "original",
-          "text": "Article 6 Classification rules for high-risk AI systems 1. Irrespective of whether an AI system is placed on the market or put into service independently of the products referred to in points (a) and (b), that AI system shall be considered to be high-risk where both of the following conditions are fulfilled: (a) the AI system is intended to be used as a safety component of a product, or the AI system is itself a product, covered by the Union harmonisation legislation listed in Annex I; (b) the product whose safety component pursuant to point (a) is the AI system, or the AI system itself as a product, is required to undergo a third-party conformity assessment, with a view to the placing on the market or the putting into service of that product pursuant to the Union harmonisation legislation listed in Annex I. 2. In addition to the high-risk AI systems referred to in paragraph 1, AI systems referred to in Annex III shall be considered to be high-risk. 3. By derogation from paragraph 2, an AI system referred to in Annex III shall not be considered to be high-risk where it does not pose a significant risk of harm to the health, safety or fundamental rights of natural persons, including by not materially influencing the outcome of decision making. The first subparagraph shall apply where any of the following conditions is fulfilled: (a) the AI system is intended to perform a narrow procedural task; (b) the AI system is intended to improve the result of a previously completed human activity; (c) the AI system is intended to detect decision-making patterns or deviations from prior decision-making patterns and is not meant to replace or influence the previously completed human assessment, without proper human review; or (d) the AI system is intended to perform a preparatory task to an assessment relevant for the purposes of the use cases listed in Annex III. Notwithstanding the first subparagraph, an AI system referred to in Annex III shall always be considered to be high-risk where the AI system performs profiling of natural persons. 4. A provider who considers that an AI system referred to in Annex III is not high-risk shall document its assessment before that system is placed on the market or put into service. Such provider shall be subject to the registration obligation set out in Article 49(2). Upon request of national competent authorities, the provider shall provide the documentation of the assessment. 5. The Commission shall, after consulting the European Artificial Intelligence Board (the ‘Board’), and no later than 2 February 2026, provide guidelines specifying the practical implementation of this Article in line with Article 96 together with a comprehensive list of practical examples of use cases of AI systems that are high-risk and not high-risk. 6. The Commission is empowered to adopt delegated acts in accordance with Article 97 in order to amend paragraph 3, second subparagraph, of this Article by adding new conditions to those laid down therein, or by modifying them, where there is concrete and reliable evidence of the existence of AI systems that fall under the scope of Annex III, but do not pose a significant risk of harm to the health, safety or fundamental rights of natural persons. 7. The Commission shall adopt delegated acts in accordance with Article 97 in order to amend paragraph 3, second subparagraph, of this Article by deleting any of the conditions laid down therein, where there is concrete and reliable evidence that this is necessary to maintain the level of protection of health, safety and fundamental rights provided for by this Regulation. 8. Any amendment to the conditions laid down in paragraph 3, second subparagraph, adopted in accordance with paragraphs 6 and 7 of this Article shall not decrease the overall level of protection of health, safety and fundamental rights provided for by this Regulation and shall ensure consistency with the delegated acts adopted pursuant to Article 7(1), and take account of market and technological developments.",
-          "changed": true,
-          "change_note": "The wording of Article 6 differs between the original and the consolidated text."
-        }
-      ]
-    },
-    {
-      "statement": "The Regulation applies to providers placing such a system on the market or putting it into service in the Union, and to deployers of such systems located in the Union, irrespective of the provider's or deployer's place of establishment",
+      "statement": "Article 2(1) extends the Regulation's application to providers placing on the market or putting into service AI systems in the Union and to deployers of AI systems located in the Union",
       "citations": [
         {
           "provision_id": "art_2.1",
@@ -83,6 +69,20 @@
           "text": "1. This Regulation applies to: (a) providers placing on the market or putting into service AI systems or placing on the market general-purpose AI models in the Union, irrespective of whether those providers are established or located within the Union or in a third country; (b) deployers of AI systems that have their place of establishment or are located within the Union; (c) providers and deployers of AI systems that have their place of establishment or are located in a third country, where the output produced by the AI system is used in the Union; (d) importers and distributors of AI systems; (e) product manufacturers placing on the market or putting into service an AI system together with their product and under their own name or trademark; (f) authorised representatives of providers, which are not established in the Union; (g) affected persons that are located in the Union.",
           "changed": true,
           "change_note": "The wording of Article 2(1) differs between the original and the consolidated text."
+        }
+      ]
+    },
+    {
+      "statement": "Article 77(1) grants national public authorities supervising fundamental-rights obligations the power to request and access any documentation created or maintained under this Regulation in relation to high-risk AI systems referred to in Annex III",
+      "citations": [
+        {
+          "provision_id": "art_77.1",
+          "citation": "Article 77(1)",
+          "kind": "paragraph",
+          "version": "original",
+          "text": "1. National public authorities or bodies which supervise or enforce the respect of obligations under Union law protecting fundamental rights, including the right to non-discrimination, in relation to the use of high-risk AI systems referred to in Annex III shall have the power to request and access any documentation created or maintained under this Regulation in accessible language and format when access to that documentation is necessary for effectively fulfilling their mandates within the limits of their jurisdiction. The relevant public authority or body shall inform the market surveillance authority of the Member State concerned of any such request.",
+          "changed": true,
+          "change_note": "The wording of Article 77(1) differs between the original and the consolidated text."
         }
       ]
     }
@@ -181,11 +181,213 @@
       "art_62",
       "art_62.1"
     ],
+    "edges": [
+      {
+        "source_id": "art_44.3",
+        "target_id": "art_44",
+        "hop": 0
+      },
+      {
+        "source_id": "art_82.4",
+        "target_id": "art_82",
+        "hop": 0
+      },
+      {
+        "source_id": "rct_53",
+        "target_id": "art_4",
+        "hop": 1
+      },
+      {
+        "source_id": "anx_III",
+        "target_id": "art_6.2",
+        "hop": 1
+      },
+      {
+        "source_id": "anx_III",
+        "target_id": "art_6",
+        "hop": 1
+      },
+      {
+        "source_id": "rct_62",
+        "target_id": "art_39",
+        "hop": 1
+      },
+      {
+        "source_id": "art_3",
+        "target_id": "art_2.1",
+        "hop": 1
+      },
+      {
+        "source_id": "art_3",
+        "target_id": "art_2",
+        "hop": 1
+      },
+      {
+        "source_id": "art_3",
+        "target_id": "art_57",
+        "hop": 1
+      },
+      {
+        "source_id": "art_44",
+        "target_id": "anx_VII",
+        "hop": 1
+      },
+      {
+        "source_id": "art_44",
+        "target_id": "anx_I",
+        "hop": 1
+      },
+      {
+        "source_id": "art_82",
+        "target_id": "art_79",
+        "hop": 1
+      },
+      {
+        "source_id": "art_82",
+        "target_id": "art_77.1",
+        "hop": 1
+      },
+      {
+        "source_id": "art_82",
+        "target_id": "art_77",
+        "hop": 1
+      },
+      {
+        "source_id": "art_6",
+        "target_id": "art_49.2",
+        "hop": 2
+      },
+      {
+        "source_id": "art_6",
+        "target_id": "art_49",
+        "hop": 2
+      },
+      {
+        "source_id": "art_39",
+        "target_id": "art_31",
+        "hop": 2
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_6.1",
+        "hop": 2
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_102",
+        "hop": 2
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_103",
+        "hop": 2
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_104",
+        "hop": 2
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_105",
+        "hop": 2
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_106",
+        "hop": 2
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_107",
+        "hop": 2
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_108",
+        "hop": 2
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_109",
+        "hop": 2
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_112",
+        "hop": 2
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_10.5",
+        "hop": 2
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_10",
+        "hop": 2
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_59",
+        "hop": 2
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_5",
+        "hop": 2
+      },
+      {
+        "source_id": "art_57",
+        "target_id": "art_62.1",
+        "hop": 2
+      },
+      {
+        "source_id": "art_57",
+        "target_id": "art_62",
+        "hop": 2
+      },
+      {
+        "source_id": "anx_VII",
+        "target_id": "art_17",
+        "hop": 2
+      },
+      {
+        "source_id": "anx_VII",
+        "target_id": "anx_IV",
+        "hop": 2
+      },
+      {
+        "source_id": "anx_VII",
+        "target_id": "art_43.4",
+        "hop": 2
+      },
+      {
+        "source_id": "anx_VII",
+        "target_id": "art_43",
+        "hop": 2
+      },
+      {
+        "source_id": "art_79",
+        "target_id": "art_40",
+        "hop": 2
+      },
+      {
+        "source_id": "art_79",
+        "target_id": "art_41",
+        "hop": 2
+      },
+      {
+        "source_id": "art_79",
+        "target_id": "art_50",
+        "hop": 2
+      }
+    ],
     "traversal_enabled": true,
     "truncated": false,
     "prompt_tokens": 15141,
-    "completion_tokens": 3817,
-    "duration_ms": 31979,
+    "completion_tokens": 3910,
+    "duration_ms": 38084,
     "model": "annex-qwen3-27b"
   }
 }

@@ -3,7 +3,7 @@
   "version": "original",
   "claims": [
     {
-      "statement": "Article 5, which sets out the prohibited AI practices, is located in Chapter II of the Regulation, as its text is immediately followed by the heading \"CHAPTER III HIGH-RISK AI SYSTEMS\"",
+      "statement": "Article 5, which sets out the prohibited AI practices, is immediately followed by the heading \"CHAPTER III HIGH-RISK AI SYSTEMS,\" placing it within Chapter II of the Regulation",
       "citations": [
         {
           "provision_id": "art_5",
@@ -17,7 +17,7 @@
       ]
     },
     {
-      "statement": "Article 113(1)(a) provides that Chapters I and II shall apply from 2 February 2025",
+      "statement": "Article 113 provides that Chapters I and II shall apply from 2 February 2025",
       "citations": [
         {
           "provision_id": "art_113",
@@ -34,15 +34,6 @@
       "statement": "Non-compliance with the prohibition of the AI practices referred to in Article 5 shall be subject to administrative fines of up to EUR 35 000 000 or, if the offender is an undertaking, up to 7 % of its total worldwide annual turnover for the preceding financial year, whichever is higher",
       "citations": [
         {
-          "provision_id": "art_99.3",
-          "citation": "Article 99(3)",
-          "kind": "paragraph",
-          "version": "original",
-          "text": "3. Non-compliance with the prohibition of the AI practices referred to in Article 5 shall be subject to administrative fines of up to EUR 35 000 000 or, if the offender is an undertaking, up to 7 % of its total worldwide annual turnover for the preceding financial year, whichever is higher.",
-          "changed": false,
-          "change_note": null
-        },
-        {
           "provision_id": "art_99",
           "citation": "Article 99",
           "kind": "article",
@@ -54,17 +45,8 @@
       ]
     },
     {
-      "statement": "For Union institutions, bodies, offices and agencies, non-compliance with the Article 5 prohibitions shall be subject to administrative fines of up to EUR 1 500 000",
+      "statement": "For Union institutions, bodies, offices and agencies, non-compliance with the Article 5 prohibitions is subject to administrative fines of up to EUR 1 500 000",
       "citations": [
-        {
-          "provision_id": "art_100.2",
-          "citation": "Article 100(2)",
-          "kind": "paragraph",
-          "version": "original",
-          "text": "2. Non-compliance with the prohibition of the AI practices referred to in Article 5 shall be subject to administrative fines of up to EUR 1 500 000.",
-          "changed": true,
-          "change_note": "The wording of Article 100(2) differs between the original and the consolidated text."
-        },
         {
           "provision_id": "art_100",
           "citation": "Article 100",
@@ -77,14 +59,14 @@
       ]
     },
     {
-      "statement": "The three-month period for objecting to a provisional measure taken by a market surveillance authority shall be reduced to 30 days in the event of non-compliance with the prohibition of the AI practices referred to in Article 5",
+      "statement": "In the market surveillance procedure, the three-month objection period for provisional measures is reduced to 30 days in the event of non-compliance with the prohibition of the AI practices referred to in Article 5",
       "citations": [
         {
-          "provision_id": "art_79.8",
-          "citation": "Article 79(8)",
-          "kind": "paragraph",
+          "provision_id": "art_79",
+          "citation": "Article 79",
+          "kind": "article",
           "version": "original",
-          "text": "8. Where, within three months of receipt of the notification referred to in paragraph 5 of this Article, no objection has been raised by either a market surveillance authority of a Member State or by the Commission in respect of a provisional measure taken by a market surveillance authority of another Member State, that measure shall be deemed justified. This shall be without prejudice to the procedural rights of the concerned operator in accordance with Article 18 of Regulation (EU) 2019/1020. The three-month period referred to in this paragraph shall be reduced to 30 days in the event of non-compliance with the prohibition of the AI practices referred to in Article 5 of this Regulation.",
+          "text": "Article 79 Procedure at national level for dealing with AI systems presenting a risk 1. AI systems presenting a risk shall be understood as a ‘product presenting a risk’ as defined in Article 3, point 19 of Regulation (EU) 2019/1020, in so far as they present risks to the health or safety, or to fundamental rights, of persons. 2. Where the market surveillance authority of a Member State has sufficient reason to consider an AI system to present a risk as referred to in paragraph 1 of this Article, it shall carry out an evaluation of the AI system concerned in respect of its compliance with all the requirements and obligations laid down in this Regulation. Particular attention shall be given to AI systems presenting a risk to vulnerable groups. Where risks to fundamental rights are identified, the market surveillance authority shall also inform and fully cooperate with the relevant national public authorities or bodies referred to in Article 77(1). The relevant operators shall cooperate as necessary with the market surveillance authority and with the other national public authorities or bodies referred to in Article 77(1). Where, in the course of that evaluation, the market surveillance authority or, where applicable the market surveillance authority in cooperation with the national public authority referred to in Article 77(1), finds that the AI system does not comply with the requirements and obligations laid down in this Regulation, it shall without undue delay require the relevant operator to take all appropriate corrective actions to bring the AI system into compliance, to withdraw the AI system from the market, or to recall it within a period the market surveillance authority may prescribe, and in any event within the shorter of 15 working days, or as provided for in the relevant Union harmonisation legislation. The market surveillance authority shall inform the relevant notified body accordingly. Article 18 of Regulation (EU) 2019/1020 shall apply to the measures referred to in the second subparagraph of this paragraph. 3. Where the market surveillance authority considers that the non-compliance is not restricted to its national territory, it shall inform the Commission and the other Member States without undue delay of the results of the evaluation and of the actions which it has required the operator to take. 4. The operator shall ensure that all appropriate corrective action is taken in respect of all the AI systems concerned that it has made available on the Union market. 5. Where the operator of an AI system does not take adequate corrective action within the period referred to in paragraph 2, the market surveillance authority shall take all appropriate provisional measures to prohibit or restrict the AI system’s being made available on its national market or put into service, to withdraw the product or the standalone AI system from that market or to recall it. That authority shall without undue delay notify the Commission and the other Member States of those measures. 6. The notification referred to in paragraph 5 shall include all available details, in particular the information necessary for the identification of the non-compliant AI system, the origin of the AI system and the supply chain, the nature of the non-compliance alleged and the risk involved, the nature and duration of the national measures taken and the arguments put forward by the relevant operator. In particular, the market surveillance authorities shall indicate whether the non-compliance is due to one or more of the following: (a) non-compliance with the prohibition of the AI practices referred to in Article 5; (b) a failure of a high-risk AI system to meet requirements set out in Chapter III, Section 2; (c) shortcomings in the harmonised standards or common specifications referred to in Articles 40 and 41 conferring a presumption of conformity; (d) non-compliance with Article 50. 7. The market surveillance authorities other than the market surveillance authority of the Member State initiating the procedure shall, without undue delay, inform the Commission and the other Member States of any measures adopted and of any additional information at their disposal relating to the non-compliance of the AI system concerned, and, in the event of disagreement with the notified national measure, of their objections. 8. Where, within three months of receipt of the notification referred to in paragraph 5 of this Article, no objection has been raised by either a market surveillance authority of a Member State or by the Commission in respect of a provisional measure taken by a market surveillance authority of another Member State, that measure shall be deemed justified. This shall be without prejudice to the procedural rights of the concerned operator in accordance with Article 18 of Regulation (EU) 2019/1020. The three-month period referred to in this paragraph shall be reduced to 30 days in the event of non-compliance with the prohibition of the AI practices referred to in Article 5 of this Regulation. 9. The market surveillance authorities shall ensure that appropriate restrictive measures are taken in respect of the product or the AI system concerned, such as withdrawal of the product or the AI system from their market, without undue delay.",
           "changed": false,
           "change_note": null
         }
@@ -180,11 +162,228 @@
       "anx_VIII",
       "art_10"
     ],
+    "edges": [
+      {
+        "source_id": "art_100.2",
+        "target_id": "art_100",
+        "hop": 0
+      },
+      {
+        "source_id": "art_111.2",
+        "target_id": "art_111",
+        "hop": 0
+      },
+      {
+        "source_id": "art_111.1",
+        "target_id": "art_111",
+        "hop": 0
+      },
+      {
+        "source_id": "art_101.3",
+        "target_id": "art_101",
+        "hop": 0
+      },
+      {
+        "source_id": "art_79.8",
+        "target_id": "art_79",
+        "hop": 0
+      },
+      {
+        "source_id": "art_99.3",
+        "target_id": "art_99",
+        "hop": 0
+      },
+      {
+        "source_id": "art_111.3",
+        "target_id": "art_111",
+        "hop": 0
+      },
+      {
+        "source_id": "art_5.8",
+        "target_id": "art_5",
+        "hop": 0
+      },
+      {
+        "source_id": "art_101.6",
+        "target_id": "art_101",
+        "hop": 0
+      },
+      {
+        "source_id": "art_111",
+        "target_id": "art_113",
+        "hop": 1
+      },
+      {
+        "source_id": "art_111",
+        "target_id": "anx_X",
+        "hop": 1
+      },
+      {
+        "source_id": "art_101",
+        "target_id": "art_91",
+        "hop": 1
+      },
+      {
+        "source_id": "art_101",
+        "target_id": "art_93",
+        "hop": 1
+      },
+      {
+        "source_id": "art_101",
+        "target_id": "art_92",
+        "hop": 1
+      },
+      {
+        "source_id": "art_101",
+        "target_id": "art_93.3",
+        "hop": 1
+      },
+      {
+        "source_id": "art_101",
+        "target_id": "art_56",
+        "hop": 1
+      },
+      {
+        "source_id": "art_101",
+        "target_id": "art_98.2",
+        "hop": 1
+      },
+      {
+        "source_id": "art_101",
+        "target_id": "art_98",
+        "hop": 1
+      },
+      {
+        "source_id": "art_79",
+        "target_id": "art_3",
+        "hop": 1
+      },
+      {
+        "source_id": "art_79",
+        "target_id": "art_77.1",
+        "hop": 1
+      },
+      {
+        "source_id": "art_79",
+        "target_id": "art_77",
+        "hop": 1
+      },
+      {
+        "source_id": "art_79",
+        "target_id": "art_40",
+        "hop": 1
+      },
+      {
+        "source_id": "art_79",
+        "target_id": "art_41",
+        "hop": 1
+      },
+      {
+        "source_id": "art_79",
+        "target_id": "art_50",
+        "hop": 1
+      },
+      {
+        "source_id": "art_99",
+        "target_id": "art_96",
+        "hop": 1
+      },
+      {
+        "source_id": "art_99",
+        "target_id": "art_16",
+        "hop": 1
+      },
+      {
+        "source_id": "art_99",
+        "target_id": "art_22",
+        "hop": 1
+      },
+      {
+        "source_id": "art_99",
+        "target_id": "art_23",
+        "hop": 1
+      },
+      {
+        "source_id": "art_99",
+        "target_id": "art_24",
+        "hop": 1
+      },
+      {
+        "source_id": "art_99",
+        "target_id": "art_26",
+        "hop": 1
+      },
+      {
+        "source_id": "art_99",
+        "target_id": "art_31",
+        "hop": 1
+      },
+      {
+        "source_id": "art_99",
+        "target_id": "art_33.1",
+        "hop": 1
+      },
+      {
+        "source_id": "art_99",
+        "target_id": "art_33",
+        "hop": 1
+      },
+      {
+        "source_id": "art_99",
+        "target_id": "art_34",
+        "hop": 1
+      },
+      {
+        "source_id": "art_5",
+        "target_id": "anx_II",
+        "hop": 1
+      },
+      {
+        "source_id": "art_5",
+        "target_id": "art_27",
+        "hop": 1
+      },
+      {
+        "source_id": "art_5",
+        "target_id": "art_49",
+        "hop": 1
+      },
+      {
+        "source_id": "art_77",
+        "target_id": "anx_III",
+        "hop": 2
+      },
+      {
+        "source_id": "art_40",
+        "target_id": "anx_I",
+        "hop": 2
+      },
+      {
+        "source_id": "art_96",
+        "target_id": "art_10",
+        "hop": 2
+      },
+      {
+        "source_id": "art_22",
+        "target_id": "anx_VIII",
+        "hop": 2
+      },
+      {
+        "source_id": "art_23",
+        "target_id": "anx_IV",
+        "hop": 2
+      },
+      {
+        "source_id": "art_49",
+        "target_id": "anx_IX",
+        "hop": 2
+      }
+    ],
     "traversal_enabled": true,
     "truncated": false,
     "prompt_tokens": 18072,
-    "completion_tokens": 1942,
-    "duration_ms": 19427,
+    "completion_tokens": 2164,
+    "duration_ms": 24530,
     "model": "annex-qwen3-27b"
   }
 }
