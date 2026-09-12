@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 
+import { TraversalGraph } from '@/components/traversal-graph'
 import type { Retrieval } from '@/components/versions'
 
 const SHOWN = 8
@@ -47,15 +48,18 @@ export function RetrievalTrace({ retrieval }: { retrieval: Retrieval }) {
         </button>
 
         {open && (
-          <dl className="mt-[11px] grid grid-cols-[96px_1fr] gap-x-4 gap-y-[7px] border-t border-rule-soft pt-[11px] text-[11px]">
-            <IdList label="searched" ids={retrieval.searched_ids} />
-            <IdList label="traversed" ids={retrieval.traversed_ids} />
-            <IdList
-              label="dropped"
-              ids={retrieval.dropped_ids}
-              note="Reached by traversal, cut by the prompt budget, never read."
-            />
-          </dl>
+          <div className="mt-[11px] border-t border-rule-soft pt-[11px]">
+            <TraversalGraph retrieval={retrieval} />
+            <dl className="grid grid-cols-[96px_1fr] gap-x-4 gap-y-[7px] text-[11px]">
+              <IdList label="searched" ids={retrieval.searched_ids} />
+              <IdList label="traversed" ids={retrieval.traversed_ids} />
+              <IdList
+                label="dropped"
+                ids={retrieval.dropped_ids}
+                note="Reached by traversal, cut by the prompt budget, never read."
+              />
+            </dl>
+          </div>
         )}
       </div>
     </footer>
