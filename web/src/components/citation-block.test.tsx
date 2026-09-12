@@ -31,4 +31,43 @@ describe('CitationBlock', () => {
 
     expect(onOpen).toHaveBeenCalledWith('art_6', 'consolidated')
   })
+
+  it('should link a paragraph citation to its parent article on EUR-Lex', () => {
+    render(
+      <CitationBlock
+        citation={{
+          ...CITATION,
+          citation: 'Article 6(2)',
+          provision_id: 'art_6.2',
+        }}
+      />,
+    )
+
+    const link = screen.getByRole('link', { name: /EUR-Lex/ })
+    expect(link).toHaveAttribute(
+      'href',
+      'https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:02024R1689-20260727#art_6',
+    )
+    expect(link).toHaveAttribute('target', '_blank')
+    expect(link).toHaveAttribute('rel', 'noopener noreferrer')
+  })
+
+  it('should link a non-article citation to the document root with no fragment', () => {
+    render(
+      <CitationBlock
+        citation={{
+          ...CITATION,
+          citation: 'Annex III(5)(b)',
+          provision_id: 'anx_III.5.b',
+          kind: 'annex',
+        }}
+      />,
+    )
+
+    const link = screen.getByRole('link', { name: /EUR-Lex/ })
+    expect(link).toHaveAttribute(
+      'href',
+      'https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:02024R1689-20260727',
+    )
+  })
 })
