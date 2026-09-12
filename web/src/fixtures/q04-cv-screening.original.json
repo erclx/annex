@@ -238,6 +238,11 @@
         "hop": 0
       },
       {
+        "source_id": "anx_III",
+        "target_id": "art_6.2",
+        "hop": 1
+      },
+      {
         "source_id": "rct_53",
         "target_id": "art_4",
         "hop": 1
@@ -245,11 +250,6 @@
       {
         "source_id": "rct_53",
         "target_id": "art_3",
-        "hop": 1
-      },
-      {
-        "source_id": "anx_III",
-        "target_id": "art_6.2",
         "hop": 1
       },
       {
@@ -437,7 +437,7 @@
     "truncated": false,
     "prompt_tokens": 15498,
     "completion_tokens": 3369,
-    "duration_ms": 35335,
+    "duration_ms": 33216,
     "model": "annex-qwen3-27b"
   }
 }

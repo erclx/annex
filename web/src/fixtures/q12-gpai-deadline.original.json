@@ -296,18 +296,8 @@
     ],
     "edges": [
       {
-        "source_id": "art_54.6",
-        "target_id": "art_54",
-        "hop": 0
-      },
-      {
-        "source_id": "art_53.1",
+        "source_id": "art_53.2",
         "target_id": "art_53",
-        "hop": 0
-      },
-      {
-        "source_id": "art_55.1",
-        "target_id": "art_55",
         "hop": 0
       },
       {
@@ -316,7 +306,17 @@
         "hop": 0
       },
       {
-        "source_id": "art_54",
+        "source_id": "art_54.6",
+        "target_id": "art_54",
+        "hop": 0
+      },
+      {
+        "source_id": "art_55.1",
+        "target_id": "art_55",
+        "hop": 0
+      },
+      {
+        "source_id": "art_53",
         "target_id": "anx_XI",
         "hop": 1
       },
@@ -490,7 +490,7 @@
     "truncated": false,
     "prompt_tokens": 17751,
     "completion_tokens": 3306,
-    "duration_ms": 33022,
+    "duration_ms": 33604,
     "model": "annex-qwen3-27b"
   }
 }

@@ -158,12 +158,17 @@
     ],
     "edges": [
       {
+        "source_id": "art_111.2",
+        "target_id": "art_111",
+        "hop": 0
+      },
+      {
         "source_id": "art_25.1",
         "target_id": "art_25",
         "hop": 0
       },
       {
-        "source_id": "art_80.2",
+        "source_id": "art_80.4",
         "target_id": "art_80",
         "hop": 0
       },
@@ -175,11 +180,6 @@
       {
         "source_id": "art_6.4",
         "target_id": "art_6",
-        "hop": 0
-      },
-      {
-        "source_id": "art_111.2",
-        "target_id": "art_111",
         "hop": 0
       },
       {
@@ -225,6 +225,31 @@
       {
         "source_id": "art_16",
         "target_id": "art_20",
+        "hop": 1
+      },
+      {
+        "source_id": "art_111",
+        "target_id": "art_5",
+        "hop": 1
+      },
+      {
+        "source_id": "art_111",
+        "target_id": "art_113",
+        "hop": 1
+      },
+      {
+        "source_id": "art_111",
+        "target_id": "anx_X",
+        "hop": 1
+      },
+      {
+        "source_id": "art_111",
+        "target_id": "art_50.2",
+        "hop": 1
+      },
+      {
+        "source_id": "art_111",
+        "target_id": "art_50",
         "hop": 1
       },
       {
@@ -283,11 +308,6 @@
         "hop": 1
       },
       {
-        "source_id": "art_26",
-        "target_id": "art_50",
-        "hop": 1
-      },
-      {
         "source_id": "art_6",
         "target_id": "art_49.2",
         "hop": 1
@@ -310,26 +330,6 @@
       {
         "source_id": "art_6",
         "target_id": "art_7",
-        "hop": 1
-      },
-      {
-        "source_id": "art_111",
-        "target_id": "art_5",
-        "hop": 1
-      },
-      {
-        "source_id": "art_111",
-        "target_id": "art_113",
-        "hop": 1
-      },
-      {
-        "source_id": "art_111",
-        "target_id": "anx_X",
-        "hop": 1
-      },
-      {
-        "source_id": "art_111",
-        "target_id": "art_50.2",
         "hop": 1
       },
       {
@@ -362,7 +362,7 @@
     "truncated": false,
     "prompt_tokens": 16601,
     "completion_tokens": 2748,
-    "duration_ms": 28398,
+    "duration_ms": 28591,
     "model": "annex-qwen3-27b"
   }
 }

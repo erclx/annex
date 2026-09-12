@@ -13,13 +13,15 @@ produced, on a project whose whole argument is that a citation can be checked.
 Regenerating them from real output is what retired that.
 
 The cut-short state is the one exception, and it is a fixture plus a harness
-override rather than a fixture alone. No captured answer truncates on every
-run, since whether the model runs out of room depends on how long that run's
-own generation went, so `e2e/capture-states.ts` takes a real answered fixture
-and sets `retrieval.truncated` before handing it to the stub. Every claim,
-citation and quoted provision in it is still text the pipeline produced. Only
-the one flag that decides whether the banner renders is set by the harness
-rather than read off the recording.
+override rather than a fixture alone. Generation is deterministic here,
+`temperature` fixed at `0.0`, so which question truncates is not chance: it
+follows the ranked synthesis budget, and that budget has moved between
+recordings. No question in the fixtures committed at this capture happens to
+truncate under the current budget, so `e2e/capture-states.ts` takes a real
+answered fixture and sets `retrieval.truncated` before handing it to the stub.
+Every claim, citation and quoted provision in it is still text the pipeline
+produced. Only the one flag that decides whether the banner renders is set by
+the harness rather than read off the recording.
 
 Both themes, symmetrically, because both ship and neither is a variant of the
 other. The dark theme re-values every role rather than inverting the light one,

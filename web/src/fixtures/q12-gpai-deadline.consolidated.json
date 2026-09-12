@@ -139,23 +139,13 @@
     ],
     "edges": [
       {
-        "source_id": "art_54.6",
-        "target_id": "art_54",
-        "hop": 0
-      },
-      {
-        "source_id": "art_53.1",
+        "source_id": "art_53.2",
         "target_id": "art_53",
         "hop": 0
       },
       {
-        "source_id": "art_52.1",
-        "target_id": "art_52",
-        "hop": 0
-      },
-      {
-        "source_id": "art_55.1",
-        "target_id": "art_55",
+        "source_id": "art_54.6",
+        "target_id": "art_54",
         "hop": 0
       },
       {
@@ -164,7 +154,17 @@
         "hop": 0
       },
       {
-        "source_id": "art_54",
+        "source_id": "art_55.1",
+        "target_id": "art_55",
+        "hop": 0
+      },
+      {
+        "source_id": "art_52.1",
+        "target_id": "art_52",
+        "hop": 0
+      },
+      {
+        "source_id": "art_53",
         "target_id": "anx_XI",
         "hop": 1
       },
@@ -186,31 +186,6 @@
       {
         "source_id": "art_53",
         "target_id": "art_78",
-        "hop": 1
-      },
-      {
-        "source_id": "art_52",
-        "target_id": "art_51.1",
-        "hop": 1
-      },
-      {
-        "source_id": "art_52",
-        "target_id": "art_51",
-        "hop": 1
-      },
-      {
-        "source_id": "art_52",
-        "target_id": "art_90.1",
-        "hop": 1
-      },
-      {
-        "source_id": "art_52",
-        "target_id": "art_90",
-        "hop": 1
-      },
-      {
-        "source_id": "art_52",
-        "target_id": "anx_XIII",
         "hop": 1
       },
       {
@@ -236,6 +211,31 @@
       {
         "source_id": "art_111",
         "target_id": "art_50",
+        "hop": 1
+      },
+      {
+        "source_id": "art_52",
+        "target_id": "art_51.1",
+        "hop": 1
+      },
+      {
+        "source_id": "art_52",
+        "target_id": "art_51",
+        "hop": 1
+      },
+      {
+        "source_id": "art_52",
+        "target_id": "art_90.1",
+        "hop": 1
+      },
+      {
+        "source_id": "art_52",
+        "target_id": "art_90",
+        "hop": 1
+      },
+      {
+        "source_id": "art_52",
+        "target_id": "anx_XIII",
         "hop": 1
       },
       {
@@ -343,7 +343,7 @@
     "truncated": false,
     "prompt_tokens": 17095,
     "completion_tokens": 2561,
-    "duration_ms": 26948,
+    "duration_ms": 29949,
     "model": "annex-qwen3-27b"
   }
 }

@@ -123,4 +123,31 @@ describe('TraversalGraph', () => {
     expect(getByText('hop 1')).toBeInTheDocument()
     expect(getByText('hop 2')).toBeInTheDocument()
   })
+
+  it('should place a provision near the row its own parent landed on, not in alphabetical order', () => {
+    const { container } = render(
+      <TraversalGraph
+        retrieval={makeRetrieval({
+          searched_ids: ['s_bottom', 's_top'],
+          traversed_ids: ['a_child', 'z_child'],
+          edges: [
+            { source_id: 's_top', target_id: 'a_child', hop: 1 },
+            { source_id: 's_bottom', target_id: 'z_child', hop: 1 },
+          ],
+        })}
+      />,
+    )
+
+    const yOf = (id: string) => {
+      const label = [...container.querySelectorAll('text')].find(
+        (node) => node.textContent === id,
+      )
+      const transform = label?.closest('g')?.getAttribute('transform')
+      return Number(transform?.match(/,([\d.-]+)\)/)?.[1])
+    }
+
+    // s_bottom sits above s_top (given order, unsorted), so z_child, reached
+    // from s_bottom, has to land above a_child even though "a" sorts first.
+    expect(yOf('z_child')).toBeLessThan(yOf('a_child'))
+  })
 })

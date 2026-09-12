@@ -32,6 +32,9 @@ export function TraversalGraph({ retrieval }: { retrieval: Retrieval }) {
   const hopOf = new Map(
     retrieval.edges.map((edge) => [edge.target_id, edge.hop]),
   )
+  const sourceOf = new Map(
+    retrieval.edges.map((edge) => [edge.target_id, edge.source_id]),
+  )
   const dropped = new Set(retrieval.dropped_ids)
   // No floor value needed: the early return above guarantees at least one
   // edge, so hopOf is never empty here.
@@ -47,20 +50,51 @@ export function TraversalGraph({ retrieval }: { retrieval: Retrieval }) {
     }
   }
 
+  // Every column spans the same vertical range, the tallest column's own
+  // height, rather than each starting at the top and running only as far as
+  // its own row count reaches. A short column left at its own height crushes
+  // its few nodes into a narrow band, so every edge leaving it fans out at a
+  // steep angle across the full height of whatever it connects to. Spreading
+  // a short column across the same span as the tallest is what keeps a curve
+  // between two columns close to horizontal instead.
+  const maxRows = Math.max(...columns.map((column) => column.ids.length))
+  const span = (maxRows - 1) * ROW_HEIGHT
+
   const positions = new Map<string, { x: number; y: number }>()
-  columns.forEach((column, columnIndex) => {
-    column.ids.forEach((id, rowIndex) => {
-      positions.set(id, {
-        x: columnIndex * COLUMN_WIDTH,
-        y: TOP_PADDING + rowIndex * ROW_HEIGHT,
-      })
+
+  function place(ids: readonly string[], columnIndex: number) {
+    const rows = ids.length
+    const step = rows > 1 ? span / (rows - 1) : 0
+    ids.forEach((id, rowIndex) => {
+      const y = rows > 1 ? rowIndex * step : span / 2
+      positions.set(id, { x: columnIndex * COLUMN_WIDTH, y: TOP_PADDING + y })
     })
+  }
+
+  // The searched column keeps search's own order, nearest first. Every later
+  // column is re-sorted by the row its own reaching edge's source already
+  // landed on, so a provision sits near its parent rather than wherever
+  // alphabetical order happened to put it. Each target has exactly one
+  // source, so this is a straight sort rather than a barycenter average:
+  // children of one parent land together and next to that parent's row,
+  // which is what turns a scattered crossing into a short, near-horizontal
+  // edge. Ties, two children of the same parent, keep id order so the result
+  // is deterministic.
+  columns.forEach((column, columnIndex) => {
+    const ids =
+      columnIndex === 0
+        ? column.ids
+        : [...column.ids].sort((a, b) => {
+            const parentA = positions.get(sourceOf.get(a) ?? '')?.y ?? Infinity
+            const parentB = positions.get(sourceOf.get(b) ?? '')?.y ?? Infinity
+            return parentA !== parentB ? parentA - parentB : a.localeCompare(b)
+          })
+    columns[columnIndex] = { ...column, ids }
+    place(ids, columnIndex)
   })
 
   const width = (columns.length - 1) * COLUMN_WIDTH + 150
-  const height =
-    TOP_PADDING +
-    Math.max(...columns.map((column) => column.ids.length)) * ROW_HEIGHT
+  const height = TOP_PADDING + span + ROW_HEIGHT / 2
 
   return (
     <svg
@@ -74,7 +108,7 @@ export function TraversalGraph({ retrieval }: { retrieval: Retrieval }) {
           x={-6}
           y={2}
           width={COLUMN_WIDTH - 30}
-          height={TOP_PADDING + retrieval.searched_ids.length * ROW_HEIGHT - 6}
+          height={height - 4}
           fill="var(--color-accent-soft)"
         />
       )}

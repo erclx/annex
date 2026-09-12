@@ -211,6 +211,29 @@ class TestParagraphSeeds:
 
         assert len(lifts) == 1
 
+    def test_the_surviving_lift_source_is_the_highest_ranked_seed(
+        self, original: Corpus
+    ) -> None:
+        """Pins the source rather than only the count.
+
+        `seeds` is a set, and Python randomizes string hashing per process, so
+        reading the source straight off that set picks a different paragraph
+        on every run. Search hands `traverse` an order, nearest first, and the
+        surviving edge has to come from that order rather than from set
+        iteration for a re-capture to be reproducible.
+        """
+        expansion = traverse(
+            (make_hit('art_6.2'), make_hit('art_6.1'), make_hit('art_6.3')),
+            build(original),
+            depth=1,
+            cap=200,
+        )
+
+        lifts = [edge for edge in expansion.edges if edge.target_id == 'art_6']
+
+        assert len(lifts) == 1
+        assert lifts[0].source_id == 'art_6.2'
+
 
 class TestEdges:
     def test_every_traversed_provision_reports_the_edge_that_reached_it(

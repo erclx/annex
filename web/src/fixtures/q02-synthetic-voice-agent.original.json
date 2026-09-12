@@ -102,7 +102,7 @@
     "dropped_ids": ["rct_133", "rct_137", "rct_29", "rct_72", "rct_120"],
     "edges": [
       {
-        "source_id": "art_50.1",
+        "source_id": "art_50.2",
         "target_id": "art_50",
         "hop": 0
       },
@@ -216,7 +216,7 @@
     "truncated": false,
     "prompt_tokens": 14336,
     "completion_tokens": 4830,
-    "duration_ms": 47018,
+    "duration_ms": 45670,
     "model": "annex-qwen3-27b"
   }
 }

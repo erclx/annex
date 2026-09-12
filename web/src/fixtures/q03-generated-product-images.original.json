@@ -137,7 +137,7 @@
     ],
     "edges": [
       {
-        "source_id": "art_50.1",
+        "source_id": "art_50.2",
         "target_id": "art_50",
         "hop": 0
       },
@@ -301,7 +301,7 @@
     "truncated": false,
     "prompt_tokens": 14746,
     "completion_tokens": 3867,
-    "duration_ms": 40818,
+    "duration_ms": 39844,
     "model": "annex-qwen3-27b"
   }
 }

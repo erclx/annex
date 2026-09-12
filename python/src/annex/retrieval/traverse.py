@@ -80,7 +80,7 @@ class Expansion:
 
 
 def _holding_articles(
-    graph: ReferenceGraph, seeds: set[str]
+    graph: ReferenceGraph, seeds: set[str], ordered_seeds: tuple[str, ...]
 ) -> tuple[dict[str, int], tuple[TraversalEdge, ...]]:
     """The articles holding any paragraph among the seeds, at distance zero.
 
@@ -92,10 +92,17 @@ def _holding_articles(
     Without the `parent_id not in lifted` guard, `art_50.1` and `art_50.2`
     both seed would each emit their own edge to `art_50`, which breaks the
     one-edge-per-provision invariant the rest of the walk holds.
+
+    Iterating `ordered_seeds` rather than the `seeds` set is what makes the
+    surviving edge's source reproducible. A `set` of strings iterates in an
+    order Python randomizes per process, so reading straight off `seeds`
+    picked a different paragraph as the recorded source on every run. Search
+    already ranks `ordered_seeds` nearest first, so the source this now keeps
+    is the highest-ranked seed paragraph rather than an arbitrary one.
     """
     lifted: dict[str, int] = {}
     edges: list[TraversalEdge] = []
-    for seed in seeds:
+    for seed in ordered_seeds:
         provision = graph.nodes.get(seed)
         parent_id = provision.parent_id if provision else None
         if (
@@ -167,7 +174,7 @@ def traverse(
         )
 
     seeds = set(searched)
-    lifted, lift_edges = _holding_articles(graph, seeds)
+    lifted, lift_edges = _holding_articles(graph, seeds, searched)
     edges: list[TraversalEdge] = list(lift_edges)
     reached = _distances(graph, seeds, lifted, depth, edges)
     ranked = sorted(reached.items(), key=lambda item: (item[1], item[0]))

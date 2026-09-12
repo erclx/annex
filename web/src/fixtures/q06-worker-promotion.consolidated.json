@@ -192,12 +192,17 @@
     ],
     "edges": [
       {
-        "source_id": "art_26.11",
-        "target_id": "art_26",
+        "source_id": "art_6.3",
+        "target_id": "art_6",
         "hop": 0
       },
       {
-        "source_id": "art_14.1",
+        "source_id": "art_5.1",
+        "target_id": "art_5",
+        "hop": 0
+      },
+      {
+        "source_id": "art_14.4",
         "target_id": "art_14",
         "hop": 0
       },
@@ -207,24 +212,14 @@
         "hop": 0
       },
       {
-        "source_id": "art_5.1",
-        "target_id": "art_5",
-        "hop": 0
-      },
-      {
-        "source_id": "art_6.3",
-        "target_id": "art_6",
-        "hop": 0
-      },
-      {
         "source_id": "art_7.2",
         "target_id": "art_7",
         "hop": 0
       },
       {
-        "source_id": "anx_III",
-        "target_id": "art_6.2",
-        "hop": 1
+        "source_id": "art_26.7",
+        "target_id": "art_26",
+        "hop": 0
       },
       {
         "source_id": "art_3",
@@ -244,6 +239,61 @@
       {
         "source_id": "art_3",
         "target_id": "art_57",
+        "hop": 1
+      },
+      {
+        "source_id": "anx_III",
+        "target_id": "art_6.2",
+        "hop": 1
+      },
+      {
+        "source_id": "art_6",
+        "target_id": "anx_I",
+        "hop": 1
+      },
+      {
+        "source_id": "art_6",
+        "target_id": "art_49.2",
+        "hop": 1
+      },
+      {
+        "source_id": "art_6",
+        "target_id": "art_49",
+        "hop": 1
+      },
+      {
+        "source_id": "art_6",
+        "target_id": "art_96",
+        "hop": 1
+      },
+      {
+        "source_id": "art_6",
+        "target_id": "art_97",
+        "hop": 1
+      },
+      {
+        "source_id": "art_6",
+        "target_id": "art_7.1",
+        "hop": 1
+      },
+      {
+        "source_id": "art_5",
+        "target_id": "anx_II",
+        "hop": 1
+      },
+      {
+        "source_id": "art_27",
+        "target_id": "art_13",
+        "hop": 1
+      },
+      {
+        "source_id": "art_27",
+        "target_id": "art_46.1",
+        "hop": 1
+      },
+      {
+        "source_id": "art_27",
+        "target_id": "art_46",
         "hop": 1
       },
       {
@@ -268,62 +318,12 @@
       },
       {
         "source_id": "art_26",
-        "target_id": "art_49",
-        "hop": 1
-      },
-      {
-        "source_id": "art_26",
         "target_id": "art_71",
         "hop": 1
       },
       {
         "source_id": "art_26",
-        "target_id": "art_13",
-        "hop": 1
-      },
-      {
-        "source_id": "art_26",
         "target_id": "art_50",
-        "hop": 1
-      },
-      {
-        "source_id": "art_27",
-        "target_id": "art_46.1",
-        "hop": 1
-      },
-      {
-        "source_id": "art_27",
-        "target_id": "art_46",
-        "hop": 1
-      },
-      {
-        "source_id": "art_5",
-        "target_id": "anx_II",
-        "hop": 1
-      },
-      {
-        "source_id": "art_6",
-        "target_id": "anx_I",
-        "hop": 1
-      },
-      {
-        "source_id": "art_6",
-        "target_id": "art_49.2",
-        "hop": 1
-      },
-      {
-        "source_id": "art_6",
-        "target_id": "art_96",
-        "hop": 1
-      },
-      {
-        "source_id": "art_6",
-        "target_id": "art_97",
-        "hop": 1
-      },
-      {
-        "source_id": "art_6",
-        "target_id": "art_7.1",
         "hop": 1
       },
       {
@@ -377,11 +377,6 @@
         "hop": 2
       },
       {
-        "source_id": "art_72",
-        "target_id": "anx_IV",
-        "hop": 2
-      },
-      {
         "source_id": "art_49",
         "target_id": "anx_VIII",
         "hop": 2
@@ -390,13 +385,18 @@
         "source_id": "art_49",
         "target_id": "anx_IX",
         "hop": 2
+      },
+      {
+        "source_id": "art_72",
+        "target_id": "anx_IV",
+        "hop": 2
       }
     ],
     "traversal_enabled": true,
     "truncated": false,
     "prompt_tokens": 14516,
     "completion_tokens": 3288,
-    "duration_ms": 31974,
+    "duration_ms": 34086,
     "model": "annex-qwen3-27b"
   }
 }
