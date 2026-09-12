@@ -1,4 +1,5 @@
 import { CitationBlock } from '@/components/citation-block'
+import type { CorpusVersion } from '@/components/versions'
 import type { Answer } from '@/lib/answer'
 
 /**
@@ -13,7 +14,13 @@ import type { Answer } from '@/lib/answer'
  * claim already marks where the evidence starts, and a second horizontal line
  * competes with it.
  */
-export function AnswerView({ answer }: { answer: Answer }) {
+export function AnswerView({
+  answer,
+  onOpenProvision,
+}: {
+  answer: Answer
+  onOpenProvision?: (provisionId: string, version: CorpusVersion) => void
+}) {
   return (
     <div className="py-6">
       {answer.claims.map((claim, index) => (
@@ -22,7 +29,11 @@ export function AnswerView({ answer }: { answer: Answer }) {
             {claim.statement}
           </p>
           {claim.citations.map((citation) => (
-            <CitationBlock key={citation.provision_id} citation={citation} />
+            <CitationBlock
+              key={citation.provision_id}
+              citation={citation}
+              onOpen={onOpenProvision}
+            />
           ))}
         </section>
       ))}

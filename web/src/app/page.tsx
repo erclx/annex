@@ -2,6 +2,7 @@
 
 import { useCallback, useRef, useState } from 'react'
 
+import { ActReader } from '@/components/act-reader'
 import { AnswerView } from '@/components/answer-view'
 import { DescribedSystem } from '@/components/described-system'
 import { DescriptionForm } from '@/components/description-form'
@@ -35,6 +36,11 @@ export default function Home() {
   const [touched, setTouched] = useState(false)
   const [version, setVersion] = useState<CorpusVersion>('consolidated')
   const [traversal, setTraversal] = useState(true)
+  const [readerVersion, setReaderVersion] =
+    useState<CorpusVersion>('consolidated')
+  const [readerProvisionId, setReaderProvisionId] = useState<string | null>(
+    null,
+  )
 
   /**
    * The in-flight ask, so a re-ask replaces its answer rather than racing it.
@@ -117,6 +123,14 @@ export default function Home() {
     [run, traversal, version],
   )
 
+  const openProvision = useCallback(
+    (provisionId: string, provisionVersion: CorpusVersion) => {
+      setReaderVersion(provisionVersion)
+      setReaderProvisionId(provisionId)
+    },
+    [],
+  )
+
   return (
     <div className="flex min-h-full flex-col bg-paper">
       <TopBar
@@ -157,10 +171,16 @@ export default function Home() {
           <main className="mx-auto w-full max-w-4xl flex-1 px-6">
             {pending && <LoadingAnswer version={version} />}
             {result?.state === 'answered' && (
-              <AnswerView answer={result.answer} />
+              <AnswerView
+                answer={result.answer}
+                onOpenProvision={openProvision}
+              />
             )}
             {result?.state === 'refused' && result.answer.refusal && (
-              <RefusalView refusal={result.answer.refusal} />
+              <RefusalView
+                refusal={result.answer.refusal}
+                onOpenProvision={openProvision}
+              />
             )}
             {(result?.state === 'unavailable' ||
               result?.state === 'timeout' ||
@@ -180,6 +200,15 @@ export default function Home() {
           {answer && <RetrievalTrace retrieval={answer.retrieval} />}
         </>
       )}
+
+      <ActReader
+        version={readerVersion}
+        openId={readerProvisionId}
+        onClose={() => {
+          setReaderProvisionId(null)
+        }}
+        onVersionChange={setReaderVersion}
+      />
     </div>
   )
 }
