@@ -57,12 +57,22 @@ toolkit does not carry.
   the wave has merged to `main`. Name that session on the task rather than
   leaving the opener unnamed, since an unnamed obligation is the defect this
   section exists to close.
-- Run the refresh itself as a small follow-up against a clean `main`
-  checkout, never against a branch's own tree, shaped like
-  `canon:git-followup`: capture, commit, push.
+- Run the refresh itself as its own branch and pull request off a clean
+  `main`, never as a commit landed straight on `main` and never against a
+  branch still building the wave: capture, commit, push, open the pull
+  request, merge through review like any other change. This repository
+  merges only through a pull request and takes a squash commit there, so a
+  refresh that skipped one would put a commit on the trunk with no review
+  behind it, the exact defect this project has already recorded once.
 - Keep refreshing in the same change, per the bullet above, when building
   alone with no other surface branch in flight. The wave exception applies
   only while a sibling surface branch is open.
+- Close the wave, rather than leaving the refresh task open indefinitely,
+  when a branch in it is abandoned or merges with no rendered change. The
+  controlling session that opened the task drops the stalled branch from the
+  wave it is waiting on and opens the refresh against whichever
+  surface-touching branches did merge, so an abandoned sibling never holds
+  every other branch's deferred capture hostage.
 
 ## What a capture is not
 
