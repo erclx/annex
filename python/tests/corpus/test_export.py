@@ -42,6 +42,18 @@ class TestExport:
         assert manifest.commit
         assert manifest.exported_at
 
+    def test_carries_the_reader_facing_citation_label(
+        self, original: Corpus, tmp_path: Path
+    ) -> None:
+        export({CorpusVersion.ORIGINAL: original}, out=tmp_path)
+
+        data = json.loads(
+            (tmp_path / fixture_filename(CorpusVersion.ORIGINAL)).read_text()
+        )
+        entry = next(item for item in data if item['id'] == 'art_6')
+
+        assert entry['citation'] == 'Article 6'
+
     def test_every_node_the_graph_knows_resolves_in_the_export(
         self, original: Corpus, tmp_path: Path
     ) -> None:

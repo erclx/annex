@@ -21,6 +21,10 @@ describe('findProvision', () => {
     expect(provision?.number).toBe('6')
   })
 
+  it('should carry the reader-facing citation label the export writes', () => {
+    expect(findProvision('original', 'art_6')?.citation).toBe('Article 6')
+  })
+
   it('should find article 6 by id in the amended text', () => {
     const provision = findProvision('consolidated', 'art_6')
 

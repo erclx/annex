@@ -18,6 +18,7 @@ export interface Provision {
   version: CorpusVersion
   parent_id: string | null
   amended: boolean
+  citation: string
 }
 
 const PROVISIONS: Record<CorpusVersion, Provision[]> = {

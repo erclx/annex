@@ -3,7 +3,6 @@
 import { useEffect, useRef } from 'react'
 
 import type { CorpusVersion } from '@/components/versions'
-import { citationLabel } from '@/lib/citation'
 import { findProvision, type Provision, provisionsFor } from '@/lib/corpus'
 
 interface Section {
@@ -99,7 +98,7 @@ export function ActReader({
     <div
       role="dialog"
       aria-modal="true"
-      aria-label={target ? citationLabel(target.id) : 'The Act'}
+      aria-label={target ? target.citation : 'The Act'}
       className="fixed inset-0 z-10 flex justify-end bg-ink/40"
     >
       <button
@@ -154,7 +153,7 @@ export function ActReader({
               }`}
             >
               <h2 className="mb-1 text-[14px] font-semibold text-ink">
-                {citationLabel(section.heading.id)}
+                {section.heading.citation}
                 {section.heading.title && (
                   <span className="ml-2 font-normal text-muted">
                     {section.heading.title}
