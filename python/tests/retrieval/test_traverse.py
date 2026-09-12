@@ -186,3 +186,56 @@ class TestParagraphSeeds:
         )
 
         assert 'art_6' not in expansion.traversed_ids
+
+    def test_a_paragraph_seed_reports_the_lift_edge_to_its_article(
+        self, original: Corpus
+    ) -> None:
+        expansion = traverse((make_hit('art_6.1'),), build(original), depth=1, cap=200)
+
+        assert any(
+            edge.source_id == 'art_6.1' and edge.target_id == 'art_6' and edge.hop == 0
+            for edge in expansion.edges
+        )
+
+
+class TestEdges:
+    def test_every_traversed_provision_reports_the_edge_that_reached_it(
+        self, original: Corpus
+    ) -> None:
+        expansion = traverse((make_hit('art_6'),), build(original), depth=2, cap=200)
+
+        edge_targets = {edge.target_id for edge in expansion.edges}
+
+        assert edge_targets == set(expansion.traversed_ids)
+
+    def test_an_edge_carries_the_hop_of_the_provision_it_reached(
+        self, original: Corpus
+    ) -> None:
+        expansion = traverse((make_hit('art_6'),), build(original), depth=2, cap=200)
+
+        by_target = {edge.target_id: edge.hop for edge in expansion.edges}
+
+        for obligation in OBLIGATIONS:
+            assert by_target[obligation] in (1, 2)
+
+    def test_a_dropped_provision_still_carries_its_edge(self, original: Corpus) -> None:
+        expansion = traverse((make_hit('art_6'),), build(original), depth=2, cap=8)
+
+        edge_targets = {edge.target_id for edge in expansion.edges}
+
+        assert edge_targets == set(expansion.traversed_ids)
+        assert len(expansion.edges) == 8
+
+    def test_a_traversed_provision_carries_exactly_one_edge(
+        self, original: Corpus
+    ) -> None:
+        expansion = traverse((make_hit('art_6'),), build(original), depth=2, cap=200)
+
+        targets = [edge.target_id for edge in expansion.edges]
+
+        assert len(targets) == len(set(targets))
+
+    def test_switched_off_reports_no_edges(self, original: Corpus) -> None:
+        expansion = traverse((make_hit('art_6'),), build(original), enabled=False)
+
+        assert expansion.edges == ()

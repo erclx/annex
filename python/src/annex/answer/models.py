@@ -79,6 +79,23 @@ class Refusal(BaseModel):
     consulted: tuple[Citation, ...] = ()
 
 
+class TraversalEdge(BaseModel):
+    """One edge the walk took, from the provision it came from to the one it reached.
+
+    `hop` is the target's distance from a seed. Every edge here is the one the
+    walk actually took to first reach `target_id`, not every reference between
+    the two provisions, which is what lets a drawing lay a traversed provision
+    out at exactly one point without choosing among the citations that reach
+    it.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    source_id: str
+    target_id: str
+    hop: int
+
+
 class RetrievalTrace(BaseModel):
     """What the pipeline did to produce an answer, and what it cost.
 
@@ -97,6 +114,13 @@ class RetrievalTrace(BaseModel):
     `truncated` says the model stopped for want of room rather than because it
     had finished. A cut answer reads as a complete one, so a caller that does
     not check this field cannot tell them apart.
+
+    `edges` is what a drawing needs and the three id tuples above do not
+    carry: which provision each traversed provision was reached from. It is
+    empty on every fixture recorded before this field existed, and on any run
+    with traversal switched off, so an empty tuple does not by itself mean
+    nothing was traversed. Read it alongside `traversal_enabled` and
+    `traversed_ids` rather than on its own.
     """
 
     model_config = ConfigDict(frozen=True)
@@ -104,6 +128,7 @@ class RetrievalTrace(BaseModel):
     searched_ids: tuple[str, ...] = ()
     traversed_ids: tuple[str, ...] = ()
     dropped_ids: tuple[str, ...] = ()
+    edges: tuple[TraversalEdge, ...] = ()
     traversal_enabled: bool = False
     truncated: bool = False
     prompt_tokens: int = 0

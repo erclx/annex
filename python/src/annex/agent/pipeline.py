@@ -33,11 +33,19 @@ from langgraph.graph.state import CompiledStateGraph
 
 from annex.agent import prompts
 from annex.agent.verify import verify
-from annex.answer import Answer, Citation, Claim, Refusal, RetrievalTrace
+from annex.answer import (
+    Answer,
+    Citation,
+    Claim,
+    Refusal,
+    RetrievalTrace,
+    TraversalEdge,
+)
 from annex.corpus import Corpus, CorpusVersion, Provision, ProvisionKind, build, load
 from annex.corpus.graph import ReferenceGraph
 from annex.llm import OllamaClient
 from annex.retrieval import INDEX_PATH, Hit, search, traverse
+from annex.retrieval import TraversalEdge as WalkedEdge
 from annex.settings import Settings, tracing_environment
 
 logger = logging.getLogger('annex.agent.pipeline')
@@ -76,6 +84,7 @@ class State(TypedDict, total=False):
     provision_ids: tuple[str, ...]
     searched_ids: tuple[str, ...]
     traversed_ids: tuple[str, ...]
+    edges: tuple[WalkedEdge, ...]
     traversal_enabled: bool
     prompt_tokens: int
     completion_tokens: int
@@ -185,6 +194,7 @@ class Pipeline:
             'provision_ids': expansion.provision_ids,
             'searched_ids': expansion.searched_ids,
             'traversed_ids': expansion.traversed_ids,
+            'edges': expansion.edges,
         }
 
     def _prompt_budget(self) -> int:
@@ -265,6 +275,12 @@ class Pipeline:
             searched_ids=state.get('searched_ids', ()),
             traversed_ids=state.get('traversed_ids', ()),
             dropped_ids=dropped_ids,
+            edges=tuple(
+                TraversalEdge(
+                    source_id=edge.source_id, target_id=edge.target_id, hop=edge.hop
+                )
+                for edge in state.get('edges', ())
+            ),
             traversal_enabled=state.get('traversal_enabled', True),
             truncated=completion.is_truncated,
             prompt_tokens=state.get('prompt_tokens', 0) + completion.prompt_tokens,

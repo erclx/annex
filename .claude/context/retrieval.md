@@ -357,6 +357,37 @@ enters it at distance zero, so the cap keeps it ahead of anything a hop away.
 The lift lives there rather than in `annex.corpus`, which this side reads
 rather than reshapes.
 
+## The walk now reports the edge it took to each provision
+
+`Expansion` carried two flat id tuples and nothing about how they connect, so
+a drawing had no edges to draw. `_distances` already knew the provision it
+walked from at the moment it enqueued a target and discarded it, and it now
+keeps that pair instead. A provision is marked `seen` the moment it is first
+discovered, so it is reported through exactly one edge regardless of how many
+other provisions cite it, and a dropped provision still carries its edge since
+the budget marks it rather than removing it from the trace.
+
+The paragraph-to-article lift above is also an edge, from the seed to the
+article it sits in, carried at hop 0. It is the one edge in the drawing that
+is not a citation, since nothing in the text points from a paragraph to its
+own article.
+
+Measured at `2d2abc6` on 2026-09-08 by rebuilding both reference graphs from
+the committed corpus HTML and reading the twenty-four committed fixtures
+against them, before this field existed on the trace:
+
+| Quantity                                       | Original | Consolidated |
+| ---------------------------------------------- | -------- | ------------ |
+| Provisions an answer carries, median           | 52       | 52           |
+| Reference edges among those provisions, median | 87       | 99           |
+| Edges the walk itself took, at the cap         | 40       | 40           |
+
+Drawing every reference edge among the 52 provisions a median answer carries
+gives 93 edges at the median, a hairball rather than a walk. Drawing only the
+edge the walk took to reach each provision gives exactly one edge a traversed
+provision, so 40 at the cap, which is what `RetrievalTrace.edges` now carries
+and what `web/src/components/traversal-graph.tsx` draws.
+
 ## The synthesis prompt is bounded against the window
 
 The prompt grows with `search_k` and `traversal_cap`. The window does not, so

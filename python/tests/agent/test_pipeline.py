@@ -437,6 +437,28 @@ class TestTheTrace:
 
         assert answer.retrieval.truncated
 
+    def test_an_edge_names_no_provision_the_trace_does_not_also_name(
+        self, build_pipeline: BuildPipeline
+    ) -> None:
+        """A drawing cannot be handed an edge to a node it will not draw."""
+        pipeline, _ = build_pipeline(['transparency obligations', GROUNDED])
+
+        trace = pipeline.ask(CHATBOT).retrieval
+        known = set(trace.searched_ids) | set(trace.traversed_ids)
+
+        for edge in trace.edges:
+            assert edge.source_id in known
+            assert edge.target_id in known
+
+    def test_traversal_off_reports_no_edges(
+        self, build_pipeline: BuildPipeline
+    ) -> None:
+        pipeline, _ = build_pipeline(['transparency obligations', GROUNDED])
+
+        answer = pipeline.ask(CHATBOT, traversal=False)
+
+        assert answer.retrieval.edges == ()
+
 
 class TestParseDraft:
     def test_a_repeated_marker_merges_to_one_citation(self) -> None:
