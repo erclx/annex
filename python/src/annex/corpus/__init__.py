@@ -2,6 +2,7 @@
 
 from annex.corpus.checks import CorpusCheckError, disagreements, verify
 from annex.corpus.citations import resolve, to_id
+from annex.corpus.export import export
 from annex.corpus.graph import build, neighbours
 from annex.corpus.models import (
     Corpus,
@@ -26,6 +27,7 @@ __all__ = [
     'Reference',
     'build',
     'disagreements',
+    'export',
     'extract',
     'load',
     'neighbours',

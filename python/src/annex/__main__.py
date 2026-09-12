@@ -12,6 +12,8 @@ and `--version`, and `docs/evaluation.md` for what a run costs.
 `uv run python -m annex capture` answers the same question set once, keeping
 the answers rather than their scores, and writes them to `web/src/fixtures/`
 as the recording the deployed build replays.
+`uv run python -m annex export-corpus` writes both versions' provisions to
+`web/src/fixtures/corpus/`, which is what the reading panel renders.
 """
 
 import argparse
@@ -30,6 +32,7 @@ from annex.corpus import (
     ProvisionKind,
     build,
     disagreements,
+    export,
     extract,
     load,
     verify,
@@ -85,6 +88,18 @@ def _graph(refresh: bool) -> int:
             f'{version:13} nodes={graph.node_count():4} '
             f'edges={graph.edge_count():4} references={len(references):4}'
         )
+    return 0
+
+
+def _export_corpus(refresh: bool, out: Path | None) -> int:
+    from annex.corpus.export import FIXTURES_PATH
+
+    corpora = {version: load(version, refresh=refresh) for version in CorpusVersion}
+    destination = out or FIXTURES_PATH
+    manifest = export(corpora, out=destination)
+    for version, corpus in corpora.items():
+        print(f'{version:13} provisions={len(corpus.provisions):4}')
+    print(f'exported at {destination}, commit {manifest.commit[:7]}')
     return 0
 
 
@@ -312,6 +327,15 @@ def main(argv: list[str] | None = None) -> int:
     subcommands.add_parser('ingest', help='fetch, parse and check both versions')
     subcommands.add_parser('graph', help='report the reference predicate and its yield')
     subcommands.add_parser('schema', help='write the answer JSON Schema to stdout')
+    exporting = subcommands.add_parser(
+        'export-corpus', help='write both versions to web/src/fixtures/corpus'
+    )
+    exporting.add_argument(
+        '--out',
+        type=Path,
+        help='write somewhere other than web/src/fixtures/corpus, so a trial '
+        'run does not overwrite the committed export',
+    )
     subcommands.add_parser('context', help='report the context the models carry')
     subcommands.add_parser('embed', help='chunk both versions and build the index')
     subcommands.add_parser('serve', help='serve the answer endpoint over HTTP')
@@ -412,6 +436,8 @@ def main(argv: list[str] | None = None) -> int:
             return _ingest(arguments.refresh)
         if arguments.command == 'schema':
             return _schema()
+        if arguments.command == 'export-corpus':
+            return _export_corpus(arguments.refresh, arguments.out)
         if arguments.command == 'context':
             return _context()
         if arguments.command == 'embed':
