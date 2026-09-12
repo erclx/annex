@@ -15,11 +15,9 @@ const SHOWN = 8
  * it describes. The count carries the scale and the expansion carries the
  * detail.
  *
- * Ids render raw rather than through `citationLabel`. Both the wireframe and
+ * Ids render raw rather than as a reader-facing label. Both the wireframe and
  * the settled design draw them as `art_6.2` and `anx_3.5.b`, which is what
- * keeps eight of them on a line. That helper's own docstring says it exists for
- * this list, so the two records and the helper disagree and the drawn design
- * wins here.
+ * keeps eight of them on a line.
  */
 export function RetrievalTrace({ retrieval }: { retrieval: Retrieval }) {
   const [open, setOpen] = useState(false)
