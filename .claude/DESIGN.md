@@ -40,14 +40,20 @@ There is no `success` role. The contract returns an answer, a refusal, or one of
 | warning dark         | the same, inverted                                                       | `#E0AC55` |
 | warning surface      | ground behind an amendment note or truncation banner                     | `#FBF2E0` |
 | warning surface dark | the same, inverted                                                       | `#2B2317` |
+| warning rule         | border on the truncation banner                                          | `#D9C49D` |
+| warning rule dark    | the same, inverted                                                       | `#614C2A` |
 | refusal              | the tag on a question the text does not settle                           | `#3F4A56` |
 | refusal dark         | the same, inverted                                                       | `#AEBCC9` |
 | refusal surface      | ground behind that tag                                                   | `#EDF1F4` |
 | refusal surface dark | the same, inverted                                                       | `#1E252B` |
+| refusal rule         | border on the refusal tag                                                | `#B9BFC5` |
+| refusal rule dark    | the same, inverted                                                       | `#49525A` |
 | error                | the failure region, and nowhere else                                     | `#8C2F26` |
 | error dark           | the same, inverted                                                       | `#E89286` |
 | error surface        | ground behind a failure                                                  | `#FBEEEC` |
 | error surface dark   | the same, inverted                                                       | `#2C1C19` |
+| error rule           | border on the failure region                                             | `#DAB5B1` |
+| error rule dark      | the same, inverted                                                       | `#643F3A` |
 
 ## Typography
 

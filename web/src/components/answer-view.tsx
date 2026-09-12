@@ -49,7 +49,7 @@ export function AnswerView({ answer }: { answer: Answer }) {
  */
 function CutShort({ dropped, reached }: { dropped: number; reached: number }) {
   return (
-    <div className="mt-6 rounded-[7px] border border-warning/30 bg-warning-surface px-[13px] py-[11px]">
+    <div className="mt-6 rounded-[7px] border border-warning-rule bg-warning-surface px-[13px] py-[11px]">
       <b className="mb-[2px] block text-[13px] text-warning">
         The answer stopped for want of room, not because it finished.
       </b>

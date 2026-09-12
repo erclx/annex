@@ -23,10 +23,13 @@
   --accent-soft: #eaf0f8;
   --warning: #8a5a00;
   --warning-surface: #fbf2e0;
+  --warning-rule: #d9c49d;
   --refusal: #3f4a56;
   --refusal-surface: #edf1f4;
+  --refusal-rule: #b9bfc5;
   --error: #8c2f26;
   --error-surface: #fbeeec;
+  --error-rule: #dab5b1;
 
   --font-sans:
     system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
@@ -64,10 +67,13 @@
     --accent-soft: #1e2a3a;
     --warning: #e0ac55;
     --warning-surface: #2b2317;
+    --warning-rule: #614c2a;
     --refusal: #aebcc9;
     --refusal-surface: #1e252b;
+    --refusal-rule: #49525a;
     --error: #e89286;
     --error-surface: #2c1c19;
+    --error-rule: #643f3a;
   }
 }
 
@@ -88,10 +94,13 @@
   --accent-soft: #1e2a3a;
   --warning: #e0ac55;
   --warning-surface: #2b2317;
+  --warning-rule: #614c2a;
   --refusal: #aebcc9;
   --refusal-surface: #1e252b;
+  --refusal-rule: #49525a;
   --error: #e89286;
   --error-surface: #2c1c19;
+  --error-rule: #643f3a;
 }
 
 @theme inline {
@@ -108,10 +117,13 @@
   --color-accent-soft: var(--accent-soft);
   --color-warning: var(--warning);
   --color-warning-surface: var(--warning-surface);
+  --color-warning-rule: var(--warning-rule);
   --color-refusal: var(--refusal);
   --color-refusal-surface: var(--refusal-surface);
+  --color-refusal-rule: var(--refusal-rule);
   --color-error: var(--error);
   --color-error-surface: var(--error-surface);
+  --color-error-rule: var(--error-rule);
 }
 
 body {

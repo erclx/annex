@@ -66,7 +66,7 @@ export function FailureRegion({
       role="alert"
       className={`my-6 rounded-lg px-[17px] py-[15px] ${
         broken
-          ? 'border border-error/30 bg-error-surface'
+          ? 'border border-error-rule bg-error-surface'
           : 'border border-rule bg-surface'
       }`}
     >
