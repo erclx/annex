@@ -1,9 +1,11 @@
 categorisation
 checkability
 Consolas
+dagre
 deployer
 deployers
 EASA
+elkjs
 embedder
 GPAI
 Menlo
