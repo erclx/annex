@@ -42,7 +42,7 @@ export function CitationBlock({ citation }: { citation: Citation }) {
       {citation.change_note && (
         // The note is the one layer a reader might mistake for statute, so it
         // carries the amendment's own color rather than the Act's grey.
-        <p className="mt-[6px] border-t border-warning-rule pt-[6px] text-[12px] leading-[1.45] text-warning">
+        <p className="mt-[6px] border-t border-warning/30 pt-[6px] text-[12px] leading-[1.45] text-warning">
           <span className="mr-[7px] text-[11.5px] font-semibold italic">
             Not the Act&apos;s words:
           </span>

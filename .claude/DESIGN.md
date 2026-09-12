@@ -40,7 +40,7 @@ There is no `success` role. The contract returns an answer, a refusal, or one of
 | warning dark         | the same, inverted                                                       | `#E0AC55` |
 | warning surface      | ground behind an amendment note or truncation banner                     | `#FBF2E0` |
 | warning surface dark | the same, inverted                                                       | `#2B2317` |
-| warning rule         | border on the truncation banner and the change-note rule                 | `#D9C49D` |
+| warning rule         | border on the truncation banner                                          | `#D9C49D` |
 | warning rule dark    | the same, inverted                                                       | `#614C2A` |
 | refusal              | the tag on a question the text does not settle                           | `#3F4A56` |
 | refusal dark         | the same, inverted                                                       | `#AEBCC9` |
