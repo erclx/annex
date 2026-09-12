@@ -8,6 +8,7 @@ from annex.agent.pipeline import (
     DENSEST_CHARACTERS_A_TOKEN,
     SCAFFOLDING_TOKENS,
     SYNTHESIS_BUDGET,
+    parse_draft,
 )
 from annex.answer import Citation
 from annex.corpus import CorpusVersion, ProvisionKind
@@ -435,3 +436,14 @@ class TestTheTrace:
         answer = pipeline.ask(CHATBOT)
 
         assert answer.retrieval.truncated
+
+
+class TestParseDraft:
+    def test_a_repeated_marker_merges_to_one_citation(self) -> None:
+        citations = (make_citation('art_5', 'x' * 100),)
+
+        claims, refusal = parse_draft('Providers must comply [1] [1]', citations)
+
+        assert refusal is None
+        assert len(claims) == 1
+        assert claims[0].citations == citations
