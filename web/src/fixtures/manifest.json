@@ -1,5 +1,5 @@
 {
-  "commit": "92fd0b2402ff99f90110526ec3696c2d91126df1",
+  "commit": "f486520aadb26e6defdb1ce83dabc6f953ecca2c",
   "captured_at": "2026-09-12",
   "entries": [
     {
@@ -128,7 +128,7 @@
       "flow": "high-risk-chain",
       "version": "consolidated",
       "file": "q04-cv-screening.consolidated.json",
-      "refused": true
+      "refused": false
     },
     {
       "question_id": "q05-university-admission",
@@ -168,7 +168,7 @@
       "flow": "substantial-modification",
       "version": "consolidated",
       "file": "q09-wider-rollout.consolidated.json",
-      "refused": true
+      "refused": false
     },
     {
       "question_id": "q10-high-risk-deadline",
