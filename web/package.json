@@ -21,7 +21,7 @@
     "test:e2e:changed": "WORKTREE_PORT_OFFSET=$(bash scripts/worktree-port.sh) && export WORKTREE_PORT_OFFSET && playwright test --only-changed",
     "test:e2e:ui": "WORKTREE_PORT_OFFSET=$(bash scripts/worktree-port.sh) && export WORKTREE_PORT_OFFSET && playwright test --ui",
     "test:e2e:report": "playwright show-report",
-    "screenshot": "PREVIEW_PORT=$(bash scripts/worktree-port.sh 4173) && export PREVIEW_PORT && bash scripts/screenshot.sh",
+    "capture:evidence": "bun e2e/capture-states.ts",
     "smoke:prod": "bun e2e/screenshot.ts --check-console-clean --require-base-url",
     "check": "./scripts/verify.sh",
     "check:full": "./scripts/verify.sh && bun run test:e2e"
