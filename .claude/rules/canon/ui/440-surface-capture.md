@@ -4,6 +4,7 @@ paths:
   - '**/routes/**/*.{tsx,jsx,vue,svelte,astro}'
   - '**/pages/**/*.{tsx,jsx,vue,svelte,astro}'
   - '**/app/**/page.{tsx,jsx}'
+  - '**/components/**/*.{tsx,jsx,vue,svelte,astro}'
   - '**/*.html'
 ---
 
@@ -13,6 +14,7 @@ paths:
 
 - A surface is anything the project renders for a person to look at. A framework route is one. A page the project generates is another, whoever generates it.
 - Judge a generated page by the same rule as a route. Reading its markup reports nothing about how it composes.
+- A component the production build strips out is not a surface, such as a dev-only scenario switcher gated behind a build flag. The build removes it before anything renders, so no comparison exists to capture.
 
 ## When to capture
 
@@ -30,5 +32,7 @@ paths:
 
 ## Sharing a capture
 
-- Attach a capture to the pull request by hand when a reviewer needs to see it.
-- Do not commit a capture. Do not remove the capture folder from `.gitignore`.
+- Do not commit the sweep. It stays ignored.
+- Commit a flagged case's evidence output so the pull request carries the comparison, rather than attaching it by hand.
+- Commit an evidence case for the first time only after running the capture twice with no code change between the runs and confirming the two outputs are byte-identical.
+- Recommitting an unbounded sweep on every run reaches a gigabyte of repository history inside a hundred merges. A small, committed evidence set is what a reviewer needs and what lets GitHub draw its own before-and-after comparison on the pull request.
