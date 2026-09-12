@@ -342,6 +342,44 @@ Dropped ids are named beside traversed ids and never omitted. Traversal reaches 
 - On the deployed build a pick answers immediately and the loading skeleton never renders, because nothing is being asked. The skeleton belongs to the local build and to the recorded walkthrough, where the wait is real
 - A claim never renders two citation blocks for one provision. A marker repeated within one claim merges to its first occurrence in `parse_draft`, before the surface ever sees it
 
+## Reading the Act
+
+Opened by activating a citation's own heading, anywhere one renders: the answer, the refusal's consulted list, or a moved citation. It is an overlay on the one surface rather than a second screen, per the line below. There is nowhere it can be reached from except a citation, and nowhere it leads except back to what was already on screen.
+
+```plaintext
+┌──────────────────────────────────────────────────────────────────────┐
+│▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  ┌────────────────────────────────────┐│
+│▓▓ the answer, still behind  ▓  │ [ Original |*Amended*]      Close  ││ ← header: version
+│▓▓ the scrim               ▓▓▓  ├────────────────────────────────────┤│    toggle, close
+│▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  │ Article 6  Classification rules   ││
+│▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  │ ┃ 1. AI systems shall be         ││ ← scrolled to,
+│▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  │ ┃ classified as high-risk...     ││   held in a tint
+│▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  │   2. Providers of AI systems       ││
+│▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  │   already covered by Union         ││
+│▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  │   harmonization legislation...     ││
+│▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  │                                    ││
+│▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  │ Article 7  Amendments to Annex     ││
+│▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  │ III                                ││
+│▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  │                     ← the panel     ││
+└──────────────────────────────────────────────────────────────────────┘
+```
+
+The panel holds one version's whole text, in document order, as headings with their numbered paragraphs nested under each one. An article, annex or recital carrying no numbered paragraph renders its own text in that heading's place, which is every annex and recital and the small minority of articles with none.
+
+### Copy
+
+- Close control: `Close`
+- Version toggle: the same segmented pair the top bar draws, `Original` and `Amended 27 Jul 2026`
+- Heading text is the citation label the trace already draws (`Article 6`, `Annex III(5)(b)`), not a duplicate of `CitationBlock`'s own rendering
+
+### Behavior
+
+- Activating a citation's heading opens the panel to that provision and scrolls it into view immediately, with no transition, consistent with the motion rule
+- The provision the panel opened to is held in a tinted background so a reader can find it again after scrolling away
+- The version toggle inside the panel re-renders the same panel against the other text. It does not re-ask the question and does not touch the answer behind it
+- Escape, the close control, and activating the scrim all return to the answer exactly as it stood before the panel opened
+- The panel is the only overlay this surface carries. It stacks on top of every other state rather than replacing one, and closing it always returns to what was on screen underneath
+
 ## Not on this surface
 
 The reference graph is not visualized. It sits under open risks in the architecture record as depending on time remaining, and a fixed window with the evaluation not yet built does not have it. The traversal switch and the traversed-id disclosure carry the evidence that traversal happened, which is what a graph would otherwise be there to show.
