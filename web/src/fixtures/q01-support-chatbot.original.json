@@ -140,36 +140,6 @@
         "hop": 0
       },
       {
-        "source_id": "art_50.5",
-        "target_id": "art_50",
-        "hop": 0
-      },
-      {
-        "source_id": "art_50.3",
-        "target_id": "art_50",
-        "hop": 0
-      },
-      {
-        "source_id": "art_50.6",
-        "target_id": "art_50",
-        "hop": 0
-      },
-      {
-        "source_id": "art_13.2",
-        "target_id": "art_13",
-        "hop": 0
-      },
-      {
-        "source_id": "art_50.2",
-        "target_id": "art_50",
-        "hop": 0
-      },
-      {
-        "source_id": "art_50.4",
-        "target_id": "art_50",
-        "hop": 0
-      },
-      {
         "source_id": "art_50",
         "target_id": "art_56.6",
         "hop": 1
@@ -274,7 +244,7 @@
     "truncated": false,
     "prompt_tokens": 14269,
     "completion_tokens": 4977,
-    "duration_ms": 43085,
+    "duration_ms": 46476,
     "model": "annex-qwen3-27b"
   }
 }

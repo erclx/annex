@@ -234,19 +234,14 @@
         "hop": 0
       },
       {
-        "source_id": "art_111.2",
-        "target_id": "art_111",
-        "hop": 0
-      },
-      {
         "source_id": "art_43.4",
         "target_id": "art_43",
         "hop": 0
       },
       {
-        "source_id": "rct_53",
-        "target_id": "art_4",
-        "hop": 1
+        "source_id": "art_111.2",
+        "target_id": "art_111",
+        "hop": 0
       },
       {
         "source_id": "art_3",
@@ -256,6 +251,11 @@
       {
         "source_id": "art_3",
         "target_id": "art_2",
+        "hop": 1
+      },
+      {
+        "source_id": "art_3",
+        "target_id": "art_4",
         "hop": 1
       },
       {
@@ -304,21 +304,6 @@
         "hop": 1
       },
       {
-        "source_id": "art_111",
-        "target_id": "art_5",
-        "hop": 1
-      },
-      {
-        "source_id": "art_111",
-        "target_id": "art_113",
-        "hop": 1
-      },
-      {
-        "source_id": "art_111",
-        "target_id": "anx_X",
-        "hop": 1
-      },
-      {
         "source_id": "art_43",
         "target_id": "art_40",
         "hop": 1
@@ -361,6 +346,21 @@
       {
         "source_id": "art_43",
         "target_id": "anx_IV",
+        "hop": 1
+      },
+      {
+        "source_id": "art_111",
+        "target_id": "art_5",
+        "hop": 1
+      },
+      {
+        "source_id": "art_111",
+        "target_id": "art_113",
+        "hop": 1
+      },
+      {
+        "source_id": "art_111",
+        "target_id": "anx_X",
         "hop": 1
       },
       {
@@ -433,7 +433,7 @@
     "truncated": false,
     "prompt_tokens": 14918,
     "completion_tokens": 3813,
-    "duration_ms": 35761,
+    "duration_ms": 34407,
     "model": "annex-qwen3-27b"
   }
 }

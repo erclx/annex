@@ -147,26 +147,6 @@
         "hop": 0
       },
       {
-        "source_id": "art_50.5",
-        "target_id": "art_50",
-        "hop": 0
-      },
-      {
-        "source_id": "art_50.6",
-        "target_id": "art_50",
-        "hop": 0
-      },
-      {
-        "source_id": "art_50.2",
-        "target_id": "art_50",
-        "hop": 0
-      },
-      {
-        "source_id": "art_50.4",
-        "target_id": "art_50",
-        "hop": 0
-      },
-      {
         "source_id": "rct_136",
         "target_id": "art_16",
         "hop": 1
@@ -321,7 +301,7 @@
     "truncated": false,
     "prompt_tokens": 14746,
     "completion_tokens": 3867,
-    "duration_ms": 38247,
+    "duration_ms": 40818,
     "model": "annex-qwen3-27b"
   }
 }

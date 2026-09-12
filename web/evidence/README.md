@@ -5,12 +5,21 @@ taken at 1280px against a production build. They are here so a reviewer can see
 what a change did to the surface without running it, and so a later change has
 something to be compared against.
 
-**The bodies behind them are captured, not written.** The answered, cut-short
-and refused states are driven by three files out of `web/src/fixtures/`, which
+**The bodies behind them are captured, not written.** The answered and refused
+states are driven by files out of `web/src/fixtures/`, which
 `uv run python -m annex capture` fills from the real pipeline. An earlier
 version of these captures was built from hand-written statute text that no model
 produced, on a project whose whole argument is that a citation can be checked.
 Regenerating them from real output is what retired that.
+
+The cut-short state is the one exception, and it is a fixture plus a harness
+override rather than a fixture alone. No captured answer truncates on every
+run, since whether the model runs out of room depends on how long that run's
+own generation went, so `e2e/capture-states.ts` takes a real answered fixture
+and sets `retrieval.truncated` before handing it to the stub. Every claim,
+citation and quoted provision in it is still text the pipeline produced. Only
+the one flag that decides whether the banner renders is set by the harness
+rather than read off the recording.
 
 Both themes, symmetrically, because both ship and neither is a variant of the
 other. The dark theme re-values every role rather than inverting the light one,
@@ -102,8 +111,10 @@ CAPTURE_BASE_URL=http://localhost:4131 bun e2e/capture-states.ts
 
 It stubs the service at the network layer, which is the only way to reach a
 refusal, a cut-short answer or a named failure on demand. What it stubs with is
-read out of `src/fixtures/`, so the statute text in those three captures is text
-the pipeline returned rather than text anyone typed.
+read out of `src/fixtures/`, so the statute text in the answered, cut-short and
+refused captures is text the pipeline returned rather than text anyone typed,
+with the cut-short case's `truncated` flag set by the harness as described
+above.
 
 The last two rows need the deployed build, which is a static export and answers
 from those same fixtures without a service to stub:

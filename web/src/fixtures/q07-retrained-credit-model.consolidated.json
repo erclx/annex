@@ -185,48 +185,8 @@
     ],
     "edges": [
       {
-        "source_id": "art_27.2",
-        "target_id": "art_27",
-        "hop": 0
-      },
-      {
-        "source_id": "art_6.3",
-        "target_id": "art_6",
-        "hop": 0
-      },
-      {
-        "source_id": "art_6.4",
-        "target_id": "art_6",
-        "hop": 0
-      },
-      {
-        "source_id": "art_111.2",
-        "target_id": "art_111",
-        "hop": 0
-      },
-      {
-        "source_id": "art_80.5",
-        "target_id": "art_80",
-        "hop": 0
-      },
-      {
-        "source_id": "art_6.1",
-        "target_id": "art_6",
-        "hop": 0
-      },
-      {
-        "source_id": "art_43.4",
-        "target_id": "art_43",
-        "hop": 0
-      },
-      {
         "source_id": "art_25.1",
         "target_id": "art_25",
-        "hop": 0
-      },
-      {
-        "source_id": "art_26.5",
-        "target_id": "art_26",
         "hop": 0
       },
       {
@@ -235,8 +195,18 @@
         "hop": 0
       },
       {
-        "source_id": "art_80.7",
-        "target_id": "art_80",
+        "source_id": "art_27.2",
+        "target_id": "art_27",
+        "hop": 0
+      },
+      {
+        "source_id": "art_6.4",
+        "target_id": "art_6",
+        "hop": 0
+      },
+      {
+        "source_id": "art_26.5",
+        "target_id": "art_26",
         "hop": 0
       },
       {
@@ -245,13 +215,43 @@
         "hop": 0
       },
       {
-        "source_id": "art_27",
-        "target_id": "art_6.2",
+        "source_id": "art_43.4",
+        "target_id": "art_43",
+        "hop": 0
+      },
+      {
+        "source_id": "art_111.2",
+        "target_id": "art_111",
+        "hop": 0
+      },
+      {
+        "source_id": "art_25",
+        "target_id": "art_16",
+        "hop": 1
+      },
+      {
+        "source_id": "art_25",
+        "target_id": "anx_I",
+        "hop": 1
+      },
+      {
+        "source_id": "art_80",
+        "target_id": "anx_III",
+        "hop": 1
+      },
+      {
+        "source_id": "art_80",
+        "target_id": "art_79",
+        "hop": 1
+      },
+      {
+        "source_id": "art_80",
+        "target_id": "art_71",
         "hop": 1
       },
       {
         "source_id": "art_27",
-        "target_id": "anx_III",
+        "target_id": "art_6.2",
         "hop": 1
       },
       {
@@ -267,11 +267,6 @@
       {
         "source_id": "art_27",
         "target_id": "art_46",
-        "hop": 1
-      },
-      {
-        "source_id": "art_6",
-        "target_id": "anx_I",
         "hop": 1
       },
       {
@@ -295,38 +290,23 @@
         "hop": 1
       },
       {
-        "source_id": "art_111",
-        "target_id": "art_5",
+        "source_id": "art_26",
+        "target_id": "art_72",
         "hop": 1
       },
       {
-        "source_id": "art_111",
-        "target_id": "art_113",
+        "source_id": "art_26",
+        "target_id": "art_73",
         "hop": 1
       },
       {
-        "source_id": "art_111",
-        "target_id": "anx_X",
-        "hop": 1
-      },
-      {
-        "source_id": "art_111",
-        "target_id": "art_50.2",
-        "hop": 1
-      },
-      {
-        "source_id": "art_111",
+        "source_id": "art_26",
         "target_id": "art_50",
         "hop": 1
       },
       {
-        "source_id": "art_80",
-        "target_id": "art_79",
-        "hop": 1
-      },
-      {
-        "source_id": "art_80",
-        "target_id": "art_71",
+        "source_id": "art_9",
+        "target_id": "art_60",
         "hop": 1
       },
       {
@@ -385,23 +365,23 @@
         "hop": 1
       },
       {
-        "source_id": "art_25",
-        "target_id": "art_16",
+        "source_id": "art_111",
+        "target_id": "art_5",
         "hop": 1
       },
       {
-        "source_id": "art_26",
-        "target_id": "art_72",
+        "source_id": "art_111",
+        "target_id": "art_113",
         "hop": 1
       },
       {
-        "source_id": "art_26",
-        "target_id": "art_73",
+        "source_id": "art_111",
+        "target_id": "anx_X",
         "hop": 1
       },
       {
-        "source_id": "art_9",
-        "target_id": "art_60",
+        "source_id": "art_111",
+        "target_id": "art_50.2",
         "hop": 1
       }
     ],
@@ -409,7 +389,7 @@
     "truncated": false,
     "prompt_tokens": 15670,
     "completion_tokens": 3768,
-    "duration_ms": 36873,
+    "duration_ms": 37798,
     "model": "annex-qwen3-27b"
   }
 }

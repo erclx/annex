@@ -170,6 +170,16 @@
     ],
     "edges": [
       {
+        "source_id": "art_54.6",
+        "target_id": "art_54",
+        "hop": 0
+      },
+      {
+        "source_id": "art_53.1",
+        "target_id": "art_53",
+        "hop": 0
+      },
+      {
         "source_id": "art_50.1",
         "target_id": "art_50",
         "hop": 0
@@ -180,63 +190,48 @@
         "hop": 0
       },
       {
-        "source_id": "art_50.5",
-        "target_id": "art_50",
-        "hop": 0
-      },
-      {
-        "source_id": "art_50.6",
-        "target_id": "art_50",
-        "hop": 0
-      },
-      {
-        "source_id": "art_50.7",
-        "target_id": "art_50",
-        "hop": 0
-      },
-      {
-        "source_id": "art_54.6",
-        "target_id": "art_54",
-        "hop": 0
-      },
-      {
-        "source_id": "art_50.3",
-        "target_id": "art_50",
-        "hop": 0
-      },
-      {
         "source_id": "art_111.4",
         "target_id": "art_111",
         "hop": 0
       },
       {
-        "source_id": "art_13.2",
-        "target_id": "art_13",
-        "hop": 0
+        "source_id": "art_54",
+        "target_id": "anx_XI",
+        "hop": 1
       },
       {
-        "source_id": "art_50.2",
-        "target_id": "art_50",
-        "hop": 0
+        "source_id": "art_54",
+        "target_id": "art_55",
+        "hop": 1
       },
       {
-        "source_id": "art_53.1",
-        "target_id": "art_53",
-        "hop": 0
+        "source_id": "art_53",
+        "target_id": "anx_XII",
+        "hop": 1
       },
       {
-        "source_id": "art_50.4",
-        "target_id": "art_50",
-        "hop": 0
+        "source_id": "art_53",
+        "target_id": "art_56",
+        "hop": 1
       },
       {
-        "source_id": "art_50",
-        "target_id": "art_56.6",
+        "source_id": "art_53",
+        "target_id": "art_97",
+        "hop": 1
+      },
+      {
+        "source_id": "art_53",
+        "target_id": "art_97.2",
+        "hop": 1
+      },
+      {
+        "source_id": "art_53",
+        "target_id": "art_78",
         "hop": 1
       },
       {
         "source_id": "art_50",
-        "target_id": "art_56",
+        "target_id": "art_56.6",
         "hop": 1
       },
       {
@@ -275,16 +270,6 @@
         "hop": 1
       },
       {
-        "source_id": "art_54",
-        "target_id": "anx_XI",
-        "hop": 1
-      },
-      {
-        "source_id": "art_54",
-        "target_id": "art_55",
-        "hop": 1
-      },
-      {
         "source_id": "art_111",
         "target_id": "art_5",
         "hop": 1
@@ -300,28 +285,23 @@
         "hop": 1
       },
       {
-        "source_id": "art_53",
-        "target_id": "anx_XII",
-        "hop": 1
+        "source_id": "art_97",
+        "target_id": "art_11.3",
+        "hop": 2
       },
       {
-        "source_id": "art_53",
-        "target_id": "art_97",
-        "hop": 1
+        "source_id": "art_97",
+        "target_id": "art_11",
+        "hop": 2
       },
       {
-        "source_id": "art_53",
-        "target_id": "art_97.2",
-        "hop": 1
-      },
-      {
-        "source_id": "art_53",
-        "target_id": "art_78",
-        "hop": 1
-      },
-      {
-        "source_id": "art_14",
+        "source_id": "art_78",
         "target_id": "anx_III",
+        "hop": 2
+      },
+      {
+        "source_id": "art_78",
+        "target_id": "anx_IV",
         "hop": 2
       },
       {
@@ -388,28 +368,13 @@
         "source_id": "art_113",
         "target_id": "art_110",
         "hop": 2
-      },
-      {
-        "source_id": "art_97",
-        "target_id": "art_11.3",
-        "hop": 2
-      },
-      {
-        "source_id": "art_97",
-        "target_id": "art_11",
-        "hop": 2
-      },
-      {
-        "source_id": "art_78",
-        "target_id": "anx_IV",
-        "hop": 2
       }
     ],
     "traversal_enabled": true,
     "truncated": false,
     "prompt_tokens": 15293,
     "completion_tokens": 4631,
-    "duration_ms": 46412,
+    "duration_ms": 44185,
     "model": "annex-qwen3-27b"
   }
 }

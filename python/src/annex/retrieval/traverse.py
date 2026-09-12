@@ -87,13 +87,23 @@ def _holding_articles(
     Each lift is also an edge, from the paragraph seed to the article it sits
     in. It is the one edge in the walk that is not a citation, since nothing
     in the text points from a paragraph to its own article.
+
+    An article lifts once even when several of its paragraphs are seeds.
+    Without the `parent_id not in lifted` guard, `art_50.1` and `art_50.2`
+    both seed would each emit their own edge to `art_50`, which breaks the
+    one-edge-per-provision invariant the rest of the walk holds.
     """
     lifted: dict[str, int] = {}
     edges: list[TraversalEdge] = []
     for seed in seeds:
         provision = graph.nodes.get(seed)
         parent_id = provision.parent_id if provision else None
-        if parent_id and parent_id not in seeds and parent_id in graph.nodes:
+        if (
+            parent_id
+            and parent_id not in seeds
+            and parent_id not in lifted
+            and parent_id in graph.nodes
+        ):
             lifted[parent_id] = 0
             edges.append(TraversalEdge(source_id=seed, target_id=parent_id, hop=0))
     return lifted, tuple(edges)

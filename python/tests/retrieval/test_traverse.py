@@ -197,6 +197,20 @@ class TestParagraphSeeds:
             for edge in expansion.edges
         )
 
+    def test_two_seed_paragraphs_of_one_article_lift_it_once(
+        self, original: Corpus
+    ) -> None:
+        expansion = traverse(
+            (make_hit('art_6.1'), make_hit('art_6.2')),
+            build(original),
+            depth=1,
+            cap=200,
+        )
+
+        lifts = [edge for edge in expansion.edges if edge.target_id == 'art_6']
+
+        assert len(lifts) == 1
+
 
 class TestEdges:
     def test_every_traversed_provision_reports_the_edge_that_reached_it(

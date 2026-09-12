@@ -236,23 +236,8 @@
     ],
     "edges": [
       {
-        "source_id": "art_6.4",
-        "target_id": "art_6",
-        "hop": 0
-      },
-      {
-        "source_id": "art_111.2",
-        "target_id": "art_111",
-        "hop": 0
-      },
-      {
         "source_id": "art_6.1",
         "target_id": "art_6",
-        "hop": 0
-      },
-      {
-        "source_id": "art_43.4",
-        "target_id": "art_43",
         "hop": 0
       },
       {
@@ -261,13 +246,23 @@
         "hop": 0
       },
       {
+        "source_id": "art_80.2",
+        "target_id": "art_80",
+        "hop": 0
+      },
+      {
         "source_id": "art_26.5",
         "target_id": "art_26",
         "hop": 0
       },
       {
-        "source_id": "art_80.2",
-        "target_id": "art_80",
+        "source_id": "art_43.4",
+        "target_id": "art_43",
+        "hop": 0
+      },
+      {
+        "source_id": "art_111.2",
+        "target_id": "art_111",
         "hop": 0
       },
       {
@@ -311,18 +306,58 @@
         "hop": 1
       },
       {
-        "source_id": "art_111",
-        "target_id": "art_5",
+        "source_id": "art_25",
+        "target_id": "art_16",
         "hop": 1
       },
       {
-        "source_id": "art_111",
-        "target_id": "art_113",
+        "source_id": "art_80",
+        "target_id": "art_6.3",
         "hop": 1
       },
       {
-        "source_id": "art_111",
-        "target_id": "anx_X",
+        "source_id": "art_80",
+        "target_id": "art_99",
+        "hop": 1
+      },
+      {
+        "source_id": "art_80",
+        "target_id": "art_79.5",
+        "hop": 1
+      },
+      {
+        "source_id": "art_80",
+        "target_id": "art_79",
+        "hop": 1
+      },
+      {
+        "source_id": "art_80",
+        "target_id": "art_71",
+        "hop": 1
+      },
+      {
+        "source_id": "art_26",
+        "target_id": "art_72",
+        "hop": 1
+      },
+      {
+        "source_id": "art_26",
+        "target_id": "art_79.1",
+        "hop": 1
+      },
+      {
+        "source_id": "art_26",
+        "target_id": "art_73",
+        "hop": 1
+      },
+      {
+        "source_id": "art_26",
+        "target_id": "art_13",
+        "hop": 1
+      },
+      {
+        "source_id": "art_26",
+        "target_id": "art_50",
         "hop": 1
       },
       {
@@ -371,58 +406,18 @@
         "hop": 1
       },
       {
-        "source_id": "art_25",
-        "target_id": "art_16",
+        "source_id": "art_111",
+        "target_id": "art_5",
         "hop": 1
       },
       {
-        "source_id": "art_26",
-        "target_id": "art_72",
+        "source_id": "art_111",
+        "target_id": "art_113",
         "hop": 1
       },
       {
-        "source_id": "art_26",
-        "target_id": "art_79.1",
-        "hop": 1
-      },
-      {
-        "source_id": "art_26",
-        "target_id": "art_79",
-        "hop": 1
-      },
-      {
-        "source_id": "art_26",
-        "target_id": "art_73",
-        "hop": 1
-      },
-      {
-        "source_id": "art_26",
-        "target_id": "art_71",
-        "hop": 1
-      },
-      {
-        "source_id": "art_26",
-        "target_id": "art_13",
-        "hop": 1
-      },
-      {
-        "source_id": "art_26",
-        "target_id": "art_50",
-        "hop": 1
-      },
-      {
-        "source_id": "art_80",
-        "target_id": "art_6.3",
-        "hop": 1
-      },
-      {
-        "source_id": "art_80",
-        "target_id": "art_99",
-        "hop": 1
-      },
-      {
-        "source_id": "art_80",
-        "target_id": "art_79.5",
+        "source_id": "art_111",
+        "target_id": "anx_X",
         "hop": 1
       },
       {
@@ -445,7 +440,7 @@
     "truncated": false,
     "prompt_tokens": 14785,
     "completion_tokens": 3404,
-    "duration_ms": 35762,
+    "duration_ms": 32081,
     "model": "annex-qwen3-27b"
   }
 }
