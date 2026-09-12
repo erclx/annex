@@ -76,7 +76,7 @@ Copy, verbatim:
 
 The last sentence of that supporting text is doing compliance work rather than tone work. No label, heading, or button anywhere on this surface may imply a verdict on whether an organization complies, and the empty state states that boundary before a visitor has asked anything.
 
-The top bar carries `Repository` and `Evaluation` links beside the version and theme controls, persistent across every state rather than empty-state-only. A visitor who reaches an answer or a refusal, the moment likeliest to prompt checking the source, can still reach them without editing back to a blank form. Both open in a new tab, since this surface carries no navigation a visitor could use to come back.
+The top bar carries `Repository` and `Evaluation` links beside the version and theme controls, persistent across every state rather than empty-state-only. A visitor who reaches an answer or a refusal, the moment likeliest to prompt checking the source, can still reach them without editing back to a blank form. Both open in the same tab, per the project's own link-behavior rule.
 
 ### The recorded picks
 
@@ -371,7 +371,7 @@ A trace carrying no edges, being every fixture recorded before this field existe
 
 Opened by activating a citation's own heading, anywhere one renders: the answer, the refusal's consulted list, or a moved citation. It is an overlay on the one surface rather than a second screen, per the line below. There is nowhere it can be reached from except a citation, and nowhere it leads except back to what was already on screen.
 
-A quieter `EUR-Lex ↗` control sits beside the heading, on every citation, and leaves the page rather than opening the panel: the heading stays the loud control that keeps a reader here, and EUR-Lex is the escape hatch for one who wants the source of record instead. It opens in a new tab, since this surface carries no navigation to come back with.
+A quieter `EUR-Lex ↗` control sits beside the heading, on every citation, and leaves the page rather than opening the panel: the heading stays the loud control that keeps a reader here, and EUR-Lex is the escape hatch for one who wants the source of record instead. It opens in the same tab, per the project's own link-behavior rule.
 
 It links to the article the citation's paragraph sits under, since the source HTML anchors only at that level. It lands at the document root instead for the six articles the amendment inserted (`4a`, `60a`, `75a`, `75b`, `75c`, `75d`), which carry no anchor at all. That is accepted rather than hidden: a link that sometimes lands at the top of the document beats a link that sometimes does not render.
 

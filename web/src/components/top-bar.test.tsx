@@ -4,7 +4,7 @@ import { describe, expect, it, vi } from 'vitest'
 import { TopBar } from '@/components/top-bar'
 
 describe('TopBar', () => {
-  it('links to the repository and the evaluation, open in a new tab', () => {
+  it('should link to the repository and the evaluation', () => {
     render(
       <TopBar
         version="consolidated"
@@ -17,7 +17,6 @@ describe('TopBar', () => {
 
     const repository = screen.getByRole('link', { name: 'Repository' })
     expect(repository).toHaveAttribute('href', 'https://github.com/erclx/annex')
-    expect(repository).toHaveAttribute('target', '_blank')
 
     const evaluation = screen.getByRole('link', { name: 'Evaluation' })
     expect(evaluation).toHaveAttribute(

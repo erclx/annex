@@ -48,8 +48,6 @@ describe('CitationBlock', () => {
       'href',
       'https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:02024R1689-20260727#art_6',
     )
-    expect(link).toHaveAttribute('target', '_blank')
-    expect(link).toHaveAttribute('rel', 'noopener noreferrer')
   })
 
   it('should link a non-article citation to the document root with no fragment', () => {

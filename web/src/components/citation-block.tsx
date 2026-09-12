@@ -22,8 +22,7 @@ import { eurLexUrl } from '@/lib/eur-lex'
  * The panel is the surface's one overlay per
  * `.claude/wireframes/answer.md` § Reading the Act, so the loud heading stays
  * the control that keeps a reader here, and EUR-Lex is the escape hatch for
- * one who wants the source of record instead. It opens in a new tab because
- * this surface carries no navigation to come back to.
+ * one who wants the source of record instead.
  */
 export function CitationBlock({
   citation,
@@ -56,11 +55,9 @@ export function CitationBlock({
         )}
         <a
           href={eurLexUrl(citation)}
-          target="_blank"
-          rel="noopener noreferrer"
           className="text-[10.5px] text-muted hover:text-accent hover:underline"
         >
-          EUR-Lex ↗<span className="sr-only"> (opens in a new tab)</span>
+          EUR-Lex ↗
         </a>
         {citation.changed ? (
           <span className="rounded-full border border-cite-rule-moved bg-paper px-2 py-px text-[11px] text-warning">

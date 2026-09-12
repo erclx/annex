@@ -53,20 +53,10 @@ export function TopBar({
 
         <div className="flex items-center gap-4">
           <nav className="flex items-center gap-3 text-[12px]">
-            <a
-              href={REPOSITORY_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-accent hover:underline"
-            >
+            <a href={REPOSITORY_URL} className="text-accent hover:underline">
               Repository
             </a>
-            <a
-              href={EVALUATION_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-accent hover:underline"
-            >
+            <a href={EVALUATION_URL} className="text-accent hover:underline">
               Evaluation
             </a>
           </nav>
