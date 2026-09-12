@@ -14,6 +14,6 @@
 
 - [ ] <Specific command or test case>
 - [ ] <Edge case verified>
-- [ ] Evidence states changed: <list them, or "none" if this diff does not touch what the answer surface renders>
+- [ ] Evidence states changed: <list them, "none" if this diff does not touch what the answer surface renders, or "deferred, wave in flight (see #<PR>)" if a sibling surface branch is also in flight>
 
 <!-- Visuals: include only if clarifying architecture, UI, or complex logic flows -->
