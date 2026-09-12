@@ -15,7 +15,15 @@ import type { CorpusVersion } from '@/components/versions'
  * return one answer. It is held inactive and relabelled rather than removed,
  * because the version control beside it does still re-ask and a missing switch
  * would read as a surface that never had one.
+ *
+ * The repository and evaluation links sit here rather than on the empty state
+ * alone, so a reader who reaches an answer or a refusal, the moment most
+ * likely to prompt checking the source, can still reach it without editing
+ * back to a blank form.
  */
+const REPOSITORY_URL = 'https://github.com/erclx/annex'
+const EVALUATION_URL =
+  'https://github.com/erclx/annex/blob/main/docs/evaluation.md'
 export function TopBar({
   version,
   onVersionChange,
@@ -44,6 +52,25 @@ export function TopBar({
         </div>
 
         <div className="flex items-center gap-4">
+          <nav className="flex items-center gap-3 text-[12px]">
+            <a
+              href={REPOSITORY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-accent hover:underline"
+            >
+              Repository
+            </a>
+            <a
+              href={EVALUATION_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-accent hover:underline"
+            >
+              Evaluation
+            </a>
+          </nav>
+
           <div
             className="flex overflow-hidden rounded-md border border-rule bg-transparent"
             role="group"
