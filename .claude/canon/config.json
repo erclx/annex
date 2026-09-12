@@ -2,7 +2,7 @@
   "covers": ["governance", "tooling"],
   "domains": {
     "governance": {
-      "syncedAt": "2026-09-05T11:40:06.399Z",
+      "syncedAt": "2026-09-12T14:53:00.551Z",
       "files": {
         ".claude/rules/canon/ci/700-ci-workflow.md": "sha256:ee4b0988ef94dc92229004020dead689c0904176356e4caf7e83da0b1bbfc478",
         ".claude/rules/canon/claude/500-prose.md": "sha256:c1d40f1381c6f8c3838c9ea3469d91c8a5e42e9496690fc5b69945d162bad8d7",
@@ -30,7 +30,7 @@
         ".claude/rules/canon/claude/591-standard-authoring.md": "sha256:0b797cdeceda4cc7043663b3ee307ac82df3998b9671c63f4110dd71dc6c79c2",
         ".claude/rules/canon/claude/592-claude-md.md": "sha256:4749b6ea0d4a53368471e6723961ea53d233ec1bc36010e9c51880da4a8a6e63",
         ".claude/rules/canon/core/000-constitution.md": "sha256:f0a61628b5a95bee868d6b62204df8a63c647906aa66af6157c6a6e8a3ecb7cc",
-        ".claude/rules/canon/core/005-behavior.md": "sha256:b4f789bd11e3318ef28d4df4c432799cf34829c71be4dfccec7328ed1d2210c5",
+        ".claude/rules/canon/core/005-behavior.md": "sha256:7f7af5c1136d0995b7e308adf7b7e3d64326a3b165af5a00385c0a2ee2b1e389",
         ".claude/rules/canon/core/010-testing.md": "sha256:6506b7092bec6c633687d5311e880cf1adc800fb4413ed99aaa213d6697223bd",
         ".claude/rules/canon/core/015-output.md": "sha256:472ce1301738c13cec4b8c31e119926e8c04a22e4c1b4b149e3bebfe4a1347f8",
         ".claude/rules/canon/core/020-concurrency.md": "sha256:df6a2e89d3f0ef02a5718caf7e1b17c67e1360f1386ace7f4661a33fbadd3908",
@@ -38,15 +38,15 @@
         ".claude/rules/canon/core/030-error-handling.md": "sha256:b3c028abf2229f245fe9a173b8bb84502843f1d73ac1940d10f48eebff0764b5",
         ".claude/rules/canon/core/035-tasks.md": "sha256:3485818b4c9c3c83640a0ab95d10d6f8c2630f2d870e82225290d111b062c7da",
         ".claude/rules/canon/core/040-performance.md": "sha256:174d2f9e6ad58b2b2ae43b7ab69d2efeaf344bc52ddebf9d38a47b2eb8882cda",
-        ".claude/rules/canon/core/045-memory.md": "sha256:f9bd318864a14324ef1b3f98855b55d94044d62dd89d930b13a215ec6426e495",
+        ".claude/rules/canon/core/045-memory.md": "sha256:0ed18744267cee2e7a14bdc27fdbab85fafcb351fb5c73fed97ba6baef5b8638",
         ".claude/rules/canon/core/050-logging.md": "sha256:6257b92add0effa81c034c3a220698dd77c107e8736205e0ddbe7fc53df16297",
-        ".claude/rules/canon/core/055-scratch.md": "sha256:4d5c8be3d9334075ce02b0b69ccc1f840a8c74a52fe7ee469c0e3e9f4d3d0258",
+        ".claude/rules/canon/core/055-scratch.md": "sha256:0808ec0bd260f23395f63ddcdf15b3ce48594921d1f9aa0e4f8013b19f02ff94",
         ".claude/rules/canon/core/060-naming.md": "sha256:7b4bf67615c18078852b1e6fece426ba91689a5ac2842db031f580e13bba4481",
         ".claude/rules/canon/core/065-spelling.md": "sha256:962dfe121b45aeac8453dd28cfa2e7e1df07324a6ff7f6c75bd0f661051c2786",
-        ".claude/rules/canon/core/070-planning.md": "sha256:3d2bb8b3101ba9cc885005ae87acd6ddea5afc2e424e5d61d5ec627094d7b997",
+        ".claude/rules/canon/core/070-planning.md": "sha256:591a365b57031f84936683df0e68812cab6909fab2c58d19cbf7abe165ed98d7",
         ".claude/rules/canon/core/075-dependencies.md": "sha256:b3af393d75e70bb58bd5519f32804f6e5badb53d7ec5c212daf88ee6d3a8ff8b",
         ".claude/rules/canon/core/080-config-comments.md": "sha256:70e23f9b7903ae9dc1239730ce3b8ecf5c0760c0fa411ece1bfac239b978c6dd",
-        ".claude/rules/canon/core/085-worktrees.md": "sha256:20980753362eb7acc4b56f5c17d299e18dc7cdf254974d09a3b000a5302f0aac",
+        ".claude/rules/canon/core/085-worktrees.md": "sha256:eaa6aaa202b2f413d13502e23609c1fffb08198638c9a7087e33c3e664d9aac6",
         ".claude/rules/canon/core/087-git.md": "sha256:f514c05d0be9282a99c516d269cc553df5e9a3a844af2a08649d4dbb2223eab4",
         ".claude/rules/canon/core/090-code-comments.md": "sha256:b7b971b48e2d85a6343310c7c59cd1502dba6bae724cded28abb6c4bf4f3cb5a",
         ".claude/rules/canon/framework/200-react.md": "sha256:42cfe72c7458dc0ca5c27e6baad21852d8dfc81245be52f061f7ae3e2ee5c8bc",
@@ -70,7 +70,7 @@
         ".claude/rules/canon/ui/410-a11y.md": "sha256:a8cef5488830dc2aafbb833020ea7e0ed336aa4c42c83a714e4adf1563a84453",
         ".claude/rules/canon/ui/420-forms.md": "sha256:1aa6732167418af4fe934267cf1526d8a96fafae40c82408b91f71bc77a61d44",
         ".claude/rules/canon/ui/430-ux-completeness.md": "sha256:dd22ca3ff07d3c4fc79538802fed98d9f7b3c5715af1b1b27565b0951ec5d8c9",
-        ".claude/rules/canon/ui/440-surface-capture.md": "sha256:8c1ce57ce425589017b1f0bc0576cb8a63aeaadeb69d973ab2c0c14250b4ce1e",
+        ".claude/rules/canon/ui/440-surface-capture.md": "sha256:f5cc24e863bd38f5b7d0f459f7bd843f5d171d73adf1572ba9e42247515810aa",
         ".claude/rules/canon/ui/450-link-behavior.md": "sha256:43c4aa1c8e3db74541266164f59d1e8bcd1ff30e5b19172fa6b764e3bb8b5f97"
       },
       "chain": ["react"]
