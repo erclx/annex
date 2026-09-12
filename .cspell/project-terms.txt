@@ -20,6 +20,7 @@ subfolders
 unasserted
 unconfigured
 unfetched
+unglossed
 unparseable
 unwired
 updatability

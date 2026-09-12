@@ -39,7 +39,7 @@ Reached on arrival, before anything is asked.
 ```plaintext
 ┌──────────────────────────────────────────────────────────────────────┐
 │ Annex   Which articles of the EU AI Act you have to read             │
-│                          [ Original |*Amended 27 Jul 2026*]  (•) …   │
+│              Repository  Evaluation  [ Original |*Amended*]  (•) …   │
 ├──────────────────────────────────────────────────────────────────────┤ ← top bar
 │                                                                      │
 │   Describe what you are building. You get back                       │
@@ -48,8 +48,10 @@ Reached on arrival, before anything is asked.
 │   Plain language is enough. Annex reports which                      │
 │   provisions apply and quotes them, against your      ← what it       │
 │   choice of the original text or the text as            refuses to be │
-│   amended on 27 July 2026. It does not tell you                      │
-│   whether you comply.                                                │
+│   amended on 27 July 2026. Every claim carries the                   │
+│   article text it came from, so you check the answer                 │
+│   rather than trust it. It does not tell you whether                 │
+│   you comply.                                                        │
 │                                                                      │
 │   ┌──────────────────────────────────────────────┐                   │
 │   │ A customer-service chatbot that also scores  │   ← description    │
@@ -68,15 +70,17 @@ Copy, verbatim:
 - Product name: `Annex`
 - Tagline: `Which articles of the EU AI Act you have to read`
 - Display: `Describe what you are building. You get back the articles you have to read.`
-- Supporting text: `Plain language is enough. Annex reports which provisions apply and quotes them, against your choice of the original text or the text as amended on 27 July 2026. It does not tell you whether you comply.`
+- Supporting text: `Plain language is enough. Annex reports which provisions apply and quotes them, against your choice of the original text or the text as amended on 27 July 2026. Every claim carries the article text it came from, so you check the answer rather than trust it. It does not tell you whether you comply.`
 - Input placeholder: `A customer-service chatbot that also scores loan applications…`
 - Action: `Find the articles`
 
 The last sentence of that supporting text is doing compliance work rather than tone work. No label, heading, or button anywhere on this surface may imply a verdict on whether an organization complies, and the empty state states that boundary before a visitor has asked anything.
 
+The top bar carries `Repository` and `Evaluation` links beside the version and theme controls, persistent across every state rather than empty-state-only. A visitor who reaches an answer or a refusal, the moment likeliest to prompt checking the source, can still reach them without editing back to a blank form. Both open in a new tab, since this surface carries no navigation a visitor could use to come back.
+
 ### The recorded picks
 
-Rendered under the form on the deployed build alone, so the ordinary path there reaches a question the recording holds.
+Rendered under the form on both builds, so the build that can answer anything stops being the one with no route into itself.
 
 ```plaintext
 │   [ Find the articles ]                                              │
@@ -96,6 +100,13 @@ Rendered under the form on the deployed build alone, so the ordinary path there 
 │                                                                      │
 │   WHETHER A SYSTEM IS HIGH RISK, AND WHAT FOLLOWS                    │
 │   …four groups, three questions each                                 │
+│                                                                      │
+│   ┌──────────────────────────────────────────────┐                   │
+│   │ TERMS USED ON THIS PAGE                      │   ← gathered      │
+│   │ Provision        An addressable piece of…    │      strip        │
+│   │ High risk        A classification carrying…  │                   │
+│   │ …seven terms in all                          │                   │
+│   └──────────────────────────────────────────────┘                   │
 ```
 
 Copy, verbatim:
@@ -107,6 +118,12 @@ Copy, verbatim:
 The picks sit beside the input rather than in place of it. Narrowing the input to a picker would remove the unrecorded state below and change the surface the design was settled on, and the free-text field is what a visitor arrives expecting.
 
 The four flow labels are the evaluation's own grouping, three questions apiece. The fifth demo flow, the three-arm result, has no screen here and belongs to `docs/evaluation.md` and the recorded walkthrough.
+
+### The terms strip
+
+Rendered below the recorded picks, gathering the seven load-bearing terms that appear unglossed elsewhere on this surface (`provisions`, the `Original` / `Amended 27 Jul 2026` pair, `Reference traversal`, `high risk`, `general-purpose AI model`, `prohibited practice`, and the bare commit hash) into one bordered strip, term and definition side by side.
+
+An inline hover definition was drafted and rejected by looking: it is a second overlay on a surface that carries exactly one, the citation reading panel `#15` shipped, and this file states that as a closed line under § Reading the Act below. A gathered strip needs no hover state, so it carries every definition at once rather than one at a time.
 
 ## Invalid
 
@@ -353,6 +370,10 @@ A trace carrying no edges, being every fixture recorded before this field existe
 ## Reading the Act
 
 Opened by activating a citation's own heading, anywhere one renders: the answer, the refusal's consulted list, or a moved citation. It is an overlay on the one surface rather than a second screen, per the line below. There is nowhere it can be reached from except a citation, and nowhere it leads except back to what was already on screen.
+
+A quieter `EUR-Lex ↗` control sits beside the heading, on every citation, and leaves the page rather than opening the panel: the heading stays the loud control that keeps a reader here, and EUR-Lex is the escape hatch for one who wants the source of record instead. It opens in a new tab, since this surface carries no navigation to come back with.
+
+It links to the article the citation's paragraph sits under, since the source HTML anchors only at that level. It lands at the document root instead for the six articles the amendment inserted (`4a`, `60a`, `75a`, `75b`, `75c`, `75d`), which carry no anchor at all. That is accepted rather than hidden: a link that sometimes lands at the top of the document beats a link that sometimes does not render.
 
 ```plaintext
 ┌──────────────────────────────────────────────────────────────────────┐
