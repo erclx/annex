@@ -373,7 +373,7 @@ Opened by activating a citation's own heading, anywhere one renders: the answer,
 
 A quieter `EUR-Lex ↗` control sits beside the heading, on every citation, and leaves the page rather than opening the panel: the heading stays the loud control that keeps a reader here, and EUR-Lex is the escape hatch for one who wants the source of record instead. It opens in the same tab, per the project's own link-behavior rule.
 
-It links to the article the citation's paragraph sits under, since the source HTML anchors only at that level. It lands at the document root instead for the six articles the amendment inserted (`4a`, `60a`, `75a`, `75b`, `75c`, `75d`), which carry no anchor at all. That is accepted rather than hidden: a link that sometimes lands at the top of the document beats a link that sometimes does not render.
+It links to the article or annex the citation's paragraph sits under, since the source HTML anchors only at that level. It lands at the document root instead for a citation carrying neither prefix, such as a recital, which the source does not anchor at that level in the consolidated text.
 
 ```plaintext
 ┌──────────────────────────────────────────────────────────────────────┐

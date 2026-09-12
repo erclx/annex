@@ -19,16 +19,19 @@ const EUR_LEX_URL: Record<Citation['version'], string> = {
  *
  * The source HTML anchors each article at `id="art_N"`, which is what a
  * paragraph's provision id already carries ahead of its own `.`, so a
- * paragraph citation resolves to the article that carries it. Six articles
- * the amendment inserted, 4a, 60a, 75a, 75b, 75c and 75d, carry no such
- * anchor, so their link resolves to the same fragment and the browser lands
- * at the document root instead. That is accepted rather than special-cased:
- * `.canon/groundwork/02-first-visitor-onboarding/06-decision.md` already
- * took a link that sometimes lands at the top of the document over a link
- * that sometimes does not render at all.
+ * paragraph citation resolves to the article that carries it. Every annex is
+ * anchored the same way at `id="anx_N"`, with no paragraph suffix to split
+ * off, so an annex citation resolves directly. A citation carrying neither
+ * prefix, such as a recital, has no matching anchor in the source and
+ * resolves to the document root instead.
  */
 export function eurLexUrl(citation: Citation): string {
   const base = EUR_LEX_URL[citation.version]
-  if (!citation.provision_id.startsWith('art_')) return base
-  return `${base}#${citation.provision_id.split('.')[0]}`
+  if (
+    citation.provision_id.startsWith('art_') ||
+    citation.provision_id.startsWith('anx_')
+  ) {
+    return `${base}#${citation.provision_id.split('.')[0]}`
+  }
+  return base
 }

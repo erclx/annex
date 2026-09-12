@@ -50,7 +50,7 @@ describe('CitationBlock', () => {
     )
   })
 
-  it('should link a non-article citation to the document root with no fragment', () => {
+  it('should link an annex paragraph citation to its parent annex on EUR-Lex', () => {
     render(
       <CitationBlock
         citation={{
@@ -58,6 +58,25 @@ describe('CitationBlock', () => {
           citation: 'Annex III(5)(b)',
           provision_id: 'anx_III.5.b',
           kind: 'annex',
+        }}
+      />,
+    )
+
+    const link = screen.getByRole('link', { name: /EUR-Lex/ })
+    expect(link).toHaveAttribute(
+      'href',
+      'https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:02024R1689-20260727#anx_III',
+    )
+  })
+
+  it('should link a recital citation to the document root with no fragment', () => {
+    render(
+      <CitationBlock
+        citation={{
+          ...CITATION,
+          citation: 'Recital 1',
+          provision_id: 'rct_1',
+          kind: 'recital',
         }}
       />,
     )
