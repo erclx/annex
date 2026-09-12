@@ -41,6 +41,7 @@ const ANSWER = {
     searched_ids: ['art_50', 'art_50.1'],
     traversed_ids: ['art_50.2'],
     dropped_ids: [],
+    edges: [{ source_id: 'art_50', target_id: 'art_50.2', hop: 1 }],
     traversal_enabled: true,
     truncated: false,
     prompt_tokens: 18420,
@@ -126,9 +127,14 @@ test('the trace reports cost without being opened, and opens to the ids', async 
 
   await page.getByRole('contentinfo').getByRole('button').click()
 
-  // Exact, because the summary line above carries the same words in its counts.
-  await expect(page.getByText('searched', { exact: true })).toBeVisible()
-  await expect(page.getByText('dropped', { exact: true })).toBeVisible()
+  // The definition-list term, scoped past the drawing's own column label,
+  // which repeats the same word as the graph's leftmost hop.
+  await expect(
+    page.getByRole('term').getByText('searched', { exact: true }),
+  ).toBeVisible()
+  await expect(
+    page.getByRole('term').getByText('dropped', { exact: true }),
+  ).toBeVisible()
   // Raw ids, which is how both the wireframe and the settled design draw them.
   await expect(page.getByText('art_50, art_50.1')).toBeVisible()
 })
@@ -153,6 +159,58 @@ test('a refusal renders as a result rather than as a failure', async ({
   // Scoped to the surface. The dev server mounts an alert of its own outside
   // the app root, which a page-wide query would count as a failure region.
   await expect(page.getByRole('main').getByRole('alert')).toHaveCount(0)
+})
+
+test('the trace disclosure draws the walk above the id lists', async ({
+  page,
+}) => {
+  await serviceAnswers(page, ANSWER)
+  await page.goto('/')
+
+  await describeSystem(page)
+  await page.getByRole('contentinfo').getByRole('button').click()
+
+  await expect(page.getByRole('img', { name: /The walk,/ })).toBeVisible()
+  // The lists stay, as the drawing's text equivalent.
+  await expect(
+    page.getByRole('term').getByText('searched', { exact: true }),
+  ).toBeVisible()
+})
+
+test('a refusal draws the walk too, since it names what was consulted', async ({
+  page,
+}) => {
+  await serviceAnswers(page, {
+    ...ANSWER,
+    claims: [],
+    refusal: {
+      reason: 'The Act never defines the threshold.',
+      missing: ['what counts as a substantial modification'],
+      consulted: ANSWER.claims[0].citations,
+    },
+  })
+  await page.goto('/')
+
+  await describeSystem(page, 'quarterly retraining of a credit model')
+  await page.getByRole('contentinfo').getByRole('button').click()
+
+  await expect(page.getByRole('img', { name: /The walk,/ })).toBeVisible()
+})
+
+test('a trace with no edges degrades to the id lists rather than an empty frame', async ({
+  page,
+}) => {
+  await serviceAnswers(page, {
+    ...ANSWER,
+    retrieval: { ...ANSWER.retrieval, edges: [] },
+  })
+  await page.goto('/')
+
+  await describeSystem(page)
+  await page.getByRole('contentinfo').getByRole('button').click()
+
+  await expect(page.getByRole('img', { name: /The walk,/ })).toHaveCount(0)
+  await expect(page.getByText('searched', { exact: true })).toBeVisible()
 })
 
 test('a service that is not running names the port rather than stalling', async ({
