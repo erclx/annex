@@ -276,3 +276,31 @@ class TestEdges:
         expansion = traverse((make_hit('art_6'),), build(original), enabled=False)
 
         assert expansion.edges == ()
+
+    def test_a_shared_target_records_the_higher_ranked_seed_as_source(
+        self, original: Corpus
+    ) -> None:
+        """Pins the source rather than only the count, the sibling of the lift test.
+
+        `art_6.1` is cited by both `art_2` and `art_113`. `seeds` is a set, and
+        `_distances` used to build its BFS start order from that set's own
+        iteration, which Python randomizes per process, so whichever seed's
+        turn came up first supplied the recorded source on a shared target.
+        Search hands `traverse` a ranked order, nearest first, and the
+        surviving edge has to come from that order for a re-capture to be
+        reproducible.
+        """
+        graph = build(original)
+
+        first = traverse(
+            (make_hit('art_2'), make_hit('art_113')), graph, depth=1, cap=200
+        )
+        second = traverse(
+            (make_hit('art_113'), make_hit('art_2')), graph, depth=1, cap=200
+        )
+
+        first_edge = next(edge for edge in first.edges if edge.target_id == 'art_6.1')
+        second_edge = next(edge for edge in second.edges if edge.target_id == 'art_6.1')
+
+        assert first_edge.source_id == 'art_2'
+        assert second_edge.source_id == 'art_113'

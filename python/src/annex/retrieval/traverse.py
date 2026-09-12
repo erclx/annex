@@ -119,6 +119,7 @@ def _holding_articles(
 def _distances(
     graph: ReferenceGraph,
     seeds: set[str],
+    ordered_seeds: tuple[str, ...],
     reached: dict[str, int],
     depth: int,
     edges: list[TraversalEdge],
@@ -131,8 +132,14 @@ def _distances(
     newly-reached provision was found through, appended in place: a provision
     is marked `seen` at the moment it is first discovered, so it is reached
     through exactly one edge regardless of how many other provisions cite it.
+
+    Iterating `ordered_seeds` rather than the `seeds` set is what makes the
+    surviving edge's source reproducible, the same fix `_holding_articles`
+    already carries. A `set` of strings iterates in an order Python randomizes
+    per process, so building the BFS start order straight off `seeds` picked a
+    different seed as the recorded source of a shared target on every run.
     """
-    starts = [seed for seed in seeds if seed in graph.nodes] + list(reached)
+    starts = [seed for seed in ordered_seeds if seed in graph.nodes] + list(reached)
     queue: deque[tuple[str, int]] = deque(
         (start, reached.get(start, 0)) for start in starts
     )
@@ -176,7 +183,7 @@ def traverse(
     seeds = set(searched)
     lifted, lift_edges = _holding_articles(graph, seeds, searched)
     edges: list[TraversalEdge] = list(lift_edges)
-    reached = _distances(graph, seeds, lifted, depth, edges)
+    reached = _distances(graph, seeds, searched, lifted, depth, edges)
     ranked = sorted(reached.items(), key=lambda item: (item[1], item[0]))
     traversed = tuple(provision_id for provision_id, _ in ranked[:cap])
     kept = set(traversed)
