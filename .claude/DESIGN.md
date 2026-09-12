@@ -93,6 +93,8 @@ Base unit 8px.
 
 No motion. Nothing on this surface animates, transitions, or eases. The one moment that would justify it is the wait for an answer, and that is drawn as a static skeleton with a stated duration rather than as a spinner, because a number tells a reader more than movement does.
 
+This section read as a ban on all motion until 2026-09-12. The reason it gave was never that broad: it argues against a spinner, against motion standing in for information the interface could state plainly instead, and the skeleton-over-spinner reasoning above is that argument in full. It says nothing against motion that carries the information itself, such as a traversal readout that draws itself as each hop resolves, where the drawing is the state changing rather than a stand-in for an unknown wait. That narrower reading is what this section now states, and it reaches only a readout of that shape. Hover, focus, and toggle transitions are untouched and stay governed by `.claude/rules/canon/ui/430-ux-completeness.md`.
+
 ## Iconography
 
 Icons are welcome where one carries meaning a word carries worse. Draw them inline in the component that uses them and let them take their color from `currentColor`, so a mark follows the tokens the way every other element does. The theme control is three of them, a monitor, a sun and a moon, because the choice is between two appearances and a deferral, which words describe more slowly than shapes show.
@@ -100,3 +102,5 @@ Icons are welcome where one carries meaning a word carries worse. Draw them inli
 What this rules out is a dependency rather than a drawing. The version toggle stays a segmented control of two text labels, the traversal switch stays a drawn shape, and the trace disclosure stays a text triangle, because a word or a shape is the better mark in each of those. Reaching for an icon library is the decision worth recording here first, and it becomes worth considering only once a set has outgrown drawing it inline.
 
 This section read as a flat ban until 2026-09-06. The reason it gave was the dependency, that one icon invites a set and the set is a dependency this surface has no need of, and that reason survives here intact. What changed is that the ban was doing more work than its reason supported: an inline path carrying no package satisfies the argument completely, and refusing it cost a round trip for every mark.
+
+Re-measured at this branch on 2026-09-12: `web/src/components/theme-toggle.tsx` is the only file drawing icons, three inline paths for monitor, sun and moon, and `web/package.json` still carries no icon library. Nothing shipped since 2026-09-06 adds a fourth mark. The conclusion does not move. It now stands on a count rather than an assumption.
