@@ -3,7 +3,7 @@
   "version": "consolidated",
   "claims": [
     {
-      "statement": "The system's functions of monitoring and evaluating the performance of warehouse staff and recommending promotions correspond to Annex III point 4(b), covering AI systems intended to monitor and evaluate the performance and behaviour of persons in work-related relationships and to make decisions affecting the promotion of work-related contractual relationships",
+      "statement": "The system's function of monitoring warehouse staff productivity and recommending who to promote falls within Annex III point 4(b), which covers AI systems intended to monitor and evaluate the performance and behaviour of persons in work-related relationships and to make decisions affecting the promotion of such persons",
       "citations": [
         {
           "provision_id": "anx_III",
@@ -17,7 +17,7 @@
       ]
     },
     {
-      "statement": "Under Article 6(2), AI systems referred to in Annex III are considered to be high-risk",
+      "statement": "Article 6(2) provides that AI systems referred to in Annex III shall be considered high-risk",
       "citations": [
         {
           "provision_id": "art_6",
@@ -31,7 +31,7 @@
       ]
     },
     {
-      "statement": "Article 6(3) provides a derogation whereby an Annex III system is not high-risk if, among other conditions, it is intended to perform a preparatory task to an assessment, but the system is always high-risk where it performs profiling of natural persons",
+      "statement": "Article 6(3) sets out derogation conditions under which an Annex III system may not be considered high-risk, but stipulates that a system performing profiling of natural persons is always high-risk regardless of those conditions",
       "citations": [
         {
           "provision_id": "art_6.3",
@@ -45,7 +45,7 @@
       ]
     },
     {
-      "statement": "Before putting into service a high-risk AI system at the workplace, a deployer who is an employer shall inform workers' representatives and the affected workers that they will be subject to the use of the system",
+      "statement": "Article 26(7) requires that, before putting into service a high-risk AI system at the workplace, the employer-deployer shall inform workers' representatives and the affected workers that they will be subject to its use",
       "citations": [
         {
           "provision_id": "art_26.7",
@@ -59,7 +59,7 @@
       ]
     },
     {
-      "statement": "A deployer of a high-risk AI system referred to in Annex III that assists in making decisions related to natural persons shall inform those natural persons that they are subject to the use of the system",
+      "statement": "Article 26(11) requires deployers of high-risk AI systems referred to in Annex III that assist in making decisions related to natural persons to inform those natural persons that they are subject to the use of the system",
       "citations": [
         {
           "provision_id": "art_26.11",
@@ -73,7 +73,7 @@
       ]
     },
     {
-      "statement": "The high-risk AI system shall be designed and developed, including with appropriate human-machine interface tools, so that it can be effectively overseen by natural persons during the period in which it is in use",
+      "statement": "Article 14(1) requires that a high-risk AI system be designed so it can be effectively overseen by natural persons, and Article 14(4) specifies that assigned oversight persons must be enabled to understand the system's capacities and limitations, interpret its output, and to disregard, override, or reverse its recommendations",
       "citations": [
         {
           "provision_id": "art_14.1",
@@ -81,6 +81,15 @@
           "kind": "paragraph",
           "version": "consolidated",
           "text": "1. High-risk AI systems shall be designed and developed in such a way, including with appropriate human-machine interface tools, that they can be effectively overseen by natural persons during the period in which they are in use.",
+          "changed": false,
+          "change_note": null
+        },
+        {
+          "provision_id": "art_14.4",
+          "citation": "Article 14(4)",
+          "kind": "paragraph",
+          "version": "consolidated",
+          "text": "4. For the purpose of implementing paragraphs 1, 2 and 3, the high-risk AI system shall be provided to the deployer in such a way that natural persons to whom human oversight is assigned are enabled, as appropriate and proportionate: (a) to properly understand the relevant capacities and limitations of the high-risk AI system and be able to duly monitor its operation, including in view of detecting and addressing anomalies, dysfunctions and unexpected performance; (b) to remain aware of the possible tendency of automatically relying or over-relying on the output produced by a high-risk AI system (automation bias), in particular for high-risk AI systems used to provide information or recommendations for decisions to be taken by natural persons; (c) to correctly interpret the high-risk AI system’s output, taking into account, for example, the interpretation tools and methods available; (d) to decide, in any particular situation, not to use the high-risk AI system or to otherwise disregard, override or reverse the output of the high-risk AI system; (e) to intervene in the operation of the high-risk AI system or interrupt the system through a ‘stop’ button or a similar procedure that allows the system to come to a halt in a safe state.",
           "changed": false,
           "change_note": null
         }
@@ -181,11 +190,213 @@
       "art_109",
       "art_11"
     ],
+    "edges": [
+      {
+        "source_id": "art_6.3",
+        "target_id": "art_6",
+        "hop": 0
+      },
+      {
+        "source_id": "art_5.1",
+        "target_id": "art_5",
+        "hop": 0
+      },
+      {
+        "source_id": "art_14.4",
+        "target_id": "art_14",
+        "hop": 0
+      },
+      {
+        "source_id": "art_27.1",
+        "target_id": "art_27",
+        "hop": 0
+      },
+      {
+        "source_id": "art_7.2",
+        "target_id": "art_7",
+        "hop": 0
+      },
+      {
+        "source_id": "art_26.7",
+        "target_id": "art_26",
+        "hop": 0
+      },
+      {
+        "source_id": "art_3",
+        "target_id": "art_2",
+        "hop": 1
+      },
+      {
+        "source_id": "art_3",
+        "target_id": "art_2.1",
+        "hop": 1
+      },
+      {
+        "source_id": "art_3",
+        "target_id": "art_4",
+        "hop": 1
+      },
+      {
+        "source_id": "art_3",
+        "target_id": "art_57",
+        "hop": 1
+      },
+      {
+        "source_id": "anx_III",
+        "target_id": "art_6.2",
+        "hop": 1
+      },
+      {
+        "source_id": "art_6",
+        "target_id": "anx_I",
+        "hop": 1
+      },
+      {
+        "source_id": "art_6",
+        "target_id": "art_49.2",
+        "hop": 1
+      },
+      {
+        "source_id": "art_6",
+        "target_id": "art_49",
+        "hop": 1
+      },
+      {
+        "source_id": "art_6",
+        "target_id": "art_96",
+        "hop": 1
+      },
+      {
+        "source_id": "art_6",
+        "target_id": "art_97",
+        "hop": 1
+      },
+      {
+        "source_id": "art_6",
+        "target_id": "art_7.1",
+        "hop": 1
+      },
+      {
+        "source_id": "art_5",
+        "target_id": "anx_II",
+        "hop": 1
+      },
+      {
+        "source_id": "art_27",
+        "target_id": "art_13",
+        "hop": 1
+      },
+      {
+        "source_id": "art_27",
+        "target_id": "art_46.1",
+        "hop": 1
+      },
+      {
+        "source_id": "art_27",
+        "target_id": "art_46",
+        "hop": 1
+      },
+      {
+        "source_id": "art_26",
+        "target_id": "art_72",
+        "hop": 1
+      },
+      {
+        "source_id": "art_26",
+        "target_id": "art_79.1",
+        "hop": 1
+      },
+      {
+        "source_id": "art_26",
+        "target_id": "art_79",
+        "hop": 1
+      },
+      {
+        "source_id": "art_26",
+        "target_id": "art_73",
+        "hop": 1
+      },
+      {
+        "source_id": "art_26",
+        "target_id": "art_71",
+        "hop": 1
+      },
+      {
+        "source_id": "art_26",
+        "target_id": "art_50",
+        "hop": 1
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_102",
+        "hop": 2
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_103",
+        "hop": 2
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_104",
+        "hop": 2
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_105",
+        "hop": 2
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_106",
+        "hop": 2
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_107",
+        "hop": 2
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_108",
+        "hop": 2
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_109",
+        "hop": 2
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_10",
+        "hop": 2
+      },
+      {
+        "source_id": "art_2",
+        "target_id": "art_11",
+        "hop": 2
+      },
+      {
+        "source_id": "art_49",
+        "target_id": "anx_VIII",
+        "hop": 2
+      },
+      {
+        "source_id": "art_49",
+        "target_id": "anx_IX",
+        "hop": 2
+      },
+      {
+        "source_id": "art_72",
+        "target_id": "anx_IV",
+        "hop": 2
+      }
+    ],
     "traversal_enabled": true,
     "truncated": false,
     "prompt_tokens": 14516,
-    "completion_tokens": 3425,
-    "duration_ms": 30040,
+    "completion_tokens": 3288,
+    "duration_ms": 34086,
     "model": "annex-qwen3-27b"
   }
 }

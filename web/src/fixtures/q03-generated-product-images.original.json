@@ -3,7 +3,7 @@
   "version": "original",
   "claims": [
     {
-      "statement": "As a provider of an AI system generating synthetic image content, the outputs must be marked in a machine-readable format and detectable as artificially generated or manipulated, unless the system performs an assistive function for standard editing or does not substantially alter the input data provided by the deployer or the semantics thereof",
+      "statement": "The system, as an AI system generating synthetic image content, must be read against the provider obligation to ensure outputs are marked in a machine-readable format and detectable as artificially generated or manipulated",
       "citations": [
         {
           "provision_id": "art_50.2",
@@ -17,21 +17,21 @@
       ]
     },
     {
-      "statement": "If the generated product photographs constitute a \"deep fake,\" the deployer must disclose that the content has been artificially generated or manipulated",
+      "statement": "The marking obligation in  does not apply to the extent the system performs an assistive function for standard editing or does not substantially alter the input data provided by the deployer or the semantics thereof",
       "citations": [
         {
-          "provision_id": "art_50.4",
-          "citation": "Article 50(4)",
+          "provision_id": "art_50.2",
+          "citation": "Article 50(2)",
           "kind": "paragraph",
           "version": "original",
-          "text": "4. Deployers of an AI system that generates or manipulates image, audio or video content constituting a deep fake, shall disclose that the content has been artificially generated or manipulated. This obligation shall not apply where the use is authorised by law to detect, prevent, investigate or prosecute criminal offence. Where the content forms part of an evidently artistic, creative, satirical, fictional or analogous work or programme, the transparency obligations set out in this paragraph are limited to disclosure of the existence of such generated or manipulated content in an appropriate manner that does not hamper the display or enjoyment of the work. Deployers of an AI system that generates or manipulates text which is published with the purpose of informing the public on matters of public interest shall disclose that the text has been artificially generated or manipulated. This obligation shall not apply where the use is authorised by law to detect, prevent, investigate or prosecute criminal offences or where the AI-generated content has undergone a process of human review or editorial control and where a natural or legal person holds editorial responsibility for the publication of the content.",
+          "text": "2. Providers of AI systems, including general-purpose AI systems, generating synthetic audio, image, video or text content, shall ensure that the outputs of the AI system are marked in a machine-readable format and detectable as artificially generated or manipulated. Providers shall ensure their technical solutions are effective, interoperable, robust and reliable as far as this is technically feasible, taking into account the specificities and limitations of various types of content, the costs of implementation and the generally acknowledged state of the art, as may be reflected in relevant technical standards. This obligation shall not apply to the extent the AI systems perform an assistive function for standard editing or do not substantially alter the input data provided by the deployer or the semantics thereof, or where authorised by law to detect, prevent, investigate or prosecute criminal offences.",
           "changed": false,
           "change_note": null
         }
       ]
     },
     {
-      "statement": "Any information required under Article 50(1) to (4) must be provided to the natural persons concerned in a clear and distinguishable manner at the latest at the time of the first interaction or exposure, and shall conform to applicable accessibility requirements",
+      "statement": "Any information required under paragraphs 1 to 4 of Article 50 must be provided to the natural persons concerned in a clear and distinguishable manner at the latest at the time of the first interaction or exposure, conforming to applicable accessibility requirements",
       "citations": [
         {
           "provision_id": "art_50.5",
@@ -39,6 +39,34 @@
           "kind": "paragraph",
           "version": "original",
           "text": "5. The information referred to in paragraphs 1 to 4 shall be provided to the natural persons concerned in a clear and distinguishable manner at the latest at the time of the first interaction or exposure. The information shall conform to the applicable accessibility requirements.",
+          "changed": false,
+          "change_note": null
+        }
+      ]
+    },
+    {
+      "statement": "The transparency obligations in paragraphs 1 to 4 are without prejudice to other transparency obligations laid down in Union or national law for deployers of AI systems",
+      "citations": [
+        {
+          "provision_id": "art_50.6",
+          "citation": "Article 50(6)",
+          "kind": "paragraph",
+          "version": "original",
+          "text": "6. Paragraphs 1 to 4 shall not affect the requirements and obligations set out in Chapter III, and shall be without prejudice to other transparency obligations laid down in Union or national law for deployers of AI systems.",
+          "changed": true,
+          "change_note": "The wording of Article 50(6) differs between the original and the consolidated text."
+        }
+      ]
+    },
+    {
+      "statement": "If the system is intended to interact directly with natural persons, it must be read against the obligation to inform those persons they are interacting with an AI system, unless this is obvious from the point of view of a reasonably well-informed, observant and circumspect person",
+      "citations": [
+        {
+          "provision_id": "art_50.1",
+          "citation": "Article 50(1)",
+          "kind": "paragraph",
+          "version": "original",
+          "text": "1. Providers shall ensure that AI systems intended to interact directly with natural persons are designed and developed in such a way that the natural persons concerned are informed that they are interacting with an AI system, unless this is obvious from the point of view of a natural person who is reasonably well-informed, observant and circumspect, taking into account the circumstances and the context of use. This obligation shall not apply to AI systems authorised by law to detect, prevent, investigate or prosecute criminal offences, subject to appropriate safeguards for the rights and freedoms of third parties, unless those systems are available for the public to report a criminal offence.",
           "changed": false,
           "change_note": null
         }
@@ -107,11 +135,173 @@
       "art_79",
       "art_79.1"
     ],
+    "edges": [
+      {
+        "source_id": "art_50.2",
+        "target_id": "art_50",
+        "hop": 0
+      },
+      {
+        "source_id": "art_13.1",
+        "target_id": "art_13",
+        "hop": 0
+      },
+      {
+        "source_id": "rct_136",
+        "target_id": "art_16",
+        "hop": 1
+      },
+      {
+        "source_id": "art_50",
+        "target_id": "art_56.6",
+        "hop": 1
+      },
+      {
+        "source_id": "art_50",
+        "target_id": "art_56",
+        "hop": 1
+      },
+      {
+        "source_id": "art_50",
+        "target_id": "art_98.2",
+        "hop": 1
+      },
+      {
+        "source_id": "art_50",
+        "target_id": "art_98",
+        "hop": 1
+      },
+      {
+        "source_id": "art_13",
+        "target_id": "art_15",
+        "hop": 1
+      },
+      {
+        "source_id": "art_13",
+        "target_id": "art_9.2",
+        "hop": 1
+      },
+      {
+        "source_id": "art_13",
+        "target_id": "art_9",
+        "hop": 1
+      },
+      {
+        "source_id": "art_13",
+        "target_id": "art_14",
+        "hop": 1
+      },
+      {
+        "source_id": "art_13",
+        "target_id": "art_12",
+        "hop": 1
+      },
+      {
+        "source_id": "art_16",
+        "target_id": "art_17",
+        "hop": 2
+      },
+      {
+        "source_id": "art_16",
+        "target_id": "art_18",
+        "hop": 2
+      },
+      {
+        "source_id": "art_16",
+        "target_id": "art_19",
+        "hop": 2
+      },
+      {
+        "source_id": "art_16",
+        "target_id": "art_43",
+        "hop": 2
+      },
+      {
+        "source_id": "art_16",
+        "target_id": "art_47",
+        "hop": 2
+      },
+      {
+        "source_id": "art_16",
+        "target_id": "art_48",
+        "hop": 2
+      },
+      {
+        "source_id": "art_16",
+        "target_id": "art_49.1",
+        "hop": 2
+      },
+      {
+        "source_id": "art_16",
+        "target_id": "art_49",
+        "hop": 2
+      },
+      {
+        "source_id": "art_16",
+        "target_id": "art_20",
+        "hop": 2
+      },
+      {
+        "source_id": "art_56",
+        "target_id": "art_53",
+        "hop": 2
+      },
+      {
+        "source_id": "art_56",
+        "target_id": "art_55",
+        "hop": 2
+      },
+      {
+        "source_id": "art_56",
+        "target_id": "art_53.1",
+        "hop": 2
+      },
+      {
+        "source_id": "art_9",
+        "target_id": "art_72",
+        "hop": 2
+      },
+      {
+        "source_id": "art_9",
+        "target_id": "art_60",
+        "hop": 2
+      },
+      {
+        "source_id": "art_14",
+        "target_id": "anx_III",
+        "hop": 2
+      },
+      {
+        "source_id": "art_12",
+        "target_id": "art_79.1",
+        "hop": 2
+      },
+      {
+        "source_id": "art_12",
+        "target_id": "art_79",
+        "hop": 2
+      },
+      {
+        "source_id": "art_12",
+        "target_id": "art_26.5",
+        "hop": 2
+      },
+      {
+        "source_id": "art_12",
+        "target_id": "art_26",
+        "hop": 2
+      },
+      {
+        "source_id": "art_12",
+        "target_id": "art_14.5",
+        "hop": 2
+      }
+    ],
     "traversal_enabled": true,
-    "truncated": true,
+    "truncated": false,
     "prompt_tokens": 14746,
-    "completion_tokens": 5290,
-    "duration_ms": 41238,
+    "completion_tokens": 3867,
+    "duration_ms": 39844,
     "model": "annex-qwen3-27b"
   }
 }

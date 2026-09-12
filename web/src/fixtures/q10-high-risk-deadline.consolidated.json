@@ -3,7 +3,7 @@
   "version": "consolidated",
   "claims": [
     {
-      "statement": "The Regulation applies from 2 August 2026",
+      "statement": "Chapter III, Sections 1, 2, and 3 (with the exception of Article 6(5)) apply from 2 December 2027 as regards AI systems classified as high-risk pursuant to Article 6(2) and Annex III",
       "citations": [
         {
           "provision_id": "art_113",
@@ -17,7 +17,7 @@
       ]
     },
     {
-      "statement": "Chapter III, Sections 1, 2, and 3, with the exception of Article 6(5), apply from 2 December 2027 as regards AI systems classified as high-risk pursuant to Article 6(2) and Annex III, and from 2 August 2028 as regards AI systems classified as high-risk pursuant to Article 6(1) and Annex I",
+      "statement": "Chapter III, Sections 1, 2, and 3 apply from 2 August 2028 as regards AI systems classified as high-risk pursuant to Article 6(1) and Annex I",
       "citations": [
         {
           "provision_id": "art_113",
@@ -31,58 +31,44 @@
       ]
     },
     {
-      "statement": "The Regulation applies to operators of high-risk AI systems placed on the market or put into service before the date of application of Chapter III only if, as from that date, those systems are subject to significant changes in their designs",
+      "statement": "For high-risk AI systems placed on the market or put into service before the date of application of Chapter III, the Regulation applies to their operators only if, as from that date, those systems are subject to significant changes in their designs",
       "citations": [
         {
-          "provision_id": "art_111",
-          "citation": "Article 111",
-          "kind": "article",
+          "provision_id": "art_111.2",
+          "citation": "Article 111(2)",
+          "kind": "paragraph",
           "version": "consolidated",
-          "text": "Article 111 AI systems already placed on the market or put into service and general-purpose AI models already placed on the marked 1. Without prejudice to the application of Article 5 as referred to in Article 113(3), point (a), AI systems which are components of the large-scale IT systems established by the legal acts listed in Annex X that have been placed on the market or put into service before 2 August 2027 shall be brought into compliance with this Regulation by 31 December 2030. The requirements laid down in this Regulation shall be taken into account in the evaluation of each large-scale IT system established by the legal acts listed in Annex X to be undertaken as provided for in those legal acts and where those legal acts are replaced or amended. ▼M1 2. Without prejudice to the application of Article 5 as referred to in Article 113, third paragraph, point (a), this Regulation shall apply to operators of high-risk AI systems, other than the systems referred to in paragraph 1 of this Article, that have been placed on the market or put into service before the date of application of Chapter III referred to in Article 113, only if, as from that date, those systems are subject to significant changes in their designs. In any case, the providers and deployers of high-risk AI systems intended to be used by public authorities shall take the necessary steps to comply with the requirements and obligations laid down in this Regulation by 2 August 2030. ▼B 3. Providers of general-purpose AI models that have been placed on the market before 2 August 2025 shall take the necessary steps in order to comply with the obligations laid down in this Regulation by 2 August 2027. ▼M1 4. Providers of AI systems, including general-purpose AI systems, generating synthetic audio, image, video or text content, that have been placed on the market before 2 August 2026 shall take the necessary steps in order to comply with Article 50(2) by 2 December 2026. ▼B",
+          "text": "2. Without prejudice to the application of Article 5 as referred to in Article 113, third paragraph, point (a), this Regulation shall apply to operators of high-risk AI systems, other than the systems referred to in paragraph 1 of this Article, that have been placed on the market or put into service before the date of application of Chapter III referred to in Article 113, only if, as from that date, those systems are subject to significant changes in their designs. In any case, the providers and deployers of high-risk AI systems intended to be used by public authorities shall take the necessary steps to comply with the requirements and obligations laid down in this Regulation by 2 August 2030. ▼B",
           "changed": true,
-          "change_note": "The wording of Article 111 differs between the original and the consolidated text."
+          "change_note": "The wording of Article 111(2) differs between the original and the consolidated text."
         }
       ]
     },
     {
-      "statement": "In any case, the providers and deployers of high-risk AI systems intended to be used by public authorities shall take the necessary steps to comply with the requirements and obligations laid down in this Regulation by 2 August 2030",
+      "statement": "Providers and deployers of high-risk AI systems intended to be used by public authorities shall take the necessary steps to comply with the requirements and obligations laid down in the Regulation by 2 August 2030",
       "citations": [
         {
-          "provision_id": "art_111",
-          "citation": "Article 111",
-          "kind": "article",
+          "provision_id": "art_111.2",
+          "citation": "Article 111(2)",
+          "kind": "paragraph",
           "version": "consolidated",
-          "text": "Article 111 AI systems already placed on the market or put into service and general-purpose AI models already placed on the marked 1. Without prejudice to the application of Article 5 as referred to in Article 113(3), point (a), AI systems which are components of the large-scale IT systems established by the legal acts listed in Annex X that have been placed on the market or put into service before 2 August 2027 shall be brought into compliance with this Regulation by 31 December 2030. The requirements laid down in this Regulation shall be taken into account in the evaluation of each large-scale IT system established by the legal acts listed in Annex X to be undertaken as provided for in those legal acts and where those legal acts are replaced or amended. ▼M1 2. Without prejudice to the application of Article 5 as referred to in Article 113, third paragraph, point (a), this Regulation shall apply to operators of high-risk AI systems, other than the systems referred to in paragraph 1 of this Article, that have been placed on the market or put into service before the date of application of Chapter III referred to in Article 113, only if, as from that date, those systems are subject to significant changes in their designs. In any case, the providers and deployers of high-risk AI systems intended to be used by public authorities shall take the necessary steps to comply with the requirements and obligations laid down in this Regulation by 2 August 2030. ▼B 3. Providers of general-purpose AI models that have been placed on the market before 2 August 2025 shall take the necessary steps in order to comply with the obligations laid down in this Regulation by 2 August 2027. ▼M1 4. Providers of AI systems, including general-purpose AI systems, generating synthetic audio, image, video or text content, that have been placed on the market before 2 August 2026 shall take the necessary steps in order to comply with Article 50(2) by 2 December 2026. ▼B",
+          "text": "2. Without prejudice to the application of Article 5 as referred to in Article 113, third paragraph, point (a), this Regulation shall apply to operators of high-risk AI systems, other than the systems referred to in paragraph 1 of this Article, that have been placed on the market or put into service before the date of application of Chapter III referred to in Article 113, only if, as from that date, those systems are subject to significant changes in their designs. In any case, the providers and deployers of high-risk AI systems intended to be used by public authorities shall take the necessary steps to comply with the requirements and obligations laid down in this Regulation by 2 August 2030. ▼B",
           "changed": true,
-          "change_note": "The wording of Article 111 differs between the original and the consolidated text."
+          "change_note": "The wording of Article 111(2) differs between the original and the consolidated text."
         }
       ]
     },
     {
-      "statement": "AI systems which are components of the large-scale IT systems established by the legal acts listed in Annex X that have been placed on the market or put into service before 2 August 2027 shall be brought into compliance with this Regulation by 31 December 2030",
+      "statement": "Chapters I and II apply from 2 February 2025",
       "citations": [
         {
-          "provision_id": "art_111",
-          "citation": "Article 111",
+          "provision_id": "art_113",
+          "citation": "Article 113",
           "kind": "article",
           "version": "consolidated",
-          "text": "Article 111 AI systems already placed on the market or put into service and general-purpose AI models already placed on the marked 1. Without prejudice to the application of Article 5 as referred to in Article 113(3), point (a), AI systems which are components of the large-scale IT systems established by the legal acts listed in Annex X that have been placed on the market or put into service before 2 August 2027 shall be brought into compliance with this Regulation by 31 December 2030. The requirements laid down in this Regulation shall be taken into account in the evaluation of each large-scale IT system established by the legal acts listed in Annex X to be undertaken as provided for in those legal acts and where those legal acts are replaced or amended. ▼M1 2. Without prejudice to the application of Article 5 as referred to in Article 113, third paragraph, point (a), this Regulation shall apply to operators of high-risk AI systems, other than the systems referred to in paragraph 1 of this Article, that have been placed on the market or put into service before the date of application of Chapter III referred to in Article 113, only if, as from that date, those systems are subject to significant changes in their designs. In any case, the providers and deployers of high-risk AI systems intended to be used by public authorities shall take the necessary steps to comply with the requirements and obligations laid down in this Regulation by 2 August 2030. ▼B 3. Providers of general-purpose AI models that have been placed on the market before 2 August 2025 shall take the necessary steps in order to comply with the obligations laid down in this Regulation by 2 August 2027. ▼M1 4. Providers of AI systems, including general-purpose AI systems, generating synthetic audio, image, video or text content, that have been placed on the market before 2 August 2026 shall take the necessary steps in order to comply with Article 50(2) by 2 December 2026. ▼B",
+          "text": "Article 113 Entry into force and application This Regulation shall enter into force on the twentieth day following that of its publication in the Official Journal of the European Union. It shall apply from 2 August 2026. However: ▼M1 (a) Chapters I and II shall apply from 2 February 2025, with the exception of Article 5(1), first subparagraph, points (ba) and (bb), and Article 5(1a) and (1b) which shall apply from 2 December 2026; ▼B (b) Chapter III Section 4, Chapter V, Chapter VII and Chapter XII and Article 78 shall apply from 2 August 2025, with the exception of Article 101; ▼M1 (c) Chapter III, Sections 1, 2, and 3, with the exception of Article 6(5), shall apply from: (i) 2 December 2027 as regards AI systems classified as high-risk pursuant to Article 6(2) and Annex III; and (ii) 2 August 2028 as regards AI systems classified as high-risk pursuant to Article 6(1) and Annex I; ▼M1 (d) Articles 102 to 110 shall apply from 27 July 2026. ▼B This Regulation shall be binding in its entirety and directly applicable in all Member States.",
           "changed": true,
-          "change_note": "The wording of Article 111 differs between the original and the consolidated text."
-        }
-      ]
-    },
-    {
-      "statement": "Providers of high-risk AI systems shall ensure that their high-risk AI systems undergo the relevant conformity assessment procedure prior to their being placed on the market or put into service, and shall draw up an EU declaration of conformity and affix the CE marking",
-      "citations": [
-        {
-          "provision_id": "art_16",
-          "citation": "Article 16",
-          "kind": "article",
-          "version": "consolidated",
-          "text": "Article 16 Obligations of providers of high-risk AI systems Providers of high-risk AI systems shall: (a) ensure that their high-risk AI systems are compliant with the requirements set out in Section 2; (b) indicate on the high-risk AI system or, where that is not possible, on its packaging or its accompanying documentation, as applicable, their name, registered trade name or registered trade mark, the address at which they can be contacted; (c) have a quality management system in place which complies with Article 17; (d) keep the documentation referred to in Article 18; (e) when under their control, keep the logs automatically generated by their high-risk AI systems as referred to in Article 19; (f) ensure that the high-risk AI system undergoes the relevant conformity assessment procedure as referred to in Article 43, prior to its being placed on the market or put into service; (g) draw up an EU declaration of conformity in accordance with Article 47; (h) affix the CE marking to the high-risk AI system or, where that is not possible, on its packaging or its accompanying documentation, to indicate conformity with this Regulation, in accordance with Article 48; (i) comply with the registration obligations referred to in Article 49(1); (j) take the necessary corrective actions and provide information as required in Article 20; (k) upon a reasoned request of a national competent authority, demonstrate the conformity of the high-risk AI system with the requirements set out in Section 2; (l) ensure that the high-risk AI system complies with accessibility requirements in accordance with Directives (EU) 2016/2102 and (EU) 2019/882.",
-          "changed": false,
-          "change_note": null
+          "change_note": "The wording of Article 113 differs between the original and the consolidated text."
         }
       ]
     }
@@ -170,11 +156,213 @@
       "anx_V",
       "anx_VI"
     ],
+    "edges": [
+      {
+        "source_id": "art_111.2",
+        "target_id": "art_111",
+        "hop": 0
+      },
+      {
+        "source_id": "art_25.1",
+        "target_id": "art_25",
+        "hop": 0
+      },
+      {
+        "source_id": "art_80.4",
+        "target_id": "art_80",
+        "hop": 0
+      },
+      {
+        "source_id": "art_26.5",
+        "target_id": "art_26",
+        "hop": 0
+      },
+      {
+        "source_id": "art_6.4",
+        "target_id": "art_6",
+        "hop": 0
+      },
+      {
+        "source_id": "art_16",
+        "target_id": "art_17",
+        "hop": 1
+      },
+      {
+        "source_id": "art_16",
+        "target_id": "art_18",
+        "hop": 1
+      },
+      {
+        "source_id": "art_16",
+        "target_id": "art_19",
+        "hop": 1
+      },
+      {
+        "source_id": "art_16",
+        "target_id": "art_43",
+        "hop": 1
+      },
+      {
+        "source_id": "art_16",
+        "target_id": "art_47",
+        "hop": 1
+      },
+      {
+        "source_id": "art_16",
+        "target_id": "art_48",
+        "hop": 1
+      },
+      {
+        "source_id": "art_16",
+        "target_id": "art_49.1",
+        "hop": 1
+      },
+      {
+        "source_id": "art_16",
+        "target_id": "art_49",
+        "hop": 1
+      },
+      {
+        "source_id": "art_16",
+        "target_id": "art_20",
+        "hop": 1
+      },
+      {
+        "source_id": "art_111",
+        "target_id": "art_5",
+        "hop": 1
+      },
+      {
+        "source_id": "art_111",
+        "target_id": "art_113",
+        "hop": 1
+      },
+      {
+        "source_id": "art_111",
+        "target_id": "anx_X",
+        "hop": 1
+      },
+      {
+        "source_id": "art_111",
+        "target_id": "art_50.2",
+        "hop": 1
+      },
+      {
+        "source_id": "art_111",
+        "target_id": "art_50",
+        "hop": 1
+      },
+      {
+        "source_id": "art_25",
+        "target_id": "anx_I",
+        "hop": 1
+      },
+      {
+        "source_id": "art_80",
+        "target_id": "anx_III",
+        "hop": 1
+      },
+      {
+        "source_id": "art_80",
+        "target_id": "art_6.3",
+        "hop": 1
+      },
+      {
+        "source_id": "art_80",
+        "target_id": "art_99",
+        "hop": 1
+      },
+      {
+        "source_id": "art_80",
+        "target_id": "art_79.5",
+        "hop": 1
+      },
+      {
+        "source_id": "art_80",
+        "target_id": "art_79",
+        "hop": 1
+      },
+      {
+        "source_id": "art_80",
+        "target_id": "art_71",
+        "hop": 1
+      },
+      {
+        "source_id": "art_26",
+        "target_id": "art_72",
+        "hop": 1
+      },
+      {
+        "source_id": "art_26",
+        "target_id": "art_79.1",
+        "hop": 1
+      },
+      {
+        "source_id": "art_26",
+        "target_id": "art_73",
+        "hop": 1
+      },
+      {
+        "source_id": "art_26",
+        "target_id": "art_13",
+        "hop": 1
+      },
+      {
+        "source_id": "art_6",
+        "target_id": "art_49.2",
+        "hop": 1
+      },
+      {
+        "source_id": "art_6",
+        "target_id": "art_96",
+        "hop": 1
+      },
+      {
+        "source_id": "art_6",
+        "target_id": "art_97",
+        "hop": 1
+      },
+      {
+        "source_id": "art_6",
+        "target_id": "art_7.1",
+        "hop": 1
+      },
+      {
+        "source_id": "art_6",
+        "target_id": "art_7",
+        "hop": 1
+      },
+      {
+        "source_id": "art_43",
+        "target_id": "anx_VI",
+        "hop": 2
+      },
+      {
+        "source_id": "art_43",
+        "target_id": "anx_IV",
+        "hop": 2
+      },
+      {
+        "source_id": "art_47",
+        "target_id": "anx_V",
+        "hop": 2
+      },
+      {
+        "source_id": "art_49",
+        "target_id": "anx_IX",
+        "hop": 2
+      },
+      {
+        "source_id": "art_5",
+        "target_id": "anx_II",
+        "hop": 2
+      }
+    ],
     "traversal_enabled": true,
     "truncated": false,
     "prompt_tokens": 16601,
-    "completion_tokens": 3252,
-    "duration_ms": 27588,
+    "completion_tokens": 2748,
+    "duration_ms": 28591,
     "model": "annex-qwen3-27b"
   }
 }

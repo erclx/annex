@@ -3,7 +3,7 @@
   "version": "consolidated",
   "claims": [
     {
-      "statement": "The system generates synthetic image content for commercial publication, so the provider obligation to mark outputs in a machine-readable format and make them detectable as artificially generated or manipulated applies, subject to the carve-out where the system performs an assistive function for standard editing or does not substantially alter the deployer's input data",
+      "statement": "The system generates synthetic image content for publication, so the provider must ensure the outputs are marked in a machine-readable format and detectable as artificially generated or manipulated, with technical solutions that are effective, interoperable, robust and reliable as far as technically feasible",
       "citations": [
         {
           "provision_id": "art_50.2",
@@ -17,21 +17,21 @@
       ]
     },
     {
-      "statement": "Any transparency information triggered by paragraphs 1 to 4 of Article 50 must be provided to the natural persons concerned in a clear and distinguishable manner at the latest at the time of the first interaction or exposure, and must conform to applicable accessibility requirements",
+      "statement": "The deployer must read the system against the obligation to disclose that image content has been artificially generated or manipulated where the content constitutes a deep fake, noting the exception where the content forms part of an evidently artistic, creative, satirical or fictional work",
       "citations": [
         {
-          "provision_id": "art_50.5",
-          "citation": "Article 50(5)",
+          "provision_id": "art_50.4",
+          "citation": "Article 50(4)",
           "kind": "paragraph",
           "version": "consolidated",
-          "text": "5. The information referred to in paragraphs 1 to 4 shall be provided to the natural persons concerned in a clear and distinguishable manner at the latest at the time of the first interaction or exposure. The information shall conform to the applicable accessibility requirements.",
+          "text": "4. Deployers of an AI system that generates or manipulates image, audio or video content constituting a deep fake, shall disclose that the content has been artificially generated or manipulated. This obligation shall not apply where the use is authorised by law to detect, prevent, investigate or prosecute criminal offence. Where the content forms part of an evidently artistic, creative, satirical, fictional or analogous work or programme, the transparency obligations set out in this paragraph are limited to disclosure of the existence of such generated or manipulated content in an appropriate manner that does not hamper the display or enjoyment of the work. Deployers of an AI system that generates or manipulates text which is published with the purpose of informing the public on matters of public interest shall disclose that the text has been artificially generated or manipulated. This obligation shall not apply where the use is authorised by law to detect, prevent, investigate or prosecute criminal offences or where the AI-generated content has undergone a process of human review or editorial control and where a natural or legal person holds editorial responsibility for the publication of the content.",
           "changed": false,
           "change_note": null
         }
       ]
     },
     {
-      "statement": "If the AI system generating the product photographs was placed on the market before 2 August 2026, the provider must take the necessary steps to comply with Article 50(2) by 2 December 2026",
+      "statement": "If the AI system was placed on the market before 2 August 2026, the provider must take the necessary steps to comply with Article 50(2) by 2 December 2026",
       "citations": [
         {
           "provision_id": "art_111.4",
@@ -45,7 +45,21 @@
       ]
     },
     {
-      "statement": "The Commission is to encourage and facilitate codes of practice at Union level for the detection, marking and labelling of artificially generated or manipulated content, and may assess whether adherence to those codes is adequate to ensure compliance with the obligations in paragraphs 2 and 4 of Article 50",
+      "statement": "Any information required under paragraphs 1 to 4 of Article 50 must be provided to the natural persons concerned in a clear and distinguishable manner at the latest at the time of the first interaction or exposure, conforming to applicable accessibility requirements",
+      "citations": [
+        {
+          "provision_id": "art_50.5",
+          "citation": "Article 50(5)",
+          "kind": "paragraph",
+          "version": "consolidated",
+          "text": "5. The information referred to in paragraphs 1 to 4 shall be provided to the natural persons concerned in a clear and distinguishable manner at the latest at the time of the first interaction or exposure. The information shall conform to the applicable accessibility requirements.",
+          "changed": false,
+          "change_note": null
+        }
+      ]
+    },
+    {
+      "statement": "The Commission shall encourage and facilitate codes of practice at Union level for the detection, marking and labelling of artificially generated or manipulated content, and shall assess whether adherence to those codes is adequate to ensure compliance with the obligations in paragraphs 2 and 4",
       "citations": [
         {
           "provision_id": "art_50.7",
@@ -55,6 +69,20 @@
           "text": "7. The Commission shall encourage and facilitate the drawing up of codes of practice at Union level to facilitate the effective implementation of the obligations regarding the detection, marking and labelling of artificially generated or manipulated content. The Commission, taking utmost account of the opinion of the Board, shall assess whether adherence to those codes of practice is adequate to ensure compliance with the obligations laid down in paragraphs 2 and 4 of this Article, in accordance with the procedure laid down in Article 56(6). If it deems the code of practice to be inadequate, the Commission may adopt an implementing act specifying common rules for the implementation of those obligations in accordance with the examination procedure laid down in Article 98(2). ▼B CHAPTER V GENERAL-PURPOSE AI MODELS SECTION 1 Classification rules",
           "changed": true,
           "change_note": "The wording of Article 50(7) differs between the original and the consolidated text."
+        }
+      ]
+    },
+    {
+      "statement": "If the image model used is a general-purpose AI model, its provider is obliged to draw up, keep up-to-date and make available information and documentation to providers of AI systems who intend to integrate the model, enabling them to understand the model's capabilities and limitations and to comply with their obligations under the Regulation",
+      "citations": [
+        {
+          "provision_id": "art_53.1",
+          "citation": "Article 53(1)",
+          "kind": "paragraph",
+          "version": "consolidated",
+          "text": "1. Providers of general-purpose AI models shall: (a) draw up and keep up-to-date the technical documentation of the model, including its training and testing process and the results of its evaluation, which shall contain, at a minimum, the information set out in Annex XI for the purpose of providing it, upon request, to the AI Office and the national competent authorities; (b) draw up, keep up-to-date and make available information and documentation to providers of AI systems who intend to integrate the general-purpose AI model into their AI systems. Without prejudice to the need to observe and protect intellectual property rights and confidential business information or trade secrets in accordance with Union and national law, the information and documentation shall: (i) enable providers of AI systems to have a good understanding of the capabilities and limitations of the general-purpose AI model and to comply with their obligations pursuant to this Regulation; and (ii) contain, at a minimum, the elements set out in Annex XII; (c) put in place a policy to comply with Union law on copyright and related rights, and in particular to identify and comply with, including through state-of-the-art technologies, a reservation of rights expressed pursuant to Article 4(3) of Directive (EU) 2019/790; (d) draw up and make publicly available a sufficiently detailed summary about the content used for training of the general-purpose AI model, according to a template provided by the AI Office.",
+          "changed": false,
+          "change_note": null
         }
       ]
     }
@@ -140,11 +168,213 @@
       "art_110",
       "art_14.5"
     ],
+    "edges": [
+      {
+        "source_id": "art_50.2",
+        "target_id": "art_50",
+        "hop": 0
+      },
+      {
+        "source_id": "art_13.1",
+        "target_id": "art_13",
+        "hop": 0
+      },
+      {
+        "source_id": "art_111.4",
+        "target_id": "art_111",
+        "hop": 0
+      },
+      {
+        "source_id": "art_53.1",
+        "target_id": "art_53",
+        "hop": 0
+      },
+      {
+        "source_id": "art_54.6",
+        "target_id": "art_54",
+        "hop": 0
+      },
+      {
+        "source_id": "art_50",
+        "target_id": "art_56.6",
+        "hop": 1
+      },
+      {
+        "source_id": "art_50",
+        "target_id": "art_56",
+        "hop": 1
+      },
+      {
+        "source_id": "art_50",
+        "target_id": "art_98.2",
+        "hop": 1
+      },
+      {
+        "source_id": "art_50",
+        "target_id": "art_98",
+        "hop": 1
+      },
+      {
+        "source_id": "art_13",
+        "target_id": "art_15",
+        "hop": 1
+      },
+      {
+        "source_id": "art_13",
+        "target_id": "art_9.2",
+        "hop": 1
+      },
+      {
+        "source_id": "art_13",
+        "target_id": "art_9",
+        "hop": 1
+      },
+      {
+        "source_id": "art_13",
+        "target_id": "art_14",
+        "hop": 1
+      },
+      {
+        "source_id": "art_13",
+        "target_id": "art_12",
+        "hop": 1
+      },
+      {
+        "source_id": "art_111",
+        "target_id": "art_5",
+        "hop": 1
+      },
+      {
+        "source_id": "art_111",
+        "target_id": "art_113",
+        "hop": 1
+      },
+      {
+        "source_id": "art_111",
+        "target_id": "anx_X",
+        "hop": 1
+      },
+      {
+        "source_id": "art_53",
+        "target_id": "anx_XI",
+        "hop": 1
+      },
+      {
+        "source_id": "art_53",
+        "target_id": "anx_XII",
+        "hop": 1
+      },
+      {
+        "source_id": "art_53",
+        "target_id": "art_97",
+        "hop": 1
+      },
+      {
+        "source_id": "art_53",
+        "target_id": "art_97.2",
+        "hop": 1
+      },
+      {
+        "source_id": "art_53",
+        "target_id": "art_78",
+        "hop": 1
+      },
+      {
+        "source_id": "art_54",
+        "target_id": "art_55",
+        "hop": 1
+      },
+      {
+        "source_id": "art_14",
+        "target_id": "anx_III",
+        "hop": 2
+      },
+      {
+        "source_id": "art_12",
+        "target_id": "art_14.5",
+        "hop": 2
+      },
+      {
+        "source_id": "art_5",
+        "target_id": "anx_II",
+        "hop": 2
+      },
+      {
+        "source_id": "art_113",
+        "target_id": "art_101",
+        "hop": 2
+      },
+      {
+        "source_id": "art_113",
+        "target_id": "anx_I",
+        "hop": 2
+      },
+      {
+        "source_id": "art_113",
+        "target_id": "art_102",
+        "hop": 2
+      },
+      {
+        "source_id": "art_113",
+        "target_id": "art_103",
+        "hop": 2
+      },
+      {
+        "source_id": "art_113",
+        "target_id": "art_104",
+        "hop": 2
+      },
+      {
+        "source_id": "art_113",
+        "target_id": "art_105",
+        "hop": 2
+      },
+      {
+        "source_id": "art_113",
+        "target_id": "art_106",
+        "hop": 2
+      },
+      {
+        "source_id": "art_113",
+        "target_id": "art_107",
+        "hop": 2
+      },
+      {
+        "source_id": "art_113",
+        "target_id": "art_108",
+        "hop": 2
+      },
+      {
+        "source_id": "art_113",
+        "target_id": "art_109",
+        "hop": 2
+      },
+      {
+        "source_id": "art_113",
+        "target_id": "art_110",
+        "hop": 2
+      },
+      {
+        "source_id": "art_97",
+        "target_id": "art_11.3",
+        "hop": 2
+      },
+      {
+        "source_id": "art_97",
+        "target_id": "art_11",
+        "hop": 2
+      },
+      {
+        "source_id": "art_78",
+        "target_id": "anx_IV",
+        "hop": 2
+      }
+    ],
     "traversal_enabled": true,
     "truncated": false,
     "prompt_tokens": 15293,
-    "completion_tokens": 3550,
-    "duration_ms": 31866,
+    "completion_tokens": 4631,
+    "duration_ms": 45956,
     "model": "annex-qwen3-27b"
   }
 }

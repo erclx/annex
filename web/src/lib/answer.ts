@@ -82,6 +82,20 @@ export const answerSchema = z
         completion_tokens: z.number().int().default(0),
         dropped_ids: z.array(z.string()).default([]),
         duration_ms: z.number().int().default(0),
+        edges: z
+          .array(
+            z
+              .object({
+                hop: z.number().int(),
+                source_id: z.string(),
+                target_id: z.string(),
+              })
+              .strict()
+              .describe(
+                "One edge the walk took, from the provision it came from to the one it reached.\n\n`hop` is the target's distance from a seed. Every edge here is the one the\nwalk actually took to first reach `target_id`, not every reference between\nthe two provisions, which is what lets a drawing lay a traversed provision\nout at exactly one point without choosing among the citations that reach\nit.",
+              ),
+          )
+          .default([]),
         model: z.string().default(''),
         prompt_tokens: z.number().int().default(0),
         searched_ids: z.array(z.string()).default([]),
@@ -91,12 +105,13 @@ export const answerSchema = z
       })
       .strict()
       .describe(
-        "What the pipeline did to produce an answer, and what it cost.\n\nHeld on the answer rather than beside it. The evaluation harness scores hit\nrate and cost per question from this object, and a trace that travels\nseparately from the answer it describes is a trace something eventually\nmismatches.\n\n`dropped_ids` is the part a scorer cannot infer. Retrieval reaches more\nprovisions than a prompt has room for, so `traversed_ids` names what\ntraversal found and `dropped_ids` names which of those the budget cut\nbefore the model saw them. Scoring traversal's contribution against the\nfirst without subtracting the second credits it for text nothing read. Ids\nrather than a count, because the scorer resolves them.\n\n`truncated` says the model stopped for want of room rather than because it\nhad finished. A cut answer reads as a complete one, so a caller that does\nnot check this field cannot tell them apart.",
+        "What the pipeline did to produce an answer, and what it cost.\n\nHeld on the answer rather than beside it. The evaluation harness scores hit\nrate and cost per question from this object, and a trace that travels\nseparately from the answer it describes is a trace something eventually\nmismatches.\n\n`dropped_ids` is the part a scorer cannot infer. Retrieval reaches more\nprovisions than a prompt has room for, so `traversed_ids` names what\ntraversal found and `dropped_ids` names which of those the budget cut\nbefore the model saw them. Scoring traversal's contribution against the\nfirst without subtracting the second credits it for text nothing read. Ids\nrather than a count, because the scorer resolves them.\n\n`truncated` says the model stopped for want of room rather than because it\nhad finished. A cut answer reads as a complete one, so a caller that does\nnot check this field cannot tell them apart.\n\n`edges` is what a drawing needs and the three id tuples above do not\ncarry: which provision each traversed provision was reached from. It is\nempty on every fixture recorded before this field existed, and on any run\nwith traversal switched off, so an empty tuple does not by itself mean\nnothing was traversed. Read it alongside `traversal_enabled` and\n`traversed_ids` rather than on its own.",
       )
       .default({
         completion_tokens: 0,
         dropped_ids: [],
         duration_ms: 0,
+        edges: [],
         model: '',
         prompt_tokens: 0,
         searched_ids: [],

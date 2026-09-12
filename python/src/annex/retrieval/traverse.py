@@ -47,6 +47,20 @@ logger = logging.getLogger('annex.retrieval.traverse')
 
 
 @dataclass(frozen=True)
+class TraversalEdge:
+    """One edge the walk took, from the provision it came from to the one it reached.
+
+    `hop` is the target's distance from a seed, not the edge's own length,
+    since every edge here spans exactly one hop and the distance is what a
+    layered drawing keys its column on.
+    """
+
+    source_id: str
+    target_id: str
+    hop: int
+
+
+@dataclass(frozen=True)
 class Expansion:
     """What search found, and what following the text's own citations added.
 
@@ -57,6 +71,7 @@ class Expansion:
 
     searched_ids: tuple[str, ...]
     traversed_ids: tuple[str, ...]
+    edges: tuple[TraversalEdge, ...]
     enabled: bool
 
     @property
@@ -64,25 +79,58 @@ class Expansion:
         return self.searched_ids + self.traversed_ids
 
 
-def _holding_articles(graph: ReferenceGraph, seeds: set[str]) -> dict[str, int]:
-    """The articles holding any paragraph among the seeds, at distance zero."""
+def _holding_articles(
+    graph: ReferenceGraph, seeds: set[str], ordered_seeds: tuple[str, ...]
+) -> tuple[dict[str, int], tuple[TraversalEdge, ...]]:
+    """The articles holding any paragraph among the seeds, at distance zero.
+
+    Each lift is also an edge, from the paragraph seed to the article it sits
+    in. It is the one edge in the walk that is not a citation, since nothing
+    in the text points from a paragraph to its own article.
+
+    An article lifts once even when several of its paragraphs are seeds.
+    Without the `parent_id not in lifted` guard, `art_50.1` and `art_50.2`
+    both seed would each emit their own edge to `art_50`, which breaks the
+    one-edge-per-provision invariant the rest of the walk holds.
+
+    Iterating `ordered_seeds` rather than the `seeds` set is what makes the
+    surviving edge's source reproducible. A `set` of strings iterates in an
+    order Python randomizes per process, so reading straight off `seeds`
+    picked a different paragraph as the recorded source on every run. Search
+    already ranks `ordered_seeds` nearest first, so the source this now keeps
+    is the highest-ranked seed paragraph rather than an arbitrary one.
+    """
     lifted: dict[str, int] = {}
-    for seed in seeds:
+    edges: list[TraversalEdge] = []
+    for seed in ordered_seeds:
         provision = graph.nodes.get(seed)
         parent_id = provision.parent_id if provision else None
-        if parent_id and parent_id not in seeds and parent_id in graph.nodes:
+        if (
+            parent_id
+            and parent_id not in seeds
+            and parent_id not in lifted
+            and parent_id in graph.nodes
+        ):
             lifted[parent_id] = 0
-    return lifted
+            edges.append(TraversalEdge(source_id=seed, target_id=parent_id, hop=0))
+    return lifted, tuple(edges)
 
 
 def _distances(
-    graph: ReferenceGraph, seeds: set[str], reached: dict[str, int], depth: int
+    graph: ReferenceGraph,
+    seeds: set[str],
+    reached: dict[str, int],
+    depth: int,
+    edges: list[TraversalEdge],
 ) -> dict[str, int]:
     """Every provision reachable from any seed, with how far away it sat.
 
     Breadth-first from all seeds at once rather than once per seed, so a
     provision two hops from one seed and one hop from another is recorded at
-    one, which is what the cap should keep.
+    one, which is what the cap should keep. `edges` collects the edge each
+    newly-reached provision was found through, appended in place: a provision
+    is marked `seen` at the moment it is first discovered, so it is reached
+    through exactly one edge regardless of how many other provisions cite it.
     """
     starts = [seed for seed in seeds if seed in graph.nodes] + list(reached)
     queue: deque[tuple[str, int]] = deque(
@@ -98,6 +146,9 @@ def _distances(
                 continue
             seen.add(target)
             reached[target] = distance + 1
+            edges.append(
+                TraversalEdge(source_id=current, target_id=target, hop=distance + 1)
+            )
             queue.append((target, distance + 1))
     return reached
 
@@ -118,12 +169,18 @@ def traverse(
     """
     searched = tuple(dict.fromkeys(hit.provision_id for hit in hits))
     if not enabled:
-        return Expansion(searched_ids=searched, traversed_ids=(), enabled=False)
+        return Expansion(
+            searched_ids=searched, traversed_ids=(), edges=(), enabled=False
+        )
 
     seeds = set(searched)
-    reached = _distances(graph, seeds, _holding_articles(graph, seeds), depth)
+    lifted, lift_edges = _holding_articles(graph, seeds, searched)
+    edges: list[TraversalEdge] = list(lift_edges)
+    reached = _distances(graph, seeds, lifted, depth, edges)
     ranked = sorted(reached.items(), key=lambda item: (item[1], item[0]))
     traversed = tuple(provision_id for provision_id, _ in ranked[:cap])
+    kept = set(traversed)
+    kept_edges = tuple(edge for edge in edges if edge.target_id in kept)
     logger.info(
         'traversal reached %d provisions from %d, kept %d under a cap of %d',
         len(reached),
@@ -131,4 +188,6 @@ def traverse(
         len(traversed),
         cap,
     )
-    return Expansion(searched_ids=searched, traversed_ids=traversed, enabled=True)
+    return Expansion(
+        searched_ids=searched, traversed_ids=traversed, edges=kept_edges, enabled=True
+    )

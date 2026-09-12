@@ -4,7 +4,7 @@ from annex.retrieval.chunks import CHARACTER_BUDGET, Chunk, chunk, source_provis
 from annex.retrieval.embed import EmbeddingTruncatedError, embed
 from annex.retrieval.search import search
 from annex.retrieval.store import INDEX_PATH, Hit, nearest, write
-from annex.retrieval.traverse import Expansion, traverse
+from annex.retrieval.traverse import Expansion, TraversalEdge, traverse
 
 __all__ = [
     'CHARACTER_BUDGET',
@@ -13,6 +13,7 @@ __all__ = [
     'EmbeddingTruncatedError',
     'Expansion',
     'Hit',
+    'TraversalEdge',
     'chunk',
     'embed',
     'nearest',

@@ -37,8 +37,8 @@ import { chromium, expect, type Page } from '@playwright/test'
 import path from 'path'
 
 import answered from '../src/fixtures/q01-support-chatbot.consolidated.json'
+import cutShortSource from '../src/fixtures/q05-university-admission.original.json'
 import refused from '../src/fixtures/q08-redesigned-interface.consolidated.json'
-import cutShort from '../src/fixtures/q09-wider-rollout.original.json'
 
 const BASE = process.env.CAPTURE_BASE_URL
 const REPLAY_BASE = process.env.CAPTURE_REPLAY_BASE_URL
@@ -54,6 +54,17 @@ const CORS = {
 // the service is stubbed by route rather than by body, and it is what the
 // captured surface shows under THE SYSTEM YOU DESCRIBED.
 const DESCRIPTION = answered.question
+
+// A run of the pipeline that actually cuts a claim off mid-answer is not
+// guaranteed to land on any one question, since which fixture truncates
+// depends on how long the model's own generation ran that capture. This flips
+// the one boolean the banner reads on a real answered fixture rather than
+// waiting for one to truncate on its own, leaving every claim, citation and
+// quoted provision exactly as the pipeline produced them.
+const cutShort = {
+  ...cutShortSource,
+  retrieval: { ...cutShortSource.retrieval, truncated: true },
+}
 
 // The one description the recording cannot hold, for the state that says so.
 const UNRECORDED =
@@ -135,6 +146,7 @@ async function reached(page: Page, captureCase: Case) {
     case '4-answered':
       await expect(page.locator('blockquote').first()).toBeVisible()
       await expect(cutShortBanner).toBeHidden()
+      await expect(page.getByRole('img', { name: /The walk,/ })).toBeVisible()
       break
     case '5-answered-cut-short':
       await expect(cutShortBanner).toBeVisible()

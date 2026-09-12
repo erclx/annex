@@ -3,7 +3,7 @@
   "version": "original",
   "claims": [
     {
-      "statement": "The system is a credit-scoring system for natural persons, which is listed in Annex III point 5(b) and is therefore a high-risk AI system under Article 6(2)",
+      "statement": "The system is a credit-scoring tool for natural persons, listed in Annex III point 5(b), and is therefore high-risk under Article 6(2)",
       "citations": [
         {
           "provision_id": "anx_III",
@@ -26,7 +26,7 @@
       ]
     },
     {
-      "statement": "The system has been on the market since 2025, i.e. before 2 August 2026, so Article 111(2) determines whether the Regulation applies to it, applying only if, as from that date, the system is subject to significant changes in its designs",
+      "statement": "Having been on the market since 2025, i.e. before 2 August 2026, the Regulation applies to it only if, as from that date, it is subject to significant changes in its designs",
       "citations": [
         {
           "provision_id": "art_111.2",
@@ -49,7 +49,7 @@
       ]
     },
     {
-      "statement": "The retraining on newer data must be read against Article 43(4), which requires a new conformity assessment procedure in the event of a substantial modification, regardless of whether the modified system is further distributed or continues to be used by the current deployer",
+      "statement": "Retraining on newer data may constitute a substantial modification, in which case a new conformity assessment procedure is required under Article 43(4)",
       "citations": [
         {
           "provision_id": "art_43.4",
@@ -72,7 +72,7 @@
       ]
     },
     {
-      "statement": "Article 43(4), second sentence, provides that for high-risk AI systems that continue to learn after being placed on the market, changes pre-determined by the provider at the moment of the initial conformity assessment and contained in the technical documentation under Annex IV point 2(f) shall not constitute a substantial modification",
+      "statement": "If the retraining was pre-determined by the provider at the moment of the initial conformity assessment and recorded in the technical documentation under Annex IV point 2(f), it shall not constitute a substantial modification",
       "citations": [
         {
           "provision_id": "art_43.4",
@@ -95,7 +95,7 @@
       ]
     },
     {
-      "statement": "If the retraining amounts to a substantial modification, Article 25(1)(b) provides that the entity making that modification is considered a provider of the high-risk AI system and is subject to the obligations under Article 16",
+      "statement": "A party who makes a substantial modification to a high-risk AI system already placed on the market shall be considered a provider and shall be subject to the obligations under Article 16",
       "citations": [
         {
           "provision_id": "art_25.1",
@@ -118,25 +118,25 @@
       ]
     },
     {
-      "statement": "Article 111(2), second sentence, requires that, in any case, the providers and deployers of high-risk AI systems intended to be used by public authorities take the necessary steps to comply with the requirements and obligations of the Regulation by 2 August 2030",
+      "statement": "If the provider considers the system falls within the Article 6(3) derogation and is not high-risk, it must document that assessment before the system is placed on the market or put into service and is subject to the registration obligation in Article 49(2)",
       "citations": [
         {
-          "provision_id": "art_111.2",
-          "citation": "Article 111(2)",
+          "provision_id": "art_6.4",
+          "citation": "Article 6(4)",
           "kind": "paragraph",
           "version": "original",
-          "text": "2. Without prejudice to the application of Article 5 as referred to in Article 113(3), point (a), this Regulation shall apply to operators of high-risk AI systems, other than the systems referred to in paragraph 1 of this Article, that have been placed on the market or put into service before 2 August 2026, only if, as from that date, those systems are subject to significant changes in their designs. In any case, the providers and deployers of high-risk AI systems intended to be used by public authorities shall take the necessary steps to comply with the requirements and obligations of this Regulation by 2 August 2030.",
-          "changed": true,
-          "change_note": "The wording of Article 111(2) differs between the original and the consolidated text."
+          "text": "4. A provider who considers that an AI system referred to in Annex III is not high-risk shall document its assessment before that system is placed on the market or put into service. Such provider shall be subject to the registration obligation set out in Article 49(2). Upon request of national competent authorities, the provider shall provide the documentation of the assessment.",
+          "changed": false,
+          "change_note": null
         },
         {
-          "provision_id": "art_111",
-          "citation": "Article 111",
+          "provision_id": "art_6",
+          "citation": "Article 6",
           "kind": "article",
           "version": "original",
-          "text": "Article 111 AI systems already placed on the market or put into service and general-purpose AI models already placed on the marked 1. Without prejudice to the application of Article 5 as referred to in Article 113(3), point (a), AI systems which are components of the large-scale IT systems established by the legal acts listed in Annex X that have been placed on the market or put into service before 2 August 2027 shall be brought into compliance with this Regulation by 31 December 2030. The requirements laid down in this Regulation shall be taken into account in the evaluation of each large-scale IT system established by the legal acts listed in Annex X to be undertaken as provided for in those legal acts and where those legal acts are replaced or amended. 2. Without prejudice to the application of Article 5 as referred to in Article 113(3), point (a), this Regulation shall apply to operators of high-risk AI systems, other than the systems referred to in paragraph 1 of this Article, that have been placed on the market or put into service before 2 August 2026, only if, as from that date, those systems are subject to significant changes in their designs. In any case, the providers and deployers of high-risk AI systems intended to be used by public authorities shall take the necessary steps to comply with the requirements and obligations of this Regulation by 2 August 2030. 3. Providers of general-purpose AI models that have been placed on the market before 2 August 2025 shall take the necessary steps in order to comply with the obligations laid down in this Regulation by 2 August 2027.",
+          "text": "Article 6 Classification rules for high-risk AI systems 1. Irrespective of whether an AI system is placed on the market or put into service independently of the products referred to in points (a) and (b), that AI system shall be considered to be high-risk where both of the following conditions are fulfilled: (a) the AI system is intended to be used as a safety component of a product, or the AI system is itself a product, covered by the Union harmonisation legislation listed in Annex I; (b) the product whose safety component pursuant to point (a) is the AI system, or the AI system itself as a product, is required to undergo a third-party conformity assessment, with a view to the placing on the market or the putting into service of that product pursuant to the Union harmonisation legislation listed in Annex I. 2. In addition to the high-risk AI systems referred to in paragraph 1, AI systems referred to in Annex III shall be considered to be high-risk. 3. By derogation from paragraph 2, an AI system referred to in Annex III shall not be considered to be high-risk where it does not pose a significant risk of harm to the health, safety or fundamental rights of natural persons, including by not materially influencing the outcome of decision making. The first subparagraph shall apply where any of the following conditions is fulfilled: (a) the AI system is intended to perform a narrow procedural task; (b) the AI system is intended to improve the result of a previously completed human activity; (c) the AI system is intended to detect decision-making patterns or deviations from prior decision-making patterns and is not meant to replace or influence the previously completed human assessment, without proper human review; or (d) the AI system is intended to perform a preparatory task to an assessment relevant for the purposes of the use cases listed in Annex III. Notwithstanding the first subparagraph, an AI system referred to in Annex III shall always be considered to be high-risk where the AI system performs profiling of natural persons. 4. A provider who considers that an AI system referred to in Annex III is not high-risk shall document its assessment before that system is placed on the market or put into service. Such provider shall be subject to the registration obligation set out in Article 49(2). Upon request of national competent authorities, the provider shall provide the documentation of the assessment. 5. The Commission shall, after consulting the European Artificial Intelligence Board (the ‘Board’), and no later than 2 February 2026, provide guidelines specifying the practical implementation of this Article in line with Article 96 together with a comprehensive list of practical examples of use cases of AI systems that are high-risk and not high-risk. 6. The Commission is empowered to adopt delegated acts in accordance with Article 97 in order to amend paragraph 3, second subparagraph, of this Article by adding new conditions to those laid down therein, or by modifying them, where there is concrete and reliable evidence of the existence of AI systems that fall under the scope of Annex III, but do not pose a significant risk of harm to the health, safety or fundamental rights of natural persons. 7. The Commission shall adopt delegated acts in accordance with Article 97 in order to amend paragraph 3, second subparagraph, of this Article by deleting any of the conditions laid down therein, where there is concrete and reliable evidence that this is necessary to maintain the level of protection of health, safety and fundamental rights provided for by this Regulation. 8. Any amendment to the conditions laid down in paragraph 3, second subparagraph, adopted in accordance with paragraphs 6 and 7 of this Article shall not decrease the overall level of protection of health, safety and fundamental rights provided for by this Regulation and shall ensure consistency with the delegated acts adopted pursuant to Article 7(1), and take account of market and technological developments.",
           "changed": true,
-          "change_note": "The wording of Article 111 differs between the original and the consolidated text."
+          "change_note": "The wording of Article 6 differs between the original and the consolidated text."
         }
       ]
     }
@@ -234,11 +234,213 @@
       "anx_IX",
       "anx_VIII"
     ],
+    "edges": [
+      {
+        "source_id": "art_111.2",
+        "target_id": "art_111",
+        "hop": 0
+      },
+      {
+        "source_id": "art_43.4",
+        "target_id": "art_43",
+        "hop": 0
+      },
+      {
+        "source_id": "art_6.1",
+        "target_id": "art_6",
+        "hop": 0
+      },
+      {
+        "source_id": "art_26.5",
+        "target_id": "art_26",
+        "hop": 0
+      },
+      {
+        "source_id": "art_80.2",
+        "target_id": "art_80",
+        "hop": 0
+      },
+      {
+        "source_id": "art_25.1",
+        "target_id": "art_25",
+        "hop": 0
+      },
+      {
+        "source_id": "art_111",
+        "target_id": "art_5",
+        "hop": 1
+      },
+      {
+        "source_id": "art_111",
+        "target_id": "art_113",
+        "hop": 1
+      },
+      {
+        "source_id": "art_111",
+        "target_id": "anx_X",
+        "hop": 1
+      },
+      {
+        "source_id": "art_43",
+        "target_id": "anx_III",
+        "hop": 1
+      },
+      {
+        "source_id": "art_43",
+        "target_id": "art_40",
+        "hop": 1
+      },
+      {
+        "source_id": "art_43",
+        "target_id": "art_41",
+        "hop": 1
+      },
+      {
+        "source_id": "art_43",
+        "target_id": "anx_VI",
+        "hop": 1
+      },
+      {
+        "source_id": "art_43",
+        "target_id": "anx_VII",
+        "hop": 1
+      },
+      {
+        "source_id": "art_43",
+        "target_id": "art_74.8",
+        "hop": 1
+      },
+      {
+        "source_id": "art_43",
+        "target_id": "art_74",
+        "hop": 1
+      },
+      {
+        "source_id": "art_43",
+        "target_id": "anx_I",
+        "hop": 1
+      },
+      {
+        "source_id": "art_43",
+        "target_id": "art_31.4",
+        "hop": 1
+      },
+      {
+        "source_id": "art_43",
+        "target_id": "art_31",
+        "hop": 1
+      },
+      {
+        "source_id": "art_43",
+        "target_id": "anx_IV",
+        "hop": 1
+      },
+      {
+        "source_id": "art_43",
+        "target_id": "art_97",
+        "hop": 1
+      },
+      {
+        "source_id": "art_6",
+        "target_id": "art_49.2",
+        "hop": 1
+      },
+      {
+        "source_id": "art_6",
+        "target_id": "art_49",
+        "hop": 1
+      },
+      {
+        "source_id": "art_6",
+        "target_id": "art_96",
+        "hop": 1
+      },
+      {
+        "source_id": "art_6",
+        "target_id": "art_7.1",
+        "hop": 1
+      },
+      {
+        "source_id": "art_6",
+        "target_id": "art_7",
+        "hop": 1
+      },
+      {
+        "source_id": "art_26",
+        "target_id": "art_72",
+        "hop": 1
+      },
+      {
+        "source_id": "art_26",
+        "target_id": "art_79.1",
+        "hop": 1
+      },
+      {
+        "source_id": "art_26",
+        "target_id": "art_79",
+        "hop": 1
+      },
+      {
+        "source_id": "art_26",
+        "target_id": "art_73",
+        "hop": 1
+      },
+      {
+        "source_id": "art_26",
+        "target_id": "art_71",
+        "hop": 1
+      },
+      {
+        "source_id": "art_26",
+        "target_id": "art_13",
+        "hop": 1
+      },
+      {
+        "source_id": "art_26",
+        "target_id": "art_50",
+        "hop": 1
+      },
+      {
+        "source_id": "art_80",
+        "target_id": "art_6.3",
+        "hop": 1
+      },
+      {
+        "source_id": "art_80",
+        "target_id": "art_99",
+        "hop": 1
+      },
+      {
+        "source_id": "art_80",
+        "target_id": "art_79.5",
+        "hop": 1
+      },
+      {
+        "source_id": "art_25",
+        "target_id": "art_16",
+        "hop": 1
+      },
+      {
+        "source_id": "art_5",
+        "target_id": "anx_II",
+        "hop": 2
+      },
+      {
+        "source_id": "art_49",
+        "target_id": "anx_VIII",
+        "hop": 2
+      },
+      {
+        "source_id": "art_49",
+        "target_id": "anx_IX",
+        "hop": 2
+      }
+    ],
     "traversal_enabled": true,
     "truncated": false,
     "prompt_tokens": 14785,
-    "completion_tokens": 3776,
-    "duration_ms": 30546,
+    "completion_tokens": 3404,
+    "duration_ms": 33964,
     "model": "annex-qwen3-27b"
   }
 }

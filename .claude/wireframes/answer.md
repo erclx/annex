@@ -331,6 +331,14 @@ That summary line stays on screen at all times. Behind the disclosure sit three 
 
 Dropped ids are named beside traversed ids and never omitted. Traversal reaches more provisions than a prompt has room for, so reporting what traversal found without reporting what the budget cut overstates what the answer actually rests on.
 
+### The drawing
+
+A layered graph sits above the three id lists, inside the same disclosure, on every state that carries a trace, answered or refused alike. Hop is the column: searched provisions on the left, what they cite next, and what those cite after. A dropped provision draws as a hollow, dashed node at its own hop rather than vanishing, since the budget cutting it is itself part of what the trace reports. The id lists stay behind it. They are the drawing's text equivalent for a reader a screen reader serves, and removing them to make room for the drawing would remove that equivalent.
+
+Picked by looking, per `canon:draft-and-pick`, against a baseline of the id lists alone, a non-layered hand-drawn arrangement, and a tree built with `d3-hierarchy`. Recorded in `.claude/ARCHITECTURE.md` against what it beat.
+
+A trace carrying no edges, being every fixture recorded before this field existed and every run with traversal switched off, renders no drawing. The id lists render as they always have, so an edgeless trace degrades to the lists rather than to an empty frame.
+
 ## Behavior
 
 - The version toggle re-asks the current question against the other text and replaces the answer. It is a real control, not a demo affordance
@@ -381,7 +389,5 @@ The panel holds one version's whole text, in document order, as headings with th
 - The panel is the only overlay this surface carries. It stacks on top of every other state rather than replacing one, and closing it always returns to what was on screen underneath
 
 ## Not on this surface
-
-The reference graph is not visualized. It sits under open risks in the architecture record as depending on time remaining, and a fixed window with the evaluation not yet built does not have it. The traversal switch and the traversed-id disclosure carry the evidence that traversal happened, which is what a graph would otherwise be there to show.
 
 There is no navigation, no account, no history, and no second screen. A visitor asks one question at a time and the surface is that question's answer.

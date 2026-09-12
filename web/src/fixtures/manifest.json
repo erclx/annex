@@ -1,6 +1,6 @@
 {
-  "commit": "6317422349f6d075b51385861cd6958958405bba",
-  "captured_at": "2026-09-08",
+  "commit": "92fd0b2402ff99f90110526ec3696c2d91126df1",
+  "captured_at": "2026-09-12",
   "entries": [
     {
       "question_id": "q01-support-chatbot",
@@ -64,7 +64,7 @@
       "flow": "substantial-modification",
       "version": "original",
       "file": "q08-redesigned-interface.original.json",
-      "refused": false
+      "refused": true
     },
     {
       "question_id": "q09-wider-rollout",
@@ -72,7 +72,7 @@
       "flow": "substantial-modification",
       "version": "original",
       "file": "q09-wider-rollout.original.json",
-      "refused": false
+      "refused": true
     },
     {
       "question_id": "q10-high-risk-deadline",
@@ -96,7 +96,7 @@
       "flow": "version-comparison",
       "version": "original",
       "file": "q12-gpai-deadline.original.json",
-      "refused": false
+      "refused": true
     },
     {
       "question_id": "q01-support-chatbot",
@@ -128,7 +128,7 @@
       "flow": "high-risk-chain",
       "version": "consolidated",
       "file": "q04-cv-screening.consolidated.json",
-      "refused": false
+      "refused": true
     },
     {
       "question_id": "q05-university-admission",
@@ -168,7 +168,7 @@
       "flow": "substantial-modification",
       "version": "consolidated",
       "file": "q09-wider-rollout.consolidated.json",
-      "refused": false
+      "refused": true
     },
     {
       "question_id": "q10-high-risk-deadline",
