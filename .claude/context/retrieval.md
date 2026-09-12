@@ -420,6 +420,39 @@ dense end.
 is a warning, and hitting the window is an error naming the prompt that left no
 room to answer in.
 
+### A budget cut gets one retry before it refuses
+
+A cut at the budget and a cut at the window read identically to `parse_draft`:
+a draft with an unclosed thinking block and no line left to cite. `q04-cv-screening`
+and `q09-wider-rollout` on the consolidated text both stopped this way, at the
+4096-token `SYNTHESIS_BUDGET` with the thinking block still open, and reached
+the answer's fallback refusal exit rather than the answer they had carried in
+an earlier recording.
+
+`annex.llm.hit_the_window` tells the two limits apart from outside the client,
+reusing the arithmetic `_report_a_cut` already carries rather than repeating
+it. `Pipeline._synthesize` retries once when a cut hit the budget rather than
+the window, re-asking the same prompt with `max_tokens` set to whatever the
+window has left: `generation_context - completion.prompt_tokens - WINDOW_MARGIN`.
+Both calls' tokens land on the trace, and `truncated` reads off the second
+call. A window cut is not retried, since a larger budget buys it nothing.
+
+A draft still cut and still citing nothing after the retry refuses with
+`CUT_DRAFT_REASON`, naming the cut, rather than the fallback's "the model
+produced no statement resting on a retrieved provision," which is a different
+failure and the wrong one to report against a draft that never finished.
+
+The cause traced back to the environment rather than to code. Running the tree
+at `88b5a8d`, which produced the answering recording, against today's model and
+today's index reproduced today's cut refusals rather than the earlier answers
+on identical prompts at temperature 0, and `ollama list` showed
+`annex-qwen3-27b` rebuilt shortly before the re-run. A probe raising
+`SYNTHESIS_BUDGET` to 8192 for `q04-cv-screening` on the consolidated text
+finished at `finish_reason=stop` after 2413 completion tokens with the
+thinking block closed, telling the retry the room the window leaves is enough
+rather than tuning a prompt against one question. Measured on this branch on
+2026-09-12.
+
 Both halves reach the answer rather than only the log. `RetrievalTrace` carries
 `dropped_ids`, naming the provisions the budget cut, and `truncated`, saying the
 model stopped for want of room. The first is what a scorer cannot infer:
