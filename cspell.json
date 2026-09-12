@@ -21,6 +21,6 @@
     ".git/**",
     "python/data/**",
     "web/src/fixtures/**",
-    "web/ui-states/settled-design.html"
+    "web/ui-evidence/settled-design.html"
   ]
 }

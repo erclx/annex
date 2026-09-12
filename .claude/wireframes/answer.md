@@ -262,7 +262,7 @@ Copy, verbatim:
 
 The consulted provisions are not decoration. They carry what was retrieved and found not to answer, which is the difference between a refusal and a shrug, so a refusal that renders without them has lost its argument.
 
-**The sketch above draws two and the shipped capture renders twenty.** The refusal this project actually produces consults the whole retrieved set, quoted in full, which is 67 320 characters under a two-sentence refusal and takes the surface to 10022px at 1280px. Measured on `q08-redesigned-interface` against the consolidated text, captured at `f829423` on 2026-09-07 and committed as `web/ui-states/6-refused-light.png`.
+**The sketch above draws two and the shipped capture renders twenty.** The refusal this project actually produces consults the whole retrieved set, quoted in full, which is 67 320 characters under a two-sentence refusal and takes the surface to 10022px at 1280px. Measured on `q08-redesigned-interface` against the consolidated text, captured at `f829423` on 2026-09-07 and committed as `web/ui-evidence/6-refused/light.png`.
 
 Nothing here caps that list, and the argument for capping it is already made on this surface one section below. The trace disclosure holds each id list to roughly eight followed by a count of the rest, on the ground that an uncapped list swamps the answer it describes, and a refusal's argument is that the provisions were read and did not settle the question, which a count carries as well as twenty full quotations do. Capping it is a change to this file and to `RefusalView`, and it belongs to a row nobody has opened.
 

@@ -33,16 +33,16 @@ on top of an answer rather than instead of it.
 
 | State | Light | Dark |
 | ----- | ----- | ---- |
-| On arrival, before anything is asked | [light](1-empty-light.png) | [dark](1-empty-dark.png) |
-| The description is empty or past the bound | [light](2-invalid-light.png) | [dark](2-invalid-dark.png) |
-| The skeleton, and the measured range in the copy | [light](3-loading-light.png) | [dark](3-loading-dark.png) |
-| Claims, inline citations, the moved-citation chip, the trace opened | [light](4-answered-light.png) | [dark](4-answered-dark.png) |
-| The answer stopped for want of prompt room | [light](5-answered-cut-short-light.png) | [dark](5-answered-cut-short-dark.png) |
-| The text does not settle it, and what was read before saying so | [light](6-refused-light.png) | [dark](6-refused-dark.png) |
-| The model or the index is not running | [light](7-failure-unavailable-light.png) | [dark](7-failure-unavailable-dark.png) |
-| Nothing is listening on the service port | [light](8-failure-unreachable-light.png) | [dark](8-failure-unreachable-dark.png) |
-| The deployed build on arrival, the replay band and the recorded picks | [light](9-replay-empty-light.png) | [dark](9-replay-empty-dark.png) |
-| A description the recording does not hold | [light](10-unrecorded-light.png) | [dark](10-unrecorded-dark.png) |
+| On arrival, before anything is asked | [light](1-empty/light.png) | [dark](1-empty/dark.png) |
+| The description is empty or past the bound | [light](2-invalid/light.png) | [dark](2-invalid/dark.png) |
+| The skeleton, and the measured range in the copy | [light](3-loading/light.png) | [dark](3-loading/dark.png) |
+| Claims, inline citations, the moved-citation chip, the trace opened | [light](4-answered/light.png) | [dark](4-answered/dark.png) |
+| The answer stopped for want of prompt room | [light](5-answered-cut-short/light.png) | [dark](5-answered-cut-short/dark.png) |
+| The text does not settle it, and what was read before saying so | [light](6-refused/light.png) | [dark](6-refused/dark.png) |
+| The model or the index is not running | [light](7-failure-unavailable/light.png) | [dark](7-failure-unavailable/dark.png) |
+| Nothing is listening on the service port | [light](8-failure-unreachable/light.png) | [dark](8-failure-unreachable/dark.png) |
+| The deployed build on arrival, the replay band and the recorded picks | [light](9-replay-empty/light.png) | [dark](9-replay-empty/dark.png) |
+| A description the recording does not hold | [light](10-unrecorded/light.png) | [dark](10-unrecorded/dark.png) |
 
 The last two are the deployed build and reach no service. They carry the replay
 band, which renders above every state there and on no local build, so the eight
