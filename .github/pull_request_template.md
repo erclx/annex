@@ -14,5 +14,6 @@
 
 - [ ] <Specific command or test case>
 - [ ] <Edge case verified>
+- [ ] Evidence states changed: <list them, or "none" if this diff does not touch what the answer surface renders>
 
 <!-- Visuals: include only if clarifying architecture, UI, or complex logic flows -->

@@ -3,4 +3,4 @@
 # rendered rather than reformatted into this project's style. The root
 # `.prettierignore` and `cspell.json` exclude it for the same reason, and this
 # file is what applies that to the web half's own prettier run.
-ui-states/
+evidence/

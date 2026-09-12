@@ -1,5 +1,5 @@
 /**
- * Captures every state of the answer surface, in both themes, into `ui-states/`.
+ * Captures every state of the answer surface, in both themes, into `evidence/`.
  *
  * A sibling of `screenshot.ts` rather than part of it. That one captures the
  * routes a deployment serves and checks the console is clean. This one drives
@@ -33,7 +33,7 @@
  * `.claude/rules/project/ui/900-surface-evidence.md` says when to run this and
  * what to do with what it writes.
  */
-import { chromium, type Page } from '@playwright/test'
+import { chromium, expect, type Page } from '@playwright/test'
 import path from 'path'
 
 import answered from '../src/fixtures/q01-support-chatbot.consolidated.json'
@@ -108,6 +108,74 @@ async function drive(page: Page, captureCase: Case, base: string) {
   }
 }
 
+/**
+ * Asserts each case reached the state its name claims, so a case that stalls
+ * on the form, hangs on the previous screen, or lands in the wrong failure
+ * region throws here instead of being captured as-is.
+ */
+async function reached(page: Page, captureCase: Case) {
+  const cutShortBanner = page.getByText(
+    'The answer stopped for want of room, not because it finished.',
+  )
+
+  switch (captureCase.name) {
+    case '1-empty':
+      await expect(
+        page.getByRole('heading', { name: /Describe what you are building/ }),
+      ).toBeVisible()
+      break
+    case '2-invalid':
+      await expect(
+        page.getByText('A description is needed before this can be answered.'),
+      ).toBeVisible()
+      break
+    case '3-loading':
+      await expect(page.getByRole('status')).toBeVisible()
+      break
+    case '4-answered':
+      await expect(page.locator('blockquote').first()).toBeVisible()
+      await expect(cutShortBanner).toBeHidden()
+      break
+    case '5-answered-cut-short':
+      await expect(cutShortBanner).toBeVisible()
+      break
+    case '6-refused':
+      await expect(
+        page.getByText('The text does not settle this'),
+      ).toBeVisible()
+      break
+    case '7-failure-unavailable':
+      await expect(
+        page.getByText('The model or the index is not running.'),
+      ).toBeVisible()
+      break
+    case '8-failure-unreachable':
+      await expect(
+        page.getByText('Nothing is listening on the service port.'),
+      ).toBeVisible()
+      break
+    case '9-replay-empty':
+      await expect(
+        page.getByText(
+          'This page replays a recording. Nothing here is asking a model.',
+        ),
+      ).toBeVisible()
+      await expect(
+        page.getByRole('heading', {
+          name: 'Or read one of the recorded questions',
+        }),
+      ).toBeVisible()
+      break
+    case '10-unrecorded':
+      await expect(
+        page.getByText(
+          'This page holds a recording, and your description is not in it.',
+        ),
+      ).toBeVisible()
+      break
+  }
+}
+
 const wanted = CASES.filter((item) =>
   item.replay ? REPLAY_BASE !== undefined : BASE !== undefined,
 )
@@ -162,10 +230,11 @@ for (const theme of ['light', 'dark'] as const) {
     }
 
     await drive(page, captureCase, base)
+    await reached(page, captureCase)
 
-    const file = path.join('ui-states', `${captureCase.name}-${theme}.png`)
+    const file = path.join('evidence', captureCase.name, `${theme}.png`)
     await page.screenshot({ path: file, fullPage: true })
-    console.log(`captured ui-states/${captureCase.name}-${theme}.png`)
+    console.log(`captured ${file}`)
     await context.close()
   }
 }
