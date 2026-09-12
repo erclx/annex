@@ -9,14 +9,16 @@ paths:
 # Surface evidence standards
 
 `.claude/rules/canon/ui/440-surface-capture.md` splits every capture into an
-ignored sweep and a committed evidence case, and admits that a project whose
-own established convention already commits that comparison may route a
-flagged case's evidence there instead of a separate evidence folder. This file
-is that convention: `web/ui-evidence/` is where this project has committed the
-answer surface's shipped state since before that toolkit rule carried the
-carve-out. What follows is what the toolkit rule leaves to the project to
-decide, being where the folder lives, how it is organized, and what a pull
-request has to carry.
+ignored sweep and a committed evidence case. The toolkit's upstream carries a
+further bullet, committed 2026-09-08, admitting that a project whose own
+established convention already commits that comparison may route a flagged
+case's evidence there instead of a separate evidence folder. This repository's
+synced copy is pinned a release behind and does not carry that sentence. This
+file is that established convention regardless: `web/ui-evidence/` is where
+this project has committed the answer surface's shipped state since before the
+toolkit carried any carve-out. What follows is what the toolkit rule leaves to
+the project to decide, being where the folder lives, how it is organized, and
+what a pull request has to carry.
 
 ## What to capture
 
