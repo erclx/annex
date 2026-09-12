@@ -1,4 +1,4 @@
-import type { Citation } from '@/components/versions'
+import type { Citation, CorpusVersion } from '@/components/versions'
 
 /**
  * One provision, quoted behind a left rule.
@@ -12,8 +12,18 @@ import type { Citation } from '@/components/versions'
  * settled design's call: it is the reader's handle on the Act, so it takes the
  * interface sans at weight 600. The marker beside it is a label and takes the
  * label treatment.
+ *
+ * `onOpen`, when supplied, turns the citation into the reader's own handle on
+ * the Act: a control that opens the provision in the reading panel rather
+ * than plain text naming it.
  */
-export function CitationBlock({ citation }: { citation: Citation }) {
+export function CitationBlock({
+  citation,
+  onOpen,
+}: {
+  citation: Citation
+  onOpen?: (provisionId: string, version: CorpusVersion) => void
+}) {
   return (
     <figure
       className={`mt-[10px] border-l-2 py-[2px] pl-[14px] ${
@@ -21,9 +31,21 @@ export function CitationBlock({ citation }: { citation: Citation }) {
       }`}
     >
       <figcaption className="mb-[2px] flex flex-wrap items-baseline gap-2">
-        <span className="text-[12px] font-semibold text-ink">
-          {citation.citation}
-        </span>
+        {onOpen ? (
+          <button
+            type="button"
+            onClick={() => {
+              onOpen(citation.provision_id, citation.version)
+            }}
+            className="text-[12px] font-semibold text-accent underline-offset-2 hover:underline"
+          >
+            {citation.citation}
+          </button>
+        ) : (
+          <span className="text-[12px] font-semibold text-ink">
+            {citation.citation}
+          </span>
+        )}
         {citation.changed ? (
           <span className="rounded-full border border-cite-rule-moved bg-paper px-2 py-px text-[11px] text-warning">
             moved by the amendment

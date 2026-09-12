@@ -54,16 +54,17 @@ The answer endpoint takes `4200`, above the 4100 to 4150 band that offset derive
 
 ## Scripts
 
-| Command                                       | Purpose                                                                                                            |
-| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `bun run check`                               | The whole gate. Runs the shared verify chain, then the python half, then the web half                              |
-| `bun run check:python`                        | `cd python && bun run check`: mypy, ruff, ruff format check, pytest                                                |
-| `bun run check:web`                           | `cd web && bun run check`: prettier check, typecheck, eslint, vitest                                               |
-| `bun run format`                              | Auto-fix prettier and shfmt formatting at the root                                                                 |
-| `cd web && bun run generate:answer`           | Regenerate `web/src/lib/answer.ts` from `python/schema/answer.schema.json`                                         |
-| `cd web && bun run test:e2e`                  | Playwright against the app, starting a server if one is not already up                                             |
-| `cd web && bun run capture:evidence`          | Drive every answer-surface state into `web/evidence/<state>/`, asserting each state was reached before it captures |
-| `cd python && uv run python -m annex capture` | Record the pipeline's answers into `web/src/fixtures/`, which the deployed build replays                           |
+| Command                                             | Purpose                                                                                                            |
+| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `bun run check`                                     | The whole gate. Runs the shared verify chain, then the python half, then the web half                              |
+| `bun run check:python`                              | `cd python && bun run check`: mypy, ruff, ruff format check, pytest                                                |
+| `bun run check:web`                                 | `cd web && bun run check`: prettier check, typecheck, eslint, vitest                                               |
+| `bun run format`                                    | Auto-fix prettier and shfmt formatting at the root                                                                 |
+| `cd web && bun run generate:answer`                 | Regenerate `web/src/lib/answer.ts` from `python/schema/answer.schema.json`                                         |
+| `cd web && bun run test:e2e`                        | Playwright against the app, starting a server if one is not already up                                             |
+| `cd web && bun run capture:evidence`                | Drive every answer-surface state into `web/evidence/<state>/`, asserting each state was reached before it captures |
+| `cd python && uv run python -m annex capture`       | Record the pipeline's answers into `web/src/fixtures/`, which the deployed build replays                           |
+| `cd python && uv run python -m annex export-corpus` | Write both versions' provisions into `web/src/fixtures/corpus/`, which the reading panel renders                   |
 
 `web/src/lib/answer.ts` is generated and committed. `web/scripts/verify.sh` hashes it, regenerates it, and fails when the two hashes differ, so a schema change nobody regenerated against stops the gate rather than drifting until a shape mismatch surfaces at runtime. Regenerate it after any change to the Pydantic models the schema is emitted from.
 
@@ -126,6 +127,8 @@ The generator resolves the schema's `$defs` references itself, in `web/scripts/g
 ## Spelling
 
 Prose in this repository uses American spellings, and `bun run check` gates on it through cspell. `neighbour` and `neighbours` sit in `.cspell/project-terms.txt` as identifiers out of `annex.corpus.graph` rather than as a house style, and `categorisation` is there because the Act's own text spells it that way. A British spelling written into new prose is a failing check rather than a matter of taste.
+
+cspell checks fenced code blocks inside markdown too, unlike `canon markdown audit`'s banned-word scan, which excludes them. A wireframe's ASCII mockup carrying invented UI copy is prose for spelling purposes even though it is a drawing for everything else, so mockup text inside a `plaintext` fence still has to spell American or `bun run check:spell` fails on it.
 
 ## Shell scripts
 

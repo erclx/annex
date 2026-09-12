@@ -10,7 +10,7 @@ import re
 import unicodedata
 from enum import StrEnum
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, computed_field
 
 from annex.corpus.sources import CorpusVersion
 
@@ -51,6 +51,7 @@ class Provision(BaseModel):
     parent_id: str | None = None
     amended: bool = False
 
+    @computed_field  # type: ignore[prop-decorator]
     @property
     def citation(self) -> str:
         """How a reader would write this provision in prose."""

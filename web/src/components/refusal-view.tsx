@@ -1,5 +1,5 @@
 import { CitationBlock } from '@/components/citation-block'
-import type { Refusal } from '@/components/versions'
+import type { CorpusVersion, Refusal } from '@/components/versions'
 
 /**
  * A result, never a failure.
@@ -13,7 +13,13 @@ import type { Refusal } from '@/components/versions'
  * and found not to answer, which is the difference between a refusal and a
  * shrug, so a refusal rendering without them has lost its argument.
  */
-export function RefusalView({ refusal }: { refusal: Refusal }) {
+export function RefusalView({
+  refusal,
+  onOpenProvision,
+}: {
+  refusal: Refusal
+  onOpenProvision?: (provisionId: string, version: CorpusVersion) => void
+}) {
   return (
     <section className="py-6">
       <span className="mb-4 inline-block rounded-full border border-refusal-rule bg-refusal-surface px-[10px] py-[3px] font-mono text-[10.5px] tracking-[0.08em] text-refusal uppercase">
@@ -43,7 +49,11 @@ export function RefusalView({ refusal }: { refusal: Refusal }) {
       </h2>
       <div>
         {refusal.consulted.map((citation) => (
-          <CitationBlock key={citation.provision_id} citation={citation} />
+          <CitationBlock
+            key={citation.provision_id}
+            citation={citation}
+            onOpen={onOpenProvision}
+          />
         ))}
       </div>
     </section>
