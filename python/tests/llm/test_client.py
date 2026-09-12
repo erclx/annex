@@ -19,11 +19,12 @@ import pytest
 from annex.llm import (
     MINIMUM_GENERATION_BUDGET,
     NO_PREFIXES,
+    Completion,
     OllamaClient,
     embedding_prefixes,
     split_thinking,
 )
-from annex.llm.client import ModelContextError
+from annex.llm.client import ModelContextError, hit_the_window
 from annex.settings import Settings
 
 
@@ -226,6 +227,28 @@ class TestACutGeneration:
 
         assert 'stopped at the 4096-token budget' in caplog.text
         assert 'left no room to answer in' not in caplog.text
+
+    def test_a_window_cut_and_a_budget_cut_report_differently(self) -> None:
+        """A caller deciding whether to retry a cut needs this without re-deriving it."""
+        window_cut = Completion(
+            text='Article 50(1) app',
+            thinking='',
+            prompt_tokens=29170,
+            completion_tokens=3597,
+            model='annex-qwen3-27b',
+            finish_reason='length',
+        )
+        budget_cut = Completion(
+            text='Article 50(1) app',
+            thinking='',
+            prompt_tokens=1000,
+            completion_tokens=4096,
+            model='annex-qwen3-27b',
+            finish_reason='length',
+        )
+
+        assert hit_the_window(window_cut, generation_context=32768)
+        assert not hit_the_window(budget_cut, generation_context=32768)
 
 
 class StubEmbeddingData:

@@ -43,7 +43,7 @@ from annex.answer import (
 )
 from annex.corpus import Corpus, CorpusVersion, Provision, ProvisionKind, build, load
 from annex.corpus.graph import ReferenceGraph
-from annex.llm import OllamaClient
+from annex.llm import WINDOW_MARGIN, OllamaClient, hit_the_window
 from annex.retrieval import INDEX_PATH, Hit, search, traverse
 from annex.retrieval import TraversalEdge as WalkedEdge
 from annex.settings import Settings, tracing_environment
@@ -58,6 +58,27 @@ SYNTHESIS_BUDGET = 4096
 
 SCAFFOLDING_TOKENS = 512
 """What the instructions, the question and the numbering cost around the text."""
+
+FALLBACK_REFUSAL_REASON = (
+    'The model produced no statement resting on a retrieved provision.'
+)
+"""`parse_draft`'s reason when nothing it wrote cited what it was given.
+
+Named here so `_synthesize` can tell that exit apart from a declared `REFUSE`,
+which carries its own reason and is left alone even when the draft that
+declared it was also cut.
+"""
+
+CUT_DRAFT_REASON = (
+    'Generation stopped before any statement was finished, rather than the '
+    'text leaving nothing to cite.'
+)
+"""Why a cut draft refuses, in place of the fallback reason above.
+
+A draft cut at its budget or its window reads to `parse_draft` exactly like
+one that finished and cited nothing, and the two are different failures: one
+ran out of room, the other read the provisions and had nothing to say.
+"""
 
 DENSEST_CHARACTERS_A_TOKEN = 2.6
 """The lowest characters-a-token ratio measured on the generation model.
@@ -267,10 +288,25 @@ class Pipeline:
             f'[{index}] {citation.citation}\n{citation.text}'
             for index, citation in enumerate(citations, start=1)
         )
-        completion = self.client.complete(
-            prompts.SYNTHESIZE.format(provisions=numbered, question=state['question']),
-            max_tokens=SYNTHESIS_BUDGET,
+        prompt = prompts.SYNTHESIZE.format(
+            provisions=numbered, question=state['question']
         )
+        completion = self.client.complete(prompt, max_tokens=SYNTHESIS_BUDGET)
+        prompt_tokens = completion.prompt_tokens
+        completion_tokens = completion.completion_tokens
+
+        if completion.is_truncated and not hit_the_window(
+            completion, self.settings.generation_context
+        ):
+            retry_budget = (
+                self.settings.generation_context
+                - completion.prompt_tokens
+                - WINDOW_MARGIN
+            )
+            completion = self.client.complete(prompt, max_tokens=retry_budget)
+            prompt_tokens += completion.prompt_tokens
+            completion_tokens += completion.completion_tokens
+
         trace = RetrievalTrace(
             searched_ids=state.get('searched_ids', ()),
             traversed_ids=state.get('traversed_ids', ()),
@@ -283,19 +319,24 @@ class Pipeline:
             ),
             traversal_enabled=state.get('traversal_enabled', True),
             truncated=completion.is_truncated,
-            prompt_tokens=state.get('prompt_tokens', 0) + completion.prompt_tokens,
-            completion_tokens=(
-                state.get('completion_tokens', 0) + completion.completion_tokens
-            ),
+            prompt_tokens=state.get('prompt_tokens', 0) + prompt_tokens,
+            completion_tokens=state.get('completion_tokens', 0) + completion_tokens,
             duration_ms=int((time.monotonic() - state['started']) * 1000),
             model=completion.model,
         )
-        drafted = parse_draft(completion.text, citations)
+        claims, refusal = parse_draft(completion.text, citations)
+        if (
+            not claims
+            and refusal is not None
+            and refusal.reason == FALLBACK_REFUSAL_REASON
+            and completion.is_truncated
+        ):
+            refusal = refusal.model_copy(update={'reason': CUT_DRAFT_REASON})
         answer = Answer(
             question=state['question'],
             version=state['version'],
-            claims=drafted[0],
-            refusal=drafted[1],
+            claims=claims,
+            refusal=refusal,
             retrieval=trace,
         )
         return {'answer': verify(answer)}
@@ -466,7 +507,7 @@ def parse_draft(
         len(citations),
     )
     return (), Refusal(
-        reason='The model produced no statement resting on a retrieved provision.',
+        reason=FALLBACK_REFUSAL_REASON,
         missing=('a provision of the Act that addresses the description',),
         consulted=citations,
     )
