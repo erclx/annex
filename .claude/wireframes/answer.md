@@ -340,6 +340,7 @@ Dropped ids are named beside traversed ids and never omitted. Traversal reaches 
 - The theme control chooses between matching the system, light, and dark, and starts on matching the system. A reader who chooses nothing is decided by `prefers-color-scheme`, and a choice is remembered per browser and applied before the first paint, so the page never renders in one theme and swaps to the other
 - Every state above replaces the answer region. None of them stack, except the moved-citation and cut-short states, which render on top of an answer, and the replay band, which sits above every one of them
 - On the deployed build a pick answers immediately and the loading skeleton never renders, because nothing is being asked. The skeleton belongs to the local build and to the recorded walkthrough, where the wait is real
+- A claim never renders two citation blocks for one provision. A marker repeated within one claim merges to its first occurrence in `parse_draft`, before the surface ever sees it
 
 ## Not on this surface
 

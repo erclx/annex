@@ -405,6 +405,9 @@ def parse_draft(
     logs which one fired because `Answer` does not record it: `annex.eval.runner`
     writes no refusal reason and `annex.eval.scoring` zeroes the claim counts
     before either is read, so a refusal in `results.json` names no stage.
+
+    A line citing the same marker more than once carries that citation once,
+    at its first occurrence, so a claim never repeats one provision.
     """
     lines = [line.strip() for line in drafted.splitlines() if line.strip()]
     if any(line.upper().startswith(REFUSAL_MARKER) for line in lines):
@@ -428,9 +431,11 @@ def parse_draft(
     for line in lines:
         markers = CITATION_MARKER.findall(line)
         cited = tuple(
-            citations[int(marker) - 1]
-            for marker in markers
-            if 0 < int(marker) <= len(citations)
+            dict.fromkeys(
+                citations[int(marker) - 1]
+                for marker in markers
+                if 0 < int(marker) <= len(citations)
+            )
         )
         statement = CITATION_MARKER.sub('', line).strip(' .-')
         if cited and statement:
