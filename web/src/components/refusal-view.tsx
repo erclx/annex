@@ -16,7 +16,7 @@ import type { Refusal } from '@/components/versions'
 export function RefusalView({ refusal }: { refusal: Refusal }) {
   return (
     <section className="py-6">
-      <span className="mb-4 inline-block rounded-full border border-refusal/30 bg-refusal-surface px-[10px] py-[3px] font-mono text-[10.5px] tracking-[0.08em] text-refusal uppercase">
+      <span className="mb-4 inline-block rounded-full border border-refusal-rule bg-refusal-surface px-[10px] py-[3px] font-mono text-[10.5px] tracking-[0.08em] text-refusal uppercase">
         The text does not settle this
       </span>
 
