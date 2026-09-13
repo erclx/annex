@@ -150,7 +150,7 @@ export function CitationBlock({
             {CHIP_LABEL[diff?.status ?? 'changed']}
           </span>
         ) : (
-          <span className="rounded-[3px] border border-rule px-[5px] py-px font-mono text-[10px] tracking-[0.05em] text-muted uppercase">
+          <span className="rounded-[3px] border border-rule px-[5px] py-px text-[10px] text-muted">
             {citation.version === 'consolidated' ? 'amended' : 'original'}
           </span>
         )}

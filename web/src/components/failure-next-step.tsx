@@ -33,7 +33,7 @@ export function FailureNextStep({
       <div className="flex-1 overflow-y-auto px-5 py-4">
         {state === 'unrecorded' ? (
           <>
-            <span className="mb-2 block font-mono text-[10.5px] tracking-[0.08em] text-muted uppercase">
+            <span className="mb-2 block text-[10.5px] text-muted">
               Recorded questions you can open
             </span>
             <div className="flex flex-col">
@@ -53,7 +53,7 @@ export function FailureNextStep({
           </>
         ) : (
           <>
-            <span className="mb-2 block font-mono text-[10.5px] tracking-[0.08em] text-muted uppercase">
+            <span className="mb-2 block text-[10.5px] text-muted">
               Start what is missing
             </span>
             <Command label="The model" command="ollama serve" />

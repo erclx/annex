@@ -14,7 +14,7 @@ export function DescribedSystem({
   return (
     <section className="border-b border-rule-soft">
       <div className="w-full px-6 py-6 lg:px-8">
-        <h2 className="mb-[7px] font-mono text-[10.5px] tracking-[0.08em] text-muted uppercase">
+        <h2 className="mb-[7px] text-[10.5px] text-muted">
           The system you described
         </h2>
         <p className="m-0 text-[15px] leading-[1.5] text-ink">{description}</p>

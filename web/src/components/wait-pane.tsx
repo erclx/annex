@@ -45,7 +45,7 @@ export function WaitPane({
       className="sticky top-[var(--annex-bar-height,0px)] flex h-[calc(100vh-var(--annex-bar-height,0px))] flex-col border-l border-rule bg-surface"
     >
       <header className="flex items-center justify-between gap-3 border-b border-rule px-5 py-[10px]">
-        <h2 className="m-0 font-mono text-[11px] font-normal tracking-[0.08em] text-muted uppercase">
+        <h2 className="m-0 text-[11px] font-normal text-muted">
           {isReading ? 'What the model is reading' : 'The walk, as it happens'}
         </h2>
         <span className="font-mono text-[11px] text-muted">

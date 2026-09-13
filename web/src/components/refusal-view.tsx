@@ -22,7 +22,7 @@ export function RefusalView({
 }) {
   return (
     <section className="py-6">
-      <span className="mb-4 inline-block rounded-full border border-refusal-rule bg-refusal-surface px-[10px] py-[3px] font-mono text-[10.5px] tracking-[0.08em] text-refusal uppercase">
+      <span className="mb-4 inline-block rounded-full border border-refusal-rule bg-refusal-surface px-[10px] py-[3px] text-[10.5px] text-refusal">
         The text does not settle this
       </span>
 
@@ -30,7 +30,7 @@ export function RefusalView({
         {refusal.reason}
       </p>
 
-      <h2 className="mb-2 font-mono text-[10.5px] font-medium tracking-[0.08em] text-muted uppercase">
+      <h2 className="mb-2 text-[10.5px] font-medium text-muted">
         What is missing
       </h2>
       <ul className="mb-6 list-none p-0">
@@ -44,7 +44,7 @@ export function RefusalView({
         ))}
       </ul>
 
-      <h2 className="mb-2 font-mono text-[10.5px] font-medium tracking-[0.08em] text-muted uppercase">
+      <h2 className="mb-2 text-[10.5px] font-medium text-muted">
         What was read before saying so
       </h2>
       <div>

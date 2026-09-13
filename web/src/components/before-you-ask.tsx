@@ -28,9 +28,7 @@ export function BeforeYouAsk({ docked }: { docked: boolean }) {
       className="sticky top-[var(--annex-bar-height,0px)] flex h-[calc(100vh-var(--annex-bar-height,0px))] flex-col border-l border-rule bg-surface"
     >
       <header className="border-b border-rule px-5 py-[13px]">
-        <span className="font-mono text-[10.5px] tracking-[0.08em] text-muted uppercase">
-          Before you ask
-        </span>
+        <span className="text-[10.5px] text-muted">Before you ask</span>
       </header>
       <div className="flex flex-1 flex-col gap-8 overflow-y-auto px-5 py-4">
         {content}

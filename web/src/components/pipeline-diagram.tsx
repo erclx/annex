@@ -72,7 +72,7 @@ export function PipelineDiagram() {
                 style={{ gridRow: row, gridColumn: 2 }}
                 className={isLast ? '' : 'pb-4'}
               >
-                <div className="font-mono text-[11px] font-semibold tracking-[0.06em] text-ink uppercase">
+                <div className="text-[11px] font-semibold text-ink">
                   {stage.label}
                 </div>
                 <p className="mt-0.5 text-[11px] leading-[1.35] text-act">
