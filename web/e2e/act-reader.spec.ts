@@ -38,7 +38,9 @@ test.describe('docked beside the answer', () => {
     await page.getByRole('button', { name: RECORDED }).click()
 
     const handle = page
-      .getByRole('button', { name: /^(Read all .* characters|Open) in the Act/ })
+      .getByRole('button', {
+        name: /^(Read all .* characters|Open) in the Act/,
+      })
       .last()
     await handle.click()
 

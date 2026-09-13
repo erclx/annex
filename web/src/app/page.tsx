@@ -171,7 +171,7 @@ export default function Home() {
   }, [])
 
   // Docked, the Act opens on the first provision the answer cites until the
-  // reader picks another, so the pane is never an unscrolled page one.
+  // reader picks another, so the pane never starts at the top of Article 1.
   const paneProvisionId = readerProvisionId ?? cited[0]?.provisionId ?? null
 
   return (

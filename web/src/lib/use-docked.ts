@@ -12,7 +12,9 @@ const DOCKED_QUERY = '(min-width: 1024px)'
 
 /** False on the server, and wherever the browser store API is absent. */
 function canReadViewport(): boolean {
-  return typeof window !== 'undefined' && typeof window.matchMedia === 'function'
+  return (
+    typeof window !== 'undefined' && typeof window.matchMedia === 'function'
+  )
 }
 
 function subscribe(onChange: () => void): () => void {

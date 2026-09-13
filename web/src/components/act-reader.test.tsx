@@ -184,9 +184,10 @@ describe('ActReader', () => {
       )
 
       expect(screen.getByText('the walk drawing')).toBeInTheDocument()
-      expect(
-        screen.getByRole('button', { name: 'The walk' }),
-      ).toHaveAttribute('aria-pressed', 'true')
+      expect(screen.getByRole('button', { name: 'The walk' })).toHaveAttribute(
+        'aria-pressed',
+        'true',
+      )
     })
   })
 
