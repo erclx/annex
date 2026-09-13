@@ -4,7 +4,7 @@ Every claim carries the provisions behind it and the text that supports them,
 so a reader checks an answer against the Act rather than trusting it. An answer
 the text does not settle carries a `Refusal` instead of claims, which is a
 return value here rather than an error, per the refusal decision in
-`.claude/ARCHITECTURE.md`.
+`canon/ARCHITECTURE.md`.
 
 This module imports from `annex.corpus` and from nothing else in the package.
 The evaluation harness and the web half both read this shape, and neither

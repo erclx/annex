@@ -9,7 +9,7 @@ description: Local dev workflow across the web and python halves, the scripts th
 
 Owns how the project runs on a developer machine: the toolchain, the two halves and how each starts, the scripts that verify a change, and the git hooks that run them before a commit or a push leaves. CI calls the same scripts from a workflow, which is the CI entry's subject.
 
-Everything runs locally and nothing calls a paid API. That is a constraint rather than a convenience, and `.claude/REQUIREMENTS.md` states why.
+Everything runs locally and nothing calls a paid API. That is a constraint rather than a convenience, and `canon/REQUIREMENTS.md` states why.
 
 ## Layout
 

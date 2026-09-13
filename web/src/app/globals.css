@@ -1,6 +1,6 @@
 @import 'tailwindcss';
 
-/* Role tokens. Values and intent are recorded in `.claude/DESIGN.md`, which is the
+/* Role tokens. Values and intent are recorded in `canon/DESIGN.md`, which is the
    source of truth for what each role is for. Contrast was measured in a browser
    against the composited ground, not computed from the hex pairs. */
 
@@ -53,7 +53,7 @@
    system asks for dark. The second applies when the reader chose dark outright.
    CSS has no way to share one declaration block between a media query and a
    selector, so the alternative to this repetition is a second indirection
-   through per-theme token names, which hides the measured values `.claude/DESIGN.md`
+   through per-theme token names, which hides the measured values `canon/DESIGN.md`
    records. A value edited in one block and not the other is the defect to watch
    for. */
 

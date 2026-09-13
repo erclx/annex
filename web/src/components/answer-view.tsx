@@ -6,7 +6,7 @@ import type { Answer } from '@/lib/answer'
  * Claims in the interface's own voice, each with its evidence directly under it.
  *
  * Inline citations won by measurement rather than by preference, recorded under
- * frontend scope in `.claude/ARCHITECTURE.md`. Proximity never breaks: a claim
+ * frontend scope in `canon/ARCHITECTURE.md`. Proximity never breaks: a claim
  * and its evidence need no reference number, no glance sideways, and no click.
  * The cost is vertical run, which is real and was accepted.
  *

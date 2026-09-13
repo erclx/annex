@@ -7,7 +7,7 @@ description: Reference products for placing a short claim beside long statutory 
 
 ## Overview
 
-The answer surface puts a one-sentence claim beside law that can run to 17 615 characters in one provision and 70 000 across a refusal. This entry records the products that already solve a version of that problem, what each does well on it, and what does not transfer. Every candidate layout for the surface cites something here. The layout itself lives in `.claude/wireframes/answer.md`, and the picks against what they beat in `.claude/ARCHITECTURE.md` under frontend scope.
+The answer surface puts a one-sentence claim beside law that can run to 17 615 characters in one provision and 70 000 across a refusal. This entry records the products that already solve a version of that problem, what each does well on it, and what does not transfer. Every candidate layout for the surface cites something here. The layout itself lives in `canon/wireframes/answer.md`, and the picks against what they beat in `canon/ARCHITECTURE.md` under frontend scope.
 
 Twelve products were read and six documentation sites were measured in headless Chromium at 1280 by 900 and 1536 by 864, both on 2026-09-12. Most reads went through a fetch that summarizes page text, so a claim about hover or script behavior counts as verified only where the product's own page states it. Claims that rest on a search snippet, a teardown, or markup alone are marked unverified below.
 

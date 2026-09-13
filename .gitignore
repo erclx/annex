@@ -14,7 +14,7 @@ node_modules/
 # Claude
 .canon/
 .claude/worktrees/
-.claude/.tmp/
+.canon/tmp/
 
 # Python
 __pycache__/

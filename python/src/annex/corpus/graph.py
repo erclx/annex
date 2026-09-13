@@ -1,7 +1,7 @@
 """The Act's cross-references as a directed graph.
 
 Held in process as an adjacency map rather than in a graph library. The Act is
-hundreds of provisions and hundreds of edges, which `.claude/ARCHITECTURE.md`
+hundreds of provisions and hundreds of edges, which `canon/ARCHITECTURE.md`
 already names as the scale where an in-process graph may be sufficient.
 
 The immediate reason is narrower. `networkx` declares

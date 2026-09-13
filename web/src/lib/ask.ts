@@ -14,7 +14,7 @@
  * The response body is parsed rather than cast. `answerSchema` is generated
  * from the Python models and emitted strict, so a field the service added and
  * the web build has not seen fails here, at the boundary, with a correlation
- * id beside it. `.claude/context/development.md` carries what that strictness
+ * id beside it. `canon/context/development.md` carries what that strictness
  * costs, which is that the web build deploys first or the two deploy together.
  */
 import { z } from 'zod'

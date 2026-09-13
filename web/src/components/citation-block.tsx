@@ -22,7 +22,7 @@ import { group } from '@/lib/format'
  * The EUR-Lex link is a second, quieter control beside it rather than on it.
  * The loud heading stays the control that keeps a reader here, and EUR-Lex is
  * the escape hatch for one who wants the source of record instead, per
- * `.claude/wireframes/answer.md` § Reading the Act.
+ * `canon/wireframes/answer.md` § Reading the Act.
  *
  * The quote is an excerpt clamped to `lines`, and the full text is one
  * activation away in the Act. The handle under it always names the provision's

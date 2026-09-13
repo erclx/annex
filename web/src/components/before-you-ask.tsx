@@ -6,7 +6,7 @@ import { TermsStrip } from '@/components/terms-strip'
  * three-arm comparison.
  *
  * Picked by looking over three other contents, recorded under frontend scope in
- * `.claude/ARCHITECTURE.md`. Docked, it is a region beside the form. Below
+ * `canon/ARCHITECTURE.md`. Docked, it is a region beside the form. Below
  * 1024 pixels there is no pane, so the same content follows the recorded picks
  * in the one column and nothing the pane held is lost.
  */

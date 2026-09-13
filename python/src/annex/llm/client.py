@@ -18,7 +18,7 @@ back alongside `context_length` from `/api/ps`:
 - A model built from a Modelfile carrying `PARAMETER num_ctx` is honoured
   through `/v1`, which is the route taken here
 
-`.claude/context/development.md` fixes the transport as the OpenAI SDK against
+`canon/context/development.md` fixes the transport as the OpenAI SDK against
 `/v1`, so the Modelfile is the route that reaches the model without changing
 it. `ollama/annex-qwen3-27b.Modelfile` is that artifact and
 `scripts/ollama-build.sh` builds it.

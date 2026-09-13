@@ -16,7 +16,7 @@ import { recordedQuestions } from '@/lib/replay'
  * flow this file has no label for falls back to its own key rather than
  * dropping every question under it.
  *
- * Copy is owned by `.claude/wireframes/answer.md`.
+ * Copy is owned by `canon/wireframes/answer.md`.
  */
 const FLOW_LABELS: Record<string, string> = {
   transparency: 'Telling a person they are dealing with an AI system',

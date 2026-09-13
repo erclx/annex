@@ -151,7 +151,7 @@ Two changes account for that together and neither is the refusal machinery. The 
 
 The three that remain belong to `search-only`, and two of them are the arm without the walk missing Article 113 on `q10` and `q12` and declining to answer a date it was never shown. Refusing there is the machinery working on a genuinely inadequate retrieval, and it is scored false because the text does settle the question. The third, `q03` on the original text, is a transparency question the same arm answers correctly on the consolidated text, and nothing here explains it.
 
-Refusal remains the product's headline safety property and its weakest measured behavior. Four correct refusals in eighteen is not a number to ship a safety claim on, and the count is small enough that the honest reading is a direction rather than a rate. `.claude/ARCHITECTURE.md` carries the account under its refusal decision.
+Refusal remains the product's headline safety property and its weakest measured behavior. Four correct refusals in eighteen is not a number to ship a safety claim on, and the count is small enough that the honest reading is a direction rather than a rate. `canon/ARCHITECTURE.md` carries the account under its refusal decision.
 
 ### What this means
 

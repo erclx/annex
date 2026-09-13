@@ -11,7 +11,7 @@ const STAGE_HEIGHT = 46
 const GAP = 22
 
 /**
- * The five request-order stages `.claude/ARCHITECTURE.md` § Overview names.
+ * The five request-order stages `canon/ARCHITECTURE.md` § Overview names.
  *
  * Hand-drawn, matching `traversal-graph.tsx`'s own precedent, since five
  * boxes and four arrows need no dependency. Drawn once here rather than a

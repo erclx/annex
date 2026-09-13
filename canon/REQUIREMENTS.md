@@ -43,7 +43,7 @@ The text also moves. The Digital Omnibus amended the Act in July 2026 and shifte
 - A vector store and an embedding model
 - A graph representation of the Act's cross-references
 
-Specific library choices are open and tracked in `.claude/ARCHITECTURE.md` under risks.
+Specific library choices are open and tracked in `canon/ARCHITECTURE.md` under risks.
 
 ## What this project is actually asking
 

@@ -10,7 +10,7 @@ here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 modelfiles="$here/../ollama"
 
 if ! command -v ollama >/dev/null 2>&1; then
-  echo "ollama is not on PATH. See .claude/context/development.md" >&2
+  echo "ollama is not on PATH. See canon/context/development.md" >&2
   exit 1
 fi
 

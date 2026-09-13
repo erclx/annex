@@ -87,7 +87,7 @@ class Result(BaseModel):
     The three id tuples are carried rather than counted, and they are most of
     the file's size: the baseline names 306 provisions on every original-text
     row. They are what makes a score checkable instead of trusted, which is the
-    property `.claude/ARCHITECTURE.md` argues retrieval buys over stuffing, and
+    property `canon/ARCHITECTURE.md` argues retrieval buys over stuffing, and
     it would be strange to claim it and then report only totals. They also let
     the depth sensitivity in `annex.eval.sensitivity` re-walk the recorded
     seeds without asking the model anything.

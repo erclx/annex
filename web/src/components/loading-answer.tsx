@@ -6,7 +6,7 @@ import { type CorpusVersion, VERSION_LABEL } from '@/components/versions'
  * The skeleton takes claim and citation proportions so the wait previews what
  * arrives. The stated range is drawn from measured warm runs and belongs in the
  * copy, because a number tells a reader more than movement does. Nothing here
- * animates, per `.claude/DESIGN.md`.
+ * animates, per `canon/DESIGN.md`.
  */
 export function LoadingAnswer({ version }: { version: CorpusVersion }) {
   return (

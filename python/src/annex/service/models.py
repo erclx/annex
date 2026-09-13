@@ -21,7 +21,7 @@ routes to a query the retrieval step then searches with, and the longest
 question in `python/data/eval/questions.json` runs to a few hundred characters.
 Four thousand leaves room for someone pasting a paragraph of product
 documentation and still bounds the untrusted field, which is the input
-`.claude/ARCHITECTURE.md` names as the one this project does not trust.
+`canon/ARCHITECTURE.md` names as the one this project does not trust.
 """
 
 Description = Annotated[

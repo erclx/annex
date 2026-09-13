@@ -28,7 +28,7 @@ recall rises on every one of the four model and version pairs, by 0.043 and
 0.058 for `nomic` and by 0.097 and 0.048 for `arctic2`, and six of the
 forty-eight question cells lose one provision each. It puts `art_113` inside
 the top 12 on neither `q10` nor `q12` for any pair, which is the acceptance
-this change was written against and did not meet. `.claude/ARCHITECTURE.md` carries why, under the
+this change was written against and did not meet. `canon/ARCHITECTURE.md` carries why, under the
 refusal decision: on the original text the article is diluted by the footnote
 apparatus its parse swallows, and on both documents the remaining distance
 belongs to the embedder rather than to the prompt. Measured on 2026-09-06.

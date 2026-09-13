@@ -9,7 +9,7 @@ One surface carries the whole product. A visitor describes a system, and the sam
 
 At 1024 pixels and wider the screen holds two regions side by side. The answer column on the left keeps a fixed reading measure near 640 pixels, and the pane on the right takes the rest, stays in view as the page scrolls, and scrolls inside itself. Below 1024 the page is one column and the pane opens as an overlay instead.
 
-The shape was picked by looking, over three rounds of candidates rendered against recorded answers at their real size and at 1280, 1536 and 400 pixels wide. `.claude/context/design-references.md` holds the products each candidate answered to, and `.claude/ARCHITECTURE.md` records each pick against what it beat. A claim keeps its evidence directly under it, which is the property the first layout comparison chose inline citations for. What it no longer does is print the law whole: 65 of the 112 citations in the recording run past 1 000 characters, and printing them put the first recorded answer's second claim 2 836 pixels down the page at 1280.
+The shape was picked by looking, over three rounds of candidates rendered against recorded answers at their real size and at 1280, 1536 and 400 pixels wide. `canon/context/design-references.md` holds the products each candidate answered to, and `canon/ARCHITECTURE.md` records each pick against what it beat. A claim keeps its evidence directly under it, which is the property the first layout comparison chose inline citations for. What it no longer does is print the law whole: 65 of the 112 citations in the recording run past 1 000 characters, and printing them put the first recorded answer's second claim 2 836 pixels down the page at 1280.
 
 ## The replay band
 
@@ -97,7 +97,7 @@ The last sentence of that supporting text is doing compliance work rather than t
 
 The top bar carries `Repository` and `Evaluation` in every state rather than on the empty state alone. A visitor who reaches an answer or a refusal, the moment likeliest to prompt checking the source, can still reach them without editing back to a blank form. They drop out while the bar is slim, and return once the page is scrolled back to the top.
 
-The pane holds context beside the question before it holds the Act. Three other contents were rendered and lost: no pane at all until something is asked, the Act open at Article 3, and a recorded answer previewed. `.claude/ARCHITECTURE.md` carries what each cost.
+The pane holds context beside the question before it holds the Act. Three other contents were rendered and lost: no pane at all until something is asked, the Act open at Article 3, and a recorded answer previewed. `canon/ARCHITECTURE.md` carries what each cost.
 
 ## Empty, below 1024
 
@@ -438,7 +438,7 @@ A layered graph on every state that carries a trace, answered or refused alike. 
 
 The id lists stay under the drawing. They are its text equivalent for a reader a screen reader serves, and removing them to make room for the drawing would remove that equivalent.
 
-Picked by looking, per `canon:draft-and-pick`, against a baseline of the id lists alone, a non-layered hand-drawn arrangement, and a tree built with `d3-hierarchy`. Recorded in `.claude/ARCHITECTURE.md` against what it beat.
+Picked by looking, per `canon:draft-and-pick`, against a baseline of the id lists alone, a non-layered hand-drawn arrangement, and a tree built with `d3-hierarchy`. Recorded in `canon/ARCHITECTURE.md` against what it beat.
 
 A trace carrying no edges, being every fixture recorded before this field existed and every run with traversal switched off, renders no drawing. The id lists render as they always have, so an edgeless trace degrades to the lists rather than to an empty frame.
 

@@ -79,7 +79,7 @@ function sectionIndexOf(
  * Docked, at 1024 pixels and wider, it is a region of the one screen beside the
  * answer: always present, never modal, and scrolled inside itself so the answer
  * keeps its place. Below that width it is an overlay on the answer that opens
- * from a citation and closes back to it. `.claude/wireframes/answer.md`
+ * from a citation and closes back to it. `canon/wireframes/answer.md`
  * § Reading the Act draws both, and neither form is a route a visitor could
  * navigate to.
  *

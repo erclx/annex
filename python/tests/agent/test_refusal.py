@@ -1,6 +1,6 @@
 """Refusal on the worked example, and refusal as a return value rather than a raise.
 
-`.claude/context/ai-act.md` names grandfathering as the case the text leaves
+`canon/context/ai-act.md` names grandfathering as the case the text leaves
 open: a system already on the market before the amended deadlines falls outside
 full high-risk compliance unless later substantially modified, and no regulator
 has defined that threshold. A tool that answers it is guessing.

@@ -1,7 +1,7 @@
 """One test per row of the published state table.
 
 The table is written into `.canon/plans/feature-the-service-seam.md` and quoted
-by `.claude/wireframes/answer.md`, which draws a failure region carrying one
+by `canon/wireframes/answer.md`, which draws a failure region carrying one
 copy variant per row. A row changing status here changes what that surface
 renders, so these assertions are the contract rather than a restatement of the
 implementation.

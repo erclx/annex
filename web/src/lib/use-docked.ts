@@ -3,7 +3,7 @@
 import { useSyncExternalStore } from 'react'
 
 /**
- * The one breakpoint `.claude/DESIGN.md` § Layout records.
+ * The one breakpoint `canon/DESIGN.md` § Layout records.
  *
  * At this width and wider the Act docks beside the answer, and below it the
  * page is one column and the Act opens as an overlay.

@@ -4,18 +4,18 @@ An agent over the EU AI Act. It reports which articles apply to a described AI s
 
 ## Context
 
-- Before non-trivial work in a domain read `.claude/context/<domain>.md`, and before touching a UI surface read `.claude/wireframes/<surface>.md`. Pick which from the index anchors below.
-- Read `.claude/context/ai-act.md` before touching ingestion, retrieval, or any answer text. It holds the corpus structure, the amended deadlines, and the claims this project does not make.
+- Before non-trivial work in a domain read `canon/context/<domain>.md`, and before touching a UI surface read `canon/wireframes/<surface>.md`. Pick which from the index anchors below.
+- Read `canon/context/ai-act.md` before touching ingestion, retrieval, or any answer text. It holds the corpus structure, the amended deadlines, and the claims this project does not make.
 
-@.claude/REQUIREMENTS.md
-@.claude/ARCHITECTURE.md
-@.claude/context/index.md
-@.claude/wireframes/index.md
+@canon/REQUIREMENTS.md
+@canon/ARCHITECTURE.md
+@canon/context/index.md
+@canon/wireframes/index.md
 
 ## Commands
 
 - These conventions came from a toolkit with its own CLI. A rule or standard naming a command is naming that CLI, present only where this project installed it.
-- Run `./scripts/verify.sh` before committing, and `bun run check` for the whole gate across both halves. Full script reference in the development entry under `.claude/context/`.
+- Run `./scripts/verify.sh` before committing, and `bun run check` for the whole gate across both halves. Full script reference in the development entry under `canon/context/`.
 
 ## Constraints
 
@@ -23,8 +23,8 @@ An agent over the EU AI Act. It reports which articles apply to a described AI s
 
 ## Key paths
 
-- `.claude/context/ai-act.md`: the corpus. Regulation structure, amended deadlines, and the claims this project does not make
+- `canon/context/ai-act.md`: the corpus. Regulation structure, amended deadlines, and the claims this project does not make
 - `scripts/verify.sh`: the pre-commit gate
-- `.claude/DESIGN.md`: design tokens and the visual system
-- `.claude/context/`: per-domain narrative (how a domain is structured, decisions, gotchas), indexed via `.claude/context/index.md`
-- `.claude/wireframes/`: per-surface ASCII layouts loaded on demand, indexed via `.claude/wireframes/index.md`
+- `canon/DESIGN.md`: design tokens and the visual system
+- `canon/context/`: per-domain narrative (how a domain is structured, decisions, gotchas), indexed via `canon/context/index.md`
+- `canon/wireframes/`: per-surface ASCII layouts loaded on demand, indexed via `canon/wireframes/index.md`
