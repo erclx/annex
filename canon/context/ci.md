@@ -21,19 +21,24 @@ Owns the GitHub Actions workflow that gates a merge: which events start a run, a
 
 ## Jobs
 
-Defined in `.github/workflows/verify.yml`. All jobs must pass before merge, and they run in parallel.
+Defined in `.github/workflows/verify.yml`. Every job names a check in the pull request's checks list, and they run in parallel.
 
-| Job              | Command                | What it asserts                                         |
-| ---------------- | ---------------------- | ------------------------------------------------------- |
-| 🛡️ Static Checks | `bun run check:format` | prettier and shfmt are clean across the tree            |
-|                  | `bun run check:spell`  | cspell passes against dictionaries                      |
-|                  | `bun run check:shell`  | shellcheck passes at warning level                      |
-| 🐍 Python Checks | `bun run check:python` | mypy, ruff, ruff format check, and pytest all pass      |
-| 🌐 Web Checks    | `bun run check:web`    | prettier, tsc, eslint at zero warnings, and vitest pass |
+None of them is a GitHub-enforced merge gate: `gh api repos/:owner/:repo/branches/main/protection` returned `404 Branch not protected` on 2026-09-13, so `main` carries no branch protection rule at all. "Must pass before merge" describes a convention among reviewers reading that list, not something the platform blocks on. Enforcing one is a repository-settings act, the same kind `canon/ARCHITECTURE.md` names for creating the Cloudflare Pages project, and no file in this tree can perform it.
+
+| Job              | Command                      | What it asserts                                         |
+| ---------------- | ---------------------------- | ------------------------------------------------------- |
+| 🛡️ Static Checks | `bun run check:format`       | prettier and shfmt are clean across the tree            |
+|                  | `bun run check:spell`        | cspell passes against dictionaries                      |
+|                  | `bun run check:shell`        | shellcheck passes at warning level                      |
+| 🐍 Python Checks | `bun run check:python`       | mypy, ruff, ruff format check, and pytest all pass      |
+| 🌐 Web Checks    | `bun run check:web`          | prettier, tsc, eslint at zero warnings, and vitest pass |
+| 🎭 E2E Tests     | `cd web && bun run test:e2e` | Chromium drives the app end to end across `web/e2e/`    |
 
 The Python job installs through `astral-sh/setup-uv` and `uv sync --frozen`, honouring the interpreter `python/.python-version` pins. The web job installs its own dependencies, since `web/` carries a separate lockfile and the root install does not reach it.
 
-Neither half's job runs Playwright. End-to-end coverage is `cd web && bun run test:e2e`, which needs a browser download, and it gates nothing yet.
+The E2E job runs on every pull request now, unwired from the other three: nothing in this workflow uploads a build artifact for it to consume, since Playwright's own `webServer` entries in `web/playwright.config.ts` build the dev server and the replay static export it needs, inside the job itself.
+
+It installs Chromium fresh every run through `--with-deps`, since a GitHub-hosted runner is a new virtual machine each time and the OS packages that flag installs are never persisted regardless of a cache hit. Only the browser binary download is cached, keyed on the `@playwright/test` version read from `web/package.json`. Its report and traces upload on failure alone, matching every other job in this file.
 
 The Python job is what makes the corpus count check load-bearing. A parse that loses the six articles the amendment inserted fails `pytest` here rather than only at a developer's pre-push hook.
 
