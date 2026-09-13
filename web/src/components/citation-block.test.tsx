@@ -186,4 +186,83 @@ describe('CitationBlock', () => {
       }),
     ).toBeInTheDocument()
   })
+
+  describe('a changed citation', () => {
+    const CHANGED: Citation = {
+      ...CITATION,
+      citation: 'Article 95(4)',
+      provision_id: 'art_95.4',
+      version: 'consolidated',
+      text: findProvision('consolidated', 'art_95.4')?.text ?? '',
+      changed: true,
+    }
+
+    it('should highlight the words the amendment added', () => {
+      render(<CitationBlock citation={CHANGED} />)
+
+      expect(screen.getByText('SMCs').tagName).toBe('MARK')
+    })
+
+    it('should render no highlight on an unchanged citation', () => {
+      render(<CitationBlock citation={CITATION} />)
+
+      expect(document.querySelector('mark')).not.toBeInTheDocument()
+    })
+
+    it('should swap the shown text when the version control is activated', async () => {
+      render(<CitationBlock citation={CHANGED} />)
+
+      expect(screen.getByText('SMCs')).toBeInTheDocument()
+
+      await userEvent.click(
+        screen.getByRole('button', { name: 'Read the original text' }),
+      )
+
+      expect(screen.queryByText('SMCs')).not.toBeInTheDocument()
+      expect(
+        screen.getByRole('button', { name: 'Read the amended text' }),
+      ).toBeInTheDocument()
+    })
+  })
+
+  describe('a citation the amendment added or removed', () => {
+    const ADDED: Citation = {
+      ...CITATION,
+      citation: 'Article 111(4)',
+      kind: 'paragraph',
+      provision_id: 'art_111.4',
+      version: 'consolidated',
+      text: findProvision('consolidated', 'art_111.4')?.text ?? '',
+      changed: true,
+    }
+    const REMOVED: Citation = {
+      ...CITATION,
+      citation: 'Recital 132',
+      kind: 'recital',
+      provision_id: 'rct_132',
+      version: 'original',
+      text: findProvision('original', 'rct_132')?.text ?? '',
+      changed: true,
+    }
+
+    it('should say a provision was added rather than moved', () => {
+      render(<CitationBlock citation={ADDED} />)
+
+      expect(screen.getByText('added by the amendment')).toBeInTheDocument()
+      expect(document.querySelector('mark')).not.toBeInTheDocument()
+      expect(
+        screen.queryByRole('button', { name: /^Read the/ }),
+      ).not.toBeInTheDocument()
+    })
+
+    it('should say a provision was removed rather than moved', () => {
+      render(<CitationBlock citation={REMOVED} />)
+
+      expect(screen.getByText('removed by the amendment')).toBeInTheDocument()
+      expect(document.querySelector('mark')).not.toBeInTheDocument()
+      expect(
+        screen.queryByRole('button', { name: /^Read the/ }),
+      ).not.toBeInTheDocument()
+    })
+  })
 })

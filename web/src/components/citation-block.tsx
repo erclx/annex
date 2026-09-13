@@ -1,7 +1,25 @@
+import { Fragment, useState } from 'react'
+
 import type { Citation, CorpusVersion } from '@/components/versions'
+import { VERSION_LABEL } from '@/components/versions'
+import {
+  amendmentDiff,
+  type DiffSpan,
+  sliceDiffSpans,
+} from '@/lib/amendment-diff'
 import { closestPoint, type Landing } from '@/lib/closest-point'
 import { eurLexUrl } from '@/lib/eur-lex'
 import { group } from '@/lib/format'
+
+const CHIP_LABEL: Record<'added' | 'changed' | 'removed', string> = {
+  added: 'added by the amendment',
+  changed: 'moved by the amendment',
+  removed: 'removed by the amendment',
+}
+
+function otherVersionOf(version: CorpusVersion): CorpusVersion {
+  return version === 'original' ? 'consolidated' : 'original'
+}
 
 /**
  * What the line beside the citation says about where the excerpt opens.
@@ -65,11 +83,35 @@ export function CitationBlock({
   const heading = landing.kind === 'point' ? landing.name : citation.citation
   const point =
     landing.kind === 'point' ? landing.segment.path.join('.') : undefined
-  const excerpt =
+  const excerptStart =
     landing.kind === 'point' && landing.segment.start > 0
-      ? `… ${citation.text.slice(landing.segment.start)}`
-      : citation.text
+      ? landing.segment.start
+      : 0
+  const excerpt =
+    excerptStart > 0 ? `… ${citation.text.slice(excerptStart)}` : citation.text
   const landingLabel = LANDING_LABEL[landing.kind]
+
+  const diff = citation.changed ? amendmentDiff(citation.provision_id) : null
+  const otherVersion = otherVersionOf(citation.version)
+  const hasOtherVersion = diff !== null && diff.status === 'changed'
+
+  const citationKey = `${citation.provision_id}:${citation.version}`
+  const [shownVersion, setShownVersion] = useState<CorpusVersion>(
+    citation.version,
+  )
+  const [trackedKey, setTrackedKey] = useState(citationKey)
+  if (trackedKey !== citationKey) {
+    setTrackedKey(citationKey)
+    setShownVersion(citation.version)
+  }
+  const isShowingOther = hasOtherVersion && shownVersion !== citation.version
+
+  const excerptSpans: DiffSpan[] | null =
+    diff !== null && diff.status === 'changed'
+      ? isShowingOther
+        ? [...(diff[shownVersion] ?? [])]
+        : sliceDiffSpans(diff[citation.version] ?? [], excerptStart)
+      : null
 
   function handleOpen() {
     if (point === undefined) onOpen?.(citation.provision_id, citation.version)
@@ -105,12 +147,23 @@ export function CitationBlock({
         </a>
         {citation.changed ? (
           <span className="rounded-full border border-cite-rule-moved bg-paper px-2 py-px text-[11px] text-warning">
-            moved by the amendment
+            {CHIP_LABEL[diff?.status ?? 'changed']}
           </span>
         ) : (
           <span className="rounded-[3px] border border-rule px-[5px] py-px font-mono text-[10px] tracking-[0.05em] text-muted uppercase">
             {citation.version === 'consolidated' ? 'amended' : 'original'}
           </span>
+        )}
+        {hasOtherVersion && (
+          <button
+            type="button"
+            onClick={() => {
+              setShownVersion(isShowingOther ? citation.version : otherVersion)
+            }}
+            className="text-[11px] text-accent underline-offset-2 hover:underline"
+          >
+            {`Read ${VERSION_LABEL[isShowingOther ? citation.version : otherVersion]}`}
+          </button>
         )}
       </figcaption>
 
@@ -118,7 +171,22 @@ export function CitationBlock({
         className="m-0 line-clamp-(--excerpt-lines) font-[family-name:var(--font-serif)] text-[13px] leading-[1.5] text-act"
         style={{ '--excerpt-lines': lines } as React.CSSProperties}
       >
-        {excerpt}
+        {excerptSpans !== null ? (
+          <>
+            {!isShowingOther && excerptStart > 0 && '… '}
+            {excerptSpans.map((span, index) =>
+              span.changed ? (
+                <mark key={index} className="rounded-[2px] bg-warning-surface">
+                  {span.text}
+                </mark>
+              ) : (
+                <Fragment key={index}>{span.text}</Fragment>
+              ),
+            )}
+          </>
+        ) : (
+          excerpt
+        )}
       </blockquote>
 
       {citation.change_note && (

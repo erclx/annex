@@ -225,6 +225,38 @@ test.describe('as an overlay below 1024 pixels', () => {
   })
 })
 
+test.describe('a changed citation', () => {
+  const promotion = manifest.entries.find(
+    (entry) =>
+      entry.question_id === 'q06-worker-promotion' &&
+      entry.version === 'original',
+  )
+
+  test('following a changed citation lands on the highlighted provision', async ({
+    page,
+  }) => {
+    await page.goto(REPLAY_URL)
+    await page
+      .getByRole('button', { name: promotion?.description ?? '' })
+      .click()
+
+    // The recorded pick opens against the amended text by default, and the
+    // changed citation this run reads sits in the original text's answer.
+    await page
+      .getByRole('banner')
+      .getByRole('button', { name: 'Original' })
+      .click()
+
+    const figure = page.locator('figure', {
+      has: page.getByText('moved by the amendment'),
+    })
+    await figure.getByRole('button', { name: 'Article 10' }).click()
+
+    const pane = page.getByRole('complementary', { name: 'The Act' })
+    await expect(pane.locator('mark').first()).toBeVisible()
+  })
+})
+
 test.describe('an excerpt landing on its closest point', () => {
   const screening = manifest.entries.find(
     (entry) => entry.question_id === 'q04-cv-screening',

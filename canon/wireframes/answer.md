@@ -322,6 +322,36 @@ Three layers appear inside one block and a reader has to be able to separate the
 
 The clamp reaches only the Act's words. A note always renders whole, since it is the one thing the amendment adds to a citation.
 
+### The word diff
+
+Read as a word diff between the two exported corpora, so a rewrapped sentence with no wording change reads as unchanged. The words the shown version adds that the other version does not share are tinted the same ground the note stands on, `warning-surface`, so the highlight reads as a second weight on the Act's own words rather than a fourth color competing with the claim and the note.
+
+```plaintext
+│  ┃ Article 95(4)  ( moved by the amendment )    Read the original text  │
+│  ┃ The AI Office and the Member States shall take into account the      │
+│  ┃ specific interests and needs of SMEs, including start-ups, ▒and      │
+│  ┃ SMCs,▒ when encouraging and facilitating the drawing up of codes     │
+│  ┃ of conduct.                                                          │
+```
+
+Copy, verbatim: `Read <the other version's label>`, reading the text a reader would switch to rather than the one already on screen. `the original text` and `the amended text` are the same two phrases `canon/context/ai-act.md` names for the two texts.
+
+Activating the control swaps the excerpt for the other version's whole text, still clamped to the block's line limit, and swaps the control's own label to the version now on screen. It marks the words that version adds and the shown version does not share, which is how a removal reaches the reader: never as struck-through words inside the version on screen, since that would put words on the page the Act does not carry there, but as the highlight on the other version once the control is activated. The landing, the heading and the handle stay pinned to the version the citation shipped with. Only the excerpt and the control's own label move.
+
+The same highlight lands on the provision the pane opens: activating the heading or the handle still opens the Act to the citation's own version, and every word that version's own diff marks reads under the same tint there, bounded to the one section the citation opened rather than computed across the whole Act.
+
+### A provision the amendment added or removed
+
+Rendered when the cited provision exists in only one of the two texts, which a word diff has nothing to compare against.
+
+```plaintext
+│  ┃ Article 111(4)  ( added by the amendment )                          │
+│  ┃ Providers of high-risk AI systems already placed on the market      │
+│  ┃ shall inform the deployer without undue delay.                      │
+```
+
+Copy, verbatim: `added by the amendment` in place of `moved by the amendment` where the provision exists in the amended text alone, `removed by the amendment` where it exists in the original alone. The excerpt renders whole, with no highlight and no version control, since there is no other version to diff against or to read.
+
 ## Answered, cut short
 
 Rendered whenever the answer stopped for want of prompt room rather than because it finished. A cut answer reads exactly like a complete one, so nothing but this banner distinguishes them.

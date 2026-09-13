@@ -1,6 +1,7 @@
 'use client'
 
 import {
+  Fragment,
   type KeyboardEvent,
   type ReactNode,
   useEffect,
@@ -12,6 +13,11 @@ import {
 import { ReadingList } from '@/components/reading-list'
 import { SectionBar } from '@/components/section-bar'
 import type { CorpusVersion } from '@/components/versions'
+import {
+  amendmentDiff,
+  sliceDiffSpans,
+  trimDiffSpans,
+} from '@/lib/amendment-diff'
 import { pointName, type Segment, segmentsOf } from '@/lib/closest-point'
 import { findProvision, type Provision, provisionsFor } from '@/lib/corpus'
 import {
@@ -205,6 +211,12 @@ export function ActReader({
     openPoint,
   )
 
+  // Bounded to the one open section's own blocks, each diffed against its own
+  // counterpart, rather than the whole Act: an article's own text duplicates
+  // its children's, at offsets a child's diff cannot read, so each child is
+  // diffed under its own id instead of sliced out of its parent's.
+  const highlightSectionIndex = openId !== null ? openIndex : null
+
   // The section in view follows the pane's scroll once the reader scrolls, and
   // starts again from the open provision whenever a landing replaces it.
   const [scrolled, setScrolled] = useState<{
@@ -348,6 +360,8 @@ export function ActReader({
       sections={sections}
       landingKey={landingKey}
       registerTarget={registerTarget}
+      highlightSectionIndex={highlightSectionIndex}
+      version={version}
     />
   )
 
@@ -501,10 +515,14 @@ function ActText({
   sections,
   landingKey,
   registerTarget,
+  highlightSectionIndex,
+  version,
 }: {
   sections: readonly Section[]
   landingKey: string | null
   registerTarget: (key: string) => (element: HTMLElement | null) => void
+  highlightSectionIndex: number | null
+  version: CorpusVersion
 }) {
   const landed = (key: string) => key === landingKey
 
@@ -527,8 +545,19 @@ function ActText({
         )}
       </h2>
       {section.blocks.map(({ provision, segments }) => {
+        const diff =
+          index === highlightSectionIndex ? amendmentDiff(provision.id) : null
+        const highlightSpans =
+          diff !== null && diff.status === 'changed' ? diff[version] : null
         const passages = segments.map((segment, segmentIndex) => {
           const key = `${provision.id}#${segmentIndex}`
+          const end = segments[segmentIndex + 1]?.start ?? provision.text.length
+          const passageSpans =
+            highlightSpans !== null
+              ? trimDiffSpans(
+                  sliceDiffSpans(highlightSpans, segment.start, end),
+                )
+              : null
           return (
             <p
               key={key}
@@ -541,7 +570,24 @@ function ActText({
                   {pointName(provision.citation, segment.markers)}
                 </span>
               )}
-              <span>{segment.text}</span>
+              {passageSpans !== null ? (
+                <span>
+                  {passageSpans.map((span, spanIndex) =>
+                    span.changed ? (
+                      <mark
+                        key={spanIndex}
+                        className="rounded-[2px] bg-warning-surface"
+                      >
+                        {span.text}
+                      </mark>
+                    ) : (
+                      <Fragment key={spanIndex}>{span.text}</Fragment>
+                    ),
+                  )}
+                </span>
+              ) : (
+                <span>{segment.text}</span>
+              )}
             </p>
           )
         })

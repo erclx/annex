@@ -377,6 +377,49 @@ describe('ActReader', () => {
         'true',
       )
     })
+
+    it('should highlight the words the amendment changed on the opened provision', () => {
+      render(
+        <ActReader
+          docked
+          version="consolidated"
+          openId="art_95.4"
+          cited={cited}
+          onClose={vi.fn()}
+          onVersionChange={vi.fn()}
+        />,
+      )
+
+      expect(screen.getByText('SMCs').tagName).toBe('MARK')
+    })
+
+    it('should clear the highlight once the pane moves to an unchanged provision', () => {
+      const { rerender } = render(
+        <ActReader
+          docked
+          version="consolidated"
+          openId="art_95.4"
+          cited={cited}
+          onClose={vi.fn()}
+          onVersionChange={vi.fn()}
+        />,
+      )
+
+      expect(screen.getByText('SMCs').tagName).toBe('MARK')
+
+      rerender(
+        <ActReader
+          docked
+          version="consolidated"
+          openId="art_6"
+          cited={cited}
+          onClose={vi.fn()}
+          onVersionChange={vi.fn()}
+        />,
+      )
+
+      expect(document.querySelector('mark')).not.toBeInTheDocument()
+    })
   })
 
   it('should hand the picked version back to its caller', async () => {
