@@ -4,12 +4,15 @@ Against a fixture index and a scripted model, so what is under test is the
 pipeline's own wiring rather than the model's judgement.
 """
 
+import re
+
 from annex.agent.pipeline import (
     CUT_DRAFT_MISSING,
     CUT_DRAFT_REASON,
     DENSEST_CHARACTERS_A_TOKEN,
     SCAFFOLDING_TOKENS,
     SYNTHESIS_BUDGET,
+    State,
     _amendment,
     _uncited_ids,
     parse_draft,
@@ -21,6 +24,9 @@ from tests.agent.conftest import BuildPipeline
 CHATBOT = 'a chatbot that talks to customers on our website'
 
 DEADLINE = 'when do the obligations for a high-risk AI system start to apply to us'
+
+NUMBERED_PROVISION = re.compile(r'^\[\d+\] (.+)$', re.MULTILINE)
+"""A provision's heading line in the synthesis prompt, `[n] <citation>`."""
 
 
 def make_citation(
@@ -520,6 +526,57 @@ class TestTheTrace:
         assert set(answer.retrieval.dropped_ids) <= set(
             answer.retrieval.searched_ids + answer.retrieval.traversed_ids
         )
+
+    def test_the_budget_update_supplies_exactly_what_the_prompt_numbered(
+        self, build_pipeline: BuildPipeline
+    ) -> None:
+        """What a stream shows as being read has to be what the model was sent.
+
+        The budget cut runs in its own node so its result reaches a frame
+        before drafting starts, and a frame naming provisions the prompt never
+        carried would put a reading card over text the model did not read.
+        """
+        pipeline, client = build_pipeline(['transparency obligations', GROUNDED])
+        pipeline.settings = pipeline.settings.model_copy(
+            update={'generation_context': 1024}
+        )
+
+        updates = list(
+            pipeline.compiled.stream(
+                State(question=CHATBOT, version=CorpusVersion.CONSOLIDATED),
+                stream_mode='updates',
+            )
+        )
+
+        budget = next(update['budget'] for update in updates if 'budget' in update)
+        answer = next(
+            update['synthesize']['answer']
+            for update in updates
+            if 'synthesize' in update
+        )
+        numbered = NUMBERED_PROVISION.findall(client.prompts[1])
+        assert [citation.citation for citation in budget['citations']] == numbered
+        assert budget['dropped_ids'] == answer.retrieval.dropped_ids
+        assert budget['dropped_ids']
+
+    def test_the_budget_node_runs_between_traverse_and_synthesize(
+        self, build_pipeline: BuildPipeline
+    ) -> None:
+        pipeline, _ = build_pipeline(['transparency obligations', GROUNDED])
+        pipeline.settings = pipeline.settings.model_copy(
+            update={'generation_context': 1024}
+        )
+
+        nodes = [
+            name
+            for update in pipeline.compiled.stream(
+                State(question=CHATBOT, version=CorpusVersion.CONSOLIDATED),
+                stream_mode='updates',
+            )
+            for name in update
+        ]
+
+        assert nodes == ['route', 'retrieve', 'traverse', 'budget', 'synthesize']
 
     def test_uncited_ids_names_a_supplied_provision_the_draft_never_bracketed(
         self,

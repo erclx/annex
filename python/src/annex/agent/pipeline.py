@@ -1,10 +1,16 @@
 """The pipeline, as a compiled LangGraph over an explicit state object.
 
-Four nodes and one conditional edge. Route restates the system description in
+Six nodes and one conditional edge. Route restates the system description in
 the Act's vocabulary, retrieve searches one version, traverse follows the
-citations outward, and synthesize drafts statements against what was gathered.
-The conditional edge runs after synthesis: an answer whose claims do not
-survive grounding leaves through refusal rather than through the answer path.
+citations outward, budget cuts what gathered to what the prompt window holds,
+and synthesize drafts statements against what survived. The conditional edge
+runs after synthesis: an answer whose claims do not survive grounding leaves
+through refuse rather than through the answer path.
+
+The budget cut is a node of its own rather than the first line of synthesis
+because a node's result reaches a stream frame only when the node finishes.
+Inside synthesis, what the model was about to read would surface after the
+model had read it.
 
 `canon/REQUIREMENTS.md` names LangGraph under Tech stack rather than among
 the open risks `canon/ARCHITECTURE.md` tracks, so it is a commitment rather
@@ -124,6 +130,9 @@ class State(TypedDict, total=False):
     searched_ids: tuple[str, ...]
     traversed_ids: tuple[str, ...]
     edges: tuple[WalkedEdge, ...]
+    citations: tuple[Citation, ...]
+    """What the budget kept, in the order and with the repeats the prompt numbers."""
+    dropped_ids: tuple[str, ...]
     traversal_enabled: bool
     prompt_tokens: int
     completion_tokens: int
@@ -180,13 +189,15 @@ class Pipeline:
         graph.add_node('route', self._route)
         graph.add_node('retrieve', self._retrieve)
         graph.add_node('traverse', self._traverse)
+        graph.add_node('budget', self._budget)
         graph.add_node('synthesize', self._synthesize)
         graph.add_node('refuse', self._refuse)
 
         graph.add_edge(START, 'route')
         graph.add_edge('route', 'retrieve')
         graph.add_edge('retrieve', 'traverse')
-        graph.add_edge('traverse', 'synthesize')
+        graph.add_edge('traverse', 'budget')
+        graph.add_edge('budget', 'synthesize')
         graph.add_conditional_edges(
             'synthesize',
             self._settled,
@@ -300,8 +311,20 @@ class Pipeline:
             )
         return tuple(kept), dropped
 
-    def _synthesize(self, state: State) -> State:
+    def _budget(self, state: State) -> State:
+        """Settle what the model will read, before the call that reads it.
+
+        Carries the kept `Citation` tuple verbatim rather than its ids.
+        `parse_draft` and `_uncited_ids` number citations by position, and
+        `Expansion.provision_ids` repeats a provision reached by both search
+        and the walk, so ids rebuilt into citations would renumber the prompt.
+        """
         citations, dropped_ids = self._within_budget(self._citations(state))
+        return {'citations': citations, 'dropped_ids': dropped_ids}
+
+    def _synthesize(self, state: State) -> State:
+        citations = state['citations']
+        dropped_ids = state['dropped_ids']
         numbered = '\n\n'.join(
             f'[{index}] {citation.citation}\n{citation.text}'
             for index, citation in enumerate(citations, start=1)
