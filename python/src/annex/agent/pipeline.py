@@ -321,6 +321,7 @@ class Pipeline:
             searched_ids=state.get('searched_ids', ()),
             traversed_ids=state.get('traversed_ids', ()),
             dropped_ids=dropped_ids,
+            uncited_ids=_uncited_ids(completion.text, citations),
             edges=tuple(
                 TraversalEdge(
                     source_id=edge.source_id, target_id=edge.target_id, hop=edge.hop
@@ -434,6 +435,39 @@ class Pipeline:
 
 
 _SPACE_BEFORE_PUNCTUATION = re.compile(r'\s+([.,;:)])')
+
+
+def _uncited_ids(drafted: str, citations: tuple[Citation, ...]) -> tuple[str, ...]:
+    """Which supplied provisions the model's raw completion never bracketed.
+
+    Reads `drafted` directly rather than the lines `parse_draft` keeps, since
+    the question this answers is what the model's own generation did with a
+    supplied number, not what survived parsing into a claim. A bracket number
+    inside a declared `REFUSE` block's `missing` lines, or one a stray line of
+    prose happens to carry, both count as cited here even though `parse_draft`
+    never turns either into a claim.
+
+    Matched by `provision_id` rather than by tuple position, because
+    `Expansion.provision_ids` composes `citations` as `searched_ids +
+    traversed_ids` with no deduplication across the two halves. A provision
+    reached by both search and the walk would otherwise sit at two indices,
+    and a model citing one of them would still see the other's index reported
+    uncited for a provision it did in fact cite.
+    """
+    cited_indices = {int(number) for number in CITATION_MARKER.findall(drafted)}
+    cited_ids = {
+        citation.provision_id
+        for index, citation in enumerate(citations, start=1)
+        if index in cited_indices
+    }
+    seen: set[str] = set()
+    uncited: list[str] = []
+    for citation in citations:
+        if citation.provision_id in cited_ids or citation.provision_id in seen:
+            continue
+        seen.add(citation.provision_id)
+        uncited.append(citation.provision_id)
+    return tuple(uncited)
 
 
 def _comparable(text: str) -> str:

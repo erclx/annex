@@ -121,6 +121,15 @@ class RetrievalTrace(BaseModel):
     with traversal switched off, so an empty tuple does not by itself mean
     nothing was traversed. Read it alongside `traversal_enabled` and
     `traversed_ids` rather than on its own.
+
+    `uncited_ids` names a different gap from `dropped_ids`. `dropped_ids` is
+    provisions the budget cut before the model ever saw them; `uncited_ids` is
+    provisions the model saw and never wrote a bracket number for. Neither
+    subsumes the other, and a provision that survives the budget can still
+    land here. It is also distinct from a claim a verifier drops for failing
+    grounding, since that is a citation the model made that the retrieved
+    text does not support, where this is a citation the model never made at
+    all.
     """
 
     model_config = ConfigDict(frozen=True)
@@ -128,6 +137,7 @@ class RetrievalTrace(BaseModel):
     searched_ids: tuple[str, ...] = ()
     traversed_ids: tuple[str, ...] = ()
     dropped_ids: tuple[str, ...] = ()
+    uncited_ids: tuple[str, ...] = ()
     edges: tuple[TraversalEdge, ...] = ()
     traversal_enabled: bool = False
     truncated: bool = False

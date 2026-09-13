@@ -24,6 +24,7 @@ strikethrough
 subfolders
 Tufte
 unasserted
+uncited
 unconfigured
 unfetched
 unglossed
