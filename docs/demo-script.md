@@ -98,7 +98,8 @@ on.
 
 Ask it, then move the version toggle from the amended text to the original and
 let it re-ask. Two different dates, each cited to Article 113, and the citation
-that moved is marked.
+that moved is marked, its changed words highlighted against the excerpt rather
+than only flagged.
 
 This is the flow the project exists to make visible. An answer derived from the
 original text is confidently wrong about a date carrying penalties, and nothing
