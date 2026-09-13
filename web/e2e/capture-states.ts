@@ -81,10 +81,22 @@ interface Case {
   reject?: boolean
   describe?: string
   replay?: boolean
+  /**
+   * The docked pane scrolls internally, so a full-page shot never reaches
+   * content below its own fold. Set on a case whose point is that region: the
+   * capture scrolls the pane to the bottom first and crops to the pane alone,
+   * rather than the whole page.
+   */
+  paneScroll?: boolean
 }
 
 const CASES: Case[] = [
   { name: '1-empty', skipAsk: true },
+  {
+    name: '1-empty-pipeline-figure',
+    skipAsk: true,
+    paneScroll: true,
+  },
   { name: '2-invalid', skipAsk: true, blur: true },
   { name: '3-loading', hang: true },
   { name: '4-answered', body: answered, expand: true },
@@ -134,6 +146,11 @@ async function reached(page: Page, captureCase: Case) {
       await expect(
         page.getByRole('heading', { name: /Describe what you are building/ }),
       ).toBeVisible()
+      break
+    case '1-empty-pipeline-figure':
+      await expect(
+        page.getByRole('img', { name: /The five-stage pipeline/ }),
+      ).toBeAttached()
       break
     case '2-invalid':
       await expect(
@@ -245,7 +262,15 @@ for (const theme of ['light', 'dark'] as const) {
     await reached(page, captureCase)
 
     const file = path.join('evidence', captureCase.name, `${theme}.png`)
-    await page.screenshot({ path: file, fullPage: true })
+    if (captureCase.paneScroll) {
+      const pane = page.getByRole('complementary', { name: 'Before you ask' })
+      await pane.locator('.overflow-y-auto').evaluate((el) => {
+        el.scrollTop = el.scrollHeight
+      })
+      await pane.screenshot({ path: file })
+    } else {
+      await page.screenshot({ path: file, fullPage: true })
+    }
     console.log(`captured ${file}`)
     await context.close()
   }
