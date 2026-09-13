@@ -19,7 +19,11 @@ export function AnswerView({
   onOpenProvision,
 }: {
   answer: Answer
-  onOpenProvision?: (provisionId: string, version: CorpusVersion) => void
+  onOpenProvision?: (
+    provisionId: string,
+    version: CorpusVersion,
+    point?: string,
+  ) => void
 }) {
   return (
     <div className="py-6">
@@ -32,21 +36,14 @@ export function AnswerView({
             <CitationBlock
               key={citation.provision_id}
               citation={citation}
+              claim={claim.statement}
               onOpen={onOpenProvision}
             />
           ))}
         </section>
       ))}
 
-      {answer.retrieval.truncated && (
-        <CutShort
-          dropped={answer.retrieval.dropped_ids.length}
-          reached={
-            answer.retrieval.traversed_ids.length +
-            answer.retrieval.searched_ids.length
-          }
-        />
-      )}
+      {answer.retrieval.truncated && <CutShort />}
     </div>
   )
 }
@@ -55,18 +52,21 @@ export function AnswerView({
  * The banner that separates a cut answer from a finished one.
  *
  * A cut answer reads exactly like a complete one, so nothing but this
- * distinguishes them. Both counts are read off the trace rather than written
- * into the copy.
+ * distinguishes them. It keys on `truncated`, which is the generation stopping
+ * for want of room, and says exactly that. Provisions the prompt budget
+ * dropped are a different event that happens on nearly every answer, and the
+ * trace's counts already report them, so a banner describing them would sit on
+ * every answer and stop meaning anything.
  */
-function CutShort({ dropped, reached }: { dropped: number; reached: number }) {
+function CutShort() {
   return (
     <div className="mt-6 rounded-[7px] border border-warning-rule bg-warning-surface px-[13px] py-[11px]">
       <b className="mb-[2px] block text-[13px] text-warning">
         The answer stopped for want of room, not because it finished.
       </b>
       <p className="m-0 text-[12.5px] leading-[1.5] text-warning">
-        {dropped} of the {reached} provisions traversal reached were cut before
-        the model read them. They are named under the trace as dropped.
+        The model ran out of room while writing, so anything it would have said
+        after the last claim here is missing.
       </p>
     </div>
   )

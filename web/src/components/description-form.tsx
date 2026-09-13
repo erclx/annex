@@ -1,5 +1,16 @@
 import type { ReactNode } from 'react'
 
+import { MAXIMUM_DESCRIPTION } from '@/lib/ask'
+import { group } from '@/lib/format'
+
+export type DescriptionError = 'empty' | 'too-long'
+
+/** Copy owned by `canon/wireframes/answer.md` § Invalid. */
+const ERROR_COPY: Record<DescriptionError, string> = {
+  empty: 'A description is needed before this can be answered.',
+  'too-long': `The description is too long, so shorten it to ${group(MAXIMUM_DESCRIPTION)} characters or fewer.`,
+}
+
 /**
  * The empty state, and the one place a validation message renders.
  *
@@ -8,6 +19,11 @@ import type { ReactNode } from 'react'
  * whether an organization complies, and stating the boundary before a visitor
  * has asked anything is where `canon/wireframes/answer.md` puts it.
  *
+ * `error` renders only once a submit has been tried. Raising the empty message
+ * when focus merely left the box put a red line and an inactive button in
+ * front of a visitor who had not asked anything yet, which the operator's
+ * first-use pass recorded as F6.
+ *
  * `choices` is the version and traversal row the page places here below 1024
  * pixels before anything is asked, directly under the description where the
  * choice is made, rather than in a top bar that holds only the brand there.
@@ -15,20 +31,20 @@ import type { ReactNode } from 'react'
 export function DescriptionForm({
   description,
   onDescriptionChange,
-  onBlur,
   onSubmit,
-  invalid,
+  error,
   pending,
   choices,
 }: {
   description: string
   onDescriptionChange: (description: string) => void
-  onBlur: () => void
   onSubmit: () => void
-  invalid: boolean
+  error: DescriptionError | null
   pending: boolean
   choices?: ReactNode
 }) {
+  const isInvalid = error !== null
+
   return (
     <form
       className="flex w-full flex-col gap-4 pt-6 pb-10 lg:pt-12"
@@ -61,17 +77,16 @@ export function DescriptionForm({
           onChange={(event) => {
             onDescriptionChange(event.target.value)
           }}
-          onBlur={onBlur}
-          aria-invalid={invalid}
-          aria-describedby={invalid ? 'description-error' : undefined}
+          aria-invalid={isInvalid}
+          aria-describedby={isInvalid ? 'description-error' : undefined}
           placeholder="A customer-service chatbot that also scores loan applications…"
           className={`rounded-lg border bg-surface px-[13px] py-[11px] text-[14px] leading-[1.6] text-ink placeholder:text-muted ${
-            invalid ? 'border-error' : 'border-rule'
+            isInvalid ? 'border-error' : 'border-rule'
           }`}
         />
-        {invalid && (
+        {error && (
           <p id="description-error" className="m-0 text-[13px] text-error">
-            A description is needed before this can be answered.
+            {ERROR_COPY[error]}
           </p>
         )}
       </div>
@@ -79,13 +94,13 @@ export function DescriptionForm({
       {choices}
 
       <div>
-        {/* Live on an empty description and held inactive once the message is
-            showing, which is where the wireframe draws each. Nothing is saved
-            either way: an empty submit sets the message and never calls the
-            service. */}
+        {/* Live until a submit has been tried, and held inactive while the
+            message is showing, which is where the wireframe draws each.
+            Nothing is saved either way: a submit the form rejects sets the
+            message and never calls the service. */}
         <button
           type="submit"
-          disabled={pending || invalid}
+          disabled={pending || isInvalid}
           className="rounded-md bg-accent px-[14px] py-[7px] text-[13px] font-medium text-paper disabled:opacity-50"
         >
           Find the articles

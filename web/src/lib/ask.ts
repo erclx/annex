@@ -25,6 +25,14 @@ import { replay, REPLAY_MODE } from '@/lib/replay'
 export const ASK_TIMEOUT_MS = 300_000
 
 /**
+ * The longest description the service accepts, mirroring `MAXIMUM_DESCRIPTION`
+ * in `python/src/annex/service/models.py`. The form checks it before asking,
+ * so an over-length description is named as too long rather than reaching the
+ * service's `invalid` state, which carries no reason a reader can act on.
+ */
+export const MAXIMUM_DESCRIPTION = 4000
+
+/**
  * Above the service's own budget on purpose.
  *
  * The service bounds the model call at 120 seconds per call and an ask makes
