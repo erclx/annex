@@ -34,11 +34,6 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   reporter: process.env.CI ? 'html' : 'list',
   workers: 1,
-  // The replay build paces a recording through the agent's steps before it
-  // answers, at a fifth of the recording's own time, which runs to about 17
-  // seconds on the longest recording. Five seconds, the default, would fail
-  // every replay case that waits on an answer.
-  expect: { timeout: 20_000 },
   use: {
     baseURL: BASE_URL,
     trace: 'on-first-retry',

@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test'
 
 import { REPLAY_URL } from '../playwright.config'
 import manifest from '../src/fixtures/manifest.json'
+import { PLAYBACK_TIMEOUT } from './playback'
 
 /**
  * The deployed build, in a real browser, reaching no service.
@@ -44,7 +45,9 @@ test('a recorded pick answers with nothing listening on the service port', async
   await page.getByRole('button', { name: RECORDED }).click()
 
   await expect(page.getByText('THE SYSTEM YOU DESCRIBED')).toBeVisible()
-  await expect(page.getByRole('contentinfo')).toBeVisible()
+  await expect(page.getByRole('contentinfo')).toBeVisible({
+    timeout: PLAYBACK_TIMEOUT,
+  })
   expect(requests).toEqual([])
 })
 
@@ -58,7 +61,9 @@ test('a recorded pick plays its steps under a label saying the pace is illustrat
   await expect(
     page.getByRole('region', { name: 'The agent working' }),
   ).toBeVisible()
-  await expect(page.getByRole('contentinfo')).toBeVisible()
+  await expect(page.getByRole('contentinfo')).toBeVisible({
+    timeout: PLAYBACK_TIMEOUT,
+  })
 })
 
 test.describe('the illustrative pace at 400 pixels', () => {
@@ -116,7 +121,9 @@ test('the version toggle re-asks against the other text', async ({ page }) => {
   // where the traversal switch beside it is not.
   await page.goto(REPLAY_URL)
   await page.getByRole('button', { name: RECORDED }).click()
-  await expect(page.getByRole('contentinfo')).toBeVisible()
+  await expect(page.getByRole('contentinfo')).toBeVisible({
+    timeout: PLAYBACK_TIMEOUT,
+  })
 
   // Scoped to the top bar, since the docked Act carries its own version toggle,
   // which reads the other text without re-asking.
@@ -193,7 +200,9 @@ test.describe('an answer carried in the address', () => {
   test('a linked answer reopens as it was shared', async ({ page }) => {
     await page.goto(`${REPLAY_URL}?q=${linked.question_id}&v=original`)
 
-    await expect(page.getByRole('contentinfo')).toBeVisible()
+    await expect(page.getByRole('contentinfo')).toBeVisible({
+      timeout: PLAYBACK_TIMEOUT,
+    })
     await expect(page.getByText(linked.description).first()).toBeVisible()
     await expect(
       page

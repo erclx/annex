@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test'
 
 import { REPLAY_URL } from '../playwright.config'
 import manifest from '../src/fixtures/manifest.json'
+import { PLAYBACK_TIMEOUT } from './playback'
 
 /**
  * The Act, driven from a real citation on a real answer, in both of its forms.
@@ -23,7 +24,9 @@ test.describe('docked beside the answer', () => {
   }) => {
     await page.goto(REPLAY_URL)
     await page.getByRole('button', { name: RECORDED }).click()
-    await expect(page.getByRole('contentinfo')).toBeVisible()
+    await expect(page.getByRole('contentinfo')).toBeVisible({
+      timeout: PLAYBACK_TIMEOUT,
+    })
 
     await expect(
       page.getByRole('complementary', { name: 'The Act' }),
@@ -151,7 +154,9 @@ test.describe('as an overlay below 1024 pixels', () => {
   }) => {
     await page.goto(REPLAY_URL)
     await page.getByRole('button', { name: RECORDED }).click()
-    await expect(page.getByRole('contentinfo')).toBeVisible()
+    await expect(page.getByRole('contentinfo')).toBeVisible({
+      timeout: PLAYBACK_TIMEOUT,
+    })
 
     const citation = page.getByRole('button', { name: /^Article \d/ }).first()
     const citationName = await citation.textContent()
@@ -276,7 +281,9 @@ test.describe('an excerpt landing on its closest point', () => {
         exact: true,
       }),
     })
-    await expect(figure.getByText('closest point')).toBeVisible()
+    await expect(figure.getByText('closest point')).toBeVisible({
+      timeout: PLAYBACK_TIMEOUT,
+    })
     await figure.getByRole('button', { name: /^Read all/ }).click()
 
     const pane = page.getByRole('complementary', { name: 'The Act' })

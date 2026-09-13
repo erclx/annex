@@ -23,6 +23,14 @@ Every claim, citation and quoted provision in it is still text the pipeline
 produced. Only the one flag that decides whether the banner renders is set by
 the harness rather than read off the recording.
 
+The loading state carries a second exception, and it is in the times rather than
+the content. `e2e/capture-states.ts` holds a stream open mid-draft by sending a
+recording's frames all at once, so the step times it shows read a few
+milliseconds where a live run reads 13 seconds restating and tens of
+milliseconds for search and the walk. The steps, their results, the collapsed
+walk and the reading card are what the page renders. The times beside them are
+the stub's, and a faithful set wants a live model run.
+
 Both themes, symmetrically, because both ship and neither is a variant of the
 other. The dark theme re-values every role rather than inverting the light one,
 and `canon/DESIGN.md` records contrast measured separately for each, so a
