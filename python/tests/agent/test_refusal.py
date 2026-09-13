@@ -13,10 +13,98 @@ refusal. The live half asks the real model the real question and carries the
 import pytest
 
 from annex.agent import Pipeline
-from annex.agent.verify import CALENDAR_DATE
-from annex.answer import Answer
-from annex.corpus import CorpusVersion
+from annex.agent.pipeline import (
+    DECLARED_REFUSAL_REASON,
+    FALLBACK_REFUSAL_REASON,
+    parse_draft,
+)
+from annex.agent.verify import (
+    CALENDAR_DATE,
+    GROUNDING_REFUSAL_REASON,
+    TIMING_REFUSAL_REASON,
+    verify,
+)
+from annex.answer import Answer, Citation, Claim, RetrievalTrace
+from annex.corpus import CorpusVersion, ProvisionKind
 from tests.agent.conftest import BuildPipeline
+
+DEPLOYER_TEXT = (
+    'Deployers of high-risk AI systems shall take appropriate technical and '
+    'organisational measures to ensure they use such systems in accordance with '
+    'the instructions for use accompanying the systems.'
+)
+
+TIMING_QUESTION = (
+    'when do the obligations for a high-risk AI system start to apply to us'
+)
+
+
+def _citation(text: str) -> Citation:
+    return Citation(
+        provision_id='art_26',
+        citation='Article 26',
+        kind=ProvisionKind.ARTICLE,
+        version=CorpusVersion.CONSOLIDATED,
+        text=text,
+    )
+
+
+def _answer(*claims: Claim, question: str) -> Answer:
+    return Answer(
+        question=question,
+        version=CorpusVersion.CONSOLIDATED,
+        claims=claims,
+        retrieval=RetrievalTrace(searched_ids=('art_26',)),
+    )
+
+
+class TestEachExitCarriesItsOwnReason:
+    """The four reasons are what a reader tells an old `results.json` row's
+    refusal exit apart by, since `Result.refusal_reason` records
+    `answer.refusal.reason` directly rather than the stage that produced it.
+    """
+
+    def test_the_declared_marker_exit_carries_its_constant(self) -> None:
+        _, refusal = parse_draft('REFUSE\nthe threshold', citations=())
+
+        assert refusal is not None
+        assert refusal.reason == DECLARED_REFUSAL_REASON
+
+    def test_the_fallback_exit_carries_its_constant(self) -> None:
+        _, refusal = parse_draft('this line cites nothing at all', citations=())
+
+        assert refusal is not None
+        assert refusal.reason == FALLBACK_REFUSAL_REASON
+
+    def test_the_timing_exit_carries_its_constant(self) -> None:
+        deployer = Claim(
+            statement=(
+                'Deployers take appropriate technical and organisational '
+                'measures to use such systems in accordance with the '
+                'instructions for use.'
+            ),
+            citations=(_citation(DEPLOYER_TEXT),),
+        )
+
+        verified = verify(_answer(deployer, question=TIMING_QUESTION))
+
+        assert verified.refusal is not None
+        assert verified.refusal.reason == TIMING_REFUSAL_REASON
+
+    def test_the_grounding_exit_carries_its_constant(self) -> None:
+        fabricated = Claim(
+            statement=(
+                'Operators register their deployment with the national '
+                'supervisory authority within thirty days of launch.'
+            ),
+            citations=(_citation(DEPLOYER_TEXT),),
+        )
+
+        verified = verify(_answer(fabricated, question='Does Article 26 apply?'))
+
+        assert verified.refusal is not None
+        assert verified.refusal.reason == GROUNDING_REFUSAL_REASON
+
 
 GRANDFATHERING = (
     'We put a CV screening system into service in 2024 and have not changed it '

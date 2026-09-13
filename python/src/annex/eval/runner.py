@@ -2,11 +2,11 @@
 
 ## Why the file is rewritten per question rather than at the end
 
-The baseline arm spends nearly fifteen minutes reading its prompt on the first
-question of a version, measured at 876.6 s on the original text. Twelve
-questions across both versions is an unattended multi-hour run, and a run that
-holds its results in memory until the last one loses everything to a dropped
-connection at question eleven.
+The baseline arm's first call of a version pays the prefill the rest of that
+version's questions read from cache, measured at 115.5 s on the original text
+at v0.9. A full sweep of both versions across all three arms took 37.4 minutes
+measured the same run, and a run that holds its results in memory until the
+last question loses that whole run to a dropped connection at question eleven.
 
 ## Why the loop nests arm, then version, then question
 
@@ -131,10 +131,15 @@ class Result(BaseModel):
     expects_refusal: bool = False
     refused: bool = False
     refusal_correct: bool = False
+    refusal_reason: str | None = None
     faithfulness: float | None = None
     claims: int = 0
     ungrounded_claims: int = 0
     citations_not_supplied: tuple[str, ...] = ()
+
+    cited_ids: tuple[str, ...] = ()
+    answer_recall: float = 0.0
+    claims_on_gold: int = 0
 
     error: str | None = None
 
@@ -180,10 +185,14 @@ def _scored(
         expects_refusal=question.expects_refusal,
         refused=graded.refused,
         refusal_correct=graded.refusal_correct,
+        refusal_reason=answer.refusal.reason if answer.refusal is not None else None,
         faithfulness=graded.faithfulness,
         claims=graded.claims,
         ungrounded_claims=graded.ungrounded_claims,
         citations_not_supplied=graded.citations_not_supplied,
+        cited_ids=graded.cited_ids,
+        answer_recall=graded.answer_recall,
+        claims_on_gold=graded.claims_on_gold,
     )
 
 

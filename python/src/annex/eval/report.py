@@ -73,6 +73,17 @@ class ArmSummary:
     precision_over_articles: float
     nodes_supplied: float
     faithfulness: float | None
+    answer_recall: float | None
+    no_gold_answers: int
+    """The count behind `answer_recall`, not a rate: answered rows citing no
+    gold provision at all.
+
+    `answer_recall` is soft in the middle: an answer resting every claim on
+    one gold article of eleven reads high on the share while missing ten.
+    This count is the sharp end of the same metric, read beside the share
+    rather than folded into it.
+    """
+
     refusal_questions: int
     correct_refusals: int
     answer_questions: int
@@ -122,6 +133,8 @@ def summarize(results: Sequence[Result]) -> tuple[ArmSummary, ...]:
         faithful = [
             item.faithfulness for item in scored if item.faithfulness is not None
         ]
+        answered = [item for item in scored if not item.refused]
+        recalled = [item.answer_recall for item in answered]
         ordered = sorted(scored, key=lambda item: item.call_index)
         opened = ordered[0] if ordered and ordered[0].call_index == 0 else None
         later = [
@@ -145,6 +158,8 @@ def summarize(results: Sequence[Result]) -> tuple[ArmSummary, ...]:
                 ),
                 nodes_supplied=_mean([item.nodes_supplied for item in scored]),
                 faithfulness=_mean(faithful) if faithful else None,
+                answer_recall=_mean(recalled) if answered else None,
+                no_gold_answers=sum(1 for item in answered if item.claims_on_gold == 0),
                 refusal_questions=sum(1 for item in scored if item.expects_refusal),
                 correct_refusals=sum(
                     1 for item in scored if item.expects_refusal and item.refused
@@ -204,9 +219,10 @@ def _accuracy_table(summaries: Sequence[ArmSummary]) -> list[str]:
     lines = [
         '| Arm | Version | Answered | Failed | Recall | Recall reached | '
         'Precision, nodes | Precision, articles | Nodes sent | Faithfulness | '
-        'Correct refusals | False refusals | Answers cut |',
+        'Answer recall | No gold | Correct refusals | False refusals | '
+        'Answers cut |',
         '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | '
-        '--- | --- |',
+        '--- | --- | --- | --- |',
     ]
     for row in summaries:
         lines.append(
@@ -214,7 +230,8 @@ def _accuracy_table(summaries: Sequence[ArmSummary]) -> list[str]:
             f'{row.recall:.2f} | {row.recall_reached:.2f} | '
             f'{row.precision_over_nodes:.3f} | '
             f'{row.precision_over_articles:.3f} | {row.nodes_supplied:.1f} | '
-            f'{_optional(row.faithfulness)} | '
+            f'{_optional(row.faithfulness)} | {_optional(row.answer_recall)} | '
+            f'{row.no_gold_answers} | '
             f'{row.correct_refusals}/{row.refusal_questions} | '
             f'{row.false_refusals}/{row.answer_questions} | '
             f'{row.truncated} |'
@@ -357,6 +374,16 @@ def render(results: Sequence[Result], depths: Sequence[DepthRow] = ()) -> str:
             'to reach the model. The gap between the two columns is the '
             'budget spending what the walk already earned, not a retrieval '
             'failure.',
+            '- Answer recall is scored against what the delivered claims '
+            'cite, not against what reached the model. Read beside recall, '
+            'the gap is synthesis dropping what retrieval reached rather '
+            'than retrieval failing to reach it. It is soft in the middle: '
+            'an answer resting every claim on one gold article of eleven '
+            'reads high on the share while missing ten, which is why the '
+            'no-gold count sits beside it. It excludes every refusal, '
+            'correct or false, from both the mean and the count, the way '
+            'faithfulness excludes them, since neither column has a claim '
+            'to score there.',
             '- The two refusal columns run over different denominators and '
             'neither is a rate. Correct refusals count the questions the text '
             'does not settle, and false refusals count the ones it does. A '

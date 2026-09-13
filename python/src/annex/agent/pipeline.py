@@ -53,6 +53,14 @@ logger = logging.getLogger('annex.agent.pipeline')
 CITATION_MARKER = re.compile(r'\[(\d+)\]')
 REFUSAL_MARKER = 'REFUSE'
 
+DECLARED_REFUSAL_REASON = 'The retrieved provisions do not settle the question.'
+"""`parse_draft`'s reason when the draft carries the `REFUSE` marker itself.
+
+Named here for the same reason `FALLBACK_REFUSAL_REASON` is: `Refusal.reason`
+is what `Result.refusal_reason` records, so the four exits are told apart by
+these strings rather than by a replay.
+"""
+
 SYNTHESIS_BUDGET = 4096
 """Tokens left for the answer, and reserved out of the prompt's share."""
 
@@ -518,9 +526,10 @@ def parse_draft(
 
     Two of the pipeline's four refusal exits are here, the declared marker and
     the fallback below it, and `annex.agent.verify` carries the other two. Each
-    logs which one fired because `Answer` does not record it: `annex.eval.runner`
-    writes no refusal reason and `annex.eval.scoring` zeroes the claim counts
-    before either is read, so a refusal in `results.json` names no stage.
+    logs which one fired, and each also writes a distinct `reason` onto the
+    `Refusal` it returns, which `annex.eval.runner` now carries onto
+    `Result.refusal_reason`, so a refusal in `results.json` names its exit
+    without a replay.
 
     A line citing the same marker more than once carries that citation once,
     at its first occurrence, so a claim never repeats one provision.
@@ -541,7 +550,7 @@ def parse_draft(
             REFUSAL_MARKER,
         )
         return (), Refusal(
-            reason='The retrieved provisions do not settle the question.',
+            reason=DECLARED_REFUSAL_REASON,
             missing=missing or ('what the text leaves open',),
             consulted=citations,
         )

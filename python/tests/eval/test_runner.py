@@ -136,3 +136,22 @@ class TestTheRecallReachedField:
         current.write_text(json.dumps([recorded]))
 
         assert read_results(current)[0].recall_reached == 0.0
+
+
+class TestTheAnswerRecallFields:
+    def test_a_result_written_before_these_fields_existed_reads_back_defaulted(
+        self, tmp_path: Path
+    ) -> None:
+        """A run recorded before this row is still a readable run."""
+        current = tmp_path / 'results.json'
+        recorded = make_result().model_dump(mode='json')
+        for field in ('cited_ids', 'answer_recall', 'claims_on_gold', 'refusal_reason'):
+            del recorded[field]
+        current.write_text(json.dumps([recorded]))
+
+        result = read_results(current)[0]
+
+        assert result.cited_ids == ()
+        assert result.answer_recall == 0.0
+        assert result.claims_on_gold == 0
+        assert result.refusal_reason is None

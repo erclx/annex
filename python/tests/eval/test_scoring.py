@@ -211,6 +211,88 @@ class TestFaithfulness:
         assert graded.citations_not_supplied == ('art_9',)
 
 
+class TestAnswerRecall:
+    def test_a_claim_resting_on_a_gold_paragraph_resolves_to_its_article(
+        self, consolidated: Corpus
+    ) -> None:
+        citation = make_citation(consolidated, 'art_50.1')
+
+        graded = score_answer(
+            ANSWERABLE,
+            make_answer(
+                'Providers ensure natural persons are informed',
+                (citation,),
+                make_trace(searched=('art_50.1',)),
+            ),
+            consolidated,
+        )
+
+        assert graded.cited_ids == ('art_50',)
+        assert graded.answer_recall == 0.5
+
+    def test_a_claim_resting_on_neighboring_provisions_scores_zero(
+        self, consolidated: Corpus
+    ) -> None:
+        """`refusal_correct` reads right here, and that is exactly the gap.
+
+        The answer neither refuses nor rests on a gold provision, so
+        `refusal_correct` scores it as behaving correctly while
+        `answer_recall` is what catches that the answer read the wrong text.
+        """
+        citation = make_citation(consolidated, 'art_9')
+
+        graded = score_answer(
+            ANSWERABLE,
+            make_answer(
+                'A risk management system shall be established',
+                (citation,),
+                make_trace(searched=('art_9',)),
+            ),
+            consolidated,
+        )
+
+        assert graded.answer_recall == 0.0
+        assert graded.claims_on_gold == 0
+        assert graded.refusal_correct
+
+    def test_a_claim_resting_on_every_gold_provision_scores_full_recall(
+        self, consolidated: Corpus
+    ) -> None:
+        citations = (
+            make_citation(consolidated, 'art_50'),
+            make_citation(consolidated, 'art_3'),
+        )
+
+        graded = score_answer(
+            ANSWERABLE,
+            make_answer(
+                'Providers ensure natural persons are informed',
+                citations,
+                make_trace(searched=('art_50', 'art_3')),
+            ),
+            consolidated,
+        )
+
+        assert graded.answer_recall == 1.0
+        assert graded.claims_on_gold == 1
+
+    def test_a_refusal_scores_no_answer_recall_and_no_claims_on_gold(
+        self, consolidated: Corpus
+    ) -> None:
+        answer = Answer(
+            question=REFUSING.description,
+            version=CONSOLIDATED,
+            refusal=Refusal(reason='the text does not settle it', missing=('what',)),
+            retrieval=make_trace(searched=('art_111',)),
+        )
+
+        graded = score_answer(REFUSING, answer, consolidated)
+
+        assert graded.answer_recall == 0.0
+        assert graded.cited_ids == ()
+        assert graded.claims_on_gold == 0
+
+
 class TestRefusalIsScoredBothWays:
     def test_refusing_the_question_that_should_refuse_is_right(
         self, consolidated: Corpus
