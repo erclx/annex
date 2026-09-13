@@ -43,3 +43,45 @@ class TestAnnexesAndRecitals:
 
         assert recital is not None
         assert 'AI system' in recital.text
+
+
+class TestAnnexTitlesStopAtTheHeading:
+    def test_annex_three_title_is_only_the_heading(self, original: Corpus) -> None:
+        annex = original.get('anx_III')
+
+        assert annex is not None
+        assert annex.title == 'High-risk AI systems referred to in Article 6(2)'
+
+    def test_annex_one_title_is_only_the_heading(self, original: Corpus) -> None:
+        annex = original.get('anx_I')
+
+        assert annex is not None
+        assert annex.title == 'List of Union harmonisation legislation'
+
+
+class TestArticleOneTitle:
+    def test_article_one_carries_no_stray_quote_mark(self, original: Corpus) -> None:
+        article = original.get('art_1')
+
+        assert article is not None
+        assert article.title == 'Subject matter'
+
+
+class TestArticle113EndsBeforeTheSignatureBlock:
+    def test_article_113_carries_its_dates(self, original: Corpus) -> None:
+        article = original.get('art_113')
+
+        assert article is not None
+        assert '2 August 2026' in article.text
+
+    def test_article_113_loses_the_signature_block(self, original: Corpus) -> None:
+        article = original.get('art_113')
+
+        assert article is not None
+        assert 'Done at Brussels' not in article.text
+
+    def test_article_113_loses_the_footnotes(self, original: Corpus) -> None:
+        article = original.get('art_113')
+
+        assert article is not None
+        assert 'OJ C 517' not in article.text

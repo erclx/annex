@@ -20,9 +20,22 @@ ARTICLE_HEADINGS = '//p[@class="title-article-norm"]'
 ARTICLE_SUBTITLES = '//p[@class="stitle-article-norm"]'
 PARAGRAPH_LABELS = './/span[@class="no-parag"]'
 ANNEX_ANCHORS = '//*[starts-with(@id,"anx_")]'
+ANNEX_TITLE_LINES = './/p[starts-with(@class,"title-annex-")]'
 
 _ARTICLE_NUMBER = re.compile(r'Article\s+(\d+[a-z]?)')
 _LABEL = re.compile(r'^(\d+[a-z]?)\.?$')
+_MARKER_TEXT = re.compile(r'▼(?:M\d+|B)\s*—*')
+_STRAY_QUOTE = re.compile(r'[`\'"]+$')
+
+
+def _clean(text: str) -> str:
+    """Normalize text with `p.modref` marker text and its separator dropped.
+
+    Consolidation markers carry their offsets in `AmendmentSpans`, read
+    upstream by `annex.corpus.amendments.read`. What is dropped here is only
+    their visible text, which is never part of the Act's own words.
+    """
+    return normalize(_MARKER_TEXT.sub('', text))
 
 
 def _article_number(heading: HtmlElement) -> str | None:
@@ -38,7 +51,30 @@ def _subtitle_for(
 ) -> str:
     for subtitle in subtitles:
         if start < index.start_of(subtitle) < end:
-            return normalize(subtitle.text_content())
+            return _STRAY_QUOTE.sub('', _clean(subtitle.text_content()))
+    return ''
+
+
+def _annex_title(element: HtmlElement, number: str) -> str:
+    """The annex's own heading, stopping before its body.
+
+    `title-annex-1` names the number and every other `title-annex-*` line is
+    the descriptive title. An annex carrying no second heading line, such as
+    the one the amendment inserted, keeps the first paragraph of its body
+    instead, which is what a reader sees as its title there.
+    """
+    headings = element.xpath(ANNEX_TITLE_LINES)
+    descriptive = headings[1:]
+    if descriptive:
+        return _clean(' '.join(line.text_content() for line in descriptive))[:120]
+    if not headings:
+        return ''
+    paragraphs = element.xpath('.//p')
+    heading_index = paragraphs.index(headings[0])
+    for paragraph in paragraphs[heading_index + 1 :]:
+        text = _clean(paragraph.text_content())
+        if text:
+            return text[:120]
     return ''
 
 
@@ -63,7 +99,7 @@ def _paragraphs(
                 kind=ProvisionKind.PARAGRAPH,
                 number=number,
                 title='',
-                text=normalize(index.slice(label_start, label_end)),
+                text=_clean(index.slice(label_start, label_end)),
                 version=CorpusVersion.CONSOLIDATED,
                 parent_id=article_id,
                 amended=amendments.at(label_start),
@@ -76,15 +112,13 @@ def _annexes(index: TextIndex, root: HtmlElement) -> list[Provision]:
     provisions: list[Provision] = []
     for element in root.xpath(ANNEX_ANCHORS):
         number = str(element.get('id')).removeprefix('anx_')
-        text = normalize(element.text_content())
-        title = text.removeprefix(f'ANNEX {number}').strip()
         provisions.append(
             Provision(
                 id=f'anx_{number}',
                 kind=ProvisionKind.ANNEX,
                 number=number,
-                title=title[:120],
-                text=text,
+                title=_annex_title(element, number),
+                text=_clean(element.text_content()),
                 version=CorpusVersion.CONSOLIDATED,
             )
         )
@@ -120,7 +154,7 @@ def parse(document: bytes) -> Corpus:
                 kind=ProvisionKind.ARTICLE,
                 number=number,
                 title=_subtitle_for(index, subtitles, start, end),
-                text=normalize(index.slice(start, end)),
+                text=_clean(index.slice(start, end)),
                 version=CorpusVersion.CONSOLIDATED,
                 amended=amended,
             )
