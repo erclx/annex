@@ -39,7 +39,6 @@ export interface RecordedQuestion {
 }
 
 export const capturedOn = manifest.captured_at
-export const capturedFrom = manifest.commit
 
 function normalize(description: string): string {
   return description.trim().replace(/\s+/g, ' ').toLowerCase()

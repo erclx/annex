@@ -27,25 +27,29 @@ describe('ReplayNotice', () => {
     render(<ReplayNotice />)
 
     expect(
-      screen.getByText(
-        'This page replays a recording. Nothing here is asking a model.',
-      ),
+      screen.getByText('You are looking at a recording.'),
+    ).toBeInTheDocument()
+    expect(
+      screen.getByText('Nothing on this page calls a model.'),
     ).toBeInTheDocument()
     expect(
       screen.queryByRole('button', { name: 'Details' }),
     ).not.toBeInTheDocument()
   })
 
-  it('should shorten to one line below 1024 pixels', () => {
+  it('should shorten to one sentence below 1024 pixels', () => {
     stubViewport(false)
 
     render(<ReplayNotice />)
 
     expect(
-      screen.getByText('A recording, not a live model.'),
+      screen.getByText('You are looking at a recording.'),
     ).toBeInTheDocument()
     expect(
-      screen.queryByText(/came back from the live system on/),
+      screen.queryByText('Nothing on this page calls a model.'),
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByText(/was captured from the live system on/),
     ).not.toBeInTheDocument()
   })
 
@@ -56,11 +60,22 @@ describe('ReplayNotice', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Details' }))
 
     expect(
-      screen.getByText(/came back from the live system on/),
+      screen.getByText('Nothing on this page calls a model.'),
+    ).toBeInTheDocument()
+    expect(
+      screen.getByText(/was captured from the live system on/),
     ).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Details' })).toHaveAttribute(
       'aria-expanded',
       'true',
     )
+  })
+
+  it('should render no commit hash in any state', () => {
+    stubViewport(true)
+
+    render(<ReplayNotice />)
+
+    expect(screen.queryByText(/^[0-9a-f]{7}$/)).not.toBeInTheDocument()
   })
 })
