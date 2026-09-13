@@ -37,7 +37,7 @@ Neither half's job runs Playwright. End-to-end coverage is `cd web && bun run te
 
 The Python job is what makes the corpus count check load-bearing. A parse that loses the six articles the amendment inserted fails `pytest` here rather than only at a developer's pre-push hook.
 
-**The workflow and the pull request template diverge from the base seed on purpose.** A base seed `verify.yml` carries the static checks job alone, so `canon tooling sync base . --write` deletes the Python and web jobs above and takes every merge gate on pytest, mypy, ruff, tsc, eslint and vitest with them. Running it also drops the `Evidence states changed` line from `.github/pull_request_template.md`, which is the sentence the surface capture rule tells a deferring branch to write. Restore both files from the trunk after a base sync. Each reads as ordinary drift in its report, and nothing else flags what it removed.
+**The workflow and the pull request template diverge from the base seed on purpose.** A base seed `verify.yml` carries the static checks job alone, so `canon tooling sync base . --write` deletes the Python and web jobs above and takes every merge gate on pytest, mypy, ruff, tsc, eslint and vitest with them. Running it also drops the `Evidence states changed` line from `.github/pull_request_template.md`, which is the checkbox every branch fills in naming the states it captured. Restore both files from the trunk after a base sync. Each reads as ordinary drift in its report, and nothing else flags what it removed.
 
 ## The deploy
 
