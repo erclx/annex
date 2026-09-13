@@ -48,6 +48,30 @@ test('a recorded pick answers with nothing listening on the service port', async
   expect(requests).toEqual([])
 })
 
+test('a recorded pick plays its steps under a label saying the pace is illustrative', async ({
+  page,
+}) => {
+  await page.goto(REPLAY_URL)
+  await page.getByRole('button', { name: RECORDED }).click()
+
+  await expect(page.getByText(/^Illustrative pace\./)).toBeVisible()
+  await expect(
+    page.getByRole('region', { name: 'The agent working' }),
+  ).toBeVisible()
+  await expect(page.getByRole('contentinfo')).toBeVisible()
+})
+
+test.describe('the illustrative pace at 400 pixels', () => {
+  test.use({ viewport: { width: 400, height: 860 } })
+
+  test('the label stays on screen beside the steps', async ({ page }) => {
+    await page.goto(REPLAY_URL)
+    await page.getByRole('button', { name: RECORDED }).click()
+
+    await expect(page.getByText(/^Illustrative pace\./)).toBeInViewport()
+  })
+})
+
 test('every recorded question is offered as a pick', async ({ page }) => {
   // Both versions of a question carry one description, so the picks are the
   // distinct questions rather than the manifest's entries.

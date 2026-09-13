@@ -39,6 +39,8 @@ import path from 'path'
 import answered from '../src/fixtures/q01-support-chatbot.consolidated.json'
 import cutShortSource from '../src/fixtures/q05-university-admission.original.json'
 import refused from '../src/fixtures/q08-redesigned-interface.consolidated.json'
+import type { Answer } from '../src/lib/answer'
+import { holdStreamOpen, streamAnswers } from './stream-stub'
 
 const BASE = process.env.CAPTURE_BASE_URL
 const REPLAY_BASE = process.env.CAPTURE_REPLAY_BASE_URL
@@ -124,7 +126,9 @@ async function drive(page: Page, captureCase: Case, base: string) {
       .getByLabel('Describe your system')
       .fill(captureCase.describe ?? DESCRIPTION)
     await page.getByRole('button', { name: 'Find the articles' }).click()
-    await page.waitForTimeout(captureCase.hang ? 700 : 1200)
+    // A held run shows its reading card two seconds into drafting, which is
+    // the moment the loading capture exists to show.
+    await page.waitForTimeout(captureCase.hang ? 2600 : 1200)
   }
   if (captureCase.expand) {
     await page.getByRole('contentinfo').getByRole('button').click()
@@ -159,12 +163,21 @@ async function reached(page: Page, captureCase: Case) {
       ).toBeVisible()
       break
     case '3-loading':
-      await expect(page.getByRole('status')).toBeVisible()
+      await expect(
+        page
+          .getByRole('region', { name: 'The agent working' })
+          .getByText('Query ready'),
+      ).toBeVisible()
+      await expect(
+        page.getByText(/^Being read by the model · 1 of/),
+      ).toBeVisible()
       break
     case '4-answered':
       await expect(page.locator('blockquote').first()).toBeVisible()
       await expect(cutShortBanner).toBeHidden()
-      await expect(page.getByRole('img', { name: /The walk,/ })).toBeVisible()
+      await expect(
+        page.getByRole('group', { name: /^The walk,/ }),
+      ).toBeVisible()
       break
     case '5-answered-cut-short':
       await expect(cutShortBanner).toBeVisible()
@@ -242,10 +255,13 @@ for (const theme of ['light', 'dark'] as const) {
     // A replay build fetches nothing, so a route stub on it would answer no
     // request and hide the fact that the page reads its own fixtures.
     if (!captureCase.replay) {
-      if (captureCase.reject)
+      if (captureCase.reject) {
+        await page.route('**/ask/stream', (route) => route.abort())
         await page.route('**/ask', (route) => route.abort())
-      else if (captureCase.hang) await page.route('**/ask', () => undefined)
-      else if (captureCase.body)
+      } else if (captureCase.hang)
+        await holdStreamOpen(page, answered as Answer, 'budget')
+      else if (captureCase.body) {
+        await streamAnswers(page, captureCase.body, captureCase.status ?? 200)
         await page.route('**/ask', async (route) => {
           if (route.request().method() === 'OPTIONS') {
             await route.fulfill({ status: 204, headers: CORS })
@@ -257,6 +273,7 @@ for (const theme of ['light', 'dark'] as const) {
             body: JSON.stringify(captureCase.body),
           })
         })
+      }
     }
 
     await drive(page, captureCase, base)
