@@ -11,7 +11,7 @@ import json
 from fastapi.testclient import TestClient
 
 from annex.answer import Answer
-from tests.service.conftest import StubPipeline
+from tests.service.conftest import StubPipeline, a_refusal
 
 
 def _events(body: str) -> list[tuple[str, dict[str, object]]]:
@@ -49,6 +49,32 @@ def test_the_last_frame_is_the_answer(client: TestClient) -> None:
     assert events[-1][0] == 'answer'
     parsed = Answer.model_validate(events[-1][1])
     assert parsed.claims[0].citations[0].citation == 'Article 50(1)'
+
+
+def test_a_refused_question_still_reaches_its_refuse_node_frame(
+    client: TestClient, pipeline: StubPipeline
+) -> None:
+    pipeline.compiled.answer = a_refusal()
+
+    response = client.post('/ask/stream', json={'description': 'quarterly retraining'})
+
+    names = [data['node'] for event, data in _events(response.text) if event == 'node']
+    events = _events(response.text)
+    assert names == ['route', 'retrieve', 'traverse', 'synthesize', 'refuse']
+    assert events[-1][0] == 'answer'
+    assert Answer.model_validate(events[-1][1]).refusal is not None
+
+
+def test_a_run_ending_with_no_answer_at_all_yields_an_error_frame(
+    client: TestClient, pipeline: StubPipeline
+) -> None:
+    pipeline.compiled.no_answer = True
+
+    response = client.post('/ask/stream', json={'description': 'a customer chatbot'})
+
+    events = _events(response.text)
+    assert events[-1][0] == 'error'
+    assert events[-1][1]['state'] == 'failed'
 
 
 def test_an_oversized_or_empty_description_never_reaches_the_stream(

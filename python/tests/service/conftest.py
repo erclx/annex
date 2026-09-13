@@ -30,6 +30,7 @@ class StubCompiledGraph:
     def __init__(self, answer: Answer | None = None) -> None:
         self.answer = answer
         self.raises: BaseException | None = None
+        self.no_answer = False
 
     def stream(
         self, initial_state: State, *, stream_mode: str
@@ -39,8 +40,12 @@ class StubCompiledGraph:
             yield {node_name: State()}
         if self.raises is not None:
             raise self.raises
+        if self.no_answer:
+            return
         assert self.answer is not None
         yield {'synthesize': State(answer=self.answer)}
+        if self.answer.refusal is not None:
+            yield {'refuse': State(answer=self.answer)}
 
 
 class StubPipeline:

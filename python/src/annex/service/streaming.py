@@ -6,10 +6,15 @@ adds no second path through the graph: `stream_mode='updates'` yields one
 graph itself runs them, so framing that sequence is all this module does.
 
 `synthesize` always sets `answer` on the state, refusal included, per the
-refusal decision in `.claude/ARCHITECTURE.md`. There is no separate `refuse`
-frame: the terminal frame is `answer` on every path, and a client reads the
-populated `refusal` field on the `Answer` body the same way `/ask`'s caller
-does.
+refusal decision in `.claude/ARCHITECTURE.md`. The generator does not stop the
+moment that key appears: it drains the graph to exhaustion first, so a refused
+question still reaches its `refuse` node frame, the one place the system's
+judgment that the text does not settle the question becomes visible, before
+the terminal `answer` frame goes out carrying the populated `refusal` field.
+
+A caller that disconnects mid-stream does not stop this generator. A sync
+generator has no `request.is_disconnected` to poll, so the run outlives its
+caller and keeps calling the model until the graph itself finishes.
 """
 
 from collections.abc import Callable, Iterator
@@ -43,14 +48,21 @@ def build_stream(
     generator is the only place left to map it and the only place left to log
     it, since the boundary log line every other failure gets runs there too.
     """
+    last_answer = None
     try:
         for chunk in stream(initial_state, stream_mode='updates'):
             for node_name, update in chunk.items():
                 yield _frame('node', StreamNode(node=node_name).model_dump_json())
                 answer = update.get('answer')
                 if answer is not None:
-                    yield _frame('answer', answer.model_dump_json())
-                    return
+                    last_answer = answer
+        if last_answer is not None:
+            yield _frame('answer', last_answer.model_dump_json())
+        else:
+            body = StreamError(
+                state='failed', detail=DETAIL['failed'], correlation_id=correlation_id
+            ).model_dump_json(by_alias=True)
+            yield _frame('error', body)
     except Exception as error:  # noqa: BLE001
         state = classify(error)
         boundary_log.log_failure(correlation_id, state, error)
