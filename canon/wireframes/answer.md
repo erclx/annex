@@ -185,23 +185,61 @@ The form checks the length itself before asking. The service's own `invalid` ans
 ## Loading
 
 ```plaintext
-├──────────────────────────────────────────────────────────────────────┤
-│ THE SYSTEM YOU DESCRIBED                                             │
-│ A customer-service chatbot for a Swedish retail bank that also…      │
-├──────────────────────────────────────────────────────────────────────┤
-│   ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁                              │
-│   ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁                              ← claim-shaped   │
-│                                                                      │
-│   ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁                      ← citation-shaped│
-│   ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁                                             │
-│                                                                      │
-│   • Reading the amended text. Usually around 20 to 30 seconds.       │
-└──────────────────────────────────────────────────────────────────────┘
+├──────────────────────────────────────────┬───────────────────────────────────┤
+│ THE SYSTEM YOU DESCRIBED                 │                                   │
+│ a chatbot on our website that answers…   │                                   │
+├──────────────────────────────────────────┼───────────────────────────────────┤
+│ ● Restating your description    13.1 s   │ THE WALK, AS IT HAPPENS  12 · 40  │
+│   as a search query                      │ FOUND BY    THEIR     CITED FROM  │
+│   Query ready                            │ SEARCH      ARTICLE   THERE       │
+│ ● Searching the amended text     40 ms   │ • Art 50(1) • Art 50  (56(6))(56) │
+│   by meaning                             │ • Art 50(5)                       │
+│   12 provisions matched: Article 50(1),  │ • Art 2(10) • Art 2   (102)(103)… │
+│   Article 50(5), Article 50(3) and 9 more│ • Art 3               (2(1))(4)   │
+│ ● Following the Act's own        40 ms   │                       via 2(1):   │
+│   cross-references                       │                       ┆57┆ ┆49┆   │
+│   40 provisions reached in 2 hops, 4     │                                   │
+│   lifted to their article and 36 cited   │    ← chips appear as ids arrive   │
+│ ◉ Drafting an answer that cites  3.3 s   │                                   │
+│   what it read                   ← runs  │                                   │
+│   15 of the 52 provisions found set      │                                   │
+│   aside to fit the prompt budget         │                                   │
+│ Elapsed 16.5 s                           │                                   │
+└──────────────────────────────────────────┴───────────────────────────────────┘
 ```
 
-Copy, verbatim: `Reading the amended text. Usually around 20 to 30 seconds.` The version named in that sentence is dynamic and follows the toggle.
+From two seconds into drafting the pane turns to what the model is reading:
 
-The skeleton takes the shape of the answer rather than of generic bars, so the wait previews the result. The stated range is drawn from measured warm runs and belongs in the copy, because a number tells a reader more than a spinner does. At 1024 and wider the skeleton fills the answer column and the pane keeps what it held before the question was asked.
+```plaintext
+┬───────────────────────────────────┤
+│ WHAT THE MODEL IS READING 12 · 40 │
+│ The walk: 12 found by search, 40  │
+│ reached, 15 set aside             │
+│                                   │
+│ ┃ BEING READ BY THE MODEL ·       │
+│ ┃ 1 OF 37 SUPPLIED                │
+│ ┃ Article 50(1)                   │
+│ ┃ 1. Providers shall ensure that  │
+│ ┃ AI systems intended to interact │
+│ ┃ directly with natural persons…  │
+┴───────────────────────────────────┘
+```
+
+Copy, verbatim:
+
+- Step labels: `Restating your description as a search query`, `Searching the amended text by meaning`, `Following the Act's own cross-references`, `Drafting an answer that cites what it read`. The version named in the second follows the toggle
+- Step results: `Query ready`, `<n> provisions matched: <first three> and <rest> more`, `<n> provisions reached in <h> hops, <lifted> lifted to their article and <rest> cited from there` or `Nothing reached beyond what search matched`, and `<dropped> of the <found> provisions found set aside to fit the prompt budget` or `All <found> provisions found fit the prompt budget`
+- Under the steps: `Elapsed <time>`
+- Pane headings: `The walk, as it happens` and then `What the model is reading`, with `Waiting for search to return.` before any id arrives
+- Collapsed walk: `The walk: <searched> found by search, <traversed> reached, <dropped> set aside`
+- Card caption: `Being read by the model · <i> of <n> supplied`
+- On the replay build only, above the steps: `Illustrative pace. These steps replay the recording 5 times faster than it ran, and the times beside them are this replay's, not the model's.`
+
+Each step shows its dot, its own elapsed time, and its result once its stream frame arrives. The times are the reader's own wait, taken in the browser as each frame lands, so nothing states a duration that did not happen. Live, restating takes 13 to 14 seconds, search and traversal land within 50 milliseconds of each other, and drafting runs about 28 seconds more. The drafting step names the budget's cut as soon as the budget frame arrives, before the model call ends.
+
+The card shows provisions the budget handed the model and says they are being read. It never says cited, since no citation exists while drafting runs and the answer keeps fewer than the model was supplied. Its text comes from the corpus export the page already ships, and a provision the prompt numbered twice counts once.
+
+At 1024 and wider the pane holds the walk and then the card, which keeps the right half of the screen from sitting empty through the wait. Below 1024 the steps render alone, and the finished walk is where the chips appear.
 
 ## Answered, at 1024 and wider
 
@@ -499,23 +537,42 @@ The cost line closes the answer column on every state that carries a trace. It i
 │ 7 dropped → walk in pane          │ ← opens the pane's second view
 ```
 
-At 1024 and wider the counts open the walk as the pane's second view, beside the Act rather than under the answer. The drawing needs about 570 pixels for three columns, which the pane has and the answer column does not. Below 1024 the counts expand the walk in place under the cost line and the arrow reads `▾`.
+At 1024 and wider the counts open the walk as the pane's second view, beside the Act rather than under the answer. Below 1024 the counts expand the same walk in place under the cost line and the arrow reads `▾`. The chips wrap to whichever width they get, and below 520 pixels of their own width the three columns stack, each indented under the one before, so the walk reads at 400 where the layered drawing did not.
 
-The walk view holds the drawing and, under it, three id lists, each capped at roughly eight ids and followed by a count of the rest. On the full-context arm those lists run to hundreds, and an uncapped one would swamp the answer it describes. The count carries the scale and the expansion carries the detail.
+The walk view holds a summary sentence, the chips, and under them three id lists, each capped at roughly eight ids and followed by a count of the rest. On the full-context arm those lists run to hundreds, and an uncapped one would swamp the answer it describes. The count carries the scale and the expansion carries the detail.
 
 Dropped ids are named beside traversed ids and never omitted. Traversal reaches more provisions than a prompt has room for, so reporting what traversal found without reporting what the budget cut overstates what the answer actually rests on.
 
 Two other placements were rendered and lost: the cost line above the answer, where machine output comes before the product's own voice, and the cost line in the pane header, where it leaves the answer column at 1024 and returns under it below.
 
-### The drawing
+### The chips
 
-A layered graph on every state that carries a trace, answered or refused alike. Hop is the column: searched provisions on the left, what they cite next, and what those cite after. A dropped provision draws as a hollow, dashed node at its own hop rather than vanishing, since the budget cutting it is itself part of what the trace reports.
+```plaintext
+│ Search found 12 provisions. The walk lifted 4 of them to their whole      │
+│ article and followed references to 36 more. Of the 52 reached, 15 were    │
+│ set aside to fit the prompt, shown dashed, and never read.                │
+│                                                                           │
+│ FOUND BY SEARCH   THEIR ARTICLE   CITED FROM THERE                        │
+│ • Article 50(1)   • Article 50    ┆Article 56(6)┆ ┆Article 56┆            │
+│ • Article 2(10)   • Article 2     (Annex I) (Article 102) (Article 103)   │
+│                                   (Article 104) ┆Article 112┆           │
+│ • Article 3                       (Article 2(1)) ┆Article 4┆              │
+│                                   via Article 2(1): ┆Article 57┆          │
+│                                                                           │
+│ Dashed: reached, set aside to fit the prompt, never read                  │
+```
 
-The id lists stay under the drawing. They are its text equivalent for a reader a screen reader serves, and removing them to make room for the drawing would remove that equivalent.
+The walk as chips on every state that carries a trace, answered or refused alike. A row per search result holds the paragraph search found, the article the walk lifted it to, and everything cited from there as wrapped chips. A group a hop further sits in the same row under the chip that reached it, led by `via` and that chip's name. A row per result replaces curves between columns: every edge has exactly one source, so a provision always sits in its source's row and no link crosses another.
 
-Picked by looking, per `canon:draft-and-pick`, against a baseline of the id lists alone, a non-layered hand-drawn arrangement, and a tree built with `d3-hierarchy`. Recorded in `canon/ARCHITECTURE.md` against what it beat.
+Copy, verbatim: the column names `Found by search`, `Their article` and `Cited from there`, and the legend `Dashed: reached, set aside to fit the prompt, never read`. The summary sentence is computed from each answer's own counts, never written for one fixture.
 
-A trace carrying no edges, being every fixture recorded before this field existed and every run with traversal switched off, renders no drawing. The id lists render as they always have, so an edgeless trace degrades to the lists rather than to an empty frame.
+Every chip is a button named by its citation, with `, set aside to fit the prompt` added to the name of a dropped one. Hovering or focusing a chip traces the path that reached it back to search and fades the rest. Activating one opens that provision in the Act, which at 1024 and wider also switches the pane back to the Act view.
+
+A set-aside provision stays in its row, dashed and faded, rather than vanishing, since the budget cutting it is part of what the trace reports. The id lists stay under the chips as the raw ids a reader checks a trace against.
+
+Picked in the first-use operator pass on 2026-09-13, arm 3b for the wait and arm 3 for the finished walk, over the layered drawing, that drawing with pipeline headings, and plain words without hover or click. Recorded in `canon/ARCHITECTURE.md` against what it beat.
+
+A trace carrying no edges, being every run with traversal switched off, keeps the `Found by search` column alone. A trace recorded before edges existed puts what the walk reached into one group on the last row rather than dropping it.
 
 ## Reading the Act
 
@@ -567,11 +624,11 @@ It links to the article, annex, or recital the citation's paragraph sits under, 
 - The top bar stays pinned to the top of the screen. Once the page scrolls past the described system it slims to the mark, the name and the two controls, and the pane below it fills the height left
 - Below 1024 and before anything is asked, the bar holds the brand and the theme control, and the version and traversal choices sit under the description. Once a question is asked they move into the bar
 - Editing the description returns the surface to its empty state with the previous text in the input
-- The trace's counts switch the pane between the Act and the walk at 1024 and wider, and expand the walk in place below. Nothing else on the surface opens or collapses
+- The trace's counts switch the pane between the Act and the walk at 1024 and wider, and expand the walk in place below. A chip in the walk opens its provision in the Act. Nothing else on the surface opens or collapses
 - The pane holds the terms and the reserved region before a question is asked, and the Act once one is answered or refused
 - The theme control chooses between matching the system, light, and dark, and starts on matching the system. A reader who chooses nothing is decided by `prefers-color-scheme`, and a choice is remembered per browser and applied before the first paint, so the page never renders in one theme and swaps to the other
 - Every state above replaces the answer column's content. None of them stack, except the moved-citation and cut-short states, which render on top of an answer, and the replay band, which sits above every one of them
-- On the deployed build a pick answers immediately and the loading skeleton never renders, because nothing is being asked. The skeleton belongs to the local build and to the recorded walkthrough, where the wait is real
+- On the deployed build a pick or a reopened address plays the recording's steps and walk before answering, at an illustrative pace a fifth of the recording's own time, under the label § Loading gives. The ids, the edges and the budget's cut are the recording's, and only the timing is invented. The version toggle re-asks without playing, so comparing the two texts stays instant there
 - A claim never renders two citation blocks for one provision. A marker repeated within one claim merges to its first occurrence in `parse_draft`, before the surface ever sees it
 - On the deployed build the address carries the recorded question, the version, and the provision the Act is showing, so an answer can be linked and opened as it was shared. A link leaving the page opens in the same tab, since the browser's back action returns to that address
 - The local build's address carries the version and the provision alone. A typed description can run to 4 000 characters and says what someone is building, so it never reaches an address the browser keeps in its history
