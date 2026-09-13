@@ -33,13 +33,15 @@ from contextlib import asynccontextmanager
 from fastapi import APIRouter, FastAPI, Request, Response
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, StreamingResponse
 
 from annex.agent import Pipeline
+from annex.agent.pipeline import State
 from annex.answer import Answer
 from annex.service import logging as boundary_log
 from annex.service.errors import DETAIL, STATUS, classify
 from annex.service.models import AskRequest, ServiceError, ServiceState
+from annex.service.streaming import build_stream
 from annex.settings import Settings
 
 logger = logging.getLogger('annex.service')
@@ -211,6 +213,34 @@ def ask(request: Request, submitted: AskRequest) -> Answer | JSONResponse:
         )
     boundary_log.log_answer(correlation_id, answer)
     return answer
+
+
+@router.post('/ask/stream')
+def ask_stream(request: Request, submitted: AskRequest) -> Response:
+    """Answer a described system as one SSE frame per graph node.
+
+    Additive over `/ask`: nothing here changes what that route does, and
+    nothing currently reads this one. Validation and readiness are checked
+    synchronously, before any byte of the response commits, so `invalid` and
+    the pre-stream half of `unavailable` still answer as ordinary JSON with
+    the right status. Declared `def` for the same reason `ask` is: the
+    generator this returns runs the model calls, and Starlette drains a sync
+    body iterator through its own threadpool rather than the event loop.
+    """
+    pipeline: Pipeline | None = request.app.state.pipeline
+    correlation_id: str = request.state.correlation_id
+    if pipeline is None:
+        return _error('unavailable', correlation_id)
+
+    initial_state = State(
+        question=submitted.description,
+        version=submitted.version,
+        traversal_enabled=submitted.traversal,
+    )
+    return StreamingResponse(
+        build_stream(pipeline.compiled.stream, initial_state, correlation_id),
+        media_type='text/event-stream',
+    )
 
 
 @router.get('/health')

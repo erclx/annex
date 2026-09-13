@@ -64,6 +64,16 @@ Warm figures were measured in PR #2 on 2026-09-06 over two questions. The first 
 - Any field the request model does not declare, through `extra='forbid'`
 - A validation message is never forwarded. Pydantic names the input that failed, and the input here is the description this service has promised not to echo
 
+## `/ask/stream`: the same run, framed as it happens
+
+`POST /ask/stream` answers the identical question `/ask` does, over the identical `Pipeline`, as a sequence of Server-Sent Events instead of one JSON body. It reads `pipeline.compiled.stream(initial_state, stream_mode='updates')`, the compiled LangGraph's own generator, so the frames are the graph's node names in the order it runs them: a `node` frame per completed node (`route`, `retrieve`, `traverse`, `synthesize`, and `refuse` where the graph takes that edge), a terminal `answer` frame carrying the same `Answer` body `/ask` returns, or a mid-stream `error` frame naming a `ServiceState` where a call fails after bytes have already started.
+
+`synthesize` sets `answer` on every path, refusal included, but the generator does not stop there: it drains the graph to exhaustion before sending the terminal `answer` frame, so a refused question still reaches its `refuse` node frame first. That frame is the one place the system's judgment that the text does not settle the question becomes visible, and it is the reason this seam exists rather than a detail of it.
+
+Validation and pipeline readiness are checked before the response starts, so `invalid` and the pre-stream half of `unavailable` still answer as ordinary JSON with the right status. Once the body starts streaming, a failure can no longer become a JSON error response: `bound_and_identify` maps what `call_next` raises, and a `StreamingResponse`'s generator runs after `call_next` has already returned, outside that middleware's reach. `build_stream` in `python/src/annex/service/streaming.py` classifies its own failures for that reason, which is the one place this route's error handling differs from the rest of the boundary.
+
+**Additive, and unread.** `/ask` is unchanged, `web/src/lib/ask.ts` still calls it and never learns this route exists, and no component renders a frame. This is a seam a later web plan reads, not a feature a visitor meets: curling the endpoint or running `python/tests/service/test_ask_stream.py` is what demonstrates it today.
+
 ## CORS, and the TLS bar this does not meet
 
 Origins are listed rather than reflected, and never a wildcard. The default names both spellings of the dev origin, `http://localhost:4100` and `http://127.0.0.1:4100`, because a browser sends whichever the address bar carries and they are different origins to it. A worktree serving elsewhere in the 4100 band adds its own through `ANNEX_ALLOWED_ORIGINS`, which pydantic-settings reads as JSON.
