@@ -32,7 +32,21 @@ The date and the short commit are read off the capture manifest rather than writ
 
 The band is on the page rather than in a footnote because the claim a visitor would otherwise carry away is that they watched a model answer. They did not. The model this project runs holds 30 GB of a card, nothing hosted answers these questions, and what a deployment can honestly serve is what the live system already said.
 
-The traversal switch is held inactive on this build and its chip reads `recorded` rather than `demo`. Capture ran with reference following on, so both positions would return one answer and a live switch would lie about it. Beside it the version control is untouched, since both texts were captured and comparing them is what the deployed page is for.
+The traversal switch is held inactive on this build, and the line under it reads `Recorded with traversal on`. Capture ran with reference following on, so both positions would return one answer and a live switch would lie about it. Beside it the version control is untouched, since both texts were captured and comparing them is what the deployed page is for.
+
+Below 1024 the band shortens to one line, so the question starts near the top of a phone screen. The line still says the page is a recording, and the date and commit sit behind a details control.
+
+```plaintext
+├──────────────────────────────┤
+│ A recording, not a live      │
+│ model.  Details              │ ← opens the date and commit
+├──────────────────────────────┤
+```
+
+Copy, verbatim, below 1024:
+
+- `A recording, not a live model.`
+- Details control: `Details`
 
 ## Empty, at 1024 and wider
 
@@ -40,8 +54,8 @@ Reached on arrival, before anything is asked. The top bar and the band run the f
 
 ```plaintext
 ┌──────────────────────────────────────────────────────────────────────┐
-│ Annex  Which articles of the EU AI Act…   Repository  Evaluation     │
-│                        [ Original |*Amended 27 Jul 2026*]  (•) …    │ ← top bar
+│ ◆ Annex Which articles of the EU AI Act…  Repository  Evaluation     │
+│                        [ Original |*Amended 27 Jul 2026*]  (•) …    │ ← top bar, pinned
 ├──────────────────────────────────────────────────────────────────────┤
 │ Describe what you are building.   │ BEFORE YOU ASK        ← pane    │
 │ You get back the articles you     │                                  │
@@ -68,9 +82,11 @@ Reached on arrival, before anything is asked. The top bar and the band run the f
 
 Copy, verbatim:
 
-- Product name: `Annex`
+- Product name: `Annex`, with the project mark drawn before it
 - Tagline: `Which articles of the EU AI Act you have to read`
 - Top bar links: `Repository`, `Evaluation`
+- Traversal hint on the local build: `Turn off to compare against search alone`
+- Traversal hint on the deployed build: `Recorded with traversal on`
 - Display: `Describe what you are building. You get back the articles you have to read.`
 - Supporting text: `Plain language is enough. Annex reports which provisions apply and quotes them, against your choice of the original text or the text as amended on 27 July 2026. Every claim carries the article text it came from, so you check the answer rather than trust it. It does not tell you whether you comply.`
 - Input placeholder: `A customer-service chatbot that also scores loan applications…`
@@ -79,7 +95,7 @@ Copy, verbatim:
 
 The last sentence of that supporting text is doing compliance work rather than tone work. No label, heading, or button anywhere on this surface may imply a verdict on whether an organization complies, and the empty state states that boundary before a visitor has asked anything.
 
-The top bar carries `Repository` and `Evaluation` in every state rather than on the empty state alone. A visitor who reaches an answer or a refusal, the moment likeliest to prompt checking the source, can still reach them without editing back to a blank form.
+The top bar carries `Repository` and `Evaluation` in every state rather than on the empty state alone. A visitor who reaches an answer or a refusal, the moment likeliest to prompt checking the source, can still reach them without editing back to a blank form. They drop out while the bar is slim, and return once the page is scrolled back to the top.
 
 The pane holds context beside the question before it holds the Act. Three other contents were rendered and lost: no pane at all until something is asked, the Act open at Article 3, and a recorded answer previewed. `.claude/ARCHITECTURE.md` carries what each cost.
 
@@ -87,9 +103,7 @@ The pane holds context beside the question before it holds the Act. Three other 
 
 ```plaintext
 ┌──────────────────────────────┐
-│ Annex                        │
-│ [ Original |*Amended*]       │
-│ (•) Reference traversal      │ ← top bar wraps
+│ ◆ Annex              [theme] │ ← bar holds the brand
 ├──────────────────────────────┤
 │ Describe what you are        │
 │ building. You get back the   │
@@ -99,6 +113,8 @@ The pane holds context beside the question before it holds the Act. Three other 
 │ ┌──────────────────────────┐ │
 │ │ A customer-service…      │ │
 │ └──────────────────────────┘ │
+│ [ Original |*Amended*]       │ ← the choices, under
+│ (•) Reference traversal      │   the description
 │ [ Find the articles ]        │
 │ ──────────────────────────── │
 │ Or read one of the recorded  │
@@ -199,6 +215,8 @@ The plain case. No provision moved, nothing cut.
 │ person they are interacting with  │ CITED IN THIS ANSWER             │
 │ an AI system.        ← claim      │ *Article 50(1)*  Article 50(6)   │ ← jumps the pane
 │                                   ├──────────────────────────────────┤
+│                                   │ ‹ Article 50   51 of 133  Go to ›│ ← section bar
+│                                   ├──────────────────────────────────┤
 │  │ Article 50(1)  AMENDED         │ ░ Article 50  Transparency…    ░ │
 │  │ Providers shall ensure that AI │ ░ 1. Providers shall ensure    ░ │ ← scrolled to,
 │  │ systems intended to interact   │ ░ that AI systems intended to  ░ │   held in a tint
@@ -230,6 +248,15 @@ Copy, verbatim:
 - Pane views: `The Act`, `The walk`
 - Cited list label: `Cited in this answer`
 - Excerpt handle: `Read all <n> characters in the Act →`, where `<n>` is the provision's own length
+- Column handle, the divider between the answer and the pane: `Resize the answer and the Act`
+- Section bar steps: `Previous section`, `Next section`, and `Previous cited provision`, `Next cited provision` once switched to citations
+- Section bar switch: `Whole Act`, `Cited`
+- Section bar jump field placeholder: `Go to`
+- Section bar position, dynamic: `<n> of <total>` through the whole Act, `<n> of <total> cited` through citations
+
+The divider between the answer and the pane is a handle. Dragging it, or stepping it with the arrow keys, sets the answer column anywhere from 480 to 760 pixels, and a double-click puts it back at 640. It remembers.
+
+The section bar sits over the Act's text. It names the article or cited paragraph in view with its place in the whole, steps to the section before or after it or, once switched to `Cited`, to the citation before or after, and takes an article number or annex numeral in its jump field. The operator's first-use pass picked it over the cited links alone, step buttons in the cited row, and the bar without a jump field or the switch.
 
 ## Answered, below 1024
 
@@ -449,7 +476,9 @@ It links to the article, annex, or recital the citation's paragraph sits under, 
 ### Behavior
 
 - Activating a citation's heading or its excerpt handle scrolls the Act to that provision immediately, with no transition, consistent with the motion rule. At 1024 and wider that moves the pane, and below 1024 it opens the overlay first
-- A paragraph lands with its article's heading in view whenever the heading and the whole paragraph fit in the Act's view together, and at the paragraph's own top only when they do not, since a paragraph read without its article names nothing. The rule holds in the docked pane and in the overlay alike
+- Docked, a provision reached from a citation, a step, an arrow key or the jump field lands flush at the top of the Act's text, tinted, and the section bar above it names its article
+- The overlay carries no section bar, so there a paragraph lands with its article's heading in view whenever the two fit together, and at its own top only when they do not, since a paragraph read without its article names nothing
+- Docked, the left and right arrow keys step the way the section bar's arrows do while the Act's text has focus
 - The provision the Act was scrolled to is held in a tinted background so a reader can find it again after scrolling away
 - The version toggle in the Act's header re-renders the Act against the other text. It does not re-ask the question and does not touch the answer
 - Below 1024, Escape, the close control, and activating the scrim all return to the answer exactly as it stood before the overlay opened
@@ -458,7 +487,9 @@ It links to the article, annex, or recital the citation's paragraph sits under, 
 ## Behavior
 
 - The version toggle re-asks the current question against the other text and replaces the answer. It is a real control, not a demo affordance
-- The traversal switch turns reference following off and re-asks. It exists to demonstrate the arm comparison rather than to serve a visitor, and it is labelled as a demo on screen so the layout does not pretend otherwise
+- The traversal switch turns reference following off and re-asks. It exists to demonstrate the arm comparison rather than to serve a visitor, and the line under it says what turning it off compares, so the layout does not pretend otherwise
+- The top bar stays pinned to the top of the screen. Once the page scrolls past the described system it slims to the mark, the name and the two controls, and the pane below it fills the height left
+- Below 1024 and before anything is asked, the bar holds the brand and the theme control, and the version and traversal choices sit under the description. Once a question is asked they move into the bar
 - Editing the description returns the surface to its empty state with the previous text in the input
 - The trace's counts switch the pane between the Act and the walk at 1024 and wider, and expand the walk in place below. Nothing else on the surface opens or collapses
 - The pane holds the terms and the reserved region before a question is asked, and the Act once one is answered or refused

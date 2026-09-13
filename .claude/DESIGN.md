@@ -99,11 +99,14 @@ Base unit 8px.
 
 Picked by looking against real content, and `.claude/context/design-references.md` holds the measured sites each rule answers to.
 
-- The answer column holds a fixed reading measure of 640px and never widens with the viewport
+- The answer column opens at a reading measure of 640px. A reader sets it anywhere from 480px to 760px from the handle between the columns, the width is remembered, and it never follows the viewport
 - The pane beside it takes the remaining width, with a floor of 420px
 - One breakpoint, at 1024px. Below it the page is a single column and the pane opens as an overlay
-- The pane stays in view at the full viewport height and scrolls inside itself
+- The top bar pins to the top of the viewport and slims once the page scrolls past the described system
+- The pane stays in view under the pinned bar, fills the height left below it, and scrolls inside itself
 - Content starts from the page's left gutter under a full-width top bar, with no centered container
+
+The column range and the pinned bar were picked by looking in the operator's first-use pass, recorded in `.claude/ARCHITECTURE.md` under frontend scope, against a fixed split, a split with preset widths, and a single toggle between two widths.
 
 ## Motion
 
