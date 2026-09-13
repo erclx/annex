@@ -164,7 +164,7 @@ The pipeline diagram sits last: the five stages a request passes through, intake
 
 ## Invalid
 
-Reached when the description is empty or past the length bound. The service never started work, so this never renders in the failure region.
+Reached when a submit is tried on a description that is empty or past the service's 4 000 character bound. The service never started work, so this never renders in the failure region. Leaving the box without submitting raises nothing, and the message clears as soon as the description is valid again.
 
 ```plaintext
 │   ┌──────────────────────────────────────────────┐                   │
@@ -175,7 +175,12 @@ Reached when the description is empty or past the length bound. The service neve
 │   [ Find the articles ]                              ← held inactive  │
 ```
 
-Copy, verbatim: `A description is needed before this can be answered.`
+Copy, verbatim:
+
+- Empty: `A description is needed before this can be answered.`
+- Past the bound: `The description is too long, so shorten it to 4 000 characters or fewer.`
+
+The form checks the length itself before asking. The service's own `invalid` answer carries no reason a reader can act on, and one sentence covering both cases read as "a description is needed" under a box visibly full of text.
 
 ## Loading
 
@@ -241,10 +246,16 @@ A claim is set in the interface's own voice and a quoted provision in a serif be
 
 The excerpt under a claim shows at most six lines of the provision and always ends in `Read all <n> characters in the Act →`. The handle names the length whether or not the clamp cut the quote, since whether six lines hold a provision depends on the width the column renders at, and a handle that named the length only when it guessed a cut would sometimes sit under a cut quote reading as whole. Activating that line or the citation's heading scrolls the pane to the provision.
 
+A long provision rarely rests a claim on its first six lines, so the excerpt opens on the closest point. Each cited provision is cut at its own paragraphs, definitions and points, and the passage sharing the most words of four letters or more with the claim wins once it shares at least 8. The heading then names that passage, such as `Article 79(8)` or `Annex III, point 4(a)`, the excerpt opens on it behind an ellipsis, and the heading and the handle both land the Act there. Where no passage reaches 8, the excerpt stays at the top and says no single passage wins. A provision with fewer than two numbered passages carries no label at all, since there is nothing to choose between.
+
+The label says closest and never quoted. The rule is lexical, its threshold was fitted by looking at three cases, and nothing records which passage the model read the claim from. The operator's first-use pass picked it over the first six lines and over the same landing left unnamed.
+
 The pane opens on the first provision the answer cites. Its list of cited provisions carries every citation in the answer once, in the order the claims first cite them, and marks the one the pane is showing.
 
 Copy, verbatim:
 
+- Excerpt landing label: `closest point`
+- Excerpt label when no passage wins: `whole provision, no single passage wins`
 - Pane views: `The Act`, `The walk`
 - Cited list label: `Cited in this answer`
 - Excerpt handle: `Read all <n> characters in the Act →`, where `<n>` is the provision's own length
@@ -318,12 +329,17 @@ Rendered whenever the answer stopped for want of prompt room rather than because
 ```plaintext
 │  ┌────────────────────────────────────────────────────────────────┐  │
 │  │ The answer stopped for want of room, not because it finished.  │  │
-│  │ 7 of the 31 provisions traversal reached were cut before the   │  │
-│  │ model read them. They are named under the trace as dropped.    │  │
+│  │ The model ran out of room while writing, so anything it would  │  │
+│  │ have said after the last claim here is missing.                │  │
 │  └────────────────────────────────────────────────────────────────┘  │
 ```
 
-Copy, verbatim: `The answer stopped for want of room, not because it finished.` Both counts in the second sentence are dynamic.
+Copy, verbatim:
+
+- `The answer stopped for want of room, not because it finished.`
+- `The model ran out of room while writing, so anything it would have said after the last claim here is missing.`
+
+The banner keys on the trace's `truncated`, which is the generation stopping, and its copy describes that event. Provisions the prompt budget dropped are a different event: every one of the 24 recorded answers dropped between 3 and 39, and the trace's counts already report them. A banner describing drops would sit on every answer and stop meaning anything.
 
 ## Refused
 
@@ -332,9 +348,9 @@ A result, never a failure. It sits in the answer column where an answer would si
 ```plaintext
 ├───────────────────────────────────┬──────────────────────────────────┤
 │ ( THE TEXT DOES NOT SETTLE THIS ) │ [*The Act*| The walk ]  [Orig|*Am│
-│                   ← tag, not an   │ READ BEFORE REFUSING             │
-│                     error         │ Article 111(2)  Article 3        │
-│ The Act makes substantial         │ Article 6(3)  Article 43(4) …    │ ← all twenty
+│                   ← tag, not an   │ ┌──────────────────────────────┐ │
+│                     error         │ │ 20 provisions read before…  ▾│ │ ← one line,
+│ The Act makes substantial         │ └──────────────────────────────┘ │   opens the list
 │ modification the trigger and      ├──────────────────────────────────┤
 │ never defines the threshold…      │ ░ Article 111  AI systems       ░│
 │                        ← reason   │ ░ already placed on the market  ░│
@@ -358,8 +374,13 @@ Copy, verbatim:
 - Tag: `THE TEXT DOES NOT SETTLE THIS`
 - Heading: `WHAT IS MISSING`
 - Heading: `WHAT WAS READ BEFORE SAYING SO`, followed by the count of provisions
-- Cited list label in the pane: `Read before refusing`
+- Reading list control in the pane: `<n> provisions read before refusing`, with `Open list ▾` beside it, reading `Close list ▴` while the list is open
+- Reading list filter placeholder: `Article 5`
+- Reading list row tags: `search`, `walk`
+- Reading list with no match: `Nothing read before refusing matches that number.`, then `Clear filter`
 - Reason and the missing items are dynamic.
+
+The pane holds what a refusal read behind that one line rather than as a row of links. The largest recorded refusal read 22 provisions and the live billboard refusal 33, which as links pushed the Act's text five rows down the pane. The list opens over the text, and each row says whether search found the provision or the walk reached it. Its filter matches a citation's number exactly, so `Article 5` finds Article 5 and its paragraphs and never Articles 53 to 56, and `II` finds Annex II and not Annex III. It opens, filters and closes from the keyboard, and Escape returns focus to the line. An answered question keeps its row of links under `Cited in this answer`.
 
 The consulted provisions are not decoration. They carry what was retrieved and found not to answer, which is the difference between a refusal and a shrug, so a refusal that renders without them has lost its argument.
 
@@ -411,6 +432,30 @@ The five, verbatim:
 - `This page holds a recording, and your description is not in it.` / `Edit the description and pick one of the recorded questions, or run the system locally to ask your own.`
 
 The correlation id renders on the first three and on neither of the last two, since nothing answered on either and so nothing logged one. These sentences are owned by the service seam. A change to them there is a change to this file.
+
+### The next step beside a failure
+
+At 1024 and wider the pane stays beside the failure region and offers the next step for the state shown, rather than leaving half the screen empty. Beside an unrecorded description it lists the twelve recorded questions as picks, scrolling inside the pane. Beside a model that is not running and beside a service that is not listening, it shows the commands that start what is missing, which match the local stack table in `canon/context/development.md`. A timeout and an unexpected failure get neither, since no pick or command answers either, and the pane keeps the terms it held before the ask.
+
+```plaintext
+├───────────────────────────────────┬──────────────────────────────────┤
+│  ┌─────────────────────────────┐  │ START WHAT IS MISSING            │
+│  │ The model or the index is   │  │ The model                        │
+│  │ not running.                │  │ ┌──────────────────────────────┐ │
+│  │ correlation 106a-0189       │  │ │ ollama serve                 │ │
+│  └─────────────────────────────┘  │ └──────────────────────────────┘ │
+│                                   │ The service, from python/        │
+│                                   │ ┌──────────────────────────────┐ │
+│                                   │ │ uv run python -m annex serve │ │
+│                                   │ └──────────────────────────────┘ │
+│                                   │ Then ask the same description…   │
+└───────────────────────────────────┴──────────────────────────────────┘
+```
+
+Copy, verbatim:
+
+- Beside an unrecorded description: `Recorded questions you can open`
+- Beside an unavailable or unreachable service: `Start what is missing`, `The model`, `The service, from python/`, `Then ask the same description again. Nothing you typed is lost.`
 
 ## The trace
 
@@ -480,6 +525,7 @@ It links to the article, annex, or recital the citation's paragraph sits under, 
 - The overlay carries no section bar, so there a paragraph lands with its article's heading in view whenever the two fit together, and at its own top only when they do not, since a paragraph read without its article names nothing
 - Docked, the left and right arrow keys step the way the section bar's arrows do while the Act's text has focus
 - The provision the Act was scrolled to is held in a tinted background so a reader can find it again after scrolling away
+- Every paragraph, definition and point renders as a block of its own, led by its name in the form the Act cites it, such as `Annex III, point 4(a)`. A landing from an excerpt that opened on a point tints that block rather than the whole provision
 - The version toggle in the Act's header re-renders the Act against the other text. It does not re-ask the question and does not touch the answer
 - Below 1024, Escape, the close control, and activating the scrim all return to the answer exactly as it stood before the overlay opened
 - The overlay below 1024 is the only overlay this surface carries. At 1024 and wider nothing overlays the answer
@@ -498,6 +544,7 @@ It links to the article, annex, or recital the citation's paragraph sits under, 
 - On the deployed build a pick answers immediately and the loading skeleton never renders, because nothing is being asked. The skeleton belongs to the local build and to the recorded walkthrough, where the wait is real
 - A claim never renders two citation blocks for one provision. A marker repeated within one claim merges to its first occurrence in `parse_draft`, before the surface ever sees it
 - On the deployed build the address carries the recorded question, the version, and the provision the Act is showing, so an answer can be linked and opened as it was shared. A link leaving the page opens in the same tab, since the browser's back action returns to that address
+- The local build's address carries the version and the provision alone. A typed description can run to 4 000 characters and says what someone is building, so it never reaches an address the browser keeps in its history
 
 ## Not on this surface
 

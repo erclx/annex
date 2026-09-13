@@ -2,7 +2,13 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { captures, manifest } from '@/fixtures'
 import { answerSchema } from '@/lib/answer'
-import { capturedOn, recordedQuestions, replay } from '@/lib/replay'
+import {
+  capturedOn,
+  recordedDescriptionFor,
+  recordedQuestionIdFor,
+  recordedQuestions,
+  replay,
+} from '@/lib/replay'
 
 const recorded = manifest.entries[0]
 
@@ -57,6 +63,30 @@ describe('what the recording does not hold', () => {
 
   it('returns the unrecorded state for an empty description', () => {
     expect(replay('').state).toBe('unrecorded')
+  })
+})
+
+describe('a recorded question named in the address', () => {
+  it('resolves its id to the description that was asked', () => {
+    expect(recordedDescriptionFor(recorded.question_id)).toBe(
+      recorded.description,
+    )
+  })
+
+  it('names the id a recorded description was captured under', () => {
+    expect(
+      recordedQuestionIdFor(` ${recorded.description.toUpperCase()} `),
+    ).toBe(recorded.question_id)
+  })
+
+  it('resolves nothing for an id the recording does not hold', () => {
+    expect(recordedDescriptionFor('q99-not-recorded')).toBeNull()
+  })
+
+  it('names no id for a description the recording does not hold', () => {
+    expect(
+      recordedQuestionIdFor('a system that decides which crops to plant'),
+    ).toBeNull()
   })
 })
 

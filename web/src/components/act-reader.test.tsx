@@ -62,6 +62,22 @@ describe('ActReader', () => {
     ).toBeInTheDocument()
   })
 
+  it('should name the overlay after the point it landed on', () => {
+    render(
+      <ActReader
+        version="original"
+        openId="art_3"
+        openPoint="1"
+        onClose={vi.fn()}
+        onVersionChange={vi.fn()}
+      />,
+    )
+
+    expect(
+      screen.getByRole('dialog', { name: 'Article 3, point (1)' }),
+    ).toBeInTheDocument()
+  })
+
   it('should call onClose when the close button is activated', async () => {
     const onClose = vi.fn()
     render(
@@ -245,6 +261,100 @@ describe('ActReader', () => {
       )
 
       expect(onOpen).toHaveBeenCalledWith('art_50')
+    })
+
+    it('should land on the point an excerpt opened on and mark it', () => {
+      render(
+        <ActReader
+          docked
+          version="original"
+          openId="anx_III"
+          openPoint="4.a"
+          cited={[{ provisionId: 'anx_III', label: 'Annex III' }]}
+          onClose={vi.fn()}
+          onVersionChange={vi.fn()}
+        />,
+      )
+
+      expect(
+        screen
+          .getByText(
+            /^\(a\) AI systems intended to be used for the recruitment/,
+          )
+          .closest('[aria-current="location"]'),
+      ).not.toBeNull()
+    })
+
+    it('should render each definition as a block of its own', () => {
+      render(
+        <ActReader
+          docked
+          version="original"
+          openId="art_3"
+          cited={[{ provisionId: 'art_3', label: 'Article 3' }]}
+          onClose={vi.fn()}
+          onVersionChange={vi.fn()}
+        />,
+      )
+
+      expect(
+        screen.getByText(/^\(12\) ‘intended purpose’ means/),
+      ).toBeInTheDocument()
+    })
+
+    it('should name each numbered passage the way the Act cites it', () => {
+      render(
+        <ActReader
+          docked
+          version="original"
+          openId="anx_III"
+          cited={[{ provisionId: 'anx_III', label: 'Annex III' }]}
+          onClose={vi.fn()}
+          onVersionChange={vi.fn()}
+        />,
+      )
+
+      expect(screen.getByText('Annex III, point 4(a)')).toBeInTheDocument()
+    })
+
+    it('should label the provisions an answer cites as cited', () => {
+      render(
+        <ActReader
+          docked
+          version="consolidated"
+          openId="art_6"
+          cited={cited}
+          onClose={vi.fn()}
+          onVersionChange={vi.fn()}
+        />,
+      )
+
+      expect(
+        screen.getByRole('navigation', { name: 'Cited in this answer' }),
+      ).toBeInTheDocument()
+    })
+
+    it('should offer a refusal its reading list rather than a wall of links', () => {
+      render(
+        <ActReader
+          docked
+          version="consolidated"
+          openId="art_6"
+          cited={cited}
+          citedAs="read"
+          onClose={vi.fn()}
+          onVersionChange={vi.fn()}
+        />,
+      )
+
+      expect(
+        screen.getByRole('button', {
+          name: '2 provisions read before refusing',
+        }),
+      ).toBeInTheDocument()
+      expect(
+        screen.queryByRole('navigation', { name: 'Cited in this answer' }),
+      ).not.toBeInTheDocument()
     })
 
     it('should switch to the walk when it is asked for', () => {

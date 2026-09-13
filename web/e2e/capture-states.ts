@@ -76,7 +76,7 @@ interface Case {
   status?: number
   hang?: boolean
   skipAsk?: boolean
-  blur?: boolean
+  submitEmpty?: boolean
   expand?: boolean
   reject?: boolean
   describe?: string
@@ -97,7 +97,7 @@ const CASES: Case[] = [
     skipAsk: true,
     paneScroll: true,
   },
-  { name: '2-invalid', skipAsk: true, blur: true },
+  { name: '2-invalid', skipAsk: true, submitEmpty: true },
   { name: '3-loading', hang: true },
   { name: '4-answered', body: answered, expand: true },
   { name: '5-answered-cut-short', body: cutShort },
@@ -114,9 +114,10 @@ const CASES: Case[] = [
 
 async function drive(page: Page, captureCase: Case, base: string) {
   await page.goto(base)
-  if (captureCase.blur) {
-    await page.getByLabel('Describe your system').click()
-    await page.keyboard.press('Tab')
+  // The empty-description message waits for a submit, since leaving the box
+  // raises nothing, so the invalid state is reached by submitting it empty.
+  if (captureCase.submitEmpty) {
+    await page.getByRole('button', { name: 'Find the articles' }).click()
   }
   if (!captureCase.skipAsk) {
     await page

@@ -4,6 +4,7 @@ import { describe, expect, it, vi } from 'vitest'
 
 import { CitationBlock } from '@/components/citation-block'
 import type { Citation } from '@/components/versions'
+import { findProvision } from '@/lib/corpus'
 
 const CITATION: Citation = {
   change_note: null,
@@ -101,6 +102,79 @@ describe('CitationBlock', () => {
     )
 
     expect(onOpen).toHaveBeenCalledWith('art_6', 'consolidated')
+  })
+
+  describe('an excerpt under a claim', () => {
+    const annex = findProvision('original', 'anx_III')
+    const ANNEX_III: Citation = {
+      ...CITATION,
+      citation: 'Annex III',
+      kind: 'annex',
+      provision_id: 'anx_III',
+      version: 'original',
+      text: annex?.text ?? '',
+    }
+    const RECRUITMENT =
+      'The system falls within Annex III point 4(a), covering AI systems intended to be used for the recruitment or selection of natural persons, in particular to analyse and filter job applications and to evaluate candidates'
+
+    it('should open on the closest point and name it', () => {
+      render(
+        <CitationBlock
+          citation={ANNEX_III}
+          claim={RECRUITMENT}
+          onOpen={vi.fn()}
+        />,
+      )
+
+      expect(
+        screen.getByRole('button', { name: 'Annex III, point 4(a)' }),
+      ).toBeInTheDocument()
+      expect(screen.getByText('closest point')).toBeInTheDocument()
+      expect(
+        screen.getByText(
+          /^… \(a\) AI systems intended to be used for the recruitment/,
+        ),
+      ).toBeInTheDocument()
+    })
+
+    it('should never call a closest point a quotation', () => {
+      render(<CitationBlock citation={ANNEX_III} claim={RECRUITMENT} />)
+
+      expect(screen.queryByText(/quot/i)).not.toBeInTheDocument()
+    })
+
+    it('should stay at the top and say so when no passage wins', () => {
+      render(
+        <CitationBlock
+          citation={ANNEX_III}
+          claim="A voice agent confirming appointments falls within no listed area"
+        />,
+      )
+
+      expect(screen.getByText('Annex III')).toBeInTheDocument()
+      expect(
+        screen.getByText('whole provision, no single passage wins'),
+      ).toBeInTheDocument()
+    })
+
+    it('should hand Read all the point the excerpt opened on', async () => {
+      const onOpen = vi.fn()
+      render(
+        <CitationBlock
+          citation={ANNEX_III}
+          claim={RECRUITMENT}
+          onOpen={onOpen}
+        />,
+      )
+
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: /^Read all .* characters in the Act/,
+        }),
+      )
+
+      expect(onOpen).toHaveBeenCalledWith('anx_III', 'original', '4.a')
+    })
   })
 
   it('should name the length of a short provision too, since the clamp may still cut it', () => {

@@ -1,3 +1,4 @@
+analyse
 categorisation
 checkability
 Consolas

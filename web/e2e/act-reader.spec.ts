@@ -73,7 +73,9 @@ test.describe('docked beside the answer', () => {
         const text = await pane
           .getByRole('region', { name: 'Text of the Act' })
           .boundingBox()
-        const tinted = await pane.locator('p.bg-accent-soft').boundingBox()
+        const tinted = await pane
+          .locator('[aria-current="location"]')
+          .boundingBox()
         return text && tinted ? Math.abs(tinted.y - text.y) : Infinity
       })
       .toBeLessThanOrEqual(24)
@@ -174,7 +176,7 @@ test.describe('as an overlay below 1024 pixels', () => {
     const dialog = page.getByRole('dialog')
     await expect(dialog).toBeVisible()
     await expect(
-      dialog.locator('article:has(p.bg-accent-soft) > h2'),
+      dialog.locator('article:has([aria-current="location"]) > h2'),
     ).toBeInViewport()
   })
 
@@ -220,5 +222,44 @@ test.describe('as an overlay below 1024 pixels', () => {
       page.getByRole('dialog').getByRole('button', { name: 'Original' }),
     ).toHaveAttribute('aria-pressed', 'true')
     expect(requests).toEqual([])
+  })
+})
+
+test.describe('an excerpt landing on its closest point', () => {
+  const screening = manifest.entries.find(
+    (entry) => entry.question_id === 'q04-cv-screening',
+  )
+
+  test('Read all lands flush on the point the excerpt names', async ({
+    page,
+  }) => {
+    await page.goto(REPLAY_URL)
+    await page
+      .getByRole('button', { name: screening?.description ?? '' })
+      .click()
+
+    const figure = page.locator('figure', {
+      has: page.getByRole('button', {
+        name: 'Annex III, point 4(a)',
+        exact: true,
+      }),
+    })
+    await expect(figure.getByText('closest point')).toBeVisible()
+    await figure.getByRole('button', { name: /^Read all/ }).click()
+
+    const pane = page.getByRole('complementary', { name: 'The Act' })
+    const landed = pane.locator('[aria-current="location"]')
+    await expect(landed).toContainText(
+      'recruitment or selection of natural persons',
+    )
+    await expect
+      .poll(async () => {
+        const text = await pane
+          .getByRole('region', { name: 'Text of the Act' })
+          .boundingBox()
+        const box = await landed.boundingBox()
+        return text && box ? Math.abs(box.y - text.y) : Infinity
+      })
+      .toBeLessThanOrEqual(24)
   })
 })
