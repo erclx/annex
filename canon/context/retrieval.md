@@ -31,14 +31,22 @@ Three lines, in order:
    every recital, and the 19 articles in each version no paragraph parses out of
 3. A chunk still over the budget is split on its own `(n)` point markers
 
-| Version      | Provisions covered | Chunks after splitting | Split provisions   |
-| ------------ | ------------------ | ---------------------- | ------------------ |
-| Original     | 712                | 716                    | `art_3`, `art_113` |
-| Consolidated | 585                | 587                    | `art_3`            |
+| Version      | Provisions covered | Chunks after splitting | Split provisions |
+| ------------ | ------------------ | ---------------------- | ---------------- |
+| Original     | 712                | 714                    | `art_3`          |
+| Consolidated | 585                | 587                    | `art_3`          |
 
 Provisions covered is the figure that survives a change to the budget, and it
 is what a count check should assert. Chunks after splitting moves whenever the
 budget does.
+
+The original's split count moved on `feature-corpus-and-answer-text`, which
+fixed `annex.corpus.parse_oj` folding the Official Journal's signature block
+and footnotes into `art_113`. That provision falls from 14 847 to 535
+characters once the fix lands, so it no longer overflows `CHARACTER_BUDGET`
+and drops out of the split set. § Two of Article 113's three original-text
+chunks are footnotes, below, is the defect as it stood before that fix.
+Measured at this branch on 2026-09-13.
 
 ## The budget is set from the embedder, not from a ratio
 
@@ -52,7 +60,7 @@ overflows is a silent quality loss.
 
 The declared 8192 is worth measuring one day and is not reachable from here. A
 model serving its full declared context would fit every article whole and drop
-the index from 716 and 587 chunks to 113 and 119, which is a different corpus
+the index from 714 and 587 chunks to 113 and 119, which is a different corpus
 unit and its own comparison. Reaching it needs a Modelfile for the embedder,
 the way `annex-qwen3-27b` reaches its window.
 
@@ -76,9 +84,11 @@ measures every chunk against it under the `live` marker.
 
 Those token figures belong to `nomic-embed-text`, and the swap re-measured them
 rather than assuming they carried across. Under `snowflake-arctic-embed2` the
-same 716 and 587 chunks reach 1586 and 1615 tokens at their widest, densest at
-3.21 and 3.20 characters a token, so `CHARACTER_BUDGET` holds at 6000 and the
-live gate passes unchanged.
+716 and 587 chunks measured at the time reached 1586 and 1615 tokens at their
+widest, densest at 3.21 and 3.20 characters a token, so `CHARACTER_BUDGET`
+holds at 6000 and the live gate passes unchanged. The original's chunk count
+has since moved to 714 on `feature-corpus-and-answer-text`, and re-measuring
+the widest and densest chunk under that count is unmeasured here.
 
 The `limit * 3` screen in `_refuse_truncated` rests on that density rather than
 on arithmetic. Nothing shorter than three characters a token can reach the
@@ -224,6 +234,13 @@ than taking it, because changing a corpus unit in the same commit as the model
 would have left the re-run measuring two changes and able to separate neither.
 Deferring it needs a row that owns it, `v01.2-footnotes-parsed-into-article-113`,
 and the defect is recorded here so it survives whatever happens to that row.
+
+That row closed on `feature-corpus-and-answer-text`. `parse_oj` now ends
+`art_113` before the signature block and the footnotes it introduces, so the
+provision reads 535 characters and carries the dates alone, and the table
+above describes a shape the corpus no longer has. Whether that changes the
+rank figures elsewhere in this entry is unmeasured until the harness runs
+again. Fixed at this branch on 2026-09-13.
 
 ### The walk splits that result by model, and search recall hides it
 
@@ -546,7 +563,11 @@ the trace rather than hidden inside one shared table.
   already resident. Neither figure is the other's cold or warm counterpart, so
   read the gap as two models rather than as a slowdown. The few minutes this
   entry and the setup step in `canon/context/development.md` both carried was
-  never measured at all
+  never measured at all. The original's chunk count moved to 714 on
+  `feature-corpus-and-answer-text`, and a rebuild in that worktree measured
+  23.8 seconds total with the corpus cache warm, model state unverified, so it
+  is not this bullet's cold-model counterpart and the 27.3-second figure stands
+  until re-measured under the same conditions.
 - **One writer, four readers.** `embed` writes the index, and `search`,
   `traverse`, the agent and the evaluation read it. A rule about chunk ids or the
   per-version table has to hold for the writer as well as the reader that

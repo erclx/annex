@@ -3,7 +3,7 @@
   "version": "original",
   "claims": [
     {
-      "statement": "The system's functions—monitoring warehouse staff productivity and recommending promotions—fall within Annex III point 4(b), covering AI systems intended to monitor and evaluate the performance and behaviour of persons in work-related relationships and to make decisions affecting the promotion of work-related contractual relationships",
+      "statement": "The system monitors warehouse staff productivity and recommends promotions, which corresponds to Annex III point 4(b): AI systems intended to be used to monitor and evaluate the performance and behaviour of persons in work-related relationships, and to make decisions affecting the promotion of work-related contractual relationships",
       "citations": [
         {
           "provision_id": "anx_III",
@@ -17,7 +17,7 @@
       ]
     },
     {
-      "statement": "Article 6(2) provides that AI systems referred to in Annex III shall be considered to be high-risk",
+      "statement": "Under Article 6(2), AI systems referred to in Annex III shall be considered to be high-risk",
       "citations": [
         {
           "provision_id": "art_6.2",
@@ -31,7 +31,7 @@
       ]
     },
     {
-      "statement": "Article 6(3) provides a derogation whereby an Annex III system is not high-risk if it does not pose a significant risk of harm and meets one of four listed conditions, but it shall always be considered high-risk where it performs profiling of natural persons",
+      "statement": "Article 6(3) provides that an Annex III system shall not be considered high-risk where it does not pose a significant risk of harm and fulfils one of four listed conditions, but shall always be considered high-risk where the system performs profiling of natural persons",
       "citations": [
         {
           "provision_id": "art_6.3",
@@ -45,7 +45,7 @@
       ]
     },
     {
-      "statement": "Article 14(1) requires high-risk AI systems to be designed so they can be effectively overseen by natural persons, and Article 14(4) requires the system be provided to the deployer in a way that enables oversight persons to understand capacities and limitations, interpret output, override or reverse output, and interrupt the system",
+      "statement": "If the system is high-risk, Article 14 requires it to be designed so that it can be effectively overseen by natural persons, with measures enabling assigned persons to understand its capacities and limitations, remain aware of automation bias, correctly interpret its output, decide to disregard or override its output, and intervene or interrupt it through a stop button or similar procedure",
       "citations": [
         {
           "provision_id": "art_14",
@@ -59,7 +59,7 @@
       ]
     },
     {
-      "statement": "Article 10(1) and (2) require that high-risk AI systems using training data be developed on data sets meeting quality criteria, with data governance practices including examination for possible biases and measures to detect, prevent, and mitigate them",
+      "statement": "If the system is high-risk and uses techniques involving the training of AI models with data, Article 10 requires training, validation and testing data sets to be relevant, sufficiently representative, and to the best extent possible free of errors, and subject to data governance practices including examination for possible biases and appropriate measures to detect, prevent and mitigate them",
       "citations": [
         {
           "provision_id": "art_10",
@@ -73,7 +73,7 @@
       ]
     },
     {
-      "statement": "Article 49(1) requires the provider to register the high-risk AI system in the EU database before placing it on the market or putting it into service",
+      "statement": "Under Article 49(1), before placing on the market or putting into service a high-risk AI system listed in Annex III (other than point 2), the provider or authorised representative shall register themselves and the system in the EU database",
       "citations": [
         {
           "provision_id": "art_49",
@@ -381,8 +381,8 @@
     "traversal_enabled": true,
     "truncated": false,
     "prompt_tokens": 15754,
-    "completion_tokens": 3025,
-    "duration_ms": 29983,
+    "completion_tokens": 3035,
+    "duration_ms": 30707,
     "model": "annex-qwen3-27b"
   }
 }

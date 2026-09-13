@@ -96,3 +96,76 @@ class TestAmendedStructure:
 
     def test_carries_no_recitals(self, consolidated: Corpus) -> None:
         assert consolidated.of_kind(ProvisionKind.RECITAL) == ()
+
+
+class TestNoConsolidationMarkers:
+    def test_no_provision_text_carries_a_marker(self, consolidated: Corpus) -> None:
+        for provision in consolidated.provisions:
+            assert '▼' not in provision.text
+            assert '—————' not in provision.text
+
+    def test_no_provision_title_carries_a_marker(self, consolidated: Corpus) -> None:
+        for provision in consolidated.provisions:
+            assert '▼' not in provision.title
+
+    def test_article_111_3_reads_the_same_across_versions(
+        self, consolidated: Corpus, original: Corpus
+    ) -> None:
+        amended = consolidated.get('art_111.3')
+        base = original.get('art_111.3')
+
+        assert amended is not None
+        assert base is not None
+        assert amended.text == base.text
+
+    def test_amended_flags_are_unchanged_by_stripping_markers(
+        self, consolidated: Corpus
+    ) -> None:
+        article = consolidated.get('art_113')
+
+        assert article is not None
+        assert article.amended is True
+
+
+class TestAnnexTitlesStopAtTheHeading:
+    def test_annex_three_title_is_only_the_heading(self, consolidated: Corpus) -> None:
+        annex = consolidated.get('anx_III')
+
+        assert annex is not None
+        assert annex.title == 'High-risk AI systems referred to in Article 6(2)'
+
+    def test_annex_one_title_is_only_the_heading(self, consolidated: Corpus) -> None:
+        annex = consolidated.get('anx_I')
+
+        assert annex is not None
+        assert annex.title == 'List of Union harmonisation legislation'
+
+    def test_a_mislabeled_second_heading_line_still_reads_as_the_title(
+        self, consolidated: Corpus
+    ) -> None:
+        """Annex X's descriptive line is tagged `title-annex-1` rather than `-2`."""
+        annex = consolidated.get('anx_X')
+
+        assert annex is not None
+        assert annex.title == (
+            'Union legislative acts on large-scale IT systems in the area of '
+            'Freedom, Security and Justice'
+        )
+
+    def test_an_annex_with_no_descriptive_heading_keeps_its_first_line(
+        self, consolidated: Corpus
+    ) -> None:
+        """Annex XIV, inserted by the amendment, carries no `title-annex-2` line."""
+        annex = consolidated.get('anx_XIV')
+
+        assert annex is not None
+        assert annex.title.startswith('The list of codes, categories')
+        assert len(annex.title) <= 120
+
+
+class TestArticleOneTitle:
+    def test_article_one_carries_its_title(self, consolidated: Corpus) -> None:
+        article = consolidated.get('art_1')
+
+        assert article is not None
+        assert article.title == 'Subject matter'

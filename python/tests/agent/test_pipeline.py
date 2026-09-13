@@ -10,10 +10,11 @@ from annex.agent.pipeline import (
     DENSEST_CHARACTERS_A_TOKEN,
     SCAFFOLDING_TOKENS,
     SYNTHESIS_BUDGET,
+    _amendment,
     parse_draft,
 )
 from annex.answer import Citation
-from annex.corpus import CorpusVersion, ProvisionKind
+from annex.corpus import Corpus, CorpusVersion, Provision, ProvisionKind
 from tests.agent.conftest import BuildPipeline
 
 CHATBOT = 'a chatbot that talks to customers on our website'
@@ -570,3 +571,73 @@ class TestParseDraft:
         assert refusal is None
         assert len(claims) == 1
         assert claims[0].citations == citations
+
+    def test_a_refusals_missing_lines_carry_no_bracketed_marker(self) -> None:
+        citations = (make_citation('art_5', 'x' * 100),)
+
+        _, refusal = parse_draft(
+            'REFUSE\n- what counts as a substantial modification [1]', citations
+        )
+
+        assert refusal is not None
+        assert refusal.missing == ('what counts as a substantial modification',)
+
+
+def make_provision(
+    provision_id: str,
+    text: str,
+    *,
+    version: CorpusVersion = CorpusVersion.CONSOLIDATED,
+    title: str = '',
+) -> Provision:
+    return Provision(
+        id=provision_id,
+        kind=ProvisionKind.ARTICLE,
+        number=provision_id.removeprefix('art_'),
+        title=title,
+        text=text,
+        version=version,
+    )
+
+
+class TestAmendment:
+    def test_a_whitespace_only_difference_carries_no_change_note(self) -> None:
+        provision = make_provision('art_1', 'Providers  must comply.')
+        other = Corpus(
+            version=CorpusVersion.ORIGINAL,
+            provisions=(
+                make_provision(
+                    'art_1', 'Providers must comply.', version=CorpusVersion.ORIGINAL
+                ),
+            ),
+        )
+
+        assert _amendment(provision, other) is None
+
+    def test_a_spacing_before_punctuation_difference_carries_no_change_note(
+        self,
+    ) -> None:
+        provision = make_provision('art_1', 'Providers must comply .')
+        other = Corpus(
+            version=CorpusVersion.ORIGINAL,
+            provisions=(
+                make_provision(
+                    'art_1', 'Providers must comply.', version=CorpusVersion.ORIGINAL
+                ),
+            ),
+        )
+
+        assert _amendment(provision, other) is None
+
+    def test_a_changed_word_carries_a_change_note(self) -> None:
+        provision = make_provision('art_1', 'Providers must comply.')
+        other = Corpus(
+            version=CorpusVersion.ORIGINAL,
+            provisions=(
+                make_provision(
+                    'art_1', 'Providers may comply.', version=CorpusVersion.ORIGINAL
+                ),
+            ),
+        )
+
+        assert _amendment(provision, other) is not None

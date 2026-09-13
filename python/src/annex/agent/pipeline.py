@@ -433,6 +433,19 @@ class Pipeline:
         return self.ask_routed(question, version=version, traversal=traversal)[0]
 
 
+_SPACE_BEFORE_PUNCTUATION = re.compile(r'\s+([.,;:)])')
+
+
+def _comparable(text: str) -> str:
+    """Collapse the differences a real wording change never turns on.
+
+    Whitespace width and a stray space before punctuation are typesetting,
+    not amendment, and comparing the raw text flags both as a change.
+    """
+    collapsed = re.sub(r'\s+', ' ', text).strip()
+    return _SPACE_BEFORE_PUNCTUATION.sub(r'\1', collapsed)
+
+
 def _amendment(provision: Provision, other: Corpus) -> str | None:
     """What the amendment did to this provision, or nothing if it did nothing.
 
@@ -447,7 +460,7 @@ def _amendment(provision: Provision, other: Corpus) -> str | None:
             f'{provision.citation} appears in the {provision.version} text '
             f'and not in the {other.version} text.'
         )
-    if counterpart.text != provision.text:
+    if _comparable(counterpart.text) != _comparable(provision.text):
         return (
             f'The wording of {provision.citation} differs between the original '
             'and the consolidated text.'
@@ -485,7 +498,10 @@ def parse_draft(
             for index, line in enumerate(lines)
             if line.upper().startswith(REFUSAL_MARKER)
         )
-        missing = tuple(line.lstrip('- ') for line in lines[marker + 1 :])
+        missing = tuple(
+            CITATION_MARKER.sub('', line.lstrip('- ')).strip()
+            for line in lines[marker + 1 :]
+        )
         logger.info(
             'refusal exit: parse_draft declared, the draft carried %s',
             REFUSAL_MARKER,

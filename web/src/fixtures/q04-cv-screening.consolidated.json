@@ -3,7 +3,7 @@
   "version": "consolidated",
   "claims": [
     {
-      "statement": "The system falls within Annex III point 4(a), covering AI systems intended to be used for the recruitment or selection of natural persons, in particular to analyse and filter job applications and to evaluate candidates",
+      "statement": "The system, which ranks job applicants by reading CVs and shortlists candidates for interview, is described in Annex III point 4(a) as an AI system intended to be used for the recruitment or selection of natural persons, to analyse and filter job applications, and to evaluate candidates",
       "citations": [
         {
           "provision_id": "anx_III",
@@ -17,7 +17,7 @@
       ]
     },
     {
-      "statement": "Article 6(2) provides that AI systems referred to in Annex III shall be considered high-risk",
+      "statement": "Under Article 6(2), AI systems referred to in Annex III shall be considered to be high-risk",
       "citations": [
         {
           "provision_id": "art_6.2",
@@ -31,7 +31,7 @@
       ]
     },
     {
-      "statement": "Article 6(3) provides a derogation from the high-risk classification where the system does not pose a significant risk of harm and fulfils one of four listed conditions, but provides that an Annex III system shall always be considered high-risk where it performs profiling of natural persons",
+      "statement": "Article 6(3) provides a derogation from high-risk classification where the system does not materially influence the outcome of decision-making, but stipulates that an Annex III system performing profiling of natural persons shall always be considered high-risk",
       "citations": [
         {
           "provision_id": "art_6.3",
@@ -45,21 +45,21 @@
       ]
     },
     {
-      "statement": "As a high-risk AI system, the system is subject to the risk management requirements of Article 9, including the obligation to test the system to ensure it performs consistently for its intended purpose and to carry out testing against prior defined metrics and probabilistic thresholds",
+      "statement": "Article 14 requires that a high-risk AI system be designed so that it can be effectively overseen by natural persons, including enabling them to disregard, override, or reverse the system's output",
       "citations": [
         {
-          "provision_id": "art_9",
-          "citation": "Article 9",
+          "provision_id": "art_14",
+          "citation": "Article 14",
           "kind": "article",
           "version": "consolidated",
-          "text": "Article 9 Risk management system 1. A risk management system shall be established, implemented, documented and maintained in relation to high-risk AI systems. 2. The risk management system shall be understood as a continuous iterative process planned and run throughout the entire lifecycle of a high-risk AI system, requiring regular systematic review and updating. It shall comprise the following steps: (a) the identification and analysis of the known and the reasonably foreseeable risks that the high-risk AI system can pose to health, safety or fundamental rights when the high-risk AI system is used in accordance with its intended purpose; (b) the estimation and evaluation of the risks that may emerge when the high-risk AI system is used in accordance with its intended purpose, and under conditions of reasonably foreseeable misuse; (c) the evaluation of other risks possibly arising, based on the analysis of data gathered from the post-market monitoring system referred to in Article 72; (d) the adoption of appropriate and targeted risk management measures designed to address the risks identified pursuant to point (a). 3. The risks referred to in this Article shall concern only those which may be reasonably mitigated or eliminated through the development or design of the high-risk AI system, or the provision of adequate technical information. 4. The risk management measures referred to in paragraph 2, point (d), shall give due consideration to the effects and possible interaction resulting from the combined application of the requirements set out in this Section, with a view to minimising risks more effectively while achieving an appropriate balance in implementing the measures to fulfil those requirements. 5. The risk management measures referred to in paragraph 2, point (d), shall be such that the relevant residual risk associated with each hazard, as well as the overall residual risk of the high-risk AI systems is judged to be acceptable. In identifying the most appropriate risk management measures, the following shall be ensured: (a) elimination or reduction of risks identified and evaluated pursuant to paragraph 2 in as far as technically feasible through adequate design and development of the high-risk AI system; (b) where appropriate, implementation of adequate mitigation and control measures addressing risks that cannot be eliminated; (c) provision of information required pursuant to Article 13 and, where appropriate, training to deployers. With a view to eliminating or reducing risks related to the use of the high-risk AI system, due consideration shall be given to the technical knowledge, experience, education, the training to be expected by the deployer, and the presumable context in which the system is intended to be used. 6. High-risk AI systems shall be tested for the purpose of identifying the most appropriate and targeted risk management measures. Testing shall ensure that high-risk AI systems perform consistently for their intended purpose and that they are in compliance with the requirements set out in this Section. 7. Testing procedures may include testing in real-world conditions in accordance with Article 60. 8. The testing of high-risk AI systems shall be performed, as appropriate, at any time throughout the development process, and, in any event, prior to their being placed on the market or put into service. Testing shall be carried out against prior defined metrics and probabilistic thresholds that are appropriate to the intended purpose of the high-risk AI system. 9. When implementing the risk management system as provided for in paragraphs 1 to 7, providers shall give consideration to whether in view of its intended purpose the high-risk AI system is likely to have an adverse impact on persons under the age of 18 and, as appropriate, other vulnerable groups. 10. For providers of high-risk AI systems that are subject to requirements regarding internal risk management processes under other relevant provisions of Union law, the aspects provided in paragraphs 1 to 9 may be part of, or combined with, the risk management procedures established pursuant to that law.",
+          "text": "Article 14 Human oversight 1. High-risk AI systems shall be designed and developed in such a way, including with appropriate human-machine interface tools, that they can be effectively overseen by natural persons during the period in which they are in use. 2. Human oversight shall aim to prevent or minimise the risks to health, safety or fundamental rights that may emerge when a high-risk AI system is used in accordance with its intended purpose or under conditions of reasonably foreseeable misuse, in particular where such risks persist despite the application of other requirements set out in this Section. 3. The oversight measures shall be commensurate with the risks, level of autonomy and context of use of the high-risk AI system, and shall be ensured through either one or both of the following types of measures: (a) measures identified and built, when technically feasible, into the high-risk AI system by the provider before it is placed on the market or put into service; (b) measures identified by the provider before placing the high-risk AI system on the market or putting it into service and that are appropriate to be implemented by the deployer. 4. For the purpose of implementing paragraphs 1, 2 and 3, the high-risk AI system shall be provided to the deployer in such a way that natural persons to whom human oversight is assigned are enabled, as appropriate and proportionate: (a) to properly understand the relevant capacities and limitations of the high-risk AI system and be able to duly monitor its operation, including in view of detecting and addressing anomalies, dysfunctions and unexpected performance; (b) to remain aware of the possible tendency of automatically relying or over-relying on the output produced by a high-risk AI system (automation bias), in particular for high-risk AI systems used to provide information or recommendations for decisions to be taken by natural persons; (c) to correctly interpret the high-risk AI system’s output, taking into account, for example, the interpretation tools and methods available; (d) to decide, in any particular situation, not to use the high-risk AI system or to otherwise disregard, override or reverse the output of the high-risk AI system; (e) to intervene in the operation of the high-risk AI system or interrupt the system through a ‘stop’ button or a similar procedure that allows the system to come to a halt in a safe state. 5. For high-risk AI systems referred to in point 1(a) of Annex III, the measures referred to in paragraph 3 of this Article shall be such as to ensure that, in addition, no action or decision is taken by the deployer on the basis of the identification resulting from the system unless that identification has been separately verified and confirmed by at least two natural persons with the necessary competence, training and authority. The requirement for a separate verification by at least two natural persons shall not apply to high-risk AI systems used for the purposes of law enforcement, migration, border control or asylum, where Union or national law considers the application of this requirement to be disproportionate.",
           "changed": false,
           "change_note": null
         }
       ]
     },
     {
-      "statement": "Deployers of this system that make decisions or assist in making decisions related to natural persons shall inform those persons that they are subject to the use of the high-risk AI system, and deployers that are bodies governed by public law or private entities providing public services shall perform a fundamental rights impact assessment prior to deployment. ,",
+      "statement": "Article 26(11) requires deployers of high-risk AI systems referred to in Annex III that make or assist in making decisions related to natural persons to inform those persons that they are subject to the use of the system",
       "citations": [
         {
           "provision_id": "art_26.11",
@@ -69,7 +69,12 @@
           "text": "11. Without prejudice to Article 50 of this Regulation, deployers of high-risk AI systems referred to in Annex III that make decisions or assist in making decisions related to natural persons shall inform the natural persons that they are subject to the use of the high-risk AI system. For high-risk AI systems used for law enforcement purposes Article 13 of Directive (EU) 2016/680 shall apply.",
           "changed": false,
           "change_note": null
-        },
+        }
+      ]
+    },
+    {
+      "statement": "Article 27(1) requires deployers that are bodies governed by public law or private entities providing public services to perform a fundamental rights impact assessment prior to deploying a high-risk AI system referred to in Article 6(2)",
+      "citations": [
         {
           "provision_id": "art_27.1",
           "citation": "Article 27(1)",
@@ -87,8 +92,8 @@
     "searched_ids": [
       "anx_III",
       "art_6.3",
-      "art_6.1",
       "art_14.5",
+      "art_6.1",
       "art_5.1",
       "art_9.6",
       "art_27.1",
@@ -375,9 +380,9 @@
     ],
     "traversal_enabled": true,
     "truncated": false,
-    "prompt_tokens": 30731,
-    "completion_tokens": 9410,
-    "duration_ms": 76364,
+    "prompt_tokens": 15454,
+    "completion_tokens": 2706,
+    "duration_ms": 27163,
     "model": "annex-qwen3-27b"
   }
 }

@@ -82,3 +82,54 @@ class TestVerify:
 
     def test_a_complete_parse_does_not_raise(self, original: Corpus) -> None:
         verify(original)
+
+
+class TestNoMarkerInAnyProvision:
+    def test_a_real_parse_carries_no_marker(
+        self, original: Corpus, consolidated: Corpus
+    ) -> None:
+        assert not [line for line in disagreements(original) if 'marker' in line]
+        assert not [line for line in disagreements(consolidated) if 'marker' in line]
+
+    def test_a_provision_carrying_a_marker_is_reported(self) -> None:
+        corpus = Corpus(
+            version=CorpusVersion.CONSOLIDATED,
+            provisions=(
+                Provision(
+                    id='art_1',
+                    kind=ProvisionKind.ARTICLE,
+                    number='1',
+                    title='',
+                    text='Providers must comply. ▼M1',
+                    version=CorpusVersion.CONSOLIDATED,
+                ),
+            ),
+        )
+
+        found = disagreements(corpus)
+
+        assert any('art_1' in line and 'marker' in line for line in found)
+
+
+class TestNoSignatureBlockInAnyArticle:
+    def test_a_real_parse_carries_no_signature_block(self, original: Corpus) -> None:
+        assert not [line for line in disagreements(original) if 'signature' in line]
+
+    def test_an_article_carrying_the_signature_block_is_reported(self) -> None:
+        corpus = Corpus(
+            version=CorpusVersion.ORIGINAL,
+            provisions=(
+                Provision(
+                    id='art_113',
+                    kind=ProvisionKind.ARTICLE,
+                    number='113',
+                    title='',
+                    text='This Regulation shall enter into force. Done at Brussels, 13 June 2024.',
+                    version=CorpusVersion.ORIGINAL,
+                ),
+            ),
+        )
+
+        found = disagreements(corpus)
+
+        assert any('art_113' in line and 'signature' in line for line in found)

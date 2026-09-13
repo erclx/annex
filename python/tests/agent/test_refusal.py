@@ -80,6 +80,21 @@ class TestRefusalIsAReturnValue:
 
         assert answer.retrieval.prompt_tokens > 0
 
+    def test_a_refusals_missing_lines_carry_no_bracketed_marker(
+        self, build_pipeline: BuildPipeline
+    ) -> None:
+        pipeline, _ = build_pipeline(
+            [
+                'high-risk classification and substantial modification',
+                'REFUSE\nwhat counts as a substantial modification [1]',
+            ]
+        )
+
+        answer = pipeline.ask(GRANDFATHERING)
+
+        assert answer.refusal is not None
+        assert '[' not in ' '.join(answer.refusal.missing)
+
 
 @pytest.mark.live
 class TestTheDeadlineFlow:

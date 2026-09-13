@@ -20,9 +20,12 @@ ARTICLE_SUBTITLES = '//p[@class="oj-sti-art"]'
 BODY_PARAGRAPHS = '//p[@class="oj-normal"]'
 ANNEX_ANCHORS = '//*[starts-with(@id,"anx_")]'
 RECITAL_ANCHORS = '//*[starts-with(@id,"rct_")]'
+ANNEX_TITLE_LINES = './/p[@class="oj-doc-ti"]'
+SIGNATURE_ANCHORS = '//div[starts-with(@id,"fnp_")]'
 
 _ARTICLE_NUMBER = re.compile(r'Article\s+(\d+[a-z]?)')
 _LEADING_LABEL = re.compile(r'^(\d+[a-z]?)\.\s')
+_STRAY_QUOTE = re.compile(r'[`\'"]+$')
 
 
 def _article_number(heading: HtmlElement) -> str | None:
@@ -38,7 +41,20 @@ def _subtitle_for(
 ) -> str:
     for subtitle in subtitles:
         if start < index.start_of(subtitle) < end:
-            return normalize(subtitle.text_content())
+            return _STRAY_QUOTE.sub('', normalize(subtitle.text_content()))
+    return ''
+
+
+def _annex_title(element: HtmlElement) -> str:
+    """The annex's own heading, stopping before its body.
+
+    The first `oj-doc-ti` line names the number and the second is the
+    descriptive title. Every original-text annex carries both.
+    """
+    headings = element.xpath(ANNEX_TITLE_LINES)
+    descriptive = headings[1:]
+    if descriptive:
+        return normalize(' '.join(line.text_content() for line in descriptive))[:120]
     return ''
 
 
@@ -84,19 +100,14 @@ def _anchored(
     provisions: list[Provision] = []
     for element in root.xpath(xpath):
         number = str(element.get('id')).removeprefix(prefix)
-        text = normalize(element.text_content())
-        title = (
-            text.removeprefix(f'ANNEX {number}').strip()[:120]
-            if kind is ProvisionKind.ANNEX
-            else ''
-        )
+        title = _annex_title(element) if kind is ProvisionKind.ANNEX else ''
         provisions.append(
             Provision(
                 id=f'{prefix}{number}',
                 kind=kind,
                 number=number,
                 title=title,
-                text=text,
+                text=normalize(element.text_content()),
                 version=CorpusVersion.ORIGINAL,
             )
         )
@@ -112,14 +123,20 @@ def parse(document: bytes) -> Corpus:
     subtitles = root.xpath(ARTICLE_SUBTITLES)
     bodies = root.xpath(BODY_PARAGRAPHS)
     annexes = root.xpath(ANNEX_ANCHORS)
+    signatures = root.xpath(SIGNATURE_ANCHORS)
 
     first_annex = min(
         (index.start_of(annex) for annex in annexes),
         default=len(index.text),
     )
+    first_signature = min(
+        (index.start_of(signature) for signature in signatures),
+        default=len(index.text),
+    )
+    last_article_end = min(first_annex, first_signature)
 
     provisions: list[Provision] = []
-    for heading, start, end in spans(index, headings, end=first_annex):
+    for heading, start, end in spans(index, headings, end=last_article_end):
         number = _article_number(heading)
         if number is None:
             continue

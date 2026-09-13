@@ -3,8 +3,12 @@
 The counts are provisions covered rather than chunks produced, and the two
 differ by exactly the splitting. 712 and 585 are what
 `.canon/plans/feature-retrieval-and-the-agent.md` measured, and splitting
-`art_3` in both versions and `art_113` in the original takes the chunk counts
-to 716 and 587 without changing what the set covers.
+`art_3` in both versions used to take the original's chunk count to 716. The
+original's `art_113` split alongside it only because the ingest defect
+`.canon/plans/feature-corpus-and-answer-text.md` fixed put the Official
+Journal's signature block and footnotes inside the article. Article 113 is
+535 characters once that text is gone, so it no longer overflows the budget
+and the original's chunk count is 714.
 
 Token counts are not asserted here. The embedder is the only tokenizer Ollama
 exposes, so the real check needs the model up, and it lives in
@@ -14,7 +18,7 @@ exposes, so the real check needs the model up, and it lives in
 from annex.corpus.models import Corpus
 from annex.retrieval.chunks import CHARACTER_BUDGET, chunk, source_provisions
 
-POINT_SPLIT_PROVISIONS = {'art_3', 'art_113'}
+POINT_SPLIT_PROVISIONS = {'art_3'}
 
 
 class TestCoverage:
