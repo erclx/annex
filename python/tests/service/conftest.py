@@ -11,10 +11,36 @@ from collections.abc import Callable, Iterator
 import pytest
 from fastapi.testclient import TestClient
 
+from annex.agent.pipeline import State
 from annex.answer import Answer, Citation, Claim, Refusal, RetrievalTrace
 from annex.corpus import CorpusVersion, ProvisionKind
 from annex.service import create_app
 from annex.settings import Settings
+
+
+class StubCompiledGraph:
+    """Stands in for `CompiledStateGraph`, yielding a canned node sequence.
+
+    A hand-built fake rather than a real compiled graph, so streaming tests
+    exercise the service's own framing and error handling without a model.
+    It proves the framing, not that the real graph's `stream_mode='updates'`
+    shape matches what this fake assumes.
+    """
+
+    def __init__(self, answer: Answer | None = None) -> None:
+        self.answer = answer
+        self.raises: BaseException | None = None
+
+    def stream(
+        self, initial_state: State, *, stream_mode: str
+    ) -> Iterator[dict[str, State]]:
+        assert stream_mode == 'updates'
+        for node_name in ('route', 'retrieve', 'traverse'):
+            yield {node_name: State()}
+        if self.raises is not None:
+            raise self.raises
+        assert self.answer is not None
+        yield {'synthesize': State(answer=self.answer)}
 
 
 class StubPipeline:
@@ -29,6 +55,7 @@ class StubPipeline:
         self.answer = answer
         self.raises: BaseException | None = None
         self.calls: list[dict[str, object]] = []
+        self.compiled = StubCompiledGraph(answer)
 
     def ask(
         self,

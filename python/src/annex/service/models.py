@@ -58,6 +58,32 @@ class AskRequest(BaseModel):
     traversal: bool = True
 
 
+class StreamNode(BaseModel):
+    """One `event: node` frame, naming the graph node that just completed."""
+
+    model_config = ConfigDict(frozen=True)
+
+    node: str
+
+
+class StreamError(BaseModel):
+    """The one `event: error` frame a stream ends on when a call fails mid-run.
+
+    Mirrors `ServiceError`'s shape, correlation id included. `bound_and_identify`
+    never sees a failure raised inside a `StreamingResponse` body, so the id
+    that reaches this frame is the one the route read before it started
+    streaming, logged separately by whatever raises inside `build_stream`.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    state: ServiceState
+    detail: str
+    correlation_id: str | None = Field(
+        default=None, serialization_alias='correlationId'
+    )
+
+
 class ServiceError(BaseModel):
     """The body every non-200 returns, and the only thing a failure says.
 
