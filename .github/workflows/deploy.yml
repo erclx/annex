@@ -68,6 +68,10 @@ jobs:
       - name: Stamp the manifest with a commit main keeps
         run: |
           COMMIT=$(git log -1 --format=%H -- web/src/fixtures/manifest.json)
+          if [ -z "$COMMIT" ]; then
+            echo "::error::No commit in this checkout's history touches web/src/fixtures/manifest.json. Refusing to ship a blank stamp."
+            exit 1
+          fi
           jq --arg commit "$COMMIT" '.commit = $commit' web/src/fixtures/manifest.json > web/src/fixtures/manifest.json.tmp
           mv web/src/fixtures/manifest.json.tmp web/src/fixtures/manifest.json
 
