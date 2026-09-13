@@ -5,6 +5,7 @@ pipeline's own wiring rather than the model's judgement.
 """
 
 from annex.agent.pipeline import (
+    CUT_DRAFT_MISSING,
     CUT_DRAFT_REASON,
     DENSEST_CHARACTERS_A_TOKEN,
     SCAFFOLDING_TOKENS,
@@ -385,6 +386,7 @@ class TestTheCutRetry:
         assert answer.is_refusal
         assert answer.refusal is not None
         assert answer.refusal.reason == CUT_DRAFT_REASON
+        assert answer.refusal.missing == CUT_DRAFT_MISSING
 
     def test_a_declared_refusal_keeps_its_own_reason_even_if_truncated(
         self, build_pipeline: BuildPipeline

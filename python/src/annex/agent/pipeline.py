@@ -80,6 +80,16 @@ one that finished and cited nothing, and the two are different failures: one
 ran out of room, the other read the provisions and had nothing to say.
 """
 
+CUT_DRAFT_MISSING = ('the rest of the draft, cut off before it named a provision',)
+"""`missing` for a cut draft, replacing the fallback's own line alongside it.
+
+`refusal.missing` and `refusal.reason` render together on the answer surface,
+under one heading each. Swapping the reason without swapping this leaves the
+surface naming "a provision of the Act that addresses the description" under a
+sentence that just said generation never finished, which argues the text is
+silent on something the model was simply cut off before reaching.
+"""
+
 DENSEST_CHARACTERS_A_TOKEN = 2.6
 """The lowest characters-a-token ratio measured on the generation model.
 
@@ -331,7 +341,9 @@ class Pipeline:
             and refusal.reason == FALLBACK_REFUSAL_REASON
             and completion.is_truncated
         ):
-            refusal = refusal.model_copy(update={'reason': CUT_DRAFT_REASON})
+            refusal = refusal.model_copy(
+                update={'reason': CUT_DRAFT_REASON, 'missing': CUT_DRAFT_MISSING}
+            )
         answer = Answer(
             question=state['question'],
             version=state['version'],
