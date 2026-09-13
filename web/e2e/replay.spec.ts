@@ -144,6 +144,12 @@ test.describe('the top of the page at 400 pixels', () => {
   }) => {
     await page.goto(REPLAY_URL)
 
+    // `font-display: swap` paints a metrics-adjusted fallback first and swaps
+    // to the embedded font once it loads, which is itself a layout shift.
+    // Waiting for the swap here is what keeps this measurement about the
+    // shipped font rather than about how fast the woff2 happened to arrive.
+    await page.evaluate(() => document.fonts.ready)
+
     const heading = await page
       .getByRole('heading', { name: /Describe what you are building/ })
       .boundingBox()

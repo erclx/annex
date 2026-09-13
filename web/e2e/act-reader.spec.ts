@@ -167,22 +167,32 @@ test.describe('as an overlay below 1024 pixels', () => {
     await expect(dialog).toHaveAccessibleName(citationName ?? '')
   })
 
-  test('opening a paragraph keeps its article heading in view', async ({
+  test('opening a paragraph keeps its article named at the top of the overlay', async ({
     page,
   }) => {
     await page.goto(REPLAY_URL)
     await page.getByRole('button', { name: RECORDED }).click()
 
-    await page
+    const citation = page
       .getByRole('button', { name: /^Article \d+\(\d+\)$/ })
       .first()
-      .click()
+    const citationText = await citation.textContent()
+    await citation.click()
 
     const dialog = page.getByRole('dialog')
     await expect(dialog).toBeVisible()
-    await expect(
-      dialog.locator('article:has([aria-current="location"]) > h2'),
-    ).toBeInViewport()
+
+    // The overlay carries no section bar, so a paragraph landing without its
+    // article names nothing. Whether the landing scrolls the heading itself
+    // into view depends on whether the paragraph and its heading fit the
+    // overlay together, per `canon/wireframes/answer.md` § Reading the Act,
+    // so this label is what keeps the article named regardless. It is the
+    // one element between the header and the scrolling body, rather than a
+    // role or an accessible name, since it carries neither.
+    const articleNumber = citationText?.match(/^Article (\d+)/)?.[1]
+    const articleLabel = dialog.locator('header + div')
+    await expect(articleLabel).toHaveText(`Article ${articleNumber}`)
+    await expect(articleLabel).toBeInViewport()
   })
 
   test('closing the panel returns to the answer underneath', async ({

@@ -609,7 +609,7 @@ It links to the article, annex, or recital the citation's paragraph sits under, 
 
 - Activating a citation's heading or its excerpt handle scrolls the Act to that provision immediately, with no transition, consistent with the motion rule. At 1024 and wider that moves the pane, and below 1024 it opens the overlay first
 - Docked, a provision reached from a citation, a step, an arrow key or the jump field lands flush at the top of the Act's text, tinted, and the section bar above it names its article
-- The overlay carries no section bar, so there a paragraph lands with its article's heading in view whenever the two fit together, and at its own top only when they do not, since a paragraph read without its article names nothing
+- The overlay carries no section bar, but a one-line label above the text names the open article and stays in view regardless of scroll. A paragraph still lands with its article's heading in view whenever the two fit together, and at its own top only when they do not, since the label is what keeps the article named either way
 - Docked, the left and right arrow keys step the way the section bar's arrows do while the Act's text has focus
 - The provision the Act was scrolled to is held in a tinted background so a reader can find it again after scrolling away
 - Every paragraph, definition and point renders as a block of its own, led by its name in the form the Act cites it, such as `Annex III, point 4(a)`. A landing from an excerpt that opened on a point tints that block rather than the whole provision
