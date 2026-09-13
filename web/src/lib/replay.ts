@@ -66,6 +66,29 @@ export const recordedQuestions: RecordedQuestion[] = manifest.entries
   }))
 
 /**
+ * The description a recorded question id names, for an address carrying one.
+ *
+ * The address holds the id rather than the description, since a description
+ * runs to a sentence and the id is what the recording already keys on.
+ */
+export function recordedDescriptionFor(questionId: string): string | null {
+  return (
+    recordedQuestions.find((question) => question.id === questionId)
+      ?.description ?? null
+  )
+}
+
+/** The recorded question id a description was captured under, if any. */
+export function recordedQuestionIdFor(description: string): string | null {
+  const wanted = normalize(description)
+  return (
+    recordedQuestions.find(
+      (question) => normalize(question.description) === wanted,
+    )?.id ?? null
+  )
+}
+
+/**
  * A recorded answer, or the state saying this deployment does not hold one.
  *
  * Matching is exact on a normalized description rather than nearest-neighbour
