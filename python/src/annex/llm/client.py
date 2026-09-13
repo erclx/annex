@@ -48,7 +48,7 @@ from annex.settings import Settings
 
 logger = logging.getLogger('annex.llm')
 
-_WINDOW_MARGIN = 64
+WINDOW_MARGIN = 64
 """How close to the window counts as having been stopped by it.
 
 The two figures rarely land on the window exactly. A run measured 32 767 of
@@ -140,6 +140,17 @@ class Completion:
         return self.finish_reason == 'length'
 
 
+def hit_the_window(completion: Completion, generation_context: int) -> bool:
+    """Whether a truncated completion used up the context window, not its own budget.
+
+    `_report_a_cut` carries this same arithmetic to decide which line to log.
+    A caller deciding whether a cut draft is worth retrying needs the same
+    answer without re-deriving it.
+    """
+    used = completion.prompt_tokens + completion.completion_tokens
+    return used >= generation_context - WINDOW_MARGIN
+
+
 def split_thinking(content: str) -> tuple[str, str]:
     """Separate a reasoning block from the answer beside it.
 
@@ -216,8 +227,7 @@ class OllamaClient:
         """
         if not completion.is_truncated:
             return
-        used = completion.prompt_tokens + completion.completion_tokens
-        if used >= self.settings.generation_context - _WINDOW_MARGIN:
+        if hit_the_window(completion, self.settings.generation_context):
             logger.error(
                 'the context window stopped generation, not the budget: '
                 '%d prompt plus %d completion against a %d window. '

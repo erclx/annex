@@ -5,6 +5,8 @@ pipeline's own wiring rather than the model's judgement.
 """
 
 from annex.agent.pipeline import (
+    CUT_DRAFT_MISSING,
+    CUT_DRAFT_REASON,
     DENSEST_CHARACTERS_A_TOKEN,
     SCAFFOLDING_TOKENS,
     SYNTHESIS_BUDGET,
@@ -304,6 +306,105 @@ class TestThePromptBudget:
         kept, _ = pipeline._within_budget(citations)
 
         assert [item.provision_id for item in kept] == ['art_5', 'art_3', 'rec_1']
+
+
+class TestTheCutRetry:
+    """A synthesis cut at its own budget gets one retry before it refuses.
+
+    `q04-cv-screening` and `q09-wider-rollout` on the consolidated text both
+    stopped at the 4096-token budget with the thinking block still open, which
+    reads as a refusal with no line the fallback exit can point to. The retry
+    hands the model the room the window has left rather than the fixed budget
+    that just ran out.
+    """
+
+    def test_a_cut_at_the_budget_completed_by_the_retry_reaches_the_answer_exit(
+        self, build_pipeline: BuildPipeline
+    ) -> None:
+        pipeline, client = build_pipeline(
+            ['transparency obligations', 'a cut answer', GROUNDED]
+        )
+        client.finish_reasons = ['stop', 'length', 'stop']
+
+        answer = pipeline.ask(CHATBOT)
+
+        assert not answer.is_refusal
+        assert not answer.retrieval.truncated
+        assert len(client.prompts) == 3
+
+    def test_the_retry_reuses_the_same_prompt(
+        self, build_pipeline: BuildPipeline
+    ) -> None:
+        pipeline, client = build_pipeline(
+            ['transparency obligations', 'a cut answer', GROUNDED]
+        )
+        client.finish_reasons = ['stop', 'length', 'stop']
+
+        pipeline.ask(CHATBOT)
+
+        assert client.prompts[1] == client.prompts[2]
+
+    def test_the_trace_sums_tokens_from_both_calls(
+        self, build_pipeline: BuildPipeline
+    ) -> None:
+        pipeline, client = build_pipeline(
+            ['transparency obligations', 'a cut answer', GROUNDED]
+        )
+        client.finish_reasons = ['stop', 'length', 'stop']
+
+        answer = pipeline.ask(CHATBOT)
+
+        assert answer.retrieval.prompt_tokens == 300
+        assert answer.retrieval.completion_tokens == 60
+
+    def test_a_cut_at_the_window_is_not_retried(
+        self, build_pipeline: BuildPipeline
+    ) -> None:
+        pipeline, client = build_pipeline(['transparency obligations', 'cut at window'])
+        client.finish_reasons = ['stop', 'length']
+        client.prompt_tokens = 32700
+
+        answer = pipeline.ask(CHATBOT)
+
+        assert len(client.prompts) == 2
+        assert answer.retrieval.truncated
+
+    def test_a_draft_cut_twice_with_no_claims_refuses_with_the_cut_reason(
+        self, build_pipeline: BuildPipeline
+    ) -> None:
+        pipeline, client = build_pipeline(
+            [
+                'transparency obligations',
+                'Article 50 applies to your chatbot.',
+                'still cut',
+            ]
+        )
+        client.finish_reasons = ['stop', 'length', 'length']
+
+        answer = pipeline.ask(CHATBOT)
+
+        assert answer.is_refusal
+        assert answer.refusal is not None
+        assert answer.refusal.reason == CUT_DRAFT_REASON
+        assert answer.refusal.missing == CUT_DRAFT_MISSING
+
+    def test_a_declared_refusal_keeps_its_own_reason_even_if_truncated(
+        self, build_pipeline: BuildPipeline
+    ) -> None:
+        pipeline, client = build_pipeline(
+            [
+                'transparency obligations',
+                'a cut answer',
+                'REFUSE\nwhat a substantial modification is',
+            ]
+        )
+        client.finish_reasons = ['stop', 'length', 'length']
+
+        answer = pipeline.ask(CHATBOT)
+
+        assert answer.is_refusal
+        assert answer.refusal is not None
+        assert answer.refusal.reason != CUT_DRAFT_REASON
 
 
 class TestTheTrace:
