@@ -140,6 +140,28 @@ class TestAnnexTitlesStopAtTheHeading:
         assert annex is not None
         assert annex.title == 'List of Union harmonisation legislation'
 
+    def test_a_mislabeled_second_heading_line_still_reads_as_the_title(
+        self, consolidated: Corpus
+    ) -> None:
+        """Annex X's descriptive line is tagged `title-annex-1` rather than `-2`."""
+        annex = consolidated.get('anx_X')
+
+        assert annex is not None
+        assert annex.title == (
+            'Union legislative acts on large-scale IT systems in the area of '
+            'Freedom, Security and Justice'
+        )
+
+    def test_an_annex_with_no_descriptive_heading_keeps_its_first_line(
+        self, consolidated: Corpus
+    ) -> None:
+        """Annex XIV, inserted by the amendment, carries no `title-annex-2` line."""
+        annex = consolidated.get('anx_XIV')
+
+        assert annex is not None
+        assert annex.title.startswith('The list of codes, categories')
+        assert len(annex.title) <= 120
+
 
 class TestArticleOneTitle:
     def test_article_one_carries_its_title(self, consolidated: Corpus) -> None:
