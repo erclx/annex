@@ -29,7 +29,7 @@ import { useScrolledPast } from '@/lib/use-scrolled-past'
 
 /**
  * The empty state's measure beside the pane holding the terms, from
- * `.claude/DESIGN.md` § Layout.
+ * `canon/DESIGN.md` § Layout.
  */
 const SPLIT = 'grid grid-cols-[minmax(0,640px)_minmax(420px,1fr)] items-start'
 
@@ -61,7 +61,7 @@ function citedIn(answer: Answer): CitedProvision[] {
  * A visitor describes a system, and the same page becomes the answer, the
  * refusal, or the failure. At 1024 pixels and wider the Act is a region beside
  * the answer column rather than something over it, and below that width it is
- * an overlay, per `.claude/wireframes/answer.md`. There is still no second
+ * an overlay, per `canon/wireframes/answer.md`. There is still no second
  * screen and no navigation.
  *
  * Every call to the service goes through `@/lib/ask` and nothing here touches

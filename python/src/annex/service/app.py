@@ -3,7 +3,7 @@
 `POST /ask` takes a described system and returns the answer object the agent
 produces, unchanged. A refusal comes back as a populated `refusal` on a 200,
 because refusing is a result here rather than a failure, per the refusal
-decision in `.claude/ARCHITECTURE.md`. A transport that mapped it to a 4xx
+decision in `canon/ARCHITECTURE.md`. A transport that mapped it to a 4xx
 would have quietly turned the product's argument into an error, so a test
 asserts the status and not only the shape.
 

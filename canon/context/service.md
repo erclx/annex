@@ -27,9 +27,9 @@ An eighth, `unrecorded`, belongs to the deployed build alone and no server write
 | `failed`      | 500, `{ state, detail, correlationId }`  | Anything unexpected, with no internals in `detail`  |
 | `unreachable` | no response, `fetch` rejected            | Nothing is listening on the service port            |
 
-**A refusal is a 200 carrying a populated `refusal`, never a 4xx.** Refusing where the text does not settle a question is the product's argument, per the refusal decision in `.claude/ARCHITECTURE.md`, and a transport mapping it to an error would have turned that argument into a fault. `python/tests/service/test_states.py` asserts the status rather than the shape alone, because the shape alone passes on a transport that got this wrong.
+**A refusal is a 200 carrying a populated `refusal`, never a 4xx.** Refusing where the text does not settle a question is the product's argument, per the refusal decision in `canon/ARCHITECTURE.md`, and a transport mapping it to an error would have turned that argument into a fault. `python/tests/service/test_states.py` asserts the status rather than the shape alone, because the shape alone passes on a transport that got this wrong.
 
-`detail` is a fixed sentence per state, written in `annex.service.errors` rather than taken from an exception. The reader-facing copy the surface actually renders lives in `.claude/wireframes/answer.md` and is quoted there verbatim, so a sentence changed in one place is a change to the other.
+`detail` is a fixed sentence per state, written in `annex.service.errors` rather than taken from an exception. The reader-facing copy the surface actually renders lives in `canon/wireframes/answer.md` and is quoted there verbatim, so a sentence changed in one place is a change to the other.
 
 `unreachable` is the one row no server writes. It is what `web/src/lib/ask.ts` returns when the fetch itself rejected, and it is the only failure carrying no correlation id, since nothing answered and so nothing logged one.
 
@@ -86,7 +86,7 @@ The browser reaches the service directly rather than through a Next route handle
 
 ## How the two halves deploy
 
-**The web build deploys first, or both deploy together.** `web/src/lib/answer.ts` is generated strict, so a client rejecting an unknown field rejects the whole response rather than degrading, and a field added to the Pydantic models and deployed ahead of the web build fails every request at runtime. `.claude/context/development.md` carries the measurement behind that, which is `RetrievalTrace` gaining `dropped_ids` and `truncated` inside one week.
+**The web build deploys first, or both deploy together.** `web/src/lib/answer.ts` is generated strict, so a client rejecting an unknown field rejects the whole response rather than degrading, and a field added to the Pydantic models and deployed ahead of the web build fails every request at runtime. `canon/context/development.md` carries the measurement behind that, which is `RetrievalTrace` gaining `dropped_ids` and `truncated` inside one week.
 
 This row ships both halves on one branch, so they land together and the coupling is satisfied by construction rather than by anyone remembering it. A later change touching the Pydantic models alone does not have that protection.
 
@@ -94,7 +94,7 @@ This row ships both halves on one branch, so they land together and the coupling
 
 The seam above describes a local run. A deployed build has no service on the other side of it, because the model this project runs holds 30 GB of a card and nothing hosted answers these questions for free. What ships instead is a static export that replays answers the live system already gave.
 
-The swap sits in one module. `web/src/lib/ask.ts` returns to `replay` when `NEXT_PUBLIC_ANNEX_MODE` reads `replay`, and `web/src/lib/replay.ts` is the only module that knows fixtures exist. Nothing above either one changes: the surface reads the same `AskResult` union, which is what that seam was drawn for and what `.claude/wireframes/answer.md` was built against.
+The swap sits in one module. `web/src/lib/ask.ts` returns to `replay` when `NEXT_PUBLIC_ANNEX_MODE` reads `replay`, and `web/src/lib/replay.ts` is the only module that knows fixtures exist. Nothing above either one changes: the surface reads the same `AskResult` union, which is what that seam was drawn for and what `canon/wireframes/answer.md` was built against.
 
 **The fixtures come from the pipeline, not from a hand.** `uv run python -m annex capture` walks the same twelve questions the evaluation scores, calls `Pipeline.ask` in process on each version, and writes one `Answer` per pair into `web/src/fixtures/` with a manifest carrying the commit and the date. In process rather than over HTTP, because this service defines no response model of its own and returns that same object, so the transport would add a hop and no fidelity. The recorded walkthrough is what proves the HTTP path live.
 
@@ -107,5 +107,5 @@ The union gained an eighth result for this build alone. `unrecorded` is what a d
 ## What is not built
 
 - No rate limit. The endpoint costs GPU time rather than money, one card holds one model, and two concurrent asks queue inside Ollama rather than multiplying. `OLLAMA_NUM_PARALLEL` is where a limit would go if a demo turns out to need one
-- No authentication. Accounts and multi-tenancy are deferred in `.claude/REQUIREMENTS.md`, so there is no caller identity to authorize against and no record a caller could reach that another could not
+- No authentication. Accounts and multi-tenancy are deferred in `canon/REQUIREMENTS.md`, so there is no caller identity to authorize against and no record a caller could reach that another could not
 - No retry. An ask is not idempotent in cost, and the failure states name what to do instead

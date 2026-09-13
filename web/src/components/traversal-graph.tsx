@@ -10,7 +10,7 @@ const NODE_LABEL_OFFSET = 9
  *
  * Picked by looking, per Step 4 of `canon:draft-and-pick`, against a baseline
  * of the three id lists, a non-layered hand-drawn arrangement, and a
- * `d3-hierarchy` tree. Recorded in `.claude/ARCHITECTURE.md` against what it
+ * `d3-hierarchy` tree. Recorded in `canon/ARCHITECTURE.md` against what it
  * beat. Hop is already computed by the walk, so the column assignment here is
  * arithmetic rather than a layout algorithm, and a dropped provision draws as
  * a dashed outline at its own hop rather than being omitted, since the budget

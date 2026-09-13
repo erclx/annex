@@ -1,6 +1,6 @@
 """The untrusted input, refused at the boundary rather than inside the pipeline.
 
-`.claude/ARCHITECTURE.md` names the user's own description as the one untrusted
+`canon/ARCHITECTURE.md` names the user's own description as the one untrusted
 input this project takes. Every case here asserts the same two things: the
 response is the `invalid` state, and the pipeline was never called.
 """

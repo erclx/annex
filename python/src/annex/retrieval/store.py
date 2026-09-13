@@ -1,7 +1,7 @@
 """The vector index, as one SQLite file beside the corpus cache.
 
 `sqlite-vec` rather than `pgvector`, settled by measurement rather than by
-preference and recorded in `.claude/ARCHITECTURE.md`. It was exercised on this
+preference and recorded in `canon/ARCHITECTURE.md`. It was exercised on this
 interpreter rather than assumed, which is the check `networkx` failed:
 `sqlite_vec` 0.1.9 loads on Python 3.14.1, `vec_version()` returns `v0.1.9`,
 and a `vec0` virtual table over `float[1024]` is created against SQLite 3.50.4.

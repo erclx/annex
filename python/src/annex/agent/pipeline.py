@@ -6,8 +6,8 @@ citations outward, and synthesize drafts statements against what was gathered.
 The conditional edge runs after synthesis: an answer whose claims do not
 survive grounding leaves through refusal rather than through the answer path.
 
-`.claude/REQUIREMENTS.md` names LangGraph under Tech stack rather than among
-the open risks `.claude/ARCHITECTURE.md` tracks, so it is a commitment rather
+`canon/REQUIREMENTS.md` names LangGraph under Tech stack rather than among
+the open risks `canon/ARCHITECTURE.md` tracks, so it is a commitment rather
 than an unfilled slot. What it buys at this size is small and worth naming: the
 state object is explicit rather than a set of arguments threaded through calls,
 which is where `RetrievalTrace` is filled without every stage passing it along

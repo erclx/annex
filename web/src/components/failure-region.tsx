@@ -20,7 +20,7 @@ type FailureState = Extract<
  * failure to a reader, being the region where an answer would have been.
  *
  * These sentences are owned by the service seam and quoted in
- * `.claude/wireframes/answer.md`. A change to them here is a change to that
+ * `canon/wireframes/answer.md`. A change to them here is a change to that
  * file.
  */
 const COPY: Record<FailureState, { headline: string; next: string }> = {

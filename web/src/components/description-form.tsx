@@ -6,7 +6,7 @@ import type { ReactNode } from 'react'
  * The last sentence of the supporting text is compliance work rather than tone
  * work. No label, heading, or button on this surface may imply a verdict on
  * whether an organization complies, and stating the boundary before a visitor
- * has asked anything is where `.claude/wireframes/answer.md` puts it.
+ * has asked anything is where `canon/wireframes/answer.md` puts it.
  *
  * `choices` is the version and traversal row the page places here below 1024
  * pixels before anything is asked, directly under the description where the

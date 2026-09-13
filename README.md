@@ -36,7 +36,7 @@ Where the retrieval arms now stop is worth more than the headline, and it is not
 
 Refusal is still the weakest thing measured. Across eighteen chances to refuse a question the text does not settle, the arms took five. Refusing wrongly improved sharply, from eight false refusals to one, and the pattern where every retrieval arm refused the flow asking what the amendment changed is gone. Saying both is the point of running the evaluation rather than asserting the design. [docs/evaluation.md](docs/evaluation.md) carries the numbers, the depth sensitivity, the prompt-cache measurement and which production concerns were built against which were only reasoned about.
 
-The web surface is built and calls the agent over HTTP. A description goes to a FastAPI endpoint, the answer object comes back, and the page renders the claims with each cited provision quoted under the claim it supports. Activating a citation opens the Act itself, both versions, scrolled to that exact provision, as a panel over the answer rather than a second screen. A refusal renders as a result rather than an error, and a backend that is down, slow, or erroring lands as one of four named states rather than a stalled spinner. `.claude/wireframes/answer.md` carries the layout and every state it has to show, and `.claude/context/service.md` carries the seam between the two halves.
+The web surface is built and calls the agent over HTTP. A description goes to a FastAPI endpoint, the answer object comes back, and the page renders the claims with each cited provision quoted under the claim it supports. Activating a citation opens the Act itself, both versions, scrolled to that exact provision, as a panel over the answer rather than a second screen. A refusal renders as a result rather than an error, and a backend that is down, slow, or erroring lands as one of four named states rather than a stalled spinner. `canon/wireframes/answer.md` carries the layout and every state it has to show, and `canon/context/service.md` carries the seam between the two halves.
 
 ## The deployed page is a recording
 
@@ -89,7 +89,7 @@ The surface calls the endpoint, so both have to be running to ask a question in 
 
 A question runs through four stages. It is restated in the Act's own vocabulary, searched against the index, expanded over the citations the retrieved provisions carry, and answered. Every claim is then checked against the text it cites, and one that cannot be grounded is dropped rather than softened. An answer with nothing left becomes a refusal, and so does an answer to a question about when an obligation applies that gives no date the text it cites carries.
 
-`docs/evaluation.md` carries the measured comparison between the three arms and how to reproduce it. `.claude/ARCHITECTURE.md` carries the decisions and what's still open. `.claude/REQUIREMENTS.md` carries the scope. `.claude/context/ai-act.md` carries the corpus itself: the amended deadlines, the reference structure, and the claims this project does not make. `.claude/context/retrieval.md` carries the chunking rule, the traversal decision and the measurements behind both. `.claude/wireframes/answer.md` carries the answer surface and every state it has to show, and `.claude/DESIGN.md` the tokens behind it.
+`docs/evaluation.md` carries the measured comparison between the three arms and how to reproduce it. `canon/ARCHITECTURE.md` carries the decisions and what's still open. `canon/REQUIREMENTS.md` carries the scope. `canon/context/ai-act.md` carries the corpus itself: the amended deadlines, the reference structure, and the claims this project does not make. `canon/context/retrieval.md` carries the chunking rule, the traversal decision and the measurements behind both. `canon/wireframes/answer.md` carries the answer surface and every state it has to show, and `canon/DESIGN.md` the tokens behind it.
 
 ## What it doesn't do
 
@@ -100,4 +100,4 @@ A question runs through four stages. It is restated in the Act's own vocabulary,
 
 ## Help
 
-Open an issue. `.claude/context/` carries the per-domain detail if you're working on it rather than using it.
+Open an issue. `canon/context/` carries the per-domain detail if you're working on it rather than using it.

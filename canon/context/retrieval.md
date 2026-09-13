@@ -493,7 +493,7 @@ back alongside `context_length` from `/api/ps`:
 | A model built from a Modelfile carrying `PARAMETER num_ctx` | Yes      |
 
 The `/v1` route accepts the `options` block and discards it, with no error and
-no change to what the runner loaded. `.claude/context/development.md` fixes the
+no change to what the runner loaded. `canon/context/development.md` fixes the
 transport as the OpenAI SDK against `/v1`, so the Modelfile is the route taken.
 `python/ollama/annex-qwen3-27b.Modelfile` is the tracked artifact,
 `python/scripts/ollama-build.sh` builds it, and `OllamaClient.verify_context`
@@ -545,7 +545,7 @@ the trace rather than hidden inside one shared table.
   the model cold, against 10.6 seconds under `nomic-embed-text` with that model
   already resident. Neither figure is the other's cold or warm counterpart, so
   read the gap as two models rather than as a slowdown. The few minutes this
-  entry and the setup step in `.claude/context/development.md` both carried was
+  entry and the setup step in `canon/context/development.md` both carried was
   never measured at all
 - **One writer, four readers.** `embed` writes the index, and `search`,
   `traverse`, the agent and the evaluation read it. A rule about chunk ids or the

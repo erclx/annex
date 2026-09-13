@@ -3,7 +3,7 @@
  * into one list rather than marked inline.
  *
  * An inline hover definition was drafted and dropped: it would be a second
- * overlay on a surface `.claude/wireframes/answer.md` § Reading the Act allows
+ * overlay on a surface `canon/wireframes/answer.md` § Reading the Act allows
  * one, the Act below 1024 pixels. A gathered list needs no hover state and no
  * second overlay, so it sits in the pane before anything is asked, and under
  * the recorded picks where there is no pane.

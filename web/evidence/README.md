@@ -25,7 +25,7 @@ the harness rather than read off the recording.
 
 Both themes, symmetrically, because both ship and neither is a variant of the
 other. The dark theme re-values every role rather than inverting the light one,
-and `.claude/DESIGN.md` records contrast measured separately for each, so a
+and `canon/DESIGN.md` records contrast measured separately for each, so a
 regression in one is invisible in a capture of the other.
 
 They sit under `web/` rather than under the repository's `docs/` because of who
@@ -38,7 +38,7 @@ The folder is not called `screenshots/`, which would be the obvious name, becaus
 covers the harness output and is deliberate, so this folder is named for what it
 holds instead.
 
-Every state `.claude/wireframes/answer.md` names appears here except the
+Every state `canon/wireframes/answer.md` names appears here except the
 moved-citation one, which is folded into the answered capture because it renders
 on top of an answer rather than instead of it.
 
@@ -89,7 +89,7 @@ from a number rather than an impression.
 layout, carrying both themes in one self-contained file. Open it in a browser
 beside a capture above. It is the source for the type scale, the spacing, the
 segmented control, the drawn switch, the citation treatments and the trace grid,
-none of which `.claude/DESIGN.md` states at that resolution.
+none of which `canon/DESIGN.md` states at that resolution.
 
 It is committed here because the folder it came from is not durable. The rounds
 were written to `.canon/`, which is gitignored and reaches no history, and
@@ -97,7 +97,7 @@ were written to `.canon/`, which is gitignored and reaches no history, and
 resolves on the machine that ran the pick and nowhere else, which is how the
 first version of this surface came to be built without ever seeing the design.
 
-`.claude/wireframes/answer.md` still owns layout and copy and is the record that
+`canon/wireframes/answer.md` still owns layout and copy and is the record that
 wins on any disagreement. This file owns what that one does not draw.
 
 ## Regenerating these

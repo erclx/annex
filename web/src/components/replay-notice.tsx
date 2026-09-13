@@ -21,7 +21,7 @@ import { useDocked } from '@/lib/use-docked'
  *
  * The date and the commit are read off the capture manifest rather than typed,
  * so a re-capture moves them and a stale recording cannot claim to be fresh.
- * Copy is owned by `.claude/wireframes/answer.md`.
+ * Copy is owned by `canon/wireframes/answer.md`.
  */
 export function ReplayNotice() {
   const docked = useDocked()

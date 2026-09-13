@@ -9,7 +9,7 @@ import type { NextConfig } from 'next'
  * sets the flag, and only that build is static.
  *
  * The export needs no path prefix. A Cloudflare custom domain serves at a bare
- * origin, which is what `.claude/context/service.md` records the deploy as.
+ * origin, which is what `canon/context/service.md` records the deploy as.
  */
 const replaying = process.env.NEXT_PUBLIC_ANNEX_MODE === 'replay'
 

@@ -97,7 +97,7 @@ Base unit 8px.
 
 ## Layout
 
-Picked by looking against real content, and `.claude/context/design-references.md` holds the measured sites each rule answers to.
+Picked by looking against real content, and `canon/context/design-references.md` holds the measured sites each rule answers to.
 
 - The answer column opens at a reading measure of 640px. A reader sets it anywhere from 480px to 760px from the handle between the columns, the width is remembered, and it never follows the viewport
 - The pane beside it takes the remaining width, with a floor of 420px
@@ -106,7 +106,7 @@ Picked by looking against real content, and `.claude/context/design-references.m
 - The pane stays in view under the pinned bar, fills the height left below it, and scrolls inside itself
 - Content starts from the page's left gutter under a full-width top bar, with no centered container
 
-The column range and the pinned bar were picked by looking in the operator's first-use pass, recorded in `.claude/ARCHITECTURE.md` under frontend scope, against a fixed split, a split with preset widths, and a single toggle between two widths.
+The column range and the pinned bar were picked by looking in the operator's first-use pass, recorded in `canon/ARCHITECTURE.md` under frontend scope, against a fixed split, a split with preset widths, and a single toggle between two widths.
 
 ## Motion
 
@@ -130,7 +130,7 @@ The scaffold shipped a stock favicon and five unused sample SVGs, two of them na
 
 The mark was picked by looking, not argued into place. Four arms went through `canon:draft-identity`'s render-and-pick loop, each a different shape holding the card's type and layout fixed: a stylized paragraph mark, a vertical citation-rule tab reusing the app's own `cite rule` token, a small reference graph of three nodes and two edges, and an "A" built from two facing article brackets. The operator picked the reference graph on 2026-09-12, against its own stated cost, that a node-and-edge glyph reads close to a generic network icon unless the weight is held tight.
 
-The pick ties to the one place this corpus visibly does more than search: the graph in `.claude/ARCHITECTURE.md` walks the Act's own cross-references outward from a semantic-search start, and the mark draws that walk as three points and two edges, the third node in `accent` to echo the citation and link color rather than reading as a plain diagram.
+The pick ties to the one place this corpus visibly does more than search: the graph in `canon/ARCHITECTURE.md` walks the Act's own cross-references outward from a semantic-search start, and the mark draws that walk as three points and two edges, the third node in `accent` to echo the citation and link color rather than reading as a plain diagram.
 
 Construction: `ink` (`#1A1917`) strokes and fills, `accent` (`#2B4C7E`) on one node only, transparent ground, drawn at a 100-unit viewBox so the same path scales from a 16px favicon to the 512px icon and the 96px chip on the social card. `web/public/favicon.svg` is the vector source, and `metadata.icons` lists it ahead of every raster size, so a browser that reads SVG favicons never touches the rest of the set. `web/public/icon-32x32.png` through `icon-512x512.png` and `web/public/og-image.png` are rendered from it via `canon capture`, at the stroke weight the icon set uses (6, heavier than the card's own 4) so the shape survives being small.
 

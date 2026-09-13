@@ -1,6 +1,6 @@
 """The reference graph carries the edges the text writes, and only those.
 
-The chain `.claude/context/ai-act.md` describes runs from Article 6 through
+The chain `canon/context/ai-act.md` describes runs from Article 6 through
 Annex III to the obligation articles and on to conformity assessment. Two
 halves of that are tested separately here, because they are not equally true.
 The obligation articles and Article 43 are reachable from Article 6 over

@@ -9,7 +9,7 @@ export type ThemeChoice = 'system' | 'light' | 'dark'
 /**
  * Three marks drawn inline rather than pulled from an icon set.
  *
- * `.claude/DESIGN.md` bans an icon library outright and permits a drawn shape,
+ * `canon/DESIGN.md` bans an icon library outright and permits a drawn shape,
  * which is what the traversal switch already is. These are the same kind of
  * mark: three paths in the file that uses them, no package, nothing added to
  * the manifest. They carry `aria-hidden` because the button they sit in is

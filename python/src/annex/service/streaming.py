@@ -6,7 +6,7 @@ adds no second path through the graph: `stream_mode='updates'` yields one
 graph itself runs them, so framing that sequence is all this module does.
 
 `synthesize` always sets `answer` on the state, refusal included, per the
-refusal decision in `.claude/ARCHITECTURE.md`. The generator does not stop the
+refusal decision in `canon/ARCHITECTURE.md`. The generator does not stop the
 moment that key appears: it drains the graph to exhaustion first, so a refused
 question still reaches its `refuse` node frame, the one place the system's
 judgment that the text does not settle the question becomes visible, before

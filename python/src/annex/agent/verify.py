@@ -227,7 +227,7 @@ def verify(answer: Answer, *, threshold: float = GROUNDING_THRESHOLD) -> Answer:
     """Drop every ungrounded claim, and refuse where that leaves nothing.
 
     A refusal is a return value rather than an error, per the refusal decision
-    in `.claude/ARCHITECTURE.md`, and it carries the citations that were read
+    in `canon/ARCHITECTURE.md`, and it carries the citations that were read
     so it is evidenced rather than asserted.
 
     Two of the pipeline's four refusal exits are here, and each logs which one

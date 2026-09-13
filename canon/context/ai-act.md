@@ -31,7 +31,7 @@ AI Office supervision and enforcement powers began on 2 August 2026.
 
 ## Reference structure
 
-The Act carries its cross-references in the text, as sentences naming another article, annex or definition. That is what makes the reference graph a parsing job rather than an extraction job, and it is the property `.claude/ARCHITECTURE.md` rests the graph decision on.
+The Act carries its cross-references in the text, as sentences naming another article, annex or definition. That is what makes the reference graph a parsing job rather than an extraction job, and it is the property `canon/ARCHITECTURE.md` rests the graph decision on.
 
 The chain that matters most, and the one the traversal demo runs on. Two different things are drawn here and they do not share a route, so each arrow says which it is. Measured on 2026-09-05.
 
@@ -85,7 +85,7 @@ The record carried three figures for one document and none of them said which pr
 | Words of parsed provision text | 89 825   | 60 142       | Articles, annexes and recitals as the loader yields them               |
 | Words the baseline arm sends   | 90 743   | 60 541       | The above, plus each block's citation line and its bracket number      |
 
-The middle row is the one every token figure in the record rests on: 581 082 characters of original and 384 515 of consolidated, which is what came back as 114 720 and 77 040 prompt tokens. The figure of 90 483 that `README.md`, `.claude/REQUIREMENTS.md` and `.claude/ARCHITECTURE.md` carry is the Act's own commonly quoted length and answers none of these three predicates exactly. It is kept because it is what a reader outside the project recognizes, and it is never the denominator of anything computed here.
+The middle row is the one every token figure in the record rests on: 581 082 characters of original and 384 515 of consolidated, which is what came back as 114 720 and 77 040 prompt tokens. The figure of 90 483 that `README.md`, `canon/REQUIREMENTS.md` and `canon/ARCHITECTURE.md` carry is the Act's own commonly quoted length and answers none of these three predicates exactly. It is kept because it is what a reader outside the project recognizes, and it is never the denominator of anything computed here.
 
 ### What the full-context arm actually sends
 
