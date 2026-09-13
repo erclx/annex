@@ -65,6 +65,12 @@ async function serviceAnswers(page: Page, body: unknown, status = 200) {
   })
 }
 
+/** An answer long enough that the page scrolls at a 1280 by 860 window. */
+const LONG_ANSWER = {
+  ...ANSWER,
+  claims: Array.from({ length: 10 }, () => ANSWER.claims[0]),
+}
+
 async function describeSystem(page: Page, text = 'a customer chatbot') {
   await page.getByLabel('Describe your system').fill(text)
   await page.getByRole('button', { name: 'Find the articles' }).click()
@@ -306,4 +312,100 @@ test('a citation carries a quieter EUR-Lex link beside its heading', async ({
     'href',
     'https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:02024R1689-20260727#art_50',
   )
+})
+
+test.describe('the frame at 1280 pixels', () => {
+  test.use({ viewport: { width: 1280, height: 860 } })
+
+  test('the top bar stays pinned and slims once the answer scrolls under it', async ({
+    page,
+  }) => {
+    await serviceAnswers(page, LONG_ANSWER)
+    await page.goto('/')
+    await describeSystem(page)
+    await expect(page.getByRole('contentinfo')).toBeVisible()
+
+    await page.mouse.wheel(0, 900)
+
+    const banner = page.getByRole('banner')
+    await expect.poll(async () => (await banner.boundingBox())?.y).toBe(0)
+    await expect(banner.getByRole('link', { name: 'Repository' })).toHaveCount(
+      0,
+    )
+    await expect(
+      banner.getByRole('group', { name: 'Which text to read against' }),
+    ).toBeInViewport()
+  })
+
+  test('the docked pane ends at the fold before the page scrolls', async ({
+    page,
+  }) => {
+    await serviceAnswers(page, LONG_ANSWER)
+    await page.goto('/')
+    await describeSystem(page)
+
+    const pane = page.getByRole('complementary', { name: 'The Act' })
+    await expect(pane).toBeVisible()
+
+    await expect
+      .poll(async () => {
+        const box = await pane.boundingBox()
+        return box ? Math.round(box.y + box.height) : Infinity
+      })
+      .toBeLessThanOrEqual(861)
+  })
+
+  test('the column handle resizes the answer and the width holds through a reload', async ({
+    page,
+  }) => {
+    await serviceAnswers(page, ANSWER)
+    await page.goto('/')
+    await describeSystem(page)
+
+    const handle = page.getByRole('separator', {
+      name: 'Resize the answer and the Act',
+    })
+    const box = await handle.boundingBox()
+    const x = (box?.x ?? 0) + (box?.width ?? 0) / 2
+    const y = (box?.y ?? 0) + 200
+    await page.mouse.move(x, y)
+    await page.mouse.down()
+    await page.mouse.move(x - 120, y, { steps: 6 })
+    await page.mouse.up()
+
+    await expect(handle).toHaveAttribute('aria-valuenow', '520')
+
+    await page.reload()
+
+    await expect
+      .poll(() =>
+        page.evaluate(() =>
+          document.documentElement.style.getPropertyValue(
+            '--annex-answer-width',
+          ),
+        ),
+      )
+      .toBe('520px')
+  })
+
+  test('the column handle stops at 480 pixels and resets on a double-click', async ({
+    page,
+  }) => {
+    await serviceAnswers(page, ANSWER)
+    await page.goto('/')
+    await describeSystem(page)
+
+    const handle = page.getByRole('separator', {
+      name: 'Resize the answer and the Act',
+    })
+    await handle.focus()
+    for (const _ of Array.from({ length: 12 }))
+      await page.keyboard.press('ArrowLeft')
+
+    await expect(handle).toHaveAttribute('aria-valuenow', '480')
+
+    await handle.dblclick()
+
+    await expect(handle).toHaveAttribute('aria-valuenow', '640')
+  })
 })
