@@ -500,6 +500,10 @@ export function ActReader({
           </button>
         </header>
 
+        <div className="sticky top-0 z-10 border-b border-rule-soft bg-paper px-6 py-2 font-mono text-[10.5px] tracking-[0.08em] text-muted uppercase">
+          {sections[openIndex]?.heading.citation}
+        </div>
+
         <div ref={bodyRef} className="flex-1 overflow-y-auto px-6 py-6">
           {text}
         </div>

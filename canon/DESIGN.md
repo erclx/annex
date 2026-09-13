@@ -61,6 +61,8 @@ Three stacks carry the whole surface. The sans is the interface talking, the ser
 
 The serif family is tagged because no render has confirmed it. `fc-match Georgia` on the machine this was drawn on substitutes Noto Serif, so every judgement made about the Act's voice was made against a stand-in. The hierarchy holds either way, and which serif actually ships is undecided.
 
+The sans stack no longer carries that same tag. `fc-match` against every name in the stack below resolved to Noto Sans on the machine this was drawn on, and, measured on 2026-09-14, to DejaVu Sans on the GitHub-hosted runner this project's CI runs on. Two font files behind one shared name is what moved a wrapped line at 400 pixels and failed `web/e2e/replay.spec.ts:111` on the runner alone. `web/src/app/layout.tsx` self-hosts Noto Sans, the family this entry already named as the stand-in, so the row below does not change: `--font-sans` in `web/src/app/globals.css` reads the embedded family first and keeps the same stack after it as the fallback for the one render before the embedded font arrives. Every weight, size and line height judgement recorded here was made against Noto Sans under whichever name resolved it, so pinning that family is a correction to how it ships rather than a new decision about what it is. Measured in PR #36 on 2026-09-14.
+
 | Role       | Family                                                            | Weight | Size   | Line height |
 | ---------- | ----------------------------------------------------------------- | ------ | ------ | ----------- |
 | display    | `system-ui, -apple-system, "Segoe UI", Roboto, sans-serif`        | 600    | 26px   | 1.35        |
