@@ -70,6 +70,7 @@ typegen
 unstub
 usefixtures
 uvicorn
+valuenow
 vec
 venv
 wireframe

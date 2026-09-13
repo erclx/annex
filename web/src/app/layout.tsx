@@ -45,11 +45,19 @@ export const metadata: Metadata = {
  * A reader who has chosen nothing gets no attribute, and the media query in
  * `globals.css` decides. That is what keeps the system setting the default
  * rather than a stored value nobody set.
+ *
+ * The answer column's stored width lands the same way, as the custom property
+ * `web/src/lib/use-column-width.ts` also writes, and only inside the 480 to 760
+ * pixel range that store holds, so a hand-edited value cannot break the split.
  */
-const APPLY_THEME = `
+const APPLY_STORED_CHOICES = `
 try {
   var t = localStorage.getItem('annex-theme')
   if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t
+} catch (e) {}
+try {
+  var w = Number(localStorage.getItem('annex-column-width'))
+  if (w >= 480 && w <= 760) document.documentElement.style.setProperty('--annex-answer-width', w + 'px')
 } catch (e) {}
 `
 
@@ -57,7 +65,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html lang="en" className="h-full antialiased" suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: APPLY_THEME }} />
+        <script dangerouslySetInnerHTML={{ __html: APPLY_STORED_CHOICES }} />
       </head>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
