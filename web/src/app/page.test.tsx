@@ -93,6 +93,21 @@ describe('the empty state', () => {
       screen.getByText(/It does not tell you whether you comply/),
     ).toBeInTheDocument()
   })
+
+  it('offers the recorded picks without replay mode on', () => {
+    render(<Home />)
+
+    expect(
+      screen.getByText('Or read one of the recorded questions'),
+    ).toBeInTheDocument()
+  })
+
+  it('gathers the load-bearing terms into a strip', () => {
+    render(<Home />)
+
+    expect(screen.getByText('Terms used on this page')).toBeInTheDocument()
+    expect(screen.getByText('High risk')).toBeInTheDocument()
+  })
 })
 
 describe('the invalid state', () => {

@@ -430,7 +430,9 @@ At 1024 and wider the Act is the pane, a region of the one screen rather than so
 
 The Act holds one version's whole text, in document order, as headings with their numbered paragraphs nested under each one. An article, annex or recital carrying no numbered paragraph renders its own text in that heading's place, which is every annex and recital and the small minority of articles with none.
 
-A quieter `EUR-Lex ↗` control sits beside each citation's heading and leaves the page rather than opening the Act. The heading stays the loud control that keeps a reader here, and EUR-Lex is the way out for a reader who wants the source of record. It links to the article the citation's paragraph sits under, since the source anchors only at that level, and lands at the top of the document for the six articles the amendment inserted, `4a`, `60a`, `75a`, `75b`, `75c` and `75d`, which carry no anchor.
+A quieter `EUR-Lex ↗` control sits beside the heading, on every citation, and leaves the page rather than opening the panel: the heading stays the loud control that keeps a reader here, and EUR-Lex is the escape hatch for one who wants the source of record instead. It opens in the same tab, per the project's own link-behavior rule.
+
+It links to the article, annex, or recital the citation's paragraph sits under, since the source HTML anchors each at that level. It lands at the document root only for a citation carrying none of those three kinds, which no provision this project indexes does.
 
 ### Copy
 
