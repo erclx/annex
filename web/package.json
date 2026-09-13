@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "generate:answer": "bun scripts/generate-answer.ts && prettier --write --log-level warn src/lib/answer.ts",
+    "generate:social-card": "bun scripts/generate-social-card.ts",
     "typecheck": "tsc --noEmit",
     "typegen": "next typegen",
     "lint": "eslint . --max-warnings 0",
