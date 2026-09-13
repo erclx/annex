@@ -380,8 +380,8 @@ def render(results: Sequence[Result], depths: Sequence[DepthRow] = ()) -> str:
             'than retrieval failing to reach it. It is soft in the middle: '
             'an answer resting every claim on one gold article of eleven '
             'reads high on the share while missing ten, which is why the '
-            "no-gold count sits beside it. It excludes an arm's correct "
-            'refusals from both the mean and the count, the way '
+            'no-gold count sits beside it. It excludes every refusal, '
+            'correct or false, from both the mean and the count, the way '
             'faithfulness excludes them, since neither column has a claim '
             'to score there.',
             '- The two refusal columns run over different denominators and '
