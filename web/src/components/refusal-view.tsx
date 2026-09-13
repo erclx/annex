@@ -53,6 +53,7 @@ export function RefusalView({
             key={citation.provision_id}
             citation={citation}
             onOpen={onOpenProvision}
+            lines={3}
           />
         ))}
       </div>

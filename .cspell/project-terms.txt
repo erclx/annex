@@ -8,15 +8,19 @@ EASA
 elkjs
 embedder
 GPAI
+Gwern
 Menlo
 neighbour
 neighbours
 Noto
 organisational
 Segoe
+sidenotes
 stopword
 stopwords
+strikethrough
 subfolders
+Tufte
 unasserted
 unconfigured
 unfetched
@@ -24,3 +28,4 @@ unglossed
 unparseable
 unwired
 updatability
+uscode

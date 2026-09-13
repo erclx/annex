@@ -1,5 +1,6 @@
 import type { Citation, CorpusVersion } from '@/components/versions'
 import { eurLexUrl } from '@/lib/eur-lex'
+import { group } from '@/lib/format'
 
 /**
  * One provision, quoted behind a left rule.
@@ -19,17 +20,26 @@ import { eurLexUrl } from '@/lib/eur-lex'
  * than plain text naming it.
  *
  * The EUR-Lex link is a second, quieter control beside it rather than on it.
- * The panel is the surface's one overlay per
- * `.claude/wireframes/answer.md` § Reading the Act, so the loud heading stays
- * the control that keeps a reader here, and EUR-Lex is the escape hatch for
- * one who wants the source of record instead.
+ * The loud heading stays the control that keeps a reader here, and EUR-Lex is
+ * the escape hatch for one who wants the source of record instead, per
+ * `.claude/wireframes/answer.md` § Reading the Act.
+ *
+ * The quote is an excerpt clamped to `lines`, and the full text is one
+ * activation away in the Act. The handle under it always names the provision's
+ * length. Whether the clamp cut a given provision depends on the column's width
+ * at render, which a character count cannot predict, and a handle that named the
+ * length only when it guessed a cut would sometimes sit under a cut quote
+ * reading as though it were whole. The note is never clamped, since it is the
+ * one layer the amendment adds rather than a part of the statute.
  */
 export function CitationBlock({
   citation,
   onOpen,
+  lines = 6,
 }: {
   citation: Citation
   onOpen?: (provisionId: string, version: CorpusVersion) => void
+  lines?: number
 }) {
   return (
     <figure
@@ -70,7 +80,10 @@ export function CitationBlock({
         )}
       </figcaption>
 
-      <blockquote className="m-0 font-[family-name:var(--font-serif)] text-[13px] leading-[1.5] text-act">
+      <blockquote
+        className="m-0 line-clamp-(--excerpt-lines) font-[family-name:var(--font-serif)] text-[13px] leading-[1.5] text-act"
+        style={{ '--excerpt-lines': lines } as React.CSSProperties}
+      >
         {citation.text}
       </blockquote>
 
@@ -83,6 +96,19 @@ export function CitationBlock({
           </span>
           {citation.change_note}
         </p>
+      )}
+
+      {onOpen && (
+        <button
+          type="button"
+          onClick={() => {
+            onOpen(citation.provision_id, citation.version)
+          }}
+          className="mt-[4px] text-[12px] text-accent underline-offset-2 hover:underline"
+        >
+          {`Read all ${group(citation.text.length)} characters in the Act`}
+          <span aria-hidden="true"> →</span>
+        </button>
       )}
     </figure>
   )

@@ -88,4 +88,28 @@ describe('CitationBlock', () => {
       'https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401689#rct_132',
     )
   })
+
+  it('should name the full length on the handle when the excerpt is cut', async () => {
+    const onOpen = vi.fn()
+    const long = { ...CITATION, text: 'x'.repeat(17615) }
+    render(<CitationBlock citation={long} onOpen={onOpen} />)
+
+    await userEvent.click(
+      screen.getByRole('button', {
+        name: 'Read all 17 615 characters in the Act',
+      }),
+    )
+
+    expect(onOpen).toHaveBeenCalledWith('art_6', 'consolidated')
+  })
+
+  it('should name the length of a short provision too, since the clamp may still cut it', () => {
+    render(<CitationBlock citation={CITATION} onOpen={vi.fn()} lines={3} />)
+
+    expect(
+      screen.getByRole('button', {
+        name: 'Read all 46 characters in the Act',
+      }),
+    ).toBeInTheDocument()
+  })
 })

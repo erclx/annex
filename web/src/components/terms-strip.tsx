@@ -1,12 +1,12 @@
 /**
  * The seven terms that render unglossed elsewhere on this surface, gathered
- * into one strip rather than marked inline.
+ * into one list rather than marked inline.
  *
- * An inline hover definition was drafted and dropped: it is a second overlay
- * on a surface `.claude/wireframes/answer.md` § Reading the Act declares
- * carries exactly one, the citation reading panel. A gathered strip needs no
- * hover state and no second overlay, so it sits here instead, below the
- * recorded picks where the terms it defines actually appear.
+ * An inline hover definition was drafted and dropped: it would be a second
+ * overlay on a surface `.claude/wireframes/answer.md` § Reading the Act allows
+ * one, the Act below 1024 pixels. A gathered list needs no hover state and no
+ * second overlay, so it sits in the pane before anything is asked, and under
+ * the recorded picks where there is no pane.
  *
  * Five entries restate `.canon/teach/01-how-annex-works/GLOSSARY.md` in page
  * voice. `general-purpose AI model` and `prohibited practice` are not taught
@@ -54,22 +54,20 @@ const TERMS: { term: string; definition: string }[] = [
 
 export function TermsStrip() {
   return (
-    <div className="mx-auto w-full max-w-4xl px-6 pb-16">
-      <div className="rounded-lg border border-rule bg-surface px-[14px] py-[12px]">
-        <span className="font-mono text-[9.5px] tracking-[0.06em] text-muted uppercase">
-          Terms used on this page
-        </span>
-        <dl className="mt-2 grid grid-cols-1 gap-x-4 gap-y-[6px] sm:grid-cols-[max-content_1fr]">
-          {TERMS.map(({ term, definition }) => (
-            <div key={term} className="contents">
-              <dt className="text-[12px] font-semibold text-ink">{term}</dt>
-              <dd className="m-0 text-[12px] leading-[1.5] text-act">
-                {definition}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </div>
-    </div>
+    <section>
+      <span className="font-mono text-[10.5px] tracking-[0.08em] text-muted uppercase">
+        Terms used on this page
+      </span>
+      <dl className="mt-2 grid grid-cols-1 gap-x-4 gap-y-[6px] sm:grid-cols-[max-content_1fr]">
+        {TERMS.map(({ term, definition }) => (
+          <div key={term} className="contents">
+            <dt className="text-[12px] font-semibold text-ink">{term}</dt>
+            <dd className="m-0 text-[12px] leading-[1.5] text-act">
+              {definition}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </section>
   )
 }

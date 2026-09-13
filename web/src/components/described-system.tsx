@@ -13,7 +13,7 @@ export function DescribedSystem({
 }) {
   return (
     <section className="border-b border-rule-soft">
-      <div className="mx-auto w-full max-w-4xl px-6 py-6">
+      <div className="w-full px-6 py-6 lg:px-8">
         <h2 className="mb-[7px] font-mono text-[10.5px] tracking-[0.08em] text-muted uppercase">
           The system you described
         </h2>

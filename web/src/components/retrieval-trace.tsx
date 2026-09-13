@@ -4,65 +4,86 @@ import { useState } from 'react'
 
 import { TraversalGraph } from '@/components/traversal-graph'
 import type { Retrieval } from '@/components/versions'
+import { group } from '@/lib/format'
 
 const SHOWN = 8
 
 /**
  * Cost reported rather than buried, and always on screen.
  *
- * The summary line never collapses. Behind the disclosure sit three id lists,
- * each capped at eight with a count of the rest, because the full-context arm
- * produces lists running to hundreds and an uncapped one would swamp the answer
- * it describes. The count carries the scale and the expansion carries the
- * detail.
- *
- * Ids render raw rather than as a reader-facing label. Both the wireframe and
- * the settled design draw them as `art_6.2` and `anx_3.5.b`, which is what
- * keeps eight of them on a line.
+ * The cost line closes the answer column and never collapses. Its counts open
+ * the walk: in the pane beside the answer when `onOpenWalk` is supplied, which
+ * is every viewport wide enough to dock one, and in place under the line
+ * otherwise. The drawing needs more width than the answer column has, which is
+ * why it moves out of the column wherever a pane exists.
  */
-export function RetrievalTrace({ retrieval }: { retrieval: Retrieval }) {
+export function RetrievalTrace({
+  retrieval,
+  onOpenWalk,
+}: {
+  retrieval: Retrieval
+  onOpenWalk?: () => void
+}) {
   const [open, setOpen] = useState(false)
+  const opensInPane = onOpenWalk !== undefined
 
   return (
-    <footer className="border-t border-rule bg-surface font-mono text-[11.5px] text-muted">
-      <div className="mx-auto w-full max-w-4xl px-6 py-[11px]">
-        <button
-          type="button"
-          aria-expanded={open}
-          onClick={() => {
-            setOpen(!open)
-          }}
-          className="flex w-full flex-wrap items-center justify-between gap-4 text-left"
-        >
-          <span className="flex flex-wrap gap-4">
-            <span className="text-ink">{retrieval.model}</span>
-            <span>{group(retrieval.prompt_tokens)} prompt</span>
-            <span>{group(retrieval.completion_tokens)} completion</span>
-            <span>{(retrieval.duration_ms / 1000).toFixed(1)} s</span>
-          </span>
-          <span className="text-accent">
-            {retrieval.searched_ids.length} searched ·{' '}
-            {retrieval.traversed_ids.length} traversed ·{' '}
-            {retrieval.dropped_ids.length} dropped {open ? '▾' : '▸'}
-          </span>
-        </button>
+    <footer className="mt-8 border-t border-rule py-[11px] font-mono text-[11.5px] text-muted">
+      <button
+        type="button"
+        aria-expanded={opensInPane ? undefined : open}
+        onClick={() => {
+          if (onOpenWalk) {
+            onOpenWalk()
+            return
+          }
+          setOpen(!open)
+        }}
+        className="flex w-full flex-wrap items-center justify-between gap-x-4 gap-y-1 text-left"
+      >
+        <span className="flex flex-wrap gap-x-4">
+          <span className="text-ink">{retrieval.model}</span>
+          <span>{group(retrieval.prompt_tokens)} prompt</span>
+          <span>{group(retrieval.completion_tokens)} completion</span>
+          <span>{(retrieval.duration_ms / 1000).toFixed(1)} s</span>
+        </span>
+        <span className="text-accent">
+          {retrieval.searched_ids.length} searched ·{' '}
+          {retrieval.traversed_ids.length} traversed ·{' '}
+          {retrieval.dropped_ids.length} dropped{' '}
+          {opensInPane ? '→ walk in pane' : open ? '▾' : '▸'}
+        </span>
+      </button>
 
-        {open && (
-          <div className="mt-[11px] border-t border-rule-soft pt-[11px]">
-            <TraversalGraph retrieval={retrieval} />
-            <dl className="grid grid-cols-[96px_1fr] gap-x-4 gap-y-[7px] text-[11px]">
-              <IdList label="searched" ids={retrieval.searched_ids} />
-              <IdList label="traversed" ids={retrieval.traversed_ids} />
-              <IdList
-                label="dropped"
-                ids={retrieval.dropped_ids}
-                note="Reached by traversal, cut by the prompt budget, never read."
-              />
-            </dl>
-          </div>
-        )}
-      </div>
+      {!opensInPane && open && (
+        <div className="mt-[11px] border-t border-rule-soft pt-[11px]">
+          <Walk retrieval={retrieval} />
+        </div>
+      )}
     </footer>
+  )
+}
+
+/**
+ * The walk drawn, with the three id lists under it as its text equivalent.
+ *
+ * The lists stay beside the drawing rather than behind it, since they are what
+ * a screen reader reads and removing them to make room would remove that.
+ */
+export function Walk({ retrieval }: { retrieval: Retrieval }) {
+  return (
+    <div className="font-mono text-[11.5px] text-muted">
+      <TraversalGraph retrieval={retrieval} />
+      <dl className="grid grid-cols-[96px_1fr] gap-x-4 gap-y-[7px] text-[11px]">
+        <IdList label="searched" ids={retrieval.searched_ids} />
+        <IdList label="traversed" ids={retrieval.traversed_ids} />
+        <IdList
+          label="dropped"
+          ids={retrieval.dropped_ids}
+          note="Reached by traversal, cut by the prompt budget, never read."
+        />
+      </dl>
+    </div>
   )
 }
 
@@ -112,9 +133,4 @@ function IdList({
       </dd>
     </>
   )
-}
-
-/** Thousands separated by a space, the way the trace line is drawn. */
-function group(value: number): string {
-  return value.toLocaleString('en-US').replaceAll(',', ' ')
 }

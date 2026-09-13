@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import Home from '@/app/page'
 
@@ -445,6 +445,86 @@ describe('the theme control', () => {
 
     expect(document.documentElement.dataset.theme).toBe('dark')
     setItem.mockRestore()
+  })
+})
+
+describe('the docked pane at 1024 pixels and wider', () => {
+  function stubWideViewport() {
+    vi.stubGlobal(
+      'matchMedia',
+      vi.fn((query: string) => ({
+        matches: query === '(min-width: 1024px)',
+        media: query,
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      })),
+    )
+  }
+
+  beforeEach(() => {
+    Element.prototype.scrollIntoView = vi.fn()
+    stubWideViewport()
+  })
+
+  it('holds the terms and the reserved comparison before anything is asked', () => {
+    render(<Home />)
+
+    const pane = screen.getByRole('complementary', { name: 'Before you ask' })
+    expect(pane).toHaveTextContent('Terms used on this page')
+    expect(pane).toHaveTextContent('Reserved: the three-arm comparison')
+  })
+
+  it('shows the Act beside an answer rather than over it', async () => {
+    respondWith(200, anAnswer())
+    render(<Home />)
+
+    await describeSystem()
+
+    expect(
+      await screen.findByRole('complementary', { name: 'The Act' }),
+    ).toBeInTheDocument()
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+  })
+
+  it('moves the pane to a provision without opening an overlay', async () => {
+    respondWith(200, anAnswer())
+    render(<Home />)
+    const user = await describeSystem()
+
+    await user.click(
+      await screen.findByRole('button', {
+        name: /^Read all .* characters in the Act/,
+      }),
+    )
+
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    expect(
+      screen.getByRole('navigation', { name: 'Cited in this answer' }),
+    ).toHaveTextContent('Article 50(1)')
+  })
+
+  it('keeps the trace a footer landmark beside the answer', async () => {
+    respondWith(200, anAnswer())
+    render(<Home />)
+
+    await describeSystem()
+
+    expect(await screen.findByRole('contentinfo')).toHaveTextContent(
+      /18 420 prompt/,
+    )
+  })
+
+  it('opens the walk in the pane from the trace', async () => {
+    respondWith(200, anAnswer())
+    render(<Home />)
+    const user = await describeSystem()
+
+    await user.click(await screen.findByRole('button', { name: /searched/ }))
+
+    expect(screen.getByRole('button', { name: 'The walk' })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    )
   })
 })
 

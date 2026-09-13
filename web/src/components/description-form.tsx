@@ -23,7 +23,7 @@ export function DescriptionForm({
 }) {
   return (
     <form
-      className="mx-auto flex w-full max-w-4xl flex-col gap-4 px-6 py-16"
+      className="flex w-full flex-col gap-4 pt-12 pb-10"
       onSubmit={(event) => {
         event.preventDefault()
         onSubmit()

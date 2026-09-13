@@ -95,6 +95,16 @@ Base unit 8px.
 | citation | 0      | 2px   | left edge only, marking a quoted provision         |
 | none     | 0      | 0     | edge-to-edge surfaces                              |
 
+## Layout
+
+Picked by looking against real content, and `.claude/context/design-references.md` holds the measured sites each rule answers to.
+
+- The answer column holds a fixed reading measure of 640px and never widens with the viewport
+- The pane beside it takes the remaining width, with a floor of 420px
+- One breakpoint, at 1024px. Below it the page is a single column and the pane opens as an overlay
+- The pane stays in view at the full viewport height and scrolls inside itself
+- Content starts from the page's left gutter under a full-width top bar, with no centered container
+
 ## Motion
 
 No motion. Nothing on this surface animates, transitions, or eases. The one moment that would justify it is the wait for an answer, and that is drawn as a static skeleton with a stated duration rather than as a spinner, because a number tells a reader more than movement does.
