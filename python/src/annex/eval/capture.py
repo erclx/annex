@@ -104,11 +104,13 @@ def fixture_filename(question_id: str, version: CorpusVersion) -> str:
     return f'{question_id}.{version}.json'
 
 
-def _head_commit() -> str:
+def head_commit() -> str:
     """The tree the capture ran against, or a name saying it could not be read.
 
     Read rather than passed, since a caller supplying it can supply the wrong
-    one and the whole value of the stamp is that nobody typed it.
+    one and the whole value of the stamp is that nobody typed it. Public
+    because `annex.eval.report.write_summary` stamps the same commit rather
+    than carrying a second implementation of this subprocess call.
     """
     try:
         completed = subprocess.run(
@@ -209,7 +211,7 @@ def capture(
             )
 
     manifest = Manifest(
-        commit=_head_commit(),
+        commit=head_commit(),
         captured_at=datetime.now(UTC).date().isoformat(),
         entries=tuple(entries),
     )

@@ -260,9 +260,11 @@ def _evaluate(
     questions_only: bool,
     results_path: Path | None = None,
     label: str | None = None,
+    summary_out: Path | None = None,
 ) -> int:
     """Run the arms over the question set, or re-read a run that already ran."""
     from annex.eval import (
+        FIXTURES_PATH,
         QUESTIONS,
         RESULTS_PATH,
         depth_rows,
@@ -271,6 +273,7 @@ def _evaluate(
         run,
         run_path,
         write_questions,
+        write_summary,
     )
     from annex.eval.runner import Result
 
@@ -313,6 +316,7 @@ def _evaluate(
             print(f'kept as {kept}', file=sys.stderr)
 
     print(render(results, depth_rows(results, corpora)))
+    write_summary(results, out=summary_out or FIXTURES_PATH / 'evaluation-summary.json')
     return 0
 
 
@@ -426,6 +430,13 @@ def main(argv: list[str] | None = None) -> int:
             'before it survives. Letters, digits, dots, dashes, underscores'
         ),
     )
+    evaluating.add_argument(
+        '--out',
+        type=Path,
+        help='write the summary fixture somewhere other than '
+        'web/src/fixtures/evaluation-summary.json, so a trial run does not '
+        'overwrite the committed one',
+    )
 
     arguments = parser.parse_args(argv)
     logging.basicConfig(level=logging.WARNING, format='%(levelname)s %(message)s')
@@ -465,6 +476,7 @@ def main(argv: list[str] | None = None) -> int:
                 arguments.questions_only,
                 arguments.results,
                 arguments.label,
+                arguments.out,
             )
         return _graph(arguments.refresh)
     except CorpusCheckError as error:

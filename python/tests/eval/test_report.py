@@ -1,5 +1,8 @@
 """The report's arithmetic, since the headline claims are sums over the results."""
 
+import json
+from pathlib import Path
+
 from annex.corpus import CorpusVersion
 from annex.eval.questions import Flow
 from annex.eval.report import (
@@ -7,6 +10,7 @@ from annex.eval.report import (
     PROMPT_RATE_A_MILLION,
     render,
     summarize,
+    write_summary,
 )
 from annex.eval.runner import Result
 
@@ -150,6 +154,49 @@ class TestTheCostProjection:
             1000 / 1_000_000 * PROMPT_RATE_A_MILLION
             + 100 / 1_000_000 * COMPLETION_RATE_A_MILLION
         )
+
+
+class TestTheSummaryFixture:
+    def test_it_writes_one_entry_per_arm_and_version(self, tmp_path: Path) -> None:
+        out = tmp_path / 'evaluation-summary.json'
+
+        write_summary([make_result(0), make_result(0, arm='search-only')], out=out)
+
+        payload = json.loads(out.read_text())
+        assert len(payload['arms']) == 2
+
+    def test_it_carries_every_field_a_summary_row_has(self, tmp_path: Path) -> None:
+        out = tmp_path / 'evaluation-summary.json'
+
+        write_summary([make_result(0)], out=out)
+
+        row = json.loads(out.read_text())['arms'][0]
+        assert row['recall'] == 1.0
+        assert row['version'] == 'consolidated'
+        assert row['projected_cost'] == (
+            1000 / 1_000_000 * PROMPT_RATE_A_MILLION
+            + 100 / 1_000_000 * COMPLETION_RATE_A_MILLION
+        )
+
+    def test_it_is_stamped_the_way_the_capture_manifest_is(
+        self, tmp_path: Path
+    ) -> None:
+        out = tmp_path / 'evaluation-summary.json'
+
+        write_summary([make_result(0)], out=out)
+
+        payload = json.loads(out.read_text())
+        assert payload['commit']
+        assert payload['captured_at']
+
+    def test_it_names_the_generation_and_embedding_models(self, tmp_path: Path) -> None:
+        out = tmp_path / 'evaluation-summary.json'
+
+        write_summary([make_result(0)], out=out)
+
+        payload = json.loads(out.read_text())
+        assert payload['generation_model']
+        assert payload['embedding_model']
 
 
 class TestWhatTheReportStates:
