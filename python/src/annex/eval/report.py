@@ -172,16 +172,22 @@ def write_summary(results: Sequence[Result], *, out: Path) -> None:
     stamp rather than a silent mismatch. Nothing here reruns the model:
     `results` is already-scored data, read from `python/data/eval/results.json`
     by the caller. `generation_model` and `embedding_model` are read off
-    `Settings` rather than retyped in the component that renders this, since
-    both retrieval arms share one of each and the baseline's own model name
-    carries no equivalent setting to read.
+    `Settings`, and `baseline_model` off `full_context.LONG_CONTEXT_MODEL`,
+    rather than any of the three being retyped in the component that renders
+    this. The baseline import is deferred rather than module-level: importing
+    `full_context` pulls in `annex.agent.pipeline` and, through it, LangGraph,
+    the exact cost `annex.__main__._arms` already defers a plain CLI command
+    should not pay.
     """
+    from annex.eval.arms.full_context import LONG_CONTEXT_MODEL
+
     settings = Settings()
     payload = {
         'commit': head_commit(),
         'captured_at': datetime.now(UTC).date().isoformat(),
         'generation_model': settings.generation_model,
         'embedding_model': settings.embedding_model,
+        'baseline_model': LONG_CONTEXT_MODEL,
         'arms': [
             {**asdict(summary), 'projected_cost': summary.projected_cost}
             for summary in summarize(results)

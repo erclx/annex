@@ -37,6 +37,7 @@ interface EvaluationSummary {
   captured_at: string
   generation_model: string
   embedding_model: string
+  baseline_model: string
   arms: ArmSummary[]
 }
 
@@ -60,4 +61,9 @@ export function generationModel(): string {
 /** The model both retrieval arms embed and search with. */
 export function embeddingModel(): string {
   return SUMMARY.embedding_model
+}
+
+/** The model the full-context arm generates with, at its own wider window. */
+export function baselineModel(): string {
+  return SUMMARY.baseline_model
 }

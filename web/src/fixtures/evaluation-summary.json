@@ -1,8 +1,9 @@
 {
-  "commit": "299b13e3562556da3495e936034e947a209ae31b",
+  "commit": "dcb1b8bb9fae42db311b1060557de1d9d8e1c60e",
   "captured_at": "2026-09-13",
   "generation_model": "annex-qwen3-27b",
   "embedding_model": "snowflake-arctic-embed2",
+  "baseline_model": "annex-longctx",
   "arms": [
     {
       "arm": "full-context",

@@ -198,6 +198,15 @@ class TestTheSummaryFixture:
         assert payload['generation_model']
         assert payload['embedding_model']
 
+    def test_it_names_the_baseline_model(self, tmp_path: Path) -> None:
+        """Read off the arm's own constant rather than retyped as a literal."""
+        out = tmp_path / 'evaluation-summary.json'
+
+        write_summary([make_result(0)], out=out)
+
+        payload = json.loads(out.read_text())
+        assert payload['baseline_model'] == 'annex-longctx'
+
 
 class TestWhatTheReportStates:
     def test_an_empty_run_says_so_rather_than_rendering_empty_tables(self) -> None:

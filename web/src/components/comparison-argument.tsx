@@ -2,12 +2,20 @@ import { PipelineDiagram } from '@/components/pipeline-diagram'
 import {
   armSummaries,
   type ArmSummary,
+  baselineModel,
   embeddingModel,
   generationModel,
 } from '@/lib/evaluation-summary'
 
+/**
+ * The one fact in this line with no structured source to read.
+ *
+ * Every model name comes off the fixture, generated fresh on each `evaluate`
+ * run. The card this ran on is not: nothing in the pipeline records what
+ * hardware it executed on, so this is the one figure that goes stale silently
+ * if the project ever runs on different hardware and nobody updates it here.
+ */
 const HARDWARE = 'one RTX 5090'
-const BASELINE_MODEL = 'annex-longctx'
 
 const ARM_LABEL: Record<ArmSummary['arm'], string> = {
   'full-context': 'Full context',
@@ -111,7 +119,7 @@ export function ComparisonArgument() {
       </p>
 
       <p className="mt-3 text-[11px] leading-[1.5] text-muted">
-        Run on {HARDWARE}. The baseline generates with {BASELINE_MODEL}; search
+        Run on {HARDWARE}. The baseline generates with {baselineModel()}; search
         and traversal generate with {generationModel()} over an index built with{' '}
         {embeddingModel()}. Nothing here was paid for, so every cost figure is a
         projection at a stated hosted rate rather than a bill.
