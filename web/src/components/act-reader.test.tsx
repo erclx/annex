@@ -123,6 +123,73 @@ describe('ActReader', () => {
     expect(trigger).toHaveFocus()
   })
 
+  describe('docked beside the answer', () => {
+    const cited = [
+      { provisionId: 'art_6', label: 'Article 6' },
+      { provisionId: 'art_50', label: 'Article 50' },
+    ]
+
+    it('should render as a region of the page rather than a dialog', () => {
+      render(
+        <ActReader
+          docked
+          version="consolidated"
+          openId="art_6"
+          cited={cited}
+          onClose={vi.fn()}
+          onVersionChange={vi.fn()}
+        />,
+      )
+
+      expect(
+        screen.getByRole('complementary', { name: 'The Act' }),
+      ).toBeInTheDocument()
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+      expect(
+        screen.queryByRole('button', { name: 'Close' }),
+      ).not.toBeInTheDocument()
+    })
+
+    it('should jump to a provision the answer cites', async () => {
+      const onOpen = vi.fn()
+      render(
+        <ActReader
+          docked
+          version="consolidated"
+          openId="art_6"
+          cited={cited}
+          onOpen={onOpen}
+          onClose={vi.fn()}
+          onVersionChange={vi.fn()}
+        />,
+      )
+
+      await userEvent.click(screen.getByRole('button', { name: 'Article 50' }))
+
+      expect(onOpen).toHaveBeenCalledWith('art_50')
+    })
+
+    it('should switch to the walk when it is asked for', () => {
+      render(
+        <ActReader
+          docked
+          version="consolidated"
+          openId="art_6"
+          cited={cited}
+          walk={<p>the walk drawing</p>}
+          view="walk"
+          onClose={vi.fn()}
+          onVersionChange={vi.fn()}
+        />,
+      )
+
+      expect(screen.getByText('the walk drawing')).toBeInTheDocument()
+      expect(
+        screen.getByRole('button', { name: 'The walk' }),
+      ).toHaveAttribute('aria-pressed', 'true')
+    })
+  })
+
   it('should hand the picked version back to its caller', async () => {
     const onVersionChange = vi.fn()
     render(
