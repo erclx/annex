@@ -34,5 +34,16 @@ test.describe('the mark and its metadata', () => {
 
     const response = await page.request.get('/og-image.png')
     expect(response.status()).toBe(200)
+    const body = await response.body()
+    expect(body.byteLength).toBeGreaterThan(0)
+  })
+
+  test('serves the alternate card the metadata does not name yet', async ({
+    page,
+  }) => {
+    const response = await page.request.get('/og-image-alt.png')
+    expect(response.status()).toBe(200)
+    const body = await response.body()
+    expect(body.byteLength).toBeGreaterThan(0)
   })
 })
