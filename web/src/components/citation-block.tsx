@@ -1,5 +1,15 @@
 import type { Citation, CorpusVersion } from '@/components/versions'
 import { eurLexUrl } from '@/lib/eur-lex'
+import { group } from '@/lib/format'
+
+/**
+ * Roughly what six lines of the quote measure hold at the column's width.
+ *
+ * The clamp itself is drawn by line count, which no render-free check can read,
+ * so this is what decides whether the handle names the provision's length. A
+ * provision under it fits the excerpt whole, and one over it is cut.
+ */
+const EXCERPT_CHARACTERS = 600
 
 /**
  * One provision, quoted behind a left rule.
@@ -19,18 +29,26 @@ import { eurLexUrl } from '@/lib/eur-lex'
  * than plain text naming it.
  *
  * The EUR-Lex link is a second, quieter control beside it rather than on it.
- * The panel is the surface's one overlay per
- * `.claude/wireframes/answer.md` § Reading the Act, so the loud heading stays
- * the control that keeps a reader here, and EUR-Lex is the escape hatch for
- * one who wants the source of record instead.
+ * The loud heading stays the control that keeps a reader here, and EUR-Lex is
+ * the escape hatch for one who wants the source of record instead, per
+ * `.claude/wireframes/answer.md` § Reading the Act.
+ *
+ * The quote is an excerpt clamped to `lines`, and the full text is one
+ * activation away in the Act. The handle under it names the provision's length
+ * whenever the excerpt is cut, so a reader never mistakes the clamp for the
+ * whole provision. The note is never clamped, since it is the one layer the
+ * amendment adds rather than a part of the statute.
  */
 export function CitationBlock({
   citation,
   onOpen,
+  lines = 6,
 }: {
   citation: Citation
   onOpen?: (provisionId: string, version: CorpusVersion) => void
+  lines?: number
 }) {
+  const isCut = citation.text.length > EXCERPT_CHARACTERS
   return (
     <figure
       className={`mt-[10px] border-l-2 py-[2px] pl-[14px] ${
@@ -70,7 +88,10 @@ export function CitationBlock({
         )}
       </figcaption>
 
-      <blockquote className="m-0 font-[family-name:var(--font-serif)] text-[13px] leading-[1.5] text-act">
+      <blockquote
+        className="m-0 line-clamp-(--excerpt-lines) font-[family-name:var(--font-serif)] text-[13px] leading-[1.5] text-act"
+        style={{ '--excerpt-lines': lines } as React.CSSProperties}
+      >
         {citation.text}
       </blockquote>
 
@@ -83,6 +104,21 @@ export function CitationBlock({
           </span>
           {citation.change_note}
         </p>
+      )}
+
+      {onOpen && (
+        <button
+          type="button"
+          onClick={() => {
+            onOpen(citation.provision_id, citation.version)
+          }}
+          className="mt-[4px] text-[12px] text-accent underline-offset-2 hover:underline"
+        >
+          {isCut
+            ? `Read all ${group(citation.text.length)} characters in the Act`
+            : 'Open in the Act'}
+          <span aria-hidden="true"> →</span>
+        </button>
       )}
     </figure>
   )

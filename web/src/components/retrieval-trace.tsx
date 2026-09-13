@@ -4,6 +4,7 @@ import { useState } from 'react'
 
 import { TraversalGraph } from '@/components/traversal-graph'
 import type { Retrieval } from '@/components/versions'
+import { group } from '@/lib/format'
 
 const SHOWN = 8
 
@@ -112,9 +113,4 @@ function IdList({
       </dd>
     </>
   )
-}
-
-/** Thousands separated by a space, the way the trace line is drawn. */
-function group(value: number): string {
-  return value.toLocaleString('en-US').replaceAll(',', ' ')
 }
