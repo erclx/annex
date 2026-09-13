@@ -216,34 +216,39 @@ export default function Home() {
         <>
           <DescribedSystem description={asked} onEdit={edit} />
           <div className={`flex-1 ${docked ? `${SPLIT} gap-x-10` : ''}`}>
-            <main className="px-6 pb-12 lg:pl-8">
-              {pending && <LoadingAnswer version={version} />}
-              {result?.state === 'answered' && (
-                <AnswerView
-                  answer={result.answer}
-                  onOpenProvision={openProvision}
-                />
-              )}
-              {result?.state === 'refused' && result.answer.refusal && (
-                <RefusalView
-                  refusal={result.answer.refusal}
-                  onOpenProvision={openProvision}
-                />
-              )}
-              {(result?.state === 'unavailable' ||
-                result?.state === 'timeout' ||
-                result?.state === 'failed') && (
-                <FailureRegion
-                  state={result.state}
-                  correlationId={result.correlationId}
-                />
-              )}
-              {result?.state === 'unreachable' && (
-                <FailureRegion state="unreachable" />
-              )}
-              {result?.state === 'unrecorded' && (
-                <FailureRegion state="unrecorded" />
-              )}
+            {/* The trace sits beside `main` rather than inside it. A footer nested
+                in `main` is no longer a contentinfo landmark, which is what a
+                screen reader and every e2e case find the cost line by. */}
+            <div className="px-6 pb-12 lg:pl-8">
+              <main>
+                {pending && <LoadingAnswer version={version} />}
+                {result?.state === 'answered' && (
+                  <AnswerView
+                    answer={result.answer}
+                    onOpenProvision={openProvision}
+                  />
+                )}
+                {result?.state === 'refused' && result.answer.refusal && (
+                  <RefusalView
+                    refusal={result.answer.refusal}
+                    onOpenProvision={openProvision}
+                  />
+                )}
+                {(result?.state === 'unavailable' ||
+                  result?.state === 'timeout' ||
+                  result?.state === 'failed') && (
+                  <FailureRegion
+                    state={result.state}
+                    correlationId={result.correlationId}
+                  />
+                )}
+                {result?.state === 'unreachable' && (
+                  <FailureRegion state="unreachable" />
+                )}
+                {result?.state === 'unrecorded' && (
+                  <FailureRegion state="unrecorded" />
+                )}
+              </main>
               {answer && (
                 <RetrievalTrace
                   retrieval={answer.retrieval}
@@ -256,7 +261,7 @@ export default function Home() {
                   }
                 />
               )}
-            </main>
+            </div>
             {docked && answer && (
               <ActReader
                 docked

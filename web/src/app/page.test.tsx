@@ -501,6 +501,17 @@ describe('the docked pane at 1024 pixels and wider', () => {
     ).toHaveTextContent('Article 50(1)')
   })
 
+  it('keeps the trace a footer landmark beside the answer', async () => {
+    respondWith(200, anAnswer())
+    render(<Home />)
+
+    await describeSystem()
+
+    expect(await screen.findByRole('contentinfo')).toHaveTextContent(
+      /18 420 prompt/,
+    )
+  })
+
   it('opens the walk in the pane from the trace', async () => {
     respondWith(200, anAnswer())
     render(<Home />)

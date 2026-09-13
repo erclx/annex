@@ -51,7 +51,7 @@ export function TopBar({
           </span>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
           <nav className="flex items-center gap-3 text-[12px]">
             <a href={REPOSITORY_URL} className="text-accent hover:underline">
               Repository

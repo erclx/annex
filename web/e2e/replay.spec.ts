@@ -94,11 +94,13 @@ test('the version toggle re-asks against the other text', async ({ page }) => {
   await page.getByRole('button', { name: RECORDED }).click()
   await expect(page.getByRole('contentinfo')).toBeVisible()
 
-  await page.getByRole('button', { name: 'Original' }).click()
+  // Scoped to the top bar, since the docked Act carries its own version toggle,
+  // which reads the other text without re-asking.
+  const topBar = page.getByRole('banner')
+  await topBar.getByRole('button', { name: 'Original' }).click()
 
-  await expect(page.getByRole('button', { name: 'Original' })).toHaveAttribute(
-    'aria-pressed',
-    'true',
-  )
+  await expect(
+    topBar.getByRole('button', { name: 'Original' }),
+  ).toHaveAttribute('aria-pressed', 'true')
   await expect(page.getByRole('contentinfo')).toBeVisible()
 })

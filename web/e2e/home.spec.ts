@@ -112,8 +112,12 @@ test('an answered question renders each claim over the text it rests on', async 
   await expect(
     page.getByText('The chatbot has to tell the person'),
   ).toBeVisible()
-  await expect(page.getByText('Article 50(1)')).toBeVisible()
-  await expect(page.getByText('Providers shall ensure')).toBeVisible()
+  // Scoped to the answer column, since the docked pane lists the same citation
+  // among the provisions the answer cites.
+  await expect(page.getByRole('main').getByText('Article 50(1)')).toBeVisible()
+  await expect(
+    page.getByRole('main').getByText('Providers shall ensure'),
+  ).toBeVisible()
 })
 
 test('the trace reports cost without being opened, and opens to the ids', async ({
