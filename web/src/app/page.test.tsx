@@ -466,12 +466,12 @@ describe('the docked pane at 1024 pixels and wider', () => {
     stubWideViewport()
   })
 
-  it('holds the terms and the reserved comparison before anything is asked', () => {
+  it('holds the terms and the three-arm comparison before anything is asked', () => {
     render(<Home />)
 
     const pane = screen.getByRole('complementary', { name: 'Before you ask' })
     expect(pane).toHaveTextContent('Terms used on this page')
-    expect(pane).toHaveTextContent('Reserved: the three-arm comparison')
+    expect(pane).toHaveTextContent('The three-arm comparison')
   })
 
   it('shows the Act beside an answer rather than over it', async () => {

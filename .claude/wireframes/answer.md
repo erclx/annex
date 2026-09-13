@@ -106,13 +106,13 @@ The pane holds context beside the question before it holds the Act. Three other 
 │ …                            │
 │ TERMS USED ON THIS PAGE      │ ← the pane's content,
 │ …                            │   under the picks
-│ ┌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┐ │
-│ ╎ comparison, reserved     ╎ │
-│ └╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┘ │
+│ THE THREE-ARM COMPARISON     │
+│ Arm | Text | Recall | …      │
+│ [ pipeline diagram ]         │
 └──────────────────────────────┘
 ```
 
-Nothing the pane holds is lost at this width. The terms and the reserved region follow the recorded picks in the one column.
+Nothing the pane holds is lost at this width. The terms and the comparison follow the recorded picks in the one column.
 
 ### The recorded picks
 
@@ -126,7 +126,7 @@ Copy, verbatim:
 
 The picks sit beside the input rather than in place of it. Narrowing the input to a picker would remove the unrecorded state below and change the surface the design was settled on, and the free-text field is what a visitor arrives expecting.
 
-The four flow labels are the evaluation's own grouping, three questions apiece. The fifth demo flow, the three-arm result, has no screen yet and holds the reserved region below.
+The four flow labels are the evaluation's own grouping, three questions apiece. The fifth demo flow, the three-arm result, is not a question a visitor asks. It renders below as the comparison rather than as a fifth pick.
 
 ### The terms strip
 
@@ -134,11 +134,17 @@ Gathers the seven load-bearing terms that appear unglossed elsewhere on this sur
 
 An inline hover definition was drafted and rejected by looking. It is a second overlay on a surface whose only overlay is the pane below 1024, and a gathered strip needs no hover state, so it carries every definition at once.
 
-### The reserved comparison region
+### The three-arm comparison
 
-A dashed, labelled region under the terms, holding the place where the three-arm comparison will sit. It carries no figures until that work lands, and nothing else may take the region in the meantime.
+A labelled region under the terms, holding the argument for measuring retrieval against a full-context baseline at all, the table itself, its caveats, and the pipeline diagram. Generated from `python/data/eval/results.json` through the `evaluation-summary.json` fixture rather than transcribed, so the table moves when the next `evaluate` run does.
 
-Copy, verbatim: `Reserved: the three-arm comparison`
+Heading, verbatim: `The three-arm comparison`
+
+The table carries one row per arm and text: the arm's label, which text it ran against, recall, faithfulness, nodes supplied, and correct refusals over the questions the text does not settle. Recall, faithfulness, precision and cost read as the stable half of the evaluation, and the table treats them as facts. Refusal is carried the same way but captioned rather than trusted: three questions per arm and text is too few to rank the arms on, and the caption under the table says so rather than letting the fraction imply more than it can support.
+
+Below the table, one line names the hardware and the model each arm ran on, and one paragraph explains why the comparison exists: the Act fits inside a current context window, so a model can read the whole document and answer from it, which makes retrieval something to justify rather than assume.
+
+The pipeline diagram sits last: the five stages a request passes through, intake through verify, so a reader sees where retrieval and traversal sit inside one answer rather than reading the table as the only picture of what the system does.
 
 ## Invalid
 
