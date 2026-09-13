@@ -67,6 +67,25 @@ check_markdown_bans() {
   esac
 }
 
+check_hook_permissions() {
+  local offenders=()
+  while IFS= read -r line; do
+    local mode path
+    mode=$(echo "$line" | awk '{print $1}')
+    path=$(echo "$line" | awk '{print $4}')
+    if [ "$mode" != "100755" ]; then
+      offenders+=("$path ($mode)")
+    fi
+  done < <(git ls-files -s .husky/)
+
+  if [ ${#offenders[@]} -gt 0 ]; then
+    printf '%s\n' "${offenders[@]}" | pipe_output
+    log_error "Hook file(s) tracked without the executable bit, so git skips them silently"
+  else
+    log_info "All husky hooks tracked as executable"
+  fi
+}
+
 run_check() {
   local cmd=$1
   local err_msg=$2
@@ -101,6 +120,9 @@ main() {
 
   log_step "Markdown bans"
   check_markdown_bans
+
+  log_step "Hook permissions"
+  check_hook_permissions
 
   if [ "$NESTED" = false ]; then
     echo -e "${GREY}└${NC}\n"
