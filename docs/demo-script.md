@@ -105,8 +105,10 @@ original text is confidently wrong about a date carrying penalties, and nothing
 about the original text announces that it is stale. All three deadline
 questions score 1.00 on both documents in the traversal arm, each reaching
 Article 113 from Article 111. Search alone still misses Article 113 on the
-original text, where two of its three chunks are Official Journal footnotes the
-parse swallowed, and the walk is what closes that.
+original text at the measured run these figures come from, where two of its
+three chunks were Official Journal footnotes the parse swallowed. That parse
+defect is fixed as of `feature-corpus-and-answer-text`, and whether it moves
+search's own reach is unmeasured until the harness runs again.
 
 ## The fifth flow has no screen
 
