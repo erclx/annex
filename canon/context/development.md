@@ -108,6 +108,8 @@ The generator resolves the schema's `$defs` references itself, in `web/scripts/g
 
 **Run `bun run format` after a capture.** The generator emits the repository's prettier style and cannot predict where prettier breaks a long line, so `check:format` fails on a re-capture nobody formatted. That is the same pairing `generate:answer` makes, which runs prettier over its own output inside the package script.
 
+**The same pairing applies to `uv run python -m annex schema`.** `json.dumps(..., indent=2)` breaks every array onto its own line regardless of length, where the committed `python/schema/answer.schema.json` carries prettier's collapsed short arrays. Regenerating the schema and stopping there leaves a diff `check:format` rejects. Run `bun run format`, or `bun run check`, which runs it first, afterward.
+
 `cspell.json` ignores the fixtures folder, the way it ignores `python/data/`, since the Act's own text carries spellings this project does not author.
 
 ## Python specifics
