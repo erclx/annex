@@ -1,3 +1,5 @@
+import { Fragment } from 'react'
+
 const STAGES = [
   { label: 'Intake', detail: 'a description becomes a structured query' },
   { label: 'Retrieve', detail: 'search finds candidate passages by meaning' },
@@ -6,88 +8,106 @@ const STAGES = [
   { label: 'Verify', detail: 'every claim is checked against the text' },
 ] as const
 
-const STAGE_WIDTH = 148
-const STAGE_HEIGHT = 46
-const GAP = 22
+const BRACKET_START = 1
+const BRACKET_END = 2
+
+const CAPTION =
+  'Retrieve and traverse are what the arms below switch on and off.'
 
 /**
- * The five request-order stages `canon/ARCHITECTURE.md` § Overview names.
+ * The five request-order stages `canon/ARCHITECTURE.md` § Overview names,
+ * drawn as a vertical rail rather than a row scaled to the pane's width.
  *
- * Hand-drawn, matching `traversal-graph.tsx`'s own precedent, since five
- * boxes and four arrows need no dependency. Drawn once here rather than a
- * second time as the diagram choice, since the table beside it already
- * carries the three-arm comparison: this shows the one thing the table
- * cannot, which is where retrieval and traversal sit inside one request.
+ * The row it replaced sized its type in SVG viewBox units, so every pixel of
+ * width the pane lost shrank the type with it, down to 7.1px at 1280 per the
+ * first-use pass. A rail stacks stages instead of scaling them, and every
+ * label and caption here is plain HTML text at a fixed pixel size, so it
+ * holds its floor of 11px regardless of how narrow the column carrying it
+ * gets.
+ *
+ * Retrieve and Traverse are the two stages the arms below switch on and off,
+ * so a bracket ties them together and the caption that used to sit under the
+ * whole figure reads off that bracket instead. The bracket's grid row spans
+ * both stage rows, which grid computes from their actual rendered height, so
+ * nothing here depends on measuring the page or guessing a fixed height.
  */
 export function PipelineDiagram() {
-  const width = STAGES.length * STAGE_WIDTH + (STAGES.length - 1) * GAP
-  const height = STAGE_HEIGHT + 34
-
   return (
-    <svg
-      viewBox={`0 0 ${width} ${height}`}
-      className="mb-[11px] w-full"
+    <div
+      className="mb-[11px]"
       role="img"
-      aria-label={`The five-stage pipeline: ${STAGES.map((stage) => stage.label).join(', ')}`}
+      aria-label={`The five-stage pipeline: ${STAGES.map((stage) => stage.label).join(', ')}. ${CAPTION}`}
     >
-      {STAGES.map((stage, index) => {
-        const x = index * (STAGE_WIDTH + GAP)
-        return (
-          <g key={stage.label}>
-            <rect
-              x={x}
-              y={0}
-              width={STAGE_WIDTH}
-              height={STAGE_HEIGHT}
-              fill="var(--color-accent-soft)"
-              stroke="var(--color-cite-rule)"
-              strokeWidth={1}
-            />
-            <text
-              x={x + STAGE_WIDTH / 2}
-              y={18}
-              textAnchor="middle"
-              className="fill-ink font-mono text-[10.5px] font-semibold tracking-[0.06em] uppercase"
-            >
-              {stage.label}
-            </text>
-            <foreignObject
-              x={x + 8}
-              y={22}
-              width={STAGE_WIDTH - 16}
-              height={STAGE_HEIGHT - 22}
-            >
-              <p className="m-0 text-[9.5px] leading-[1.3] text-act">
-                {stage.detail}
-              </p>
-            </foreignObject>
-            {index < STAGES.length - 1 && (
-              <path
-                d={`M${x + STAGE_WIDTH + 4},${STAGE_HEIGHT / 2} L${x + STAGE_WIDTH + GAP - 4},${STAGE_HEIGHT / 2}`}
-                stroke="var(--color-cite-rule)"
-                strokeWidth={1.5}
-                markerEnd="url(#pipeline-arrow)"
-              />
-            )}
-          </g>
-        )
-      })}
-      <text x={0} y={height - 4} className="fill-muted font-mono text-[9px]">
-        Retrieve and traverse are what the arms below switch on and off.
-      </text>
-      <defs>
-        <marker
-          id="pipeline-arrow"
-          viewBox="0 0 8 8"
-          refX={7}
-          refY={4}
-          markerWidth={6}
-          markerHeight={6}
-          orient="auto-start-reverse"
+      <div
+        className="grid grid-cols-[10px_1fr_auto] gap-x-3"
+        style={{ gridTemplateRows: `repeat(${STAGES.length}, auto)` }}
+      >
+        {STAGES.map((stage, index) => {
+          const row = index + 1
+          const isLast = index === STAGES.length - 1
+          const isBracketed = index >= BRACKET_START && index <= BRACKET_END
+
+          return (
+            <Fragment key={stage.label}>
+              <div
+                className="relative flex justify-center"
+                style={{ gridRow: row, gridColumn: 1 }}
+              >
+                <span
+                  className={
+                    isBracketed
+                      ? 'mt-[4px] size-2 shrink-0 rounded-full bg-accent'
+                      : 'mt-[4px] size-2 shrink-0 rounded-full border-[1.5px] border-ink bg-surface'
+                  }
+                />
+                {!isLast && (
+                  <span
+                    className="absolute top-[12px] bottom-0 w-px bg-cite-rule"
+                    aria-hidden="true"
+                  />
+                )}
+              </div>
+
+              <div
+                style={{ gridRow: row, gridColumn: 2 }}
+                className={isLast ? '' : 'pb-4'}
+              >
+                <div className="font-mono text-[11px] font-semibold tracking-[0.06em] text-ink uppercase">
+                  {stage.label}
+                </div>
+                <p className="mt-0.5 text-[11px] leading-[1.35] text-act">
+                  {stage.detail}
+                </p>
+              </div>
+            </Fragment>
+          )
+        })}
+
+        <div
+          style={{
+            gridRow: `${BRACKET_START + 1} / ${BRACKET_END + 2}`,
+            gridColumn: 3,
+          }}
+          className="flex items-center gap-2 pb-4"
         >
-          <path d="M0,0 L8,4 L0,8 Z" fill="var(--color-cite-rule)" />
-        </marker>
-      </defs>
-    </svg>
+          <svg
+            viewBox="0 0 10 100"
+            preserveAspectRatio="none"
+            className="h-full w-[10px] shrink-0"
+            aria-hidden="true"
+          >
+            <path
+              d="M8,2 C2,2 2,2 2,20 L2,44 C2,50 2,50 8,50 C2,50 2,50 2,56 L2,80 C2,98 2,98 8,98"
+              fill="none"
+              stroke="var(--color-accent)"
+              strokeWidth={1.5}
+            />
+          </svg>
+          <p className="w-[8.5rem] shrink-0 text-[11px] leading-[1.35] text-accent">
+            {CAPTION}
+          </p>
+        </div>
+      </div>
+    </div>
   )
 }
