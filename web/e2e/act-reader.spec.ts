@@ -108,6 +108,24 @@ test.describe('as an overlay below 1024 pixels', () => {
     await expect(dialog).toHaveAccessibleName(citationName ?? '')
   })
 
+  test('opening a paragraph keeps its article heading in view', async ({
+    page,
+  }) => {
+    await page.goto(REPLAY_URL)
+    await page.getByRole('button', { name: RECORDED }).click()
+
+    await page
+      .getByRole('button', { name: /^Article \d+\(\d+\)$/ })
+      .first()
+      .click()
+
+    const dialog = page.getByRole('dialog')
+    await expect(dialog).toBeVisible()
+    await expect(
+      dialog.locator('article:has(p.bg-accent-soft) > h2'),
+    ).toBeInViewport()
+  })
+
   test('closing the panel returns to the answer underneath', async ({
     page,
   }) => {

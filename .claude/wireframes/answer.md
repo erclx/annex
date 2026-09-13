@@ -443,7 +443,7 @@ It links to the article, annex, or recital the citation's paragraph sits under, 
 ### Behavior
 
 - Activating a citation's heading or its excerpt handle scrolls the Act to that provision immediately, with no transition, consistent with the motion rule. At 1024 and wider that moves the pane, and below 1024 it opens the overlay first
-- A paragraph lands with its article's heading in view whenever the heading and the whole paragraph fit in the pane together, and at the paragraph's own top only when they do not, since a paragraph read without its article names nothing
+- A paragraph lands with its article's heading in view whenever the heading and the whole paragraph fit in the Act's view together, and at the paragraph's own top only when they do not, since a paragraph read without its article names nothing. The rule holds in the docked pane and in the overlay alike
 - The provision the Act was scrolled to is held in a tinted background so a reader can find it again after scrolling away
 - The version toggle in the Act's header re-renders the Act against the other text. It does not re-ask the question and does not touch the answer
 - Below 1024, Escape, the close control, and activating the scrim all return to the answer exactly as it stood before the overlay opened

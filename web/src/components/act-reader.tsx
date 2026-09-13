@@ -109,31 +109,35 @@ export function ActReader({
     if (!isOpen || showsWalk) return
     const target = targetRef.current
     if (!target) return
-    // Docked, only the pane's own container moves. `scrollIntoView` would also
-    // scroll the page behind a sticky pane and take the answer off its place.
-    if (docked && bodyRef.current) {
-      const body = bodyRef.current
-      // A paragraph means nothing without the article carrying it, so the pane
-      // lands on that article's heading whenever the heading and the whole
-      // paragraph fit in view together, and on the paragraph itself only when
-      // they do not. Testing the article's full height instead sent every
-      // paragraph of a long article to the paragraph's own top, heading lost.
-      const article = target.closest('article')
-      const anchor =
-        article &&
-        article !== target &&
-        target.getBoundingClientRect().bottom -
-          article.getBoundingClientRect().top <=
-          body.clientHeight
-          ? article
-          : target
-      body.scrollTop =
-        anchor.getBoundingClientRect().top -
-        body.getBoundingClientRect().top +
-        body.scrollTop
+    const body = bodyRef.current
+    if (!body) {
+      target.scrollIntoView({ block: 'start' })
       return
     }
-    target.scrollIntoView({ block: 'start' })
+    // Both forms move only the Act's own scroll container. `scrollIntoView`
+    // would also scroll the page behind a sticky pane and take the answer off
+    // its place.
+    //
+    // A paragraph means nothing without the article carrying it, so the Act
+    // lands on that article's heading whenever the heading and the whole
+    // paragraph fit in view together, and on the paragraph itself only when
+    // they do not. The rule runs above the docked and overlay split, since the
+    // overlay loses the heading the same way the pane does. Testing the
+    // article's full height instead sent every paragraph of a long article to
+    // the paragraph's own top, heading lost.
+    const article = target.closest('article')
+    const anchor =
+      article &&
+      article !== target &&
+      target.getBoundingClientRect().bottom -
+        article.getBoundingClientRect().top <=
+        body.clientHeight
+        ? article
+        : target
+    body.scrollTop =
+      anchor.getBoundingClientRect().top -
+      body.getBoundingClientRect().top +
+      body.scrollTop
   }, [docked, isOpen, openId, showsWalk, version])
 
   useEffect(() => {
@@ -263,7 +267,9 @@ export function ActReader({
           </button>
         </header>
 
-        <div className="flex-1 overflow-y-auto px-6 py-6">{text}</div>
+        <div ref={bodyRef} className="flex-1 overflow-y-auto px-6 py-6">
+          {text}
+        </div>
       </section>
     </div>
   )
