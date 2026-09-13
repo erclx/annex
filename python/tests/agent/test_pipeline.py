@@ -539,6 +539,31 @@ class TestTheTrace:
 
         assert _uncited_ids('cites [1] and then [2]', citations) == ()
 
+    def test_a_provision_supplied_twice_is_not_uncited_when_either_index_is_cited(
+        self,
+    ) -> None:
+        """A provision reached by both search and the walk sits at two indices.
+
+        `provision_ids` composes as `searched_ids + traversed_ids` with no
+        deduplication across the two, so citing one index of a duplicated
+        provision must not leave the other index's citation reporting the
+        same provision uncited.
+        """
+        citations = (
+            make_citation('art_50.1', 'x'),
+            make_citation('art_2', 'z'),
+            make_citation('art_50.1', 'x'),
+        )
+
+        assert _uncited_ids('cites only [1]', citations) == ('art_2',)
+
+    def test_a_provision_supplied_twice_and_never_cited_is_named_once(
+        self,
+    ) -> None:
+        citations = (make_citation('art_50.1', 'x'), make_citation('art_50.1', 'x'))
+
+        assert _uncited_ids('cites nothing', citations) == ('art_50.1',)
+
     def test_an_uncut_generation_is_not_reported_as_truncated(
         self, build_pipeline: BuildPipeline
     ) -> None:
