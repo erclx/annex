@@ -9,8 +9,10 @@ import {
   useState,
 } from 'react'
 
+import { ReadingList } from '@/components/reading-list'
 import { SectionBar } from '@/components/section-bar'
 import type { CorpusVersion } from '@/components/versions'
+import { pointName, type Segment, segmentsOf } from '@/lib/closest-point'
 import { findProvision, type Provision, provisionsFor } from '@/lib/corpus'
 import {
   type SectionSummary,
@@ -18,18 +20,35 @@ import {
   stepTarget,
 } from '@/lib/section-steps'
 
+/** A provision's text as the blocks its own numbering cuts it into. */
+interface Block {
+  provision: Provision
+  segments: Segment[]
+}
+
 interface Section {
   heading: Provision
-  paragraphs: Provision[]
+  /** The paragraphs under the heading, or the heading's own text when it has none. */
+  blocks: Block[]
+  hasParagraphs: boolean
 }
 
 /** A provision the answer cites, as the pane's jump list names it. */
 export interface CitedProvision {
   provisionId: string
   label: string
+  /** On a refusal, whether search found the provision or the walk reached it. */
+  reachedBy?: 'search' | 'walk'
 }
 
 export type PaneView = 'act' | 'walk'
+
+/**
+ * Whether the pane's list names what an answer cites or what a refusal read.
+ * `canon/wireframes/answer.md` § Refused draws the second as one line opening
+ * a list, rather than the answer's row of links.
+ */
+export type CitedAs = 'cited' | 'read'
 
 /**
  * The flat provision list as headings with their paragraphs nested under them.
@@ -39,6 +58,11 @@ export type PaneView = 'act' | 'walk'
  * An article, annex or recital carrying no paragraph children falls back to
  * its own text, which is every annex and recital and the small minority of
  * articles with no numbered paragraphs.
+ *
+ * Every block is then cut at its own points and definitions, so an excerpt
+ * that opened on Annex III, point 4(a) or Article 3, point (12) lands on a
+ * block of that point's own rather than somewhere inside one 17 615-character
+ * paragraph.
  */
 function sectionsFor(version: CorpusVersion): Section[] {
   const provisions = provisionsFor(version)
@@ -50,12 +74,21 @@ function sectionsFor(version: CorpusVersion): Section[] {
     paragraphsByParent.set(provision.parent_id, siblings)
   }
 
+  const blockOf = (provision: Provision): Block => ({
+    provision,
+    segments: segmentsOf(provision.text),
+  })
+
   return provisions
     .filter((provision) => provision.kind !== 'paragraph')
-    .map((heading) => ({
-      heading,
-      paragraphs: paragraphsByParent.get(heading.id) ?? [],
-    }))
+    .map((heading) => {
+      const paragraphs = paragraphsByParent.get(heading.id) ?? []
+      return {
+        heading,
+        blocks: (paragraphs.length > 0 ? paragraphs : [heading]).map(blockOf),
+        hasParagraphs: paragraphs.length > 0,
+      }
+    })
 }
 
 /** The position of the section carrying a provision, which is its parent for a paragraph. */
@@ -74,6 +107,36 @@ function sectionIndexOf(
 }
 
 /**
+ * The key of the block a landing marks: a point inside the open section when
+ * one was asked for and exists there, and otherwise the open provision itself.
+ *
+ * A point is looked for across the whole section rather than inside the open
+ * provision alone, since an excerpt citing Article 79 lands on paragraph 8,
+ * which the Act renders as a provision of its own.
+ */
+function landingFor(
+  section: Section | undefined,
+  openId: string | null,
+  openPoint: string | null,
+): { key: string | null; pointLabel: string | null } {
+  if (openId === null) return { key: null, pointLabel: null }
+  if (openPoint && section) {
+    for (const { provision, segments } of section.blocks) {
+      const index = segments.findIndex(
+        (segment) => segment.path.join('.') === openPoint,
+      )
+      if (index !== -1) {
+        return {
+          key: `${provision.id}#${index}`,
+          pointLabel: pointName(provision.citation, segments[index].markers),
+        }
+      }
+    }
+  }
+  return { key: openId, pointLabel: null }
+}
+
+/**
  * The Act itself, open to one provision, in one of two forms.
  *
  * Docked, at 1024 pixels and wider, it is a region of the one screen beside the
@@ -83,18 +146,21 @@ function sectionIndexOf(
  * § Reading the Act draws both, and neither form is a route a visitor could
  * navigate to.
  *
- * The docked form carries the provisions the answer cites as a jump list, the
- * section bar that steps through the whole Act or through those citations, and,
- * when a walk is supplied, a second view holding it. The overlay carries none of
- * the three, since the answer it covers already lists every citation.
+ * The docked form carries the provisions the answer cites, the section bar that
+ * steps through the whole Act or through those citations, and, when a walk is
+ * supplied, a second view holding it. An answer's citations show as a row of
+ * links and a refusal's as its reading list. The overlay carries none of the
+ * three, since the answer it covers already lists every citation.
  */
 export function ActReader({
   version,
   openId,
+  openPoint = null,
   onClose,
   onVersionChange,
   docked = false,
   cited = [],
+  citedAs = 'cited',
   onOpen,
   walk,
   view = 'act',
@@ -102,10 +168,12 @@ export function ActReader({
 }: {
   version: CorpusVersion
   openId: string | null
+  openPoint?: string | null
   onClose: () => void
   onVersionChange: (version: CorpusVersion) => void
   docked?: boolean
   cited?: readonly CitedProvision[]
+  citedAs?: CitedAs
   onOpen?: (provisionId: string) => void
   walk?: ReactNode
   view?: PaneView
@@ -131,6 +199,11 @@ export function ActReader({
     [sections],
   )
   const openIndex = sectionIndexOf(summaries, version, openId)
+  const { key: landingKey, pointLabel } = landingFor(
+    sections[openIndex],
+    openId,
+    openPoint,
+  )
 
   // The section in view follows the pane's scroll once the reader scrolls, and
   // starts again from the open provision whenever a landing replaces it.
@@ -138,7 +211,7 @@ export function ActReader({
     landing: string
     index: number
   } | null>(null)
-  const landing = `${version}:${openId ?? ''}`
+  const landing = `${version}:${landingKey ?? ''}`
   const currentIndex =
     scrolled !== null && scrolled.landing === landing
       ? scrolled.index
@@ -150,10 +223,9 @@ export function ActReader({
   )
   const citedIndex = citedPosition === -1 ? null : citedPosition
 
-  const registerTarget =
-    (provisionId: string) => (element: HTMLElement | null) => {
-      if (provisionId === openId) targetRef.current = element
-    }
+  const registerTarget = (key: string) => (element: HTMLElement | null) => {
+    if (key === landingKey) targetRef.current = element
+  }
 
   useEffect(() => {
     if (docked) return
@@ -201,7 +273,7 @@ export function ActReader({
       anchor.getBoundingClientRect().top -
       body.getBoundingClientRect().top +
       body.scrollTop
-  }, [docked, isOpen, openId, showsWalk, version])
+  }, [docked, isOpen, landingKey, showsWalk, version])
 
   useEffect(() => {
     if (!isOverlayOpen) return
@@ -274,7 +346,7 @@ export function ActReader({
   const text = (
     <ActText
       sections={sections}
-      openId={openId}
+      landingKey={landingKey}
       registerTarget={registerTarget}
     />
   )
@@ -318,7 +390,16 @@ export function ActReader({
           <div className="flex-1 overflow-auto px-5 py-4">{walk}</div>
         ) : (
           <>
-            {cited.length > 0 && (
+            {cited.length > 0 && citedAs === 'read' && (
+              <div className="border-b border-rule-soft px-5 py-[10px]">
+                <ReadingList
+                  provisions={cited}
+                  openId={openId}
+                  onOpen={(provisionId) => onOpen?.(provisionId)}
+                />
+              </div>
+            )}
+            {cited.length > 0 && citedAs === 'cited' && (
               <nav
                 aria-label="Cited in this answer"
                 className="border-b border-rule-soft px-5 py-[10px]"
@@ -381,7 +462,7 @@ export function ActReader({
     <div
       role="dialog"
       aria-modal="true"
-      aria-label={target ? target.citation : 'The Act'}
+      aria-label={pointLabel ?? (target ? target.citation : 'The Act')}
       className="fixed inset-0 z-30 flex justify-end bg-ink/40"
     >
       <button
@@ -413,22 +494,28 @@ export function ActReader({
   )
 }
 
+const ACT_TEXT =
+  'm-0 mb-[6px] font-[family-name:var(--font-serif)] text-[13px] leading-[1.5] text-act last:mb-0'
+
 function ActText({
   sections,
-  openId,
+  landingKey,
   registerTarget,
 }: {
   sections: readonly Section[]
-  openId: string | null
-  registerTarget: (provisionId: string) => (element: HTMLElement | null) => void
+  landingKey: string | null
+  registerTarget: (key: string) => (element: HTMLElement | null) => void
 }) {
+  const landed = (key: string) => key === landingKey
+
   return sections.map((section, index) => (
     <article
       key={section.heading.id}
       ref={registerTarget(section.heading.id)}
       data-section-index={index}
+      aria-current={landed(section.heading.id) ? 'location' : undefined}
       className={`mb-6 rounded-md p-[10px] last:mb-0 ${
-        section.heading.id === openId ? 'bg-accent-soft' : ''
+        landed(section.heading.id) ? 'bg-accent-soft' : ''
       }`}
     >
       <h2 className="mb-1 text-[14px] font-semibold text-ink">
@@ -439,23 +526,41 @@ function ActText({
           </span>
         )}
       </h2>
-      {section.paragraphs.length > 0 ? (
-        section.paragraphs.map((paragraph) => (
-          <p
-            key={paragraph.id}
-            ref={registerTarget(paragraph.id)}
-            className={`m-0 mb-[6px] font-[family-name:var(--font-serif)] text-[13px] leading-[1.5] text-act last:mb-0 ${
-              paragraph.id === openId ? 'bg-accent-soft' : ''
+      {section.blocks.map(({ provision, segments }) => {
+        const passages = segments.map((segment, segmentIndex) => {
+          const key = `${provision.id}#${segmentIndex}`
+          return (
+            <p
+              key={key}
+              ref={registerTarget(key)}
+              aria-current={landed(key) ? 'location' : undefined}
+              className={`${ACT_TEXT} ${landed(key) ? 'bg-accent-soft' : ''}`}
+            >
+              {segment.markers.length > 0 && (
+                <span className="mr-[6px] font-sans text-[11px] font-semibold text-muted">
+                  {pointName(provision.citation, segment.markers)}
+                </span>
+              )}
+              <span>{segment.text}</span>
+            </p>
+          )
+        })
+
+        if (!section.hasParagraphs) return passages
+
+        return (
+          <div
+            key={provision.id}
+            ref={registerTarget(provision.id)}
+            aria-current={landed(provision.id) ? 'location' : undefined}
+            className={`mb-[6px] last:mb-0 ${
+              landed(provision.id) ? 'bg-accent-soft' : ''
             }`}
           >
-            {paragraph.text}
-          </p>
-        ))
-      ) : (
-        <p className="m-0 font-[family-name:var(--font-serif)] text-[13px] leading-[1.5] text-act">
-          {section.heading.text}
-        </p>
-      )}
+            {passages}
+          </div>
+        )
+      })}
     </article>
   ))
 }

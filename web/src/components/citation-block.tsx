@@ -1,6 +1,20 @@
 import type { Citation, CorpusVersion } from '@/components/versions'
+import { closestPoint, type Landing } from '@/lib/closest-point'
 import { eurLexUrl } from '@/lib/eur-lex'
 import { group } from '@/lib/format'
+
+/**
+ * What the line beside the citation says about where the excerpt opens.
+ *
+ * Closest rather than quoted, since the landing is the passage sharing the most
+ * words with the claim and not a passage the model is known to have read the
+ * claim from. `canon/wireframes/answer.md` § Answered owns the copy.
+ */
+const LANDING_LABEL: Record<Landing['kind'], string | null> = {
+  point: 'closest point',
+  top: 'whole provision, no single passage wins',
+  whole: null,
+}
 
 /**
  * One provision, quoted behind a left rule.
@@ -25,22 +39,43 @@ import { group } from '@/lib/format'
  * `canon/wireframes/answer.md` § Reading the Act.
  *
  * The quote is an excerpt clamped to `lines`, and the full text is one
- * activation away in the Act. The handle under it always names the provision's
- * length. Whether the clamp cut a given provision depends on the column's width
- * at render, which a character count cannot predict, and a handle that named the
- * length only when it guessed a cut would sometimes sit under a cut quote
- * reading as though it were whole. The note is never clamped, since it is the
- * one layer the amendment adds rather than a part of the statute.
+ * activation away in the Act. Given the `claim` it sits under, the excerpt
+ * opens on the closest point per `@/lib/closest-point`, the heading names that
+ * point, and the heading and the handle both open the Act there. The handle
+ * always names the provision's whole length. Whether the clamp cut a given
+ * provision depends on the column's width at render, which a character count
+ * cannot predict, and a handle that named the length only when it guessed a cut
+ * would sometimes sit under a cut quote reading as though it were whole. The
+ * note is never clamped, since it is the one layer the amendment adds rather
+ * than a part of the statute.
  */
 export function CitationBlock({
   citation,
+  claim,
   onOpen,
   lines = 6,
 }: {
   citation: Citation
-  onOpen?: (provisionId: string, version: CorpusVersion) => void
+  claim?: string
+  onOpen?: (provisionId: string, version: CorpusVersion, point?: string) => void
   lines?: number
 }) {
+  const landing: Landing =
+    claim === undefined ? { kind: 'whole' } : closestPoint(citation, claim)
+  const heading = landing.kind === 'point' ? landing.name : citation.citation
+  const point =
+    landing.kind === 'point' ? landing.segment.path.join('.') : undefined
+  const excerpt =
+    landing.kind === 'point' && landing.segment.start > 0
+      ? `… ${citation.text.slice(landing.segment.start)}`
+      : citation.text
+  const landingLabel = LANDING_LABEL[landing.kind]
+
+  function handleOpen() {
+    if (point === undefined) onOpen?.(citation.provision_id, citation.version)
+    else onOpen?.(citation.provision_id, citation.version, point)
+  }
+
   return (
     <figure
       className={`mt-[10px] border-l-2 py-[2px] pl-[14px] ${
@@ -51,17 +86,16 @@ export function CitationBlock({
         {onOpen ? (
           <button
             type="button"
-            onClick={() => {
-              onOpen(citation.provision_id, citation.version)
-            }}
+            onClick={handleOpen}
             className="text-[12px] font-semibold text-accent underline-offset-2 hover:underline"
           >
-            {citation.citation}
+            {heading}
           </button>
         ) : (
-          <span className="text-[12px] font-semibold text-ink">
-            {citation.citation}
-          </span>
+          <span className="text-[12px] font-semibold text-ink">{heading}</span>
+        )}
+        {landingLabel && (
+          <span className="text-[11px] text-muted">{landingLabel}</span>
         )}
         <a
           href={eurLexUrl(citation)}
@@ -84,7 +118,7 @@ export function CitationBlock({
         className="m-0 line-clamp-(--excerpt-lines) font-[family-name:var(--font-serif)] text-[13px] leading-[1.5] text-act"
         style={{ '--excerpt-lines': lines } as React.CSSProperties}
       >
-        {citation.text}
+        {excerpt}
       </blockquote>
 
       {citation.change_note && (
@@ -101,9 +135,7 @@ export function CitationBlock({
       {onOpen && (
         <button
           type="button"
-          onClick={() => {
-            onOpen(citation.provision_id, citation.version)
-          }}
+          onClick={handleOpen}
           className="mt-[4px] text-[12px] text-accent underline-offset-2 hover:underline"
         >
           {`Read all ${group(citation.text.length)} characters in the Act`}
