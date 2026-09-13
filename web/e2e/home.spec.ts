@@ -94,17 +94,20 @@ test('the empty state asks for a description and disclaims a verdict', async ({
   ).toBeVisible()
 })
 
-test('leaving the description empty names what is needed', async ({ page }) => {
+test('an empty description is named as needed on submit and not on leaving the box', async ({
+  page,
+}) => {
+  const needed = page.getByText(
+    'A description is needed before this can be answered.',
+  )
   await page.goto('/')
 
-  // Tab rather than focusing the action, which is held inactive on an empty
-  // description and so cannot take focus to blur the field.
   await page.getByLabel('Describe your system').click()
   await page.keyboard.press('Tab')
+  await expect(needed).toHaveCount(0)
 
-  await expect(
-    page.getByText('A description is needed before this can be answered.'),
-  ).toBeVisible()
+  await page.getByRole('button', { name: 'Find the articles' }).click()
+  await expect(needed).toBeVisible()
 })
 
 test('an answered question renders each claim over the text it rests on', async ({

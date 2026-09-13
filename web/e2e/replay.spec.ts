@@ -152,3 +152,64 @@ test.describe('the top of the page at 400 pixels', () => {
     ).toBeVisible()
   })
 })
+
+test.describe('an answer carried in the address', () => {
+  const linked = manifest.entries[0]
+
+  test('a recorded pick writes its question and version into the address', async ({
+    page,
+  }) => {
+    await page.goto(REPLAY_URL)
+    await page.getByRole('button', { name: linked.description }).click()
+
+    await expect(page).toHaveURL(new RegExp(`q=${linked.question_id}`))
+    await expect(page).toHaveURL(/v=consolidated/)
+  })
+
+  test('a linked answer reopens as it was shared', async ({ page }) => {
+    await page.goto(`${REPLAY_URL}?q=${linked.question_id}&v=original`)
+
+    await expect(page.getByRole('contentinfo')).toBeVisible()
+    await expect(page.getByText(linked.description).first()).toBeVisible()
+    await expect(
+      page
+        .getByRole('group', { name: 'Which text to read against' })
+        .getByRole('button', { name: 'Original' }),
+    ).toHaveAttribute('aria-pressed', 'true')
+  })
+})
+
+test.describe('a refusal reading list', () => {
+  const refused = manifest.entries.find(
+    (entry) => entry.refused && entry.version === 'consolidated',
+  )
+
+  test('filters by an article number exactly', async ({ page }) => {
+    test.skip(!refused, 'The recording holds no refusal on the amended text')
+    await page.goto(REPLAY_URL)
+    await page.getByRole('button', { name: refused?.description ?? '' }).click()
+
+    await page
+      .getByRole('button', { name: /provisions? read before refusing$/ })
+      .click()
+    const rows = page
+      .getByRole('list', { name: 'Provisions read' })
+      .getByRole('button')
+    const firstArticle = (await rows.allTextContents())
+      .map((row) => /^Article (\d+)/.exec(row)?.[1])
+      .find((number) => number !== undefined)
+    test.skip(!firstArticle, 'The refusal read no article')
+
+    await page.getByRole('searchbox').fill(`Article ${firstArticle}`)
+
+    for (const row of await rows.allTextContents()) {
+      expect(row).toMatch(
+        new RegExp(`^Article ${firstArticle}(\\(|search|walk|$)`),
+      )
+    }
+    await page.keyboard.press('Escape')
+    await expect(
+      page.getByRole('list', { name: 'Provisions read' }),
+    ).toHaveCount(0)
+  })
+})
