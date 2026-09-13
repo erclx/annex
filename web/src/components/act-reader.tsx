@@ -1,9 +1,22 @@
 'use client'
 
-import { type ReactNode, useEffect, useRef } from 'react'
+import {
+  type KeyboardEvent,
+  type ReactNode,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 
+import { SectionBar } from '@/components/section-bar'
 import type { CorpusVersion } from '@/components/versions'
 import { findProvision, type Provision, provisionsFor } from '@/lib/corpus'
+import {
+  type SectionSummary,
+  type StepMode,
+  stepTarget,
+} from '@/lib/section-steps'
 
 interface Section {
   heading: Provision
@@ -45,6 +58,21 @@ function sectionsFor(version: CorpusVersion): Section[] {
     }))
 }
 
+/** The position of the section carrying a provision, which is its parent for a paragraph. */
+function sectionIndexOf(
+  sections: readonly SectionSummary[],
+  version: CorpusVersion,
+  provisionId: string | null,
+): number {
+  if (provisionId === null) return 0
+  const provision = findProvision(version, provisionId)
+  const headingId = provision?.parent_id ?? provisionId
+  return Math.max(
+    0,
+    sections.findIndex((section) => section.id === headingId),
+  )
+}
+
 /**
  * The Act itself, open to one provision, in one of two forms.
  *
@@ -55,9 +83,10 @@ function sectionsFor(version: CorpusVersion): Section[] {
  * § Reading the Act draws both, and neither form is a route a visitor could
  * navigate to.
  *
- * The docked form carries the provisions the answer cites as a jump list and,
- * when a walk is supplied, a second view holding it. The overlay carries
- * neither, since the answer it covers already lists every citation.
+ * The docked form carries the provisions the answer cites as a jump list, the
+ * section bar that steps through the whole Act or through those citations, and,
+ * when a walk is supplied, a second view holding it. The overlay carries none of
+ * the three, since the answer it covers already lists every citation.
  */
 export function ActReader({
   version,
@@ -82,6 +111,7 @@ export function ActReader({
   view?: PaneView
   onViewChange?: (view: PaneView) => void
 }) {
+  const paneRef = useRef<HTMLElement | null>(null)
   const bodyRef = useRef<HTMLDivElement | null>(null)
   const targetRef = useRef<HTMLElement | null>(null)
   const closeRef = useRef<HTMLButtonElement | null>(null)
@@ -89,6 +119,36 @@ export function ActReader({
   const isOpen = openId !== null
   const isOverlayOpen = isOpen && !docked
   const showsWalk = docked && walk !== undefined && view === 'walk'
+
+  const sections = useMemo(() => sectionsFor(version), [version])
+  const summaries = useMemo<SectionSummary[]>(
+    () =>
+      sections.map(({ heading }) => ({
+        id: heading.id,
+        label: heading.citation,
+        title: heading.title,
+      })),
+    [sections],
+  )
+  const openIndex = sectionIndexOf(summaries, version, openId)
+
+  // The section in view follows the pane's scroll once the reader scrolls, and
+  // starts again from the open provision whenever a landing replaces it.
+  const [scrolled, setScrolled] = useState<{
+    landing: string
+    index: number
+  } | null>(null)
+  const landing = `${version}:${openId ?? ''}`
+  const currentIndex =
+    scrolled !== null && scrolled.landing === landing
+      ? scrolled.index
+      : openIndex
+
+  const [stepMode, setStepMode] = useState<StepMode>('all')
+  const citedPosition = cited.findIndex(
+    (provision) => provision.provisionId === openId,
+  )
+  const citedIndex = citedPosition === -1 ? null : citedPosition
 
   const registerTarget =
     (provisionId: string) => (element: HTMLElement | null) => {
@@ -118,14 +178,17 @@ export function ActReader({
     // would also scroll the page behind a sticky pane and take the answer off
     // its place.
     //
-    // A paragraph means nothing without the article carrying it, so the Act
-    // lands on that article's heading whenever the heading and the whole
-    // paragraph fit in view together, and on the paragraph itself only when
-    // they do not. The rule runs above the docked and overlay split, since the
-    // overlay loses the heading the same way the pane does. Testing the
-    // article's full height instead sent every paragraph of a long article to
-    // the paragraph's own top, heading lost.
-    const article = target.closest('article')
+    // Docked, a provision lands flush at the top of the text, so the tinted
+    // provision is the first thing read. The operator's first-use pass rejected
+    // landing on the article's heading with the provision lower down there,
+    // and the section bar above the text names the article that heading would
+    // have named.
+    //
+    // The overlay carries no section bar, so a paragraph read there without
+    // its article names nothing. It lands on the article's heading whenever the
+    // heading and the whole paragraph fit in view together, and on the
+    // paragraph itself only when they do not.
+    const article = docked ? null : target.closest('article')
     const anchor =
       article &&
       article !== target &&
@@ -142,7 +205,7 @@ export function ActReader({
 
   useEffect(() => {
     if (!isOverlayOpen) return
-    function handleKeyDown(event: KeyboardEvent) {
+    function handleKeyDown(event: globalThis.KeyboardEvent) {
       if (event.key === 'Escape') onClose()
     }
     document.addEventListener('keydown', handleKeyDown)
@@ -151,9 +214,66 @@ export function ActReader({
     }
   }, [isOverlayOpen, onClose])
 
+  // A sticky pane one viewport tall starts below the described system, so its
+  // last stretch sat under the fold until the page scrolled. The pane's height
+  // follows the space between its own top and the bottom of the viewport.
+  useEffect(() => {
+    if (!docked) return
+    const pane = paneRef.current
+    if (!pane) return
+    let frame = 0
+    function fit() {
+      cancelAnimationFrame(frame)
+      frame = requestAnimationFrame(() => {
+        if (!pane) return
+        const top = Math.max(0, pane.getBoundingClientRect().top)
+        pane.style.height = `${window.innerHeight - top}px`
+      })
+    }
+    fit()
+    window.addEventListener('scroll', fit, { passive: true })
+    window.addEventListener('resize', fit)
+    return () => {
+      cancelAnimationFrame(frame)
+      window.removeEventListener('scroll', fit)
+      window.removeEventListener('resize', fit)
+    }
+  }, [docked])
+
+  function handleBodyScroll() {
+    const body = bodyRef.current
+    if (!body) return
+    const top = body.getBoundingClientRect().top + 12
+    let index = 0
+    for (const article of body.querySelectorAll<HTMLElement>(
+      'article[data-section-index]',
+    )) {
+      if (article.getBoundingClientRect().top > top) break
+      index = Number(article.dataset.sectionIndex)
+    }
+    if (index !== currentIndex) setScrolled({ landing, index })
+  }
+
+  function handleBodyKeyDown(event: KeyboardEvent<HTMLDivElement>) {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return
+    const target = stepTarget(
+      {
+        sections: summaries,
+        currentIndex,
+        cited,
+        citedIndex,
+        mode: stepMode,
+      },
+      event.key === 'ArrowRight' ? 1 : -1,
+    )
+    if (target === null) return
+    event.preventDefault()
+    onOpen?.(target)
+  }
+
   const text = (
     <ActText
-      version={version}
+      sections={sections}
       openId={openId}
       registerTarget={registerTarget}
     />
@@ -162,8 +282,9 @@ export function ActReader({
   if (docked) {
     return (
       <aside
+        ref={paneRef}
         aria-label="The Act"
-        className="sticky top-0 flex h-screen flex-col border-l border-rule bg-surface"
+        className="sticky top-[var(--annex-bar-height,0px)] flex h-screen flex-col border-l border-rule bg-surface"
       >
         <header className="flex flex-wrap items-center justify-between gap-3 border-b border-rule px-5 py-[10px]">
           {walk !== undefined ? (
@@ -226,7 +347,24 @@ export function ActReader({
                 </div>
               </nav>
             )}
-            <div ref={bodyRef} className="flex-1 overflow-y-auto px-5 py-4">
+            <SectionBar
+              sections={summaries}
+              currentIndex={currentIndex}
+              cited={cited}
+              citedIndex={citedIndex}
+              mode={stepMode}
+              onModeChange={setStepMode}
+              onGo={(provisionId) => onOpen?.(provisionId)}
+            />
+            <div
+              ref={bodyRef}
+              role="region"
+              aria-label="Text of the Act"
+              tabIndex={0}
+              onScroll={handleBodyScroll}
+              onKeyDown={handleBodyKeyDown}
+              className="flex-1 overflow-y-auto px-5 py-4"
+            >
               {text}
             </div>
           </>
@@ -244,7 +382,7 @@ export function ActReader({
       role="dialog"
       aria-modal="true"
       aria-label={target ? target.citation : 'The Act'}
-      className="fixed inset-0 z-10 flex justify-end bg-ink/40"
+      className="fixed inset-0 z-30 flex justify-end bg-ink/40"
     >
       <button
         type="button"
@@ -276,18 +414,19 @@ export function ActReader({
 }
 
 function ActText({
-  version,
+  sections,
   openId,
   registerTarget,
 }: {
-  version: CorpusVersion
+  sections: readonly Section[]
   openId: string | null
   registerTarget: (provisionId: string) => (element: HTMLElement | null) => void
 }) {
-  return sectionsFor(version).map((section) => (
+  return sections.map((section, index) => (
     <article
       key={section.heading.id}
       ref={registerTarget(section.heading.id)}
+      data-section-index={index}
       className={`mb-6 rounded-md p-[10px] last:mb-0 ${
         section.heading.id === openId ? 'bg-accent-soft' : ''
       }`}
