@@ -76,16 +76,17 @@ The generator resolves the schema's `$defs` references itself, in `web/scripts/g
 
 ## The evaluation
 
-`uv run python -m annex evaluate` answers the gold question set with all three arms and writes `python/data/eval/results.json` beside the report it prints. Both files are tracked, so a figure in `docs/evaluation.md` is checkable against the run that produced it.
+`uv run python -m annex evaluate` answers the gold question set with all three arms and writes `python/data/eval/results.json` beside the report it prints. It also writes `web/src/fixtures/evaluation-summary.json`, the generated fixture the answer surface's three-arm comparison reads, whenever it renders a report, run fresh or `--report-only`. All three files are tracked, so a figure in `docs/evaluation.md` or on the answer surface is checkable against the run that produced it.
 
-| Flag               | What it does                                                        |
-| ------------------ | ------------------------------------------------------------------- |
-| `--arm <name>`     | One arm, repeatable. Every arm by default                           |
-| `--version <name>` | One version, repeatable. Both by default                            |
-| `--limit <n>`      | The first n questions of the set                                    |
-| `--report-only`    | Re-render the report from the last run rather than running it again |
-| `--questions-only` | Write `python/data/eval/questions.json` from the models and stop    |
-| `--results <path>` | Write somewhere other than the tracked file                         |
+| Flag               | What it does                                                                              |
+| ------------------ | ----------------------------------------------------------------------------------------- |
+| `--arm <name>`     | One arm, repeatable. Every arm by default                                                 |
+| `--version <name>` | One version, repeatable. Both by default                                                  |
+| `--limit <n>`      | The first n questions of the set                                                          |
+| `--report-only`    | Re-render the report from the last run rather than running it again                       |
+| `--questions-only` | Write `python/data/eval/questions.json` from the models and stop                          |
+| `--results <path>` | Write somewhere other than the tracked results file                                       |
+| `--out <path>`     | Write the summary fixture somewhere other than `web/src/fixtures/evaluation-summary.json` |
 
 - **The full run takes tens of minutes rather than minutes.** Three arms over twelve questions and two versions is 72 model runs, and the baseline arm reads the whole Act on each of its 24. Start it expecting to leave it. Results are written after every question, so a run stopped halfway is still readable and `--report-only` renders what landed.
 - **One question failing does not end the run.** A cut prompt, a model nobody built or a missing index is recorded against the question that met it and the sweep continues. The report lists those separately rather than averaging them into a score.

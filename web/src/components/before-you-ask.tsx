@@ -1,8 +1,9 @@
+import { ComparisonArgument } from '@/components/comparison-argument'
 import { TermsStrip } from '@/components/terms-strip'
 
 /**
- * What the pane holds before a question is asked: the terms, and the region
- * reserved for the three-arm comparison.
+ * What the pane holds before a question is asked: the terms, and the
+ * three-arm comparison.
  *
  * Picked by looking over three other contents, recorded under frontend scope in
  * `.claude/ARCHITECTURE.md`. Docked, it is a region beside the form. Below
@@ -13,7 +14,7 @@ export function BeforeYouAsk({ docked }: { docked: boolean }) {
   const content = (
     <>
       <TermsStrip />
-      <ReservedComparison />
+      <ComparisonArgument />
     </>
   )
 
@@ -35,21 +36,5 @@ export function BeforeYouAsk({ docked }: { docked: boolean }) {
         {content}
       </div>
     </aside>
-  )
-}
-
-/**
- * The place the comparison of reading the whole Act, search alone, and search
- * with traversal will take, held empty so nothing else claims it first.
- */
-function ReservedComparison() {
-  return (
-    <section className="border border-dashed border-cite-rule px-4 py-[14px] text-[12.5px] leading-[1.5] text-muted">
-      <b className="mb-1 block text-[13px] font-semibold text-ink">
-        Reserved: the three-arm comparison
-      </b>
-      Reading the whole Act, search alone, and search with reference traversal,
-      compared on accuracy and cost. Nothing sits here yet.
-    </section>
   )
 }

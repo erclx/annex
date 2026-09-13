@@ -27,13 +27,18 @@ The refusal columns run over the questions that expect each behavior rather than
 over the set. And the money column divides by a rate nobody paid.
 """
 
+import json
 from collections.abc import Sequence
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
+from datetime import UTC, datetime
+from pathlib import Path
 from statistics import mean
 
 from annex.corpus import CorpusVersion
+from annex.eval.capture import head_commit
 from annex.eval.runner import Result
 from annex.eval.sensitivity import DepthRow
+from annex.settings import Settings
 
 PROMPT_RATE_A_MILLION = 3.00
 COMPLETION_RATE_A_MILLION = 15.00
@@ -157,6 +162,38 @@ def summarize(results: Sequence[Result]) -> tuple[ArmSummary, ...]:
             )
         )
     return tuple(summaries)
+
+
+def write_summary(results: Sequence[Result], *, out: Path) -> None:
+    """Write `summarize(results)` as the fixture the answer surface reads.
+
+    Stamped with the commit and date the same way `capture.Manifest` is, so a
+    fixture that no longer matches the tree it was generated from is a stale
+    stamp rather than a silent mismatch. Nothing here reruns the model:
+    `results` is already-scored data, read from `python/data/eval/results.json`
+    by the caller. `generation_model` and `embedding_model` are read off
+    `Settings`, and `baseline_model` off `full_context.LONG_CONTEXT_MODEL`,
+    rather than any of the three being retyped in the component that renders
+    this. The baseline import is deferred rather than module-level: importing
+    `full_context` pulls in `annex.agent.pipeline` and, through it, LangGraph,
+    the exact cost `annex.__main__._arms` already defers a plain CLI command
+    should not pay.
+    """
+    from annex.eval.arms.full_context import LONG_CONTEXT_MODEL
+
+    settings = Settings()
+    payload = {
+        'commit': head_commit(),
+        'captured_at': datetime.now(UTC).date().isoformat(),
+        'generation_model': settings.generation_model,
+        'embedding_model': settings.embedding_model,
+        'baseline_model': LONG_CONTEXT_MODEL,
+        'arms': [
+            {**asdict(summary), 'projected_cost': summary.projected_cost}
+            for summary in summarize(results)
+        ],
+    }
+    out.write_text(json.dumps(payload, indent=2) + '\n')
 
 
 def _optional(value: float | None, spec: str = '.2f') -> str:

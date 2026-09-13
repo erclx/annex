@@ -29,7 +29,7 @@ from annex.eval.questions import (
     by_id,
     write_questions,
 )
-from annex.eval.report import render, summarize
+from annex.eval.report import render, summarize, write_summary
 from annex.eval.runner import (
     RESULTS_PATH,
     RUNS_DIRECTORY_NAME,
@@ -81,4 +81,5 @@ __all__ = [
     'supplied_ids',
     'write_questions',
     'write_results',
+    'write_summary',
 ]
