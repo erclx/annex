@@ -12,6 +12,7 @@ import { RecordedPicks } from '@/components/recorded-picks'
 import { RefusalView } from '@/components/refusal-view'
 import { ReplayNotice } from '@/components/replay-notice'
 import { RetrievalTrace } from '@/components/retrieval-trace'
+import { TermsStrip } from '@/components/terms-strip'
 import { TopBar } from '@/components/top-bar'
 import type { CorpusVersion } from '@/components/versions'
 import { ask, type AskResult } from '@/lib/ask'
@@ -163,7 +164,8 @@ export default function Home() {
             invalid={rejected || (touched && description.trim() === '')}
             pending={pending}
           />
-          {REPLAY_MODE && <RecordedPicks onPick={pick} />}
+          <RecordedPicks onPick={pick} />
+          <TermsStrip />
         </>
       ) : (
         <>

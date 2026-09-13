@@ -37,7 +37,9 @@ export function DescriptionForm({
       <p className="m-0 max-w-[62ch] text-[14px] leading-[1.6] text-muted">
         Plain language is enough. Annex reports which provisions apply and
         quotes them, against your choice of the original text or the text as
-        amended on 27 July 2026. It does not tell you whether you comply.
+        amended on 27 July 2026. Every claim carries the article text it came
+        from, so you check the answer rather than trust it. It does not tell you
+        whether you comply.
       </p>
 
       <div className="flex max-w-[62ch] flex-col gap-2">

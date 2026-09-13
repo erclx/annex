@@ -247,3 +247,59 @@ test('a named service failure carries a correlation id a reader can quote', asyn
   ).toBeVisible()
   await expect(page.getByText('correlation 8f2a-41d7')).toBeVisible()
 })
+
+test('a recorded pick on the local build asks the real service', async ({
+  page,
+}) => {
+  await serviceAnswers(page, ANSWER)
+  await page.goto('/')
+
+  await expect(
+    page.getByText('Or read one of the recorded questions'),
+  ).toBeVisible()
+  await page.getByRole('button', { name: /answers customer questions/ }).click()
+
+  await expect(
+    page.getByText('The chatbot has to tell the person'),
+  ).toBeVisible()
+})
+
+test('the terms strip gathers the load-bearing definitions', async ({
+  page,
+}) => {
+  await page.goto('/')
+
+  await expect(page.getByText('Terms used on this page')).toBeVisible()
+  await expect(
+    page.getByText('General-purpose AI model', { exact: true }),
+  ).toBeVisible()
+})
+
+test('the top bar links to the repository and the evaluation', async ({
+  page,
+}) => {
+  await page.goto('/')
+
+  await expect(page.getByRole('link', { name: 'Repository' })).toHaveAttribute(
+    'href',
+    'https://github.com/erclx/annex',
+  )
+  await expect(page.getByRole('link', { name: 'Evaluation' })).toHaveAttribute(
+    'href',
+    'https://github.com/erclx/annex/blob/main/docs/evaluation.md',
+  )
+})
+
+test('a citation carries a quieter EUR-Lex link beside its heading', async ({
+  page,
+}) => {
+  await serviceAnswers(page, ANSWER)
+  await page.goto('/')
+
+  await describeSystem(page)
+
+  await expect(page.getByRole('link', { name: /EUR-Lex/ })).toHaveAttribute(
+    'href',
+    'https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:02024R1689-20260727#art_50',
+  )
+})
