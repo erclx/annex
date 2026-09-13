@@ -324,7 +324,7 @@ The clamp reaches only the Act's words. A note always renders whole, since it is
 
 ### The word diff
 
-Read as a word diff between the two exported corpora, so a rewrapped sentence with no wording change reads as unchanged. The words the shown version adds that the other version does not share are tinted the same ground the note stands on, `warning-surface`, so the highlight reads as a second weight on the Act's own words rather than a fourth color competing with the claim and the note.
+Read as a word diff between the two exported corpora, so a rewrapped sentence with no wording change reads as unchanged. The words the shown version adds that the other version does not share are tinted the same ground the note stands on, `warning-surface`, and carry a `cite-rule-moved` underline, so the highlight reads as a second weight on the Act's own words rather than a fourth color competing with the claim and the note. The tint alone measured 1.057 to 1 against paper in light and 1.167 to 1 in dark, imperceptible rather than a second weight, and the underline is what a reader actually sees: `cite-rule-moved` against `warning-surface` measures 3.09 to 1 in light and 3.63 to 1 in dark, both past the 3 to 1 floor a non-text mark is held to.
 
 ```plaintext
 │  ┃ Article 95(4)  ( moved by the amendment )    Read the original text  │

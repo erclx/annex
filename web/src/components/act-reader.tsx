@@ -576,7 +576,7 @@ function ActText({
                     span.changed ? (
                       <mark
                         key={spanIndex}
-                        className="rounded-[2px] bg-warning-surface"
+                        className="rounded-[2px] border-b-2 border-cite-rule-moved bg-warning-surface"
                       >
                         {span.text}
                       </mark>

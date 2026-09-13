@@ -176,7 +176,10 @@ export function CitationBlock({
             {!isShowingOther && excerptStart > 0 && '… '}
             {excerptSpans.map((span, index) =>
               span.changed ? (
-                <mark key={index} className="rounded-[2px] bg-warning-surface">
+                <mark
+                  key={index}
+                  className="rounded-[2px] border-b-2 border-cite-rule-moved bg-warning-surface"
+                >
                   {span.text}
                 </mark>
               ) : (
