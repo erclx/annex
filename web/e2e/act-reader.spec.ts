@@ -52,7 +52,7 @@ test.describe('docked beside the answer', () => {
     ).toHaveCount(1)
   })
 
-  test('jumping to a paragraph keeps its article heading in view', async ({
+  test('jumping to a paragraph lands it flush under the section bar', async ({
     page,
   }) => {
     await page.goto(REPLAY_URL)
@@ -65,11 +65,63 @@ test.describe('docked beside the answer', () => {
       .first()
       .click()
 
-    // The tint marks the paragraph, and the heading of the article carrying it
-    // is what tells a reader which article they are reading.
-    await expect(
-      pane.locator('article:has(p.bg-accent-soft) > h2'),
-    ).toBeInViewport()
+    // The operator's first-use pass asked for the provision a jump lands on to
+    // sit at the top of the text rather than below its article's heading. The
+    // section bar names the article, so the heading's context is not lost.
+    await expect
+      .poll(async () => {
+        const text = await pane
+          .getByRole('region', { name: 'Text of the Act' })
+          .boundingBox()
+        const tinted = await pane.locator('p.bg-accent-soft').boundingBox()
+        return text && tinted ? Math.abs(tinted.y - text.y) : Infinity
+      })
+      .toBeLessThanOrEqual(24)
+  })
+
+  test('the section bar steps to the next article in the whole Act', async ({
+    page,
+  }) => {
+    await page.goto(REPLAY_URL)
+    await page.getByRole('button', { name: RECORDED }).click()
+
+    const pane = page.getByRole('complementary', { name: 'The Act' })
+    const count = pane.getByText(/^\d+ of \d+$/)
+    const before = Number((await count.textContent())?.split(' ')[0])
+
+    await pane.getByRole('button', { name: 'Next section' }).click()
+
+    await expect(count).toHaveText(`${before + 1} of 133`)
+  })
+
+  test('the section bar steps through cited provisions once switched', async ({
+    page,
+  }) => {
+    await page.goto(REPLAY_URL)
+    await page.getByRole('button', { name: RECORDED }).click()
+
+    const pane = page.getByRole('complementary', { name: 'The Act' })
+    await pane.getByRole('button', { name: 'Cited', exact: true }).click()
+    await pane.getByRole('button', { name: 'Next cited provision' }).click()
+
+    await expect(pane.getByText(/^2 of \d+ cited$/)).toBeVisible()
+  })
+
+  test('the jump field opens an annex by its numeral', async ({ page }) => {
+    await page.goto(REPLAY_URL)
+    await page.getByRole('button', { name: RECORDED }).click()
+
+    const pane = page.getByRole('complementary', { name: 'The Act' })
+    await pane
+      .getByRole('textbox', { name: 'Go to an article or annex' })
+      .fill('iii')
+    await pane
+      .getByRole('textbox', { name: 'Go to an article or annex' })
+      .press('Enter')
+
+    await expect(pane.locator('article.bg-accent-soft > h2')).toContainText(
+      'Annex III',
+    )
   })
 
   test('the trace opens the walk in the pane', async ({ page }) => {

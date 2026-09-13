@@ -9,6 +9,7 @@ import {
 } from '@/components/act-reader'
 import { AnswerView } from '@/components/answer-view'
 import { BeforeYouAsk } from '@/components/before-you-ask'
+import { ColumnHandle } from '@/components/column-handle'
 import { DescribedSystem } from '@/components/described-system'
 import { DescriptionForm } from '@/components/description-form'
 import { FailureRegion } from '@/components/failure-region'
@@ -17,18 +18,29 @@ import { RecordedPicks } from '@/components/recorded-picks'
 import { RefusalView } from '@/components/refusal-view'
 import { ReplayNotice } from '@/components/replay-notice'
 import { RetrievalTrace, Walk } from '@/components/retrieval-trace'
-import { TopBar } from '@/components/top-bar'
+import { TopBar, TraversalSwitch, VersionToggle } from '@/components/top-bar'
 import type { CorpusVersion } from '@/components/versions'
 import type { Answer } from '@/lib/answer'
 import { ask, type AskResult } from '@/lib/ask'
 import { REPLAY_MODE } from '@/lib/replay'
+import { useColumnWidth } from '@/lib/use-column-width'
 import { useDocked } from '@/lib/use-docked'
+import { useScrolledPast } from '@/lib/use-scrolled-past'
 
 /**
- * The answer column's measure beside a pane that takes the rest, from
+ * The empty state's measure beside the pane holding the terms, from
  * `.claude/DESIGN.md` § Layout.
  */
 const SPLIT = 'grid grid-cols-[minmax(0,640px)_minmax(420px,1fr)] items-start'
+
+/**
+ * An answer beside the Act: the answer column at the width the reader set, a
+ * gutter holding the handle that sets it, and the pane taking the rest. The
+ * width reads the custom property the pre-paint script and the column store
+ * both write, so it never renders at one width and moves to another.
+ */
+const ANSWER_SPLIT =
+  'grid grid-cols-[minmax(0,var(--annex-answer-width,640px))_40px_minmax(420px,1fr)] items-start'
 
 /** Every provision an answer or a refusal cites, once, in first-cited order. */
 function citedIn(answer: Answer): CitedProvision[] {
@@ -71,6 +83,7 @@ export default function Home() {
     null,
   )
   const [paneView, setPaneView] = useState<PaneView>('act')
+  const { width: answerWidth, setWidth, resetWidth } = useColumnWidth()
 
   /**
    * The in-flight ask, so a re-ask replaces its answer rather than racing it.
@@ -81,6 +94,9 @@ export default function Home() {
    * reader just toggled away from.
    */
   const inFlight = useRef<AbortController | null>(null)
+
+  /** Sits after the described system, or after the form before anything is asked. */
+  const slimMarker = useRef<HTMLDivElement | null>(null)
 
   const run = useCallback(
     async (text: string, against: CorpusVersion, follow: boolean) => {
@@ -148,6 +164,11 @@ export default function Home() {
   // because the service never started work on it.
   const onForm = asked === null || rejected
 
+  // Below 1024 before anything is asked, the bar holds the brand and the two
+  // controls sit under the description. Everywhere else they stay in the bar.
+  const showControlsInBar = docked || asked !== null
+  const isSlim = useScrolledPast(slimMarker, onForm ? 'form' : 'answer')
+
   const pick = useCallback(
     (recorded: string) => {
       setDescription(recorded)
@@ -187,6 +208,8 @@ export default function Home() {
         // way. Held inactive rather than removed, since the control is part of
         // what the recorded walkthrough demonstrates against the live system.
         traversalFixed={REPLAY_MODE}
+        slim={isSlim}
+        showControls={showControlsInBar}
       />
 
       {REPLAY_MODE && <ReplayNotice />}
@@ -206,7 +229,25 @@ export default function Home() {
               onSubmit={submit}
               invalid={rejected || (touched && description.trim() === '')}
               pending={pending}
+              choices={
+                showControlsInBar ? undefined : (
+                  <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                    <VersionToggle
+                      version={version}
+                      onVersionChange={changeVersion}
+                      disabled={pending}
+                    />
+                    <TraversalSwitch
+                      traversal={traversal}
+                      onTraversalChange={changeTraversal}
+                      disabled={pending}
+                      traversalFixed={REPLAY_MODE}
+                    />
+                  </div>
+                )
+              }
             />
+            <div ref={slimMarker} aria-hidden="true" />
             <RecordedPicks onPick={pick} />
             {!docked && <BeforeYouAsk docked={false} />}
           </div>
@@ -215,7 +256,8 @@ export default function Home() {
       ) : (
         <>
           <DescribedSystem description={asked} onEdit={edit} />
-          <div className={`flex-1 ${docked ? `${SPLIT} gap-x-10` : ''}`}>
+          <div ref={slimMarker} aria-hidden="true" />
+          <div className={`flex-1 ${docked ? ANSWER_SPLIT : ''}`}>
             {/* The trace sits beside `main` rather than inside it. A footer nested
                 in `main` is no longer a contentinfo landmark, which is what a
                 screen reader and every e2e case find the cost line by. */}
@@ -262,6 +304,15 @@ export default function Home() {
                 />
               )}
             </div>
+            {docked && answer && (
+              <div className="sticky top-[var(--annex-bar-height,0px)] h-[calc(100vh-var(--annex-bar-height,0px))]">
+                <ColumnHandle
+                  width={answerWidth}
+                  onWidthChange={setWidth}
+                  onReset={resetWidth}
+                />
+              </div>
+            )}
             {docked && answer && (
               <ActReader
                 docked

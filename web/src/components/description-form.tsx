@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react'
+
 /**
  * The empty state, and the one place a validation message renders.
  *
@@ -5,6 +7,10 @@
  * work. No label, heading, or button on this surface may imply a verdict on
  * whether an organization complies, and stating the boundary before a visitor
  * has asked anything is where `.claude/wireframes/answer.md` puts it.
+ *
+ * `choices` is the version and traversal row the page places here below 1024
+ * pixels before anything is asked, directly under the description where the
+ * choice is made, rather than in a top bar that holds only the brand there.
  */
 export function DescriptionForm({
   description,
@@ -13,6 +19,7 @@ export function DescriptionForm({
   onSubmit,
   invalid,
   pending,
+  choices,
 }: {
   description: string
   onDescriptionChange: (description: string) => void
@@ -20,10 +27,11 @@ export function DescriptionForm({
   onSubmit: () => void
   invalid: boolean
   pending: boolean
+  choices?: ReactNode
 }) {
   return (
     <form
-      className="flex w-full flex-col gap-4 pt-12 pb-10"
+      className="flex w-full flex-col gap-4 pt-6 pb-10 lg:pt-12"
       onSubmit={(event) => {
         event.preventDefault()
         onSubmit()
@@ -67,6 +75,8 @@ export function DescriptionForm({
           </p>
         )}
       </div>
+
+      {choices}
 
       <div>
         {/* Live on an empty description and held inactive once the message is

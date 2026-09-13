@@ -169,6 +169,84 @@ describe('ActReader', () => {
       expect(onOpen).toHaveBeenCalledWith('art_50')
     })
 
+    it('should name the section in view and its place in the whole Act', () => {
+      render(
+        <ActReader
+          docked
+          version="consolidated"
+          openId="art_50.6"
+          cited={cited}
+          onClose={vi.fn()}
+          onVersionChange={vi.fn()}
+        />,
+      )
+
+      expect(screen.getByText('51 of 133')).toBeInTheDocument()
+    })
+
+    it('should open the next section a step names', async () => {
+      const onOpen = vi.fn()
+      render(
+        <ActReader
+          docked
+          version="consolidated"
+          openId="art_50.6"
+          cited={cited}
+          onOpen={onOpen}
+          onClose={vi.fn()}
+          onVersionChange={vi.fn()}
+        />,
+      )
+
+      await userEvent.click(
+        screen.getByRole('button', { name: 'Next section' }),
+      )
+
+      expect(onOpen).toHaveBeenCalledWith('art_51')
+    })
+
+    it('should step to the next section on the right arrow while the text has focus', async () => {
+      const onOpen = vi.fn()
+      render(
+        <ActReader
+          docked
+          version="consolidated"
+          openId="art_50.6"
+          cited={cited}
+          onOpen={onOpen}
+          onClose={vi.fn()}
+          onVersionChange={vi.fn()}
+        />,
+      )
+
+      screen.getByRole('region', { name: 'Text of the Act' }).focus()
+      await userEvent.keyboard('{ArrowRight}')
+
+      expect(onOpen).toHaveBeenCalledWith('art_51')
+    })
+
+    it('should step through cited provisions once switched to them', async () => {
+      const onOpen = vi.fn()
+      render(
+        <ActReader
+          docked
+          version="consolidated"
+          openId="art_6"
+          cited={cited}
+          onOpen={onOpen}
+          onClose={vi.fn()}
+          onVersionChange={vi.fn()}
+        />,
+      )
+
+      await userEvent.click(screen.getByRole('button', { name: 'Cited' }))
+      await userEvent.click(
+        screen.getByRole('button', { name: 'Next cited provision' }),
+      )
+
+      expect(onOpen).toHaveBeenCalledWith('art_50')
+    })
+
     it('should switch to the walk when it is asked for', () => {
       render(
         <ActReader

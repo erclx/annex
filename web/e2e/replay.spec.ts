@@ -84,7 +84,7 @@ test('the traversal switch is held inactive, since one recording cannot answer b
   await page.goto(REPLAY_URL)
 
   await expect(page.getByRole('switch')).toBeDisabled()
-  await expect(page.getByText('recorded', { exact: true })).toBeVisible()
+  await expect(page.getByText('Recorded with traversal on')).toBeVisible()
 })
 
 test('the version toggle re-asks against the other text', async ({ page }) => {
@@ -103,4 +103,52 @@ test('the version toggle re-asks against the other text', async ({ page }) => {
     topBar.getByRole('button', { name: 'Original' }),
   ).toHaveAttribute('aria-pressed', 'true')
   await expect(page.getByRole('contentinfo')).toBeVisible()
+})
+
+test.describe('the top of the page at 400 pixels', () => {
+  test.use({ viewport: { width: 400, height: 860 } })
+
+  test('the question starts near the top of a phone screen', async ({
+    page,
+  }) => {
+    await page.goto(REPLAY_URL)
+
+    const heading = await page
+      .getByRole('heading', { name: /Describe what you are building/ })
+      .boundingBox()
+    const input = await page.getByLabel('Describe your system').boundingBox()
+
+    // Measured on the built export at 119 and 391 pixels. The input sits under
+    // the full supporting paragraph, which carries the sentence saying the
+    // page gives no compliance verdict, so it cannot be shortened to move it.
+    expect(heading?.y ?? Infinity).toBeLessThanOrEqual(140)
+    expect(input?.y ?? Infinity).toBeLessThanOrEqual(420)
+  })
+
+  test('the version and traversal choices sit under the description', async ({
+    page,
+  }) => {
+    await page.goto(REPLAY_URL)
+
+    await expect(
+      page
+        .getByRole('banner')
+        .getByRole('group', { name: 'Which text to read against' }),
+    ).toHaveCount(0)
+    await expect(
+      page.getByRole('group', { name: 'Which text to read against' }),
+    ).toBeVisible()
+  })
+
+  test('the recording band shortens to one line with its details a tap away', async ({
+    page,
+  }) => {
+    await page.goto(REPLAY_URL)
+
+    await expect(page.getByText('A recording, not a live model.')).toBeVisible()
+    await page.getByRole('button', { name: 'Details' }).click()
+    await expect(
+      page.getByText(/came back from the live system on/),
+    ).toBeVisible()
+  })
 })

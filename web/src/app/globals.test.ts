@@ -21,12 +21,17 @@ const CSS = readFileSync(
   'utf8',
 )
 
-/** The declaration body following a selector, matched by brace depth. */
+/**
+ * The declaration body following a selector, matched by brace depth.
+ *
+ * The brace is searched from the start of the marker, since a marker such as
+ * `:root {` carries its own brace and searching past it reads the next block.
+ */
 function blockAfter(marker: string): string {
   const at = CSS.indexOf(marker)
   if (at === -1) throw new Error(`no block in globals.css for: ${marker}`)
 
-  const open = CSS.indexOf('{', at + marker.length)
+  const open = CSS.indexOf('{', at)
   let depth = 0
   for (let i = open; i < CSS.length; i += 1) {
     if (CSS[i] === '{') depth += 1
@@ -74,5 +79,13 @@ describe('the two dark palettes', () => {
     )
 
     expect([...systemDark.keys()].sort()).toEqual(colors.sort())
+  })
+})
+
+describe('the pinned bar height', () => {
+  it('defaults to the full bar so a pane is seated under it on the first paint', () => {
+    const layout = tokensIn(blockAfter('/* Layout */\n:root {'))
+
+    expect(layout.get('--annex-bar-height')).toBe('63px')
   })
 })

@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
@@ -514,6 +514,19 @@ describe('the docked pane at 1024 pixels and wider', () => {
     )
   })
 
+  it('divides the answer from the Act with a handle at the default width', async () => {
+    respondWith(200, anAnswer())
+    render(<Home />)
+
+    await describeSystem()
+
+    expect(
+      await screen.findByRole('separator', {
+        name: 'Resize the answer and the Act',
+      }),
+    ).toHaveAttribute('aria-valuenow', '640')
+  })
+
   it('opens the walk in the pane from the trace', async () => {
     respondWith(200, anAnswer())
     render(<Home />)
@@ -525,6 +538,39 @@ describe('the docked pane at 1024 pixels and wider', () => {
       'aria-pressed',
       'true',
     )
+  })
+})
+
+describe('the single column below 1024 pixels', () => {
+  it('places the version and traversal controls under the description before anything is asked', () => {
+    render(<Home />)
+
+    const banner = screen.getByRole('banner')
+    expect(
+      within(banner).queryByRole('group', {
+        name: 'Which text to read against',
+      }),
+    ).not.toBeInTheDocument()
+    expect(
+      screen.getByRole('group', { name: 'Which text to read against' }),
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('switch', { name: 'Reference traversal' }),
+    ).toBeInTheDocument()
+  })
+
+  it('moves the controls into the bar once a question is asked', async () => {
+    respondWith(200, anAnswer())
+    render(<Home />)
+
+    await describeSystem()
+    await screen.findByText(/has to tell the person/)
+
+    expect(
+      within(screen.getByRole('banner')).getByRole('group', {
+        name: 'Which text to read against',
+      }),
+    ).toBeInTheDocument()
   })
 })
 
