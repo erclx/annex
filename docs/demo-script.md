@@ -139,4 +139,4 @@ checkability. Reporting that is the deliverable rather than a failure of it.
 
 Not committed. A repository is a poor host for a binary nobody diffs, and the
 audience gets a file or a link rather than a clone. This script is the tracked
-half. `canon:canon-screencast` covers the scripting and the capture.
+half. `canon:draft-screencast` covers the scripting and the capture.
