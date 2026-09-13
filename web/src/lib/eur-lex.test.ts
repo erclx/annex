@@ -41,7 +41,11 @@ describe('eurLexUrl', () => {
       'https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:02024R1689-20260727#anx_III',
     ],
     [
-      'rct_1',
+      'rct_132',
+      'https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:02024R1689-20260727#rct_132',
+    ],
+    [
+      'unrecognized_1',
       'https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:02024R1689-20260727',
     ],
   ])(
@@ -60,6 +64,12 @@ describe('eurLexUrl', () => {
   it('should deep-link an annex on the original text to the OJ source', () => {
     expect(eurLexUrl(citation('anx_III', 'original'))).toBe(
       'https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401689#anx_III',
+    )
+  })
+
+  it('should deep-link a recital on the original text to the OJ source', () => {
+    expect(eurLexUrl(citation('rct_132', 'original'))).toBe(
+      'https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401689#rct_132',
     )
   })
 })

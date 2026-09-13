@@ -69,14 +69,15 @@ describe('CitationBlock', () => {
     )
   })
 
-  it('should link a recital citation to the document root with no fragment', () => {
+  it('should link a recital citation to its own anchor on EUR-Lex', () => {
     render(
       <CitationBlock
         citation={{
           ...CITATION,
-          citation: 'Recital 1',
-          provision_id: 'rct_1',
+          citation: 'Recital 132',
+          provision_id: 'rct_132',
           kind: 'recital',
+          version: 'original',
         }}
       />,
     )
@@ -84,7 +85,7 @@ describe('CitationBlock', () => {
     const link = screen.getByRole('link', { name: /EUR-Lex/ })
     expect(link).toHaveAttribute(
       'href',
-      'https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:02024R1689-20260727',
+      'https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401689#rct_132',
     )
   })
 })

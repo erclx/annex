@@ -373,7 +373,7 @@ Opened by activating a citation's own heading, anywhere one renders: the answer,
 
 A quieter `EUR-Lex ↗` control sits beside the heading, on every citation, and leaves the page rather than opening the panel: the heading stays the loud control that keeps a reader here, and EUR-Lex is the escape hatch for one who wants the source of record instead. It opens in the same tab, per the project's own link-behavior rule.
 
-It links to the article or annex the citation's paragraph sits under, since the source HTML anchors only at that level. It lands at the document root instead for a citation carrying neither prefix, such as a recital, which the source does not anchor at that level in the consolidated text.
+It links to the article, annex, or recital the citation's paragraph sits under, since the source HTML anchors each at that level. It lands at the document root only for a citation carrying none of those three kinds, which no provision this project indexes does.
 
 ```plaintext
 ┌──────────────────────────────────────────────────────────────────────┐
