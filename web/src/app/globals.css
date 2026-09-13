@@ -31,8 +31,14 @@
   --error-surface: #fbeeec;
   --error-rule: #dab5b1;
 
+  /* `--font-noto-sans` is published by `layout.tsx` via `next/font/google`, so
+     the primary match is a font this build ships rather than one the host
+     happens to have installed. The OS stack stays as the fallback for the one
+     render before the embedded font arrives, `font-display: swap`, and for
+     any file that loads this CSS outside the Next.js build. */
   --font-sans:
-    system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    var(--font-noto-sans), system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Helvetica Neue', sans-serif;
   --font-serif: Georgia, 'Times New Roman', Times, serif;
   --font-mono:
     ui-monospace, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
