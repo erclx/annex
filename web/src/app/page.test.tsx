@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import Home from '@/app/page'
+import { findProvision } from '@/lib/corpus'
 
 const citation = {
   provision_id: 'art_50.1',
@@ -62,6 +63,18 @@ function lastSent(): Record<string, unknown> {
   return JSON.parse(String(init?.body)) as Record<string, unknown>
 }
 
+function stubWideViewport() {
+  vi.stubGlobal(
+    'matchMedia',
+    vi.fn((query: string) => ({
+      matches: query === '(min-width: 1024px)',
+      media: query,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    })),
+  )
+}
+
 async function describeSystem(text = 'a customer chatbot') {
   const user = userEvent.setup()
   await user.type(screen.getByLabelText('Describe your system'), text)
@@ -111,26 +124,36 @@ describe('the empty state', () => {
 })
 
 describe('the invalid state', () => {
-  it('renders on the input once an empty description has been left', async () => {
+  const EMPTY = 'A description is needed before this can be answered.'
+  const TOO_LONG =
+    'The description is too long, so shorten it to 4 000 characters or fewer.'
+
+  it('shows nothing when an empty description is only left', async () => {
     render(<Home />)
     const user = userEvent.setup()
 
     await user.click(screen.getByLabelText('Describe your system'))
     await user.tab()
 
+    expect(screen.queryByText(EMPTY)).not.toBeInTheDocument()
     expect(
-      screen.getByText('A description is needed before this can be answered.'),
-    ).toBeInTheDocument()
+      screen.getByRole('button', { name: 'Find the articles' }),
+    ).toBeEnabled()
+  })
+
+  it('renders on the input once an empty description is submitted', async () => {
+    render(<Home />)
+    const user = userEvent.setup()
+
+    await user.click(screen.getByRole('button', { name: 'Find the articles' }))
+
+    expect(screen.getByText(EMPTY)).toBeInTheDocument()
   })
 
   it('shows nothing on a field nobody has touched', () => {
     render(<Home />)
 
-    expect(
-      screen.queryByText(
-        'A description is needed before this can be answered.',
-      ),
-    ).not.toBeInTheDocument()
+    expect(screen.queryByText(EMPTY)).not.toBeInTheDocument()
   })
 
   it('holds the action inactive rather than reaching the service', async () => {
@@ -139,8 +162,7 @@ describe('the invalid state', () => {
     render(<Home />)
     const user = userEvent.setup()
 
-    await user.click(screen.getByLabelText('Describe your system'))
-    await user.tab()
+    await user.click(screen.getByRole('button', { name: 'Find the articles' }))
     await user.click(screen.getByRole('button', { name: 'Find the articles' }))
 
     expect(stub).not.toHaveBeenCalled()
@@ -149,16 +171,26 @@ describe('the invalid state', () => {
   it('clears the message as soon as the description becomes valid', async () => {
     render(<Home />)
     const user = userEvent.setup()
-    await user.click(screen.getByLabelText('Describe your system'))
-    await user.tab()
+    await user.click(screen.getByRole('button', { name: 'Find the articles' }))
 
     await user.type(screen.getByLabelText('Describe your system'), 'a chatbot')
 
-    expect(
-      screen.queryByText(
-        'A description is needed before this can be answered.',
-      ),
-    ).not.toBeInTheDocument()
+    expect(screen.queryByText(EMPTY)).not.toBeInTheDocument()
+  })
+
+  it('says an over-length description is too long and names the limit', async () => {
+    const stub = vi.fn()
+    vi.stubGlobal('fetch', stub)
+    render(<Home />)
+    const user = userEvent.setup()
+    await user.click(screen.getByLabelText('Describe your system'))
+    await user.paste('x'.repeat(4001))
+
+    await user.click(screen.getByRole('button', { name: 'Find the articles' }))
+
+    expect(screen.getByText(TOO_LONG)).toBeInTheDocument()
+    expect(screen.queryByText(EMPTY)).not.toBeInTheDocument()
+    expect(stub).not.toHaveBeenCalled()
   })
 })
 
@@ -258,6 +290,44 @@ describe('the answered state', () => {
         /stopped for want of room, not because it finished/,
       ),
     ).toBeInTheDocument()
+  })
+
+  it('describes the cut generation rather than the provisions the budget dropped', async () => {
+    respondWith(
+      200,
+      anAnswer({
+        retrieval: { ...trace, truncated: true, dropped_ids: ['art_19'] },
+      }),
+    )
+    render(<Home />)
+
+    await describeSystem()
+
+    expect(
+      await screen.findByText(
+        'The model ran out of room while writing, so anything it would have said after the last claim here is missing.',
+      ),
+    ).toBeInTheDocument()
+    expect(
+      screen.queryByText(/cut before the model read them/),
+    ).not.toBeInTheDocument()
+  })
+
+  it('raises no banner on an answer whose generation finished, however much the budget dropped', async () => {
+    respondWith(
+      200,
+      anAnswer({
+        retrieval: { ...trace, truncated: false, dropped_ids: ['art_19'] },
+      }),
+    )
+    render(<Home />)
+
+    await describeSystem()
+    await screen.findByText(/has to tell the person they are interacting/)
+
+    expect(
+      screen.queryByText(/stopped for want of room/),
+    ).not.toBeInTheDocument()
   })
 })
 
@@ -449,18 +519,6 @@ describe('the theme control', () => {
 })
 
 describe('the docked pane at 1024 pixels and wider', () => {
-  function stubWideViewport() {
-    vi.stubGlobal(
-      'matchMedia',
-      vi.fn((query: string) => ({
-        matches: query === '(min-width: 1024px)',
-        media: query,
-        addEventListener: vi.fn(),
-        removeEventListener: vi.fn(),
-      })),
-    )
-  }
-
   beforeEach(() => {
     Element.prototype.scrollIntoView = vi.fn()
     stubWideViewport()
@@ -538,6 +596,192 @@ describe('the docked pane at 1024 pixels and wider', () => {
       'aria-pressed',
       'true',
     )
+  })
+
+  it('lands Read all on the point the excerpt opened on', async () => {
+    const annex = {
+      ...citation,
+      provision_id: 'anx_III',
+      citation: 'Annex III',
+      kind: 'annex',
+      version: 'original',
+      text: findProvision('original', 'anx_III')?.text ?? '',
+    }
+    respondWith(
+      200,
+      anAnswer({
+        version: 'original',
+        claims: [
+          {
+            statement:
+              'The system falls within Annex III point 4(a), covering AI systems intended to be used for the recruitment or selection of natural persons, in particular to analyse and filter job applications and to evaluate candidates',
+            citations: [annex],
+          },
+        ],
+      }),
+    )
+    render(<Home />)
+    const user = await describeSystem()
+
+    await user.click(
+      await screen.findByRole('button', {
+        name: /^Read all .* characters in the Act/,
+      }),
+    )
+
+    const pane = screen.getByRole('complementary', { name: 'The Act' })
+    expect(
+      within(pane)
+        .getByText(/^\(a\) AI systems intended to be used for the recruitment/)
+        .closest('[aria-current="location"]'),
+    ).not.toBeNull()
+  })
+
+  it('holds what a refusal read behind one line, tagged by what reached it', async () => {
+    respondWith(
+      200,
+      anAnswer({
+        claims: [],
+        refusal: {
+          reason: 'The Act never defines the threshold.',
+          missing: ['what counts as a substantial modification'],
+          consulted: [citation],
+        },
+      }),
+    )
+    render(<Home />)
+    const user = await describeSystem()
+
+    await user.click(
+      await screen.findByRole('button', {
+        name: '1 provision read before refusing',
+      }),
+    )
+
+    expect(
+      within(screen.getByRole('list', { name: 'Provisions read' })).getByRole(
+        'button',
+      ),
+    ).toHaveTextContent('Article 50(1)search')
+    expect(
+      screen.queryByRole('navigation', { name: 'Cited in this answer' }),
+    ).not.toBeInTheDocument()
+  })
+
+  it('offers the commands that start what is missing beside an unavailable state', async () => {
+    respondWith(503, {
+      state: 'unavailable',
+      detail: 'The model or the index is not running.',
+      correlationId: '8f2a-41d7',
+    })
+    render(<Home />)
+
+    await describeSystem()
+
+    expect(
+      await screen.findByRole('complementary', { name: 'Next step' }),
+    ).toHaveTextContent('ollama serve')
+  })
+
+  it('offers the command that starts the service beside an unreachable state', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(() => Promise.reject(new TypeError('Failed to fetch'))),
+    )
+    render(<Home />)
+
+    await describeSystem()
+
+    expect(
+      await screen.findByRole('complementary', { name: 'Next step' }),
+    ).toHaveTextContent('uv run python -m annex serve')
+  })
+
+  it('keeps the terms beside a timeout, which no command or pick would fix', async () => {
+    respondWith(504, {
+      state: 'timeout',
+      detail: 'The model did not answer inside the budget.',
+      correlationId: '8f2a-41d7',
+    })
+    render(<Home />)
+
+    await describeSystem()
+
+    expect(
+      await screen.findByRole('complementary', { name: 'Before you ask' }),
+    ).toBeInTheDocument()
+  })
+})
+
+describe('the address', () => {
+  beforeEach(() => {
+    Element.prototype.scrollIntoView = vi.fn()
+    stubWideViewport()
+  })
+
+  afterEach(() => {
+    window.history.replaceState(null, '', '/')
+  })
+
+  it('carries the version and the provision the Act is showing once an answer shows', async () => {
+    respondWith(200, anAnswer())
+    render(<Home />)
+
+    await describeSystem()
+    await screen.findByText(/has to tell the person they are interacting/)
+
+    const params = new URLSearchParams(window.location.search)
+    expect(params.get('v')).toBe('consolidated')
+    expect(params.get('p')).toBe('art_50.1')
+  })
+
+  it('never writes a description typed on the live build into the address', async () => {
+    respondWith(200, anAnswer())
+    render(<Home />)
+
+    await describeSystem()
+    await screen.findByText(/has to tell the person they are interacting/)
+
+    expect(new URLSearchParams(window.location.search).has('q')).toBe(false)
+    expect(window.location.search).not.toContain('chatbot')
+  })
+
+  it('leaves a shared address as it arrived until something is asked', () => {
+    window.history.replaceState(null, '', '/?v=original&p=art_50.1')
+    render(<Home />)
+
+    expect(window.location.search).toBe('?v=original&p=art_50.1')
+  })
+
+  it('asks against the version the address names', async () => {
+    window.history.replaceState(null, '', '/?v=original')
+    respondWith(200, anAnswer())
+    render(<Home />)
+
+    await describeSystem()
+
+    expect(lastSent().version).toBe('original')
+  })
+
+  it('asks against the amended text when the address names neither text', async () => {
+    window.history.replaceState(null, '', '/?v=draft')
+    respondWith(200, anAnswer())
+    render(<Home />)
+
+    await describeSystem()
+
+    expect(lastSent().version).toBe('consolidated')
+  })
+
+  it('clears the answer from the address when the description is edited', async () => {
+    respondWith(200, anAnswer())
+    render(<Home />)
+    const user = await describeSystem()
+    await screen.findByText(/has to tell the person they are interacting/)
+
+    await user.click(screen.getByRole('button', { name: 'Edit description' }))
+
+    expect(new URLSearchParams(window.location.search).has('p')).toBe(false)
   })
 })
 

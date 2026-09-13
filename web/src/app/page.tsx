@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import {
   ActReader,
@@ -11,7 +11,14 @@ import { AnswerView } from '@/components/answer-view'
 import { BeforeYouAsk } from '@/components/before-you-ask'
 import { ColumnHandle } from '@/components/column-handle'
 import { DescribedSystem } from '@/components/described-system'
-import { DescriptionForm } from '@/components/description-form'
+import {
+  type DescriptionError,
+  DescriptionForm,
+} from '@/components/description-form'
+import {
+  FailureNextStep,
+  type NextStepState,
+} from '@/components/failure-next-step'
 import { FailureRegion } from '@/components/failure-region'
 import { LoadingAnswer } from '@/components/loading-answer'
 import { RecordedPicks } from '@/components/recorded-picks'
@@ -20,9 +27,14 @@ import { ReplayNotice } from '@/components/replay-notice'
 import { RetrievalTrace, Walk } from '@/components/retrieval-trace'
 import { TopBar, TraversalSwitch, VersionToggle } from '@/components/top-bar'
 import type { CorpusVersion } from '@/components/versions'
+import { addressSearch, readAddress } from '@/lib/address'
 import type { Answer } from '@/lib/answer'
-import { ask, type AskResult } from '@/lib/ask'
-import { REPLAY_MODE } from '@/lib/replay'
+import { ask, type AskResult, MAXIMUM_DESCRIPTION } from '@/lib/ask'
+import {
+  recordedDescriptionFor,
+  recordedQuestionIdFor,
+  REPLAY_MODE,
+} from '@/lib/replay'
 import { useColumnWidth } from '@/lib/use-column-width'
 import { useDocked } from '@/lib/use-docked'
 import { useScrolledPast } from '@/lib/use-scrolled-past'
@@ -42,8 +54,14 @@ const SPLIT = 'grid grid-cols-[minmax(0,640px)_minmax(420px,1fr)] items-start'
 const ANSWER_SPLIT =
   'grid grid-cols-[minmax(0,var(--annex-answer-width,640px))_40px_minmax(420px,1fr)] items-start'
 
-/** Every provision an answer or a refusal cites, once, in first-cited order. */
+/**
+ * Every provision an answer or a refusal cites, once, in first-cited order.
+ *
+ * A refusal's provisions also say whether search found each or the walk
+ * reached it, which its reading list tags every row with.
+ */
 function citedIn(answer: Answer): CitedProvision[] {
+  const { searched_ids: searched, traversed_ids: traversed } = answer.retrieval
   const citations = answer.refusal
     ? answer.refusal.consulted
     : answer.claims.flatMap((claim) => claim.citations)
@@ -51,8 +69,31 @@ function citedIn(answer: Answer): CitedProvision[] {
   return citations.flatMap((citation) => {
     if (seen.has(citation.provision_id)) return []
     seen.add(citation.provision_id)
-    return [{ provisionId: citation.provision_id, label: citation.citation }]
+    const provision: CitedProvision = {
+      provisionId: citation.provision_id,
+      label: citation.citation,
+    }
+    if (answer.refusal && searched.includes(citation.provision_id)) {
+      provision.reachedBy = 'search'
+    } else if (answer.refusal && traversed.includes(citation.provision_id)) {
+      provision.reachedBy = 'walk'
+    }
+    return [provision]
   })
+}
+
+/** Which of the two validation messages a description earns, if any. */
+function descriptionErrorFor(description: string): DescriptionError | null {
+  const trimmed = description.trim()
+  if (trimmed === '') return 'empty'
+  if (trimmed.length > MAXIMUM_DESCRIPTION) return 'too-long'
+  return null
+}
+
+function isNextStepState(state: AskResult['state']): state is NextStepState {
+  return (
+    state === 'unrecorded' || state === 'unavailable' || state === 'unreachable'
+  )
 }
 
 /**
@@ -82,6 +123,7 @@ export default function Home() {
   const [readerProvisionId, setReaderProvisionId] = useState<string | null>(
     null,
   )
+  const [readerPoint, setReaderPoint] = useState<string | null>(null)
   const [paneView, setPaneView] = useState<PaneView>('act')
   const { width: answerWidth, setWidth, resetWidth } = useColumnWidth()
 
@@ -98,6 +140,17 @@ export default function Home() {
   /** Sits after the described system, or after the form before anything is asked. */
   const slimMarker = useRef<HTMLDivElement | null>(null)
 
+  /** Whether the address has been read into the page yet. */
+  const hasReadAddress = useRef(false)
+
+  /**
+   * Whether anything has been asked since the page opened. The address is
+   * written only once something has, since the effect writing it runs in the
+   * same commit as the one reading it, and writing an empty page then would
+   * replace a shared link before the answer it names is back.
+   */
+  const hasAsked = useRef(false)
+
   const run = useCallback(
     async (text: string, against: CorpusVersion, follow: boolean) => {
       inFlight.current?.abort()
@@ -108,6 +161,7 @@ export default function Home() {
       setResult(null)
       setPending(true)
       setReaderProvisionId(null)
+      setReaderPoint(null)
       setReaderVersion(against)
       setPaneView('act')
 
@@ -124,9 +178,40 @@ export default function Home() {
     [],
   )
 
+  /**
+   * Opens the page as a shared address left it. Only the deployed build holds
+   * a recorded question to reopen, and on either build a version carries
+   * across, with a provision alongside a reopened answer.
+   */
+  const restoreAddress = useCallback(
+    (search: string) => {
+      const address = readAddress(search)
+      const against = address.version ?? 'consolidated'
+      const recorded =
+        REPLAY_MODE && address.question
+          ? recordedDescriptionFor(address.question)
+          : null
+
+      if (address.version) setVersion(address.version)
+      if (recorded === null) return
+      setDescription(recorded)
+      void run(recorded, against, true)
+      if (address.provision) setReaderProvisionId(address.provision)
+    },
+    [run],
+  )
+
+  // The address is an external system read once, after hydration, because the
+  // static export renders this page with no address at all.
+  useEffect(() => {
+    if (hasReadAddress.current) return
+    hasReadAddress.current = true
+    restoreAddress(window.location.search)
+  }, [restoreAddress])
+
   const submit = useCallback(() => {
     setTouched(true)
-    if (description.trim() === '') return
+    if (descriptionErrorFor(description) !== null) return
     void run(description, version, traversal)
   }, [description, run, traversal, version])
 
@@ -160,6 +245,14 @@ export default function Home() {
       : null
   const cited = useMemo(() => (answer ? citedIn(answer) : []), [answer])
 
+  // A description the service rejected with a length the form would pass is
+  // still named as empty, the one other reason the service gives `invalid`.
+  const formError = rejected
+    ? (descriptionErrorFor(description) ?? 'empty')
+    : touched
+      ? descriptionErrorFor(description)
+      : null
+
   // The invalid state renders on the input and never in the failure region,
   // because the service never started work on it.
   const onForm = asked === null || rejected
@@ -179,9 +272,10 @@ export default function Home() {
   )
 
   const openProvision = useCallback(
-    (provisionId: string, provisionVersion: CorpusVersion) => {
+    (provisionId: string, provisionVersion: CorpusVersion, point?: string) => {
       setReaderVersion(provisionVersion)
       setReaderProvisionId(provisionId)
+      setReaderPoint(point ?? null)
       setPaneView('act')
     },
     [],
@@ -189,11 +283,38 @@ export default function Home() {
 
   const closeReader = useCallback(() => {
     setReaderProvisionId(null)
+    setReaderPoint(null)
   }, [])
 
   // Docked, the Act opens on the first provision the answer cites until the
   // reader picks another, so the pane never starts at the top of Article 1.
   const paneProvisionId = readerProvisionId ?? cited[0]?.provisionId ?? null
+  const shownProvisionId = answer
+    ? docked
+      ? paneProvisionId
+      : readerProvisionId
+    : null
+
+  useEffect(() => {
+    if (!hasReadAddress.current) return
+    if (asked !== null) hasAsked.current = true
+    if (!hasAsked.current) return
+    const question =
+      REPLAY_MODE && asked !== null ? recordedQuestionIdFor(asked) : null
+    const search = addressSearch({
+      question: question ?? undefined,
+      version: asked !== null ? version : undefined,
+      provision: shownProvisionId ?? undefined,
+    })
+    const { pathname, hash } = window.location
+    window.history.replaceState(
+      window.history.state,
+      '',
+      `${pathname}${search}${hash}`,
+    )
+  }, [asked, shownProvisionId, version])
+
+  const nextStep = result && isNextStepState(result.state) ? result.state : null
 
   return (
     <div className="flex min-h-full flex-col bg-paper">
@@ -223,11 +344,8 @@ export default function Home() {
                 setDescription(next)
                 setResult(null)
               }}
-              onBlur={() => {
-                setTouched(true)
-              }}
               onSubmit={submit}
-              invalid={rejected || (touched && description.trim() === '')}
+              error={formError}
               pending={pending}
               choices={
                 showControlsInBar ? undefined : (
@@ -257,7 +375,11 @@ export default function Home() {
         <>
           <DescribedSystem description={asked} onEdit={edit} />
           <div ref={slimMarker} aria-hidden="true" />
-          <div className={`flex-1 ${docked ? ANSWER_SPLIT : ''}`}>
+          <div
+            className={`flex-1 ${
+              docked ? (answer ? ANSWER_SPLIT : `${SPLIT} gap-x-10`) : ''
+            }`}
+          >
             {/* The trace sits beside `main` rather than inside it. A footer nested
                 in `main` is no longer a contentinfo landmark, which is what a
                 screen reader and every e2e case find the cost line by. */}
@@ -318,7 +440,9 @@ export default function Home() {
                 docked
                 version={readerVersion}
                 openId={paneProvisionId}
+                openPoint={readerPoint}
                 cited={cited}
+                citedAs={answer.refusal ? 'read' : 'cited'}
                 onOpen={(provisionId) => {
                   openProvision(provisionId, answer.version)
                 }}
@@ -329,6 +453,13 @@ export default function Home() {
                 onVersionChange={setReaderVersion}
               />
             )}
+            {docked && nextStep && (
+              <FailureNextStep state={nextStep} onPick={pick} />
+            )}
+            {docked &&
+              (result?.state === 'timeout' || result?.state === 'failed') && (
+                <BeforeYouAsk docked />
+              )}
           </div>
         </>
       )}
@@ -337,6 +468,7 @@ export default function Home() {
         <ActReader
           version={readerVersion}
           openId={readerProvisionId}
+          openPoint={readerPoint}
           onClose={closeReader}
           onVersionChange={setReaderVersion}
         />
