@@ -253,8 +253,8 @@ describe('the answered state', () => {
             citations: [
               {
                 ...citation,
-                provision_id: 'anx_III.5.b',
-                citation: 'Annex III(5)(b)',
+                provision_id: 'art_95.4',
+                citation: 'Article 95(4)',
                 changed: true,
                 change_note:
                   'Regulation (EU) 2026/1744 moved the date this bites.',
