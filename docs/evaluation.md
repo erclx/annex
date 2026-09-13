@@ -35,11 +35,12 @@ One trap is worth naming because no artifact in the repository would show it. Th
 
 ### What is scored
 
-Everything is read off `RetrievalTrace`, which the pipeline fills as it runs. Nothing is scored from the answer's citations alone, because an arm handed a quarter of the document that cites three provisions would score 1.0 on every metric derived from its citations.
+Everything below the citation exception is read off `RetrievalTrace`, which the pipeline fills as it runs. Nothing there is scored from the answer's citations alone, because an arm handed a quarter of the document that cites three provisions would score 1.0 on every metric derived from its citations against what it was supplied.
 
 - **Recall.** Of the provisions a correct answer has to read, how many reached the model
 - **Precision**, against two denominators. Against every node supplied, which is what the model actually read, and against articles alone once paragraphs are collapsed. Never against every provision the corpus addresses, which flatters any arm
 - **Faithfulness**, as span containment of a claim's content words against the text that was supplied
+- **Answer recall**, as the share of the gold provisions the delivered claims actually cite, scored against the gold set rather than against what was supplied. This is the one column that does read the answer's citations alone, and the objection above does not reach it: dividing by the gold set rather than by what an arm was handed gives no arm a denominator it can pad by reading more. Read beside recall, the gap between the two is synthesis dropping what retrieval reached
 - **Refusal**, scored in both directions, so an arm that refuses everything does not win the refusal flow
 - **Cost**, as prompt and completion tokens and wall time, per question
 
@@ -156,6 +157,10 @@ Refusal remains the product's headline safety property and its weakest measured 
 ### What this means
 
 On this corpus, with this model, **retrieval still does not earn its place on accuracy.** It earns it on cost, on completeness, and on the property no accuracy column shows: the exact passages sent are known, so a citation can be checked against them programmatically rather than trusted. That is why `python/data/eval/results.json` carries the ids, and it now carries the routed query beside them, so the retrieval half of a run can be reproduced from its own output.
+
+### Answer recall is a new column, and this row does not carry its re-run
+
+Everything above this paragraph reads the run recorded before answer recall existed, because `Result` records what the trace reached and not what the delivered claims cited, and neither can be backfilled onto a run that never wrote it. The `annex-qwen3-27b` and `snowflake-arctic-embed2` GPU this project measures on was running another session's calls at the time this row shipped, and a sweep taken under contention for the card would time the wrong thing, per this project's own rule that a measurement holds only under the conditions it ran in. The column, the count beside it and the tests in `python/tests/eval/test_scoring.py` and `python/tests/eval/test_report.py` are what this row ships. The numbers it would report on the twelve-question set are not, and the next unattended sweep on this machine carries them.
 
 What changed is the size of the gap and where the remaining loss sits. Swapping one embedding model closed a third of the distance to the baseline, 0.54 to 0.74 on the original and 0.56 to 0.81 on the consolidated, for no new dependency and a 27-second index rebuild. That is the cheapest change measured against this harness so far.
 

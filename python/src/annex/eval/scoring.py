@@ -47,6 +47,20 @@ arm supplied with the whole document is matched against the whole document's
 vocabulary and starts ahead of an arm supplied with fifty provisions. That is
 why `RetrievalScore.nodes_supplied` is reported in the same table: the pair is
 the reading, and the faithfulness column alone is not.
+
+## Answer recall reads citations, and every other metric reads the trace
+
+`answer_recall` is the one exception to the rule this module otherwise holds
+to. Every metric above scores what the model was supplied, because an uncited
+provision that reached the model says nothing about whether retrieval failed.
+This one asks a different question: not what reached the model, but what the
+delivered answer actually rests on. `recall` can read 1.0 while every claim
+cites provisions neighboring the one that settles the question and never
+reads it, and no metric derived from the trace can see that gap, because the
+trace does not know what synthesis chose to write from. Scored against the
+gold set rather than against what was supplied, so an arm handed a quarter of
+the document does not start ahead by definition the way a citations-against-
+supplied reading would let it.
 """
 
 from dataclasses import dataclass
@@ -113,7 +127,13 @@ class RetrievalScore:
 
 @dataclass(frozen=True)
 class AnswerScore:
-    """Whether the answer held, and whether refusing was the right move."""
+    """Whether the answer held, and whether refusing was the right move.
+
+    `cited_ids`, `answer_recall` and `claims_on_gold` are the citation-side
+    reading the module docstring's last section explains: what the answer
+    rests on, against the gold set, rather than what the trace says reached
+    the model.
+    """
 
     refused: bool
     refusal_correct: bool
@@ -121,6 +141,9 @@ class AnswerScore:
     claims: int
     ungrounded_claims: int
     citations_not_supplied: tuple[str, ...]
+    cited_ids: tuple[str, ...]
+    answer_recall: float
+    claims_on_gold: int
 
 
 def score_retrieval(
@@ -178,6 +201,9 @@ def score_answer(
             claims=0,
             ungrounded_claims=0,
             citations_not_supplied=(),
+            cited_ids=(),
+            answer_recall=0.0,
+            claims_on_gold=0,
         )
 
     supplied = set(supplied_ids(answer.retrieval))
@@ -192,6 +218,16 @@ def score_answer(
         )
     )
     scores = [containment(claim.statement, supporting) for claim in answer.claims]
+
+    gold = set(question.gold_for(answer.version))
+    claim_articles = [
+        {article_root(citation.provision_id) for citation in claim.citations}
+        for claim in answer.claims
+    ]
+    cited_ids = tuple(
+        sorted({root for articles in claim_articles for root in articles})
+    )
+    found = gold & set(cited_ids)
     return AnswerScore(
         refused=False,
         refusal_correct=refusal_correct,
@@ -199,4 +235,7 @@ def score_answer(
         claims=len(answer.claims),
         ungrounded_claims=sum(1 for score in scores if score < threshold),
         citations_not_supplied=tuple(sorted(cited - supplied)),
+        cited_ids=cited_ids,
+        answer_recall=len(found) / len(gold) if gold else 0.0,
+        claims_on_gold=sum(1 for articles in claim_articles if articles & gold),
     )

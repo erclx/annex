@@ -98,6 +98,24 @@ That is a known over-refusal, in the safe direction, and the gold set does not
 exercise it.
 """
 
+TIMING_REFUSAL_REASON = (
+    'The question asks when an obligation applies, and no statement '
+    'drafted from the retrieved provisions gives a date those '
+    'provisions carry.'
+)
+"""`verify`'s reason for the timing exit, where grounded claims name no date.
+
+Named here for the same reason `annex.agent.pipeline.FALLBACK_REFUSAL_REASON`
+is: `Refusal.reason` is what `Result.refusal_reason` records, so the four
+exits are told apart by these strings rather than by a replay.
+"""
+
+GROUNDING_REFUSAL_REASON = (
+    'Every statement drafted from the retrieved provisions failed the '
+    'grounding check against the text it cited.'
+)
+"""`verify`'s reason for the grounding exit, where every claim fell below threshold."""
+
 GROUNDING_THRESHOLD = 0.6
 """The share of a claim's content words that must appear in what it cites.
 
@@ -231,8 +249,10 @@ def verify(answer: Answer, *, threshold: float = GROUNDING_THRESHOLD) -> Answer:
     so it is evidenced rather than asserted.
 
     Two of the pipeline's four refusal exits are here, and each logs which one
-    fired for the reason `annex.agent.pipeline.parse_draft` gives at the other
-    two: nothing downstream records the stage.
+    fired and writes a distinct `reason` onto the `Refusal` it returns, the
+    same as `annex.agent.pipeline.parse_draft` does at the other two:
+    `annex.eval.runner` carries that string onto `Result.refusal_reason`, so a
+    refusal in `results.json` names its exit without a replay.
     """
     if answer.refusal is not None:
         return answer
@@ -250,11 +270,7 @@ def verify(answer: Answer, *, threshold: float = GROUNDING_THRESHOLD) -> Answer:
         )
         return _refused(
             answer,
-            reason=(
-                'The question asks when an obligation applies, and no statement '
-                'drafted from the retrieved provisions gives a date those '
-                'provisions carry.'
-            ),
+            reason=TIMING_REFUSAL_REASON,
             missing='the provision of the Act carrying the date this applies from',
         )
 
@@ -268,9 +284,6 @@ def verify(answer: Answer, *, threshold: float = GROUNDING_THRESHOLD) -> Answer:
     )
     return _refused(
         answer,
-        reason=(
-            'Every statement drafted from the retrieved provisions failed the '
-            'grounding check against the text it cited.'
-        ),
+        reason=GROUNDING_REFUSAL_REASON,
         missing='a provision of the Act that settles the question as described',
     )

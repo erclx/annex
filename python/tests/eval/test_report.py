@@ -133,6 +133,28 @@ class TestTheSummaryGroups:
 
         assert summarize(results)[0].faithfulness == 0.9
 
+    def test_answer_recall_averages_apart_from_refused_rows(self) -> None:
+        """A refused row has no claim to score, the way faithfulness treats it."""
+        results = [
+            make_result(0, answer_recall=1.0, claims_on_gold=1),
+            make_result(1, refused=True, faithfulness=None),
+        ]
+
+        assert summarize(results)[0].answer_recall == 1.0
+
+    def test_no_gold_answers_counts_answered_rows_resting_on_no_gold_provision(
+        self,
+    ) -> None:
+        results = [
+            make_result(0, answer_recall=1.0, claims_on_gold=1),
+            make_result(1, answer_recall=0.0, claims_on_gold=0),
+            make_result(2, refused=True, faithfulness=None, claims_on_gold=0),
+        ]
+
+        summary = summarize(results)[0]
+
+        assert summary.no_gold_answers == 1
+
     def test_recall_reached_averages_apart_from_delivered_recall(self) -> None:
         """The budget cut is what separates the two columns, not scoring."""
         results = [
@@ -233,3 +255,10 @@ class TestWhatTheReportStates:
 
         assert 'Recall reached' in rendered
         assert '1.00' in rendered
+
+    def test_the_report_carries_an_answer_recall_column_and_caveat(self) -> None:
+        rendered = render([make_result(0, answer_recall=1.0, claims_on_gold=1)])
+
+        assert 'Answer recall' in rendered
+        assert 'No gold' in rendered
+        assert 'synthesis dropping what retrieval reached' in rendered
