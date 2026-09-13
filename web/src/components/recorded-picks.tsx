@@ -38,7 +38,7 @@ export function RecordedPicks({
   const flows = [...new Set(recordedQuestions.map((question) => question.flow))]
 
   return (
-    <section className="mx-auto w-full max-w-4xl px-6 pb-16">
+    <section className="w-full border-t border-rule pt-6 pb-10">
       <h2 className="m-0 mb-1 text-[13px] font-semibold text-ink">
         Or read one of the recorded questions
       </h2>
@@ -63,7 +63,7 @@ export function RecordedPicks({
                   onClick={() => {
                     onPick(question.description)
                   }}
-                  className="max-w-[62ch] rounded-md border border-rule bg-surface px-[11px] py-[7px] text-left text-[13px] leading-[1.5] text-ink"
+                  className="w-full border-b border-rule-soft py-[6px] text-left text-[13px] leading-[1.5] text-ink hover:text-accent"
                 >
                   {question.description}
                 </button>

@@ -41,7 +41,7 @@ export function TopBar({
 }) {
   return (
     <header className="border-b border-rule bg-surface">
-      <div className="mx-auto flex w-full max-w-4xl flex-wrap items-center justify-between gap-4 px-6 py-4">
+      <div className="flex w-full flex-wrap items-center justify-between gap-4 px-6 py-4 lg:px-8">
         <div className="flex items-baseline gap-2">
           <b className="text-[16px] font-semibold tracking-[-0.01em] text-ink">
             Annex

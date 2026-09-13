@@ -16,7 +16,7 @@ import { capturedFrom, capturedOn } from '@/lib/replay'
 export function ReplayNotice() {
   return (
     <div className="border-b border-rule bg-surface">
-      <div className="mx-auto flex w-full max-w-4xl flex-wrap items-baseline gap-x-2 gap-y-1 px-6 py-[9px]">
+      <div className="flex w-full flex-wrap items-baseline gap-x-2 gap-y-1 px-6 py-[9px] lg:px-8">
         <b className="text-[12px] font-semibold text-ink">
           This page replays a recording. Nothing here is asking a model.
         </b>
