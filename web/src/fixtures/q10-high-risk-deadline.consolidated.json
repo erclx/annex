@@ -3,14 +3,14 @@
   "version": "consolidated",
   "claims": [
     {
-      "statement": "Chapter III, Sections 1, 2, and 3 (with the exception of Article 6(5)) apply from 2 December 2027 as regards AI systems classified as high-risk pursuant to Article 6(2) and Annex III",
+      "statement": "Chapter III, Sections 1, 2, and 3, with the exception of Article 6(5), apply from 2 December 2027 as regards AI systems classified as high-risk pursuant to Article 6(2) and Annex III",
       "citations": [
         {
           "provision_id": "art_113",
           "citation": "Article 113",
           "kind": "article",
           "version": "consolidated",
-          "text": "Article 113 Entry into force and application This Regulation shall enter into force on the twentieth day following that of its publication in the Official Journal of the European Union. It shall apply from 2 August 2026. However: ▼M1 (a) Chapters I and II shall apply from 2 February 2025, with the exception of Article 5(1), first subparagraph, points (ba) and (bb), and Article 5(1a) and (1b) which shall apply from 2 December 2026; ▼B (b) Chapter III Section 4, Chapter V, Chapter VII and Chapter XII and Article 78 shall apply from 2 August 2025, with the exception of Article 101; ▼M1 (c) Chapter III, Sections 1, 2, and 3, with the exception of Article 6(5), shall apply from: (i) 2 December 2027 as regards AI systems classified as high-risk pursuant to Article 6(2) and Annex III; and (ii) 2 August 2028 as regards AI systems classified as high-risk pursuant to Article 6(1) and Annex I; ▼M1 (d) Articles 102 to 110 shall apply from 27 July 2026. ▼B This Regulation shall be binding in its entirety and directly applicable in all Member States.",
+          "text": "Article 113 Entry into force and application This Regulation shall enter into force on the twentieth day following that of its publication in the Official Journal of the European Union. It shall apply from 2 August 2026. However: (a) Chapters I and II shall apply from 2 February 2025, with the exception of Article 5(1), first subparagraph, points (ba) and (bb), and Article 5(1a) and (1b) which shall apply from 2 December 2026; (b) Chapter III Section 4, Chapter V, Chapter VII and Chapter XII and Article 78 shall apply from 2 August 2025, with the exception of Article 101; (c) Chapter III, Sections 1, 2, and 3, with the exception of Article 6(5), shall apply from: (i) 2 December 2027 as regards AI systems classified as high-risk pursuant to Article 6(2) and Annex III; and (ii) 2 August 2028 as regards AI systems classified as high-risk pursuant to Article 6(1) and Annex I; (d) Articles 102 to 110 shall apply from 27 July 2026. This Regulation shall be binding in its entirety and directly applicable in all Member States.",
           "changed": true,
           "change_note": "The wording of Article 113 differs between the original and the consolidated text."
         }
@@ -24,35 +24,35 @@
           "citation": "Article 113",
           "kind": "article",
           "version": "consolidated",
-          "text": "Article 113 Entry into force and application This Regulation shall enter into force on the twentieth day following that of its publication in the Official Journal of the European Union. It shall apply from 2 August 2026. However: ▼M1 (a) Chapters I and II shall apply from 2 February 2025, with the exception of Article 5(1), first subparagraph, points (ba) and (bb), and Article 5(1a) and (1b) which shall apply from 2 December 2026; ▼B (b) Chapter III Section 4, Chapter V, Chapter VII and Chapter XII and Article 78 shall apply from 2 August 2025, with the exception of Article 101; ▼M1 (c) Chapter III, Sections 1, 2, and 3, with the exception of Article 6(5), shall apply from: (i) 2 December 2027 as regards AI systems classified as high-risk pursuant to Article 6(2) and Annex III; and (ii) 2 August 2028 as regards AI systems classified as high-risk pursuant to Article 6(1) and Annex I; ▼M1 (d) Articles 102 to 110 shall apply from 27 July 2026. ▼B This Regulation shall be binding in its entirety and directly applicable in all Member States.",
+          "text": "Article 113 Entry into force and application This Regulation shall enter into force on the twentieth day following that of its publication in the Official Journal of the European Union. It shall apply from 2 August 2026. However: (a) Chapters I and II shall apply from 2 February 2025, with the exception of Article 5(1), first subparagraph, points (ba) and (bb), and Article 5(1a) and (1b) which shall apply from 2 December 2026; (b) Chapter III Section 4, Chapter V, Chapter VII and Chapter XII and Article 78 shall apply from 2 August 2025, with the exception of Article 101; (c) Chapter III, Sections 1, 2, and 3, with the exception of Article 6(5), shall apply from: (i) 2 December 2027 as regards AI systems classified as high-risk pursuant to Article 6(2) and Annex III; and (ii) 2 August 2028 as regards AI systems classified as high-risk pursuant to Article 6(1) and Annex I; (d) Articles 102 to 110 shall apply from 27 July 2026. This Regulation shall be binding in its entirety and directly applicable in all Member States.",
           "changed": true,
           "change_note": "The wording of Article 113 differs between the original and the consolidated text."
         }
       ]
     },
     {
-      "statement": "For high-risk AI systems placed on the market or put into service before the date of application of Chapter III, the Regulation applies to their operators only if, as from that date, those systems are subject to significant changes in their designs",
+      "statement": "For operators of high-risk AI systems placed on the market or put into service before the date of application of Chapter III, the Regulation applies only if, as from that date, those systems are subject to significant changes in their designs",
       "citations": [
         {
           "provision_id": "art_111.2",
           "citation": "Article 111(2)",
           "kind": "paragraph",
           "version": "consolidated",
-          "text": "2. Without prejudice to the application of Article 5 as referred to in Article 113, third paragraph, point (a), this Regulation shall apply to operators of high-risk AI systems, other than the systems referred to in paragraph 1 of this Article, that have been placed on the market or put into service before the date of application of Chapter III referred to in Article 113, only if, as from that date, those systems are subject to significant changes in their designs. In any case, the providers and deployers of high-risk AI systems intended to be used by public authorities shall take the necessary steps to comply with the requirements and obligations laid down in this Regulation by 2 August 2030. ▼B",
+          "text": "2. Without prejudice to the application of Article 5 as referred to in Article 113, third paragraph, point (a), this Regulation shall apply to operators of high-risk AI systems, other than the systems referred to in paragraph 1 of this Article, that have been placed on the market or put into service before the date of application of Chapter III referred to in Article 113, only if, as from that date, those systems are subject to significant changes in their designs. In any case, the providers and deployers of high-risk AI systems intended to be used by public authorities shall take the necessary steps to comply with the requirements and obligations laid down in this Regulation by 2 August 2030.",
           "changed": true,
           "change_note": "The wording of Article 111(2) differs between the original and the consolidated text."
         }
       ]
     },
     {
-      "statement": "Providers and deployers of high-risk AI systems intended to be used by public authorities shall take the necessary steps to comply with the requirements and obligations laid down in the Regulation by 2 August 2030",
+      "statement": "In any case, the providers and deployers of high-risk AI systems intended to be used by public authorities shall take the necessary steps to comply with the requirements and obligations laid down in this Regulation by 2 August 2030",
       "citations": [
         {
           "provision_id": "art_111.2",
           "citation": "Article 111(2)",
           "kind": "paragraph",
           "version": "consolidated",
-          "text": "2. Without prejudice to the application of Article 5 as referred to in Article 113, third paragraph, point (a), this Regulation shall apply to operators of high-risk AI systems, other than the systems referred to in paragraph 1 of this Article, that have been placed on the market or put into service before the date of application of Chapter III referred to in Article 113, only if, as from that date, those systems are subject to significant changes in their designs. In any case, the providers and deployers of high-risk AI systems intended to be used by public authorities shall take the necessary steps to comply with the requirements and obligations laid down in this Regulation by 2 August 2030. ▼B",
+          "text": "2. Without prejudice to the application of Article 5 as referred to in Article 113, third paragraph, point (a), this Regulation shall apply to operators of high-risk AI systems, other than the systems referred to in paragraph 1 of this Article, that have been placed on the market or put into service before the date of application of Chapter III referred to in Article 113, only if, as from that date, those systems are subject to significant changes in their designs. In any case, the providers and deployers of high-risk AI systems intended to be used by public authorities shall take the necessary steps to comply with the requirements and obligations laid down in this Regulation by 2 August 2030.",
           "changed": true,
           "change_note": "The wording of Article 111(2) differs between the original and the consolidated text."
         }
@@ -66,7 +66,7 @@
           "citation": "Article 113",
           "kind": "article",
           "version": "consolidated",
-          "text": "Article 113 Entry into force and application This Regulation shall enter into force on the twentieth day following that of its publication in the Official Journal of the European Union. It shall apply from 2 August 2026. However: ▼M1 (a) Chapters I and II shall apply from 2 February 2025, with the exception of Article 5(1), first subparagraph, points (ba) and (bb), and Article 5(1a) and (1b) which shall apply from 2 December 2026; ▼B (b) Chapter III Section 4, Chapter V, Chapter VII and Chapter XII and Article 78 shall apply from 2 August 2025, with the exception of Article 101; ▼M1 (c) Chapter III, Sections 1, 2, and 3, with the exception of Article 6(5), shall apply from: (i) 2 December 2027 as regards AI systems classified as high-risk pursuant to Article 6(2) and Annex III; and (ii) 2 August 2028 as regards AI systems classified as high-risk pursuant to Article 6(1) and Annex I; ▼M1 (d) Articles 102 to 110 shall apply from 27 July 2026. ▼B This Regulation shall be binding in its entirety and directly applicable in all Member States.",
+          "text": "Article 113 Entry into force and application This Regulation shall enter into force on the twentieth day following that of its publication in the Official Journal of the European Union. It shall apply from 2 August 2026. However: (a) Chapters I and II shall apply from 2 February 2025, with the exception of Article 5(1), first subparagraph, points (ba) and (bb), and Article 5(1a) and (1b) which shall apply from 2 December 2026; (b) Chapter III Section 4, Chapter V, Chapter VII and Chapter XII and Article 78 shall apply from 2 August 2025, with the exception of Article 101; (c) Chapter III, Sections 1, 2, and 3, with the exception of Article 6(5), shall apply from: (i) 2 December 2027 as regards AI systems classified as high-risk pursuant to Article 6(2) and Annex III; and (ii) 2 August 2028 as regards AI systems classified as high-risk pursuant to Article 6(1) and Annex I; (d) Articles 102 to 110 shall apply from 27 July 2026. This Regulation shall be binding in its entirety and directly applicable in all Member States.",
           "changed": true,
           "change_note": "The wording of Article 113 differs between the original and the consolidated text."
         }
@@ -79,13 +79,13 @@
       "art_111.2",
       "art_25.1",
       "art_25.2",
+      "art_25.3",
       "art_80.4",
       "art_26.5",
-      "art_25.3",
       "art_80.2",
       "art_16",
-      "art_25.4",
       "art_6.4",
+      "art_25.4",
       "art_26.1",
       "art_80.6"
     ],
@@ -360,9 +360,9 @@
     ],
     "traversal_enabled": true,
     "truncated": false,
-    "prompt_tokens": 16601,
-    "completion_tokens": 2748,
-    "duration_ms": 26714,
+    "prompt_tokens": 16529,
+    "completion_tokens": 2707,
+    "duration_ms": 26278,
     "model": "annex-qwen3-27b"
   }
 }
