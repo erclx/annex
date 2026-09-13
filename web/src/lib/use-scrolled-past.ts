@@ -2,8 +2,11 @@
 
 import { type RefObject, useEffect, useState } from 'react'
 
-/** The pinned bar's full height, used until the bar has published its own. */
-const FALLBACK_BAR_HEIGHT = 64
+/**
+ * What an unpublished bar height reads as, matching the `0px` fallback the
+ * sticky panes give the same property, so one unset value means one thing.
+ */
+const FALLBACK_BAR_HEIGHT = 0
 
 function pinnedBarHeight(): number {
   const published = Number.parseInt(

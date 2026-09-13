@@ -347,6 +347,9 @@ test.describe('the frame at 1280 pixels', () => {
     const pane = page.getByRole('complementary', { name: 'The Act' })
     await expect(pane).toBeVisible()
 
+    // The class height is only the first frame. The pane's own effect sets an
+    // inline height of the viewport less its top, so at scroll 0 a pane seated
+    // below the described system still ends at the fold.
     await expect
       .poll(async () => {
         const box = await pane.boundingBox()

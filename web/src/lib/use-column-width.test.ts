@@ -1,7 +1,8 @@
 import { act, renderHook } from '@testing-library/react'
 import { afterEach, describe, expect, it } from 'vitest'
 
-import { COLUMN_STORAGE_KEY, useColumnWidth } from '@/lib/use-column-width'
+import { COLUMN_STORAGE_KEY } from '@/lib/column-bounds'
+import { useColumnWidth } from '@/lib/use-column-width'
 
 afterEach(() => {
   localStorage.clear()
@@ -58,6 +59,21 @@ describe('useColumnWidth', () => {
     })
 
     expect(localStorage.getItem(COLUMN_STORAGE_KEY)).toBe('700')
+  })
+
+  it('should move the column when another tab stores a width', () => {
+    renderHook(() => useColumnWidth())
+
+    act(() => {
+      localStorage.setItem(COLUMN_STORAGE_KEY, '580')
+      window.dispatchEvent(
+        new StorageEvent('storage', { key: COLUMN_STORAGE_KEY }),
+      )
+    })
+
+    expect(
+      document.documentElement.style.getPropertyValue('--annex-answer-width'),
+    ).toBe('580px')
   })
 
   it('should return to 640 pixels and forget the stored width on reset', () => {

@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { TopBar } from '@/components/top-bar'
 
@@ -16,7 +16,30 @@ function renderBar(overrides: Partial<Parameters<typeof TopBar>[0]> = {}) {
   )
 }
 
+class SilentResizeObserver {
+  observe() {
+    return undefined
+  }
+  disconnect() {
+    return undefined
+  }
+}
+
+afterEach(() => {
+  vi.unstubAllGlobals()
+})
+
 describe('TopBar', () => {
+  it('should publish its height at mount rather than waiting on the observer', () => {
+    vi.stubGlobal('ResizeObserver', SilentResizeObserver)
+
+    renderBar()
+
+    expect(
+      document.documentElement.style.getPropertyValue('--annex-bar-height'),
+    ).toMatch(/^\d+px$/)
+  })
+
   it('should link to the repository and the evaluation', () => {
     renderBar()
 

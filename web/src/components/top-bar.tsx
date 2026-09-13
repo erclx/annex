@@ -58,9 +58,14 @@ export function TopBar({
     const bar = barRef.current
     if (!bar || typeof ResizeObserver === 'undefined') return
     const root = document.documentElement
-    const observer = new ResizeObserver(() => {
-      root.style.setProperty(BAR_HEIGHT_PROPERTY, `${bar.offsetHeight}px`)
-    })
+    function publishHeight() {
+      if (bar)
+        root.style.setProperty(BAR_HEIGHT_PROPERTY, `${bar.offsetHeight}px`)
+    }
+    // `observe()` schedules its first callback rather than running it, and the
+    // sticky panes and the slim trigger read the height at mount.
+    publishHeight()
+    const observer = new ResizeObserver(publishHeight)
     observer.observe(bar)
     return () => {
       observer.disconnect()

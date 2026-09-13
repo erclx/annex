@@ -2,7 +2,7 @@
 
 import { type PointerEvent, useRef } from 'react'
 
-import { COLUMN_MAX, COLUMN_MIN } from '@/lib/use-column-width'
+import { COLUMN_MAX, COLUMN_MIN } from '@/lib/column-bounds'
 
 const KEY_STEP = 20
 
@@ -14,7 +14,8 @@ interface ColumnHandleProps {
 
 /**
  * The divider between the answer column and the Act, as a separator a reader
- * can drag, step with the arrow keys, or double-click back to the default.
+ * can drag, step with the arrow keys, or return to the default with a
+ * double-click or Enter, so the default stays in reach from the keyboard.
  *
  * A drag follows how far the pointer moved from where it was pressed rather
  * than where the pointer sits, so grabbing the handle anywhere across its width
@@ -61,6 +62,10 @@ export function ColumnHandle({
         if (event.key === 'ArrowRight') {
           event.preventDefault()
           onWidthChange(width + KEY_STEP)
+        }
+        if (event.key === 'Enter') {
+          event.preventDefault()
+          onReset()
         }
       }}
       onDoubleClick={onReset}

@@ -284,7 +284,7 @@ export function ActReader({
       <aside
         ref={paneRef}
         aria-label="The Act"
-        className="sticky top-[var(--annex-bar-height,0px)] flex h-screen flex-col border-l border-rule bg-surface"
+        className="sticky top-[var(--annex-bar-height,0px)] flex h-[calc(100vh-var(--annex-bar-height,0px))] flex-col border-l border-rule bg-surface"
       >
         <header className="flex flex-wrap items-center justify-between gap-3 border-b border-rule px-5 py-[10px]">
           {walk !== undefined ? (

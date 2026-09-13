@@ -254,7 +254,7 @@ Copy, verbatim:
 - Section bar jump field placeholder: `Go to`
 - Section bar position, dynamic: `<n> of <total>` through the whole Act, `<n> of <total> cited` through citations
 
-The divider between the answer and the pane is a handle. Dragging it, or stepping it with the arrow keys, sets the answer column anywhere from 480 to 760 pixels, and a double-click puts it back at 640. It remembers.
+The divider between the answer and the pane is a handle. Dragging it, or stepping it with the arrow keys, sets the answer column anywhere from 480 to 760 pixels, and a double-click or Enter puts it back at 640. It remembers.
 
 The section bar sits over the Act's text. It names the article or cited paragraph in view with its place in the whole, steps to the section before or after it or, once switched to `Cited`, to the citation before or after, and takes an article number or annex numeral in its jump field. The operator's first-use pass picked it over the cited links alone, step buttons in the cited row, and the bar without a jump field or the switch.
 

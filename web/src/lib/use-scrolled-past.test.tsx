@@ -78,9 +78,18 @@ describe('useScrolledPast', () => {
     expect(screen.getByText('not past')).toBeInTheDocument()
   })
 
-  it('should measure against the space under the pinned bar', () => {
+  it('should measure against the height the pinned bar published', () => {
+    document.documentElement.style.setProperty('--annex-bar-height', '57px')
+
     render(<Probe />)
 
-    expect(observedMargin).toMatch(/^-\d+px 0px 0px 0px$/)
+    expect(observedMargin).toBe('-57px 0px 0px 0px')
+    document.documentElement.style.removeProperty('--annex-bar-height')
+  })
+
+  it('should assume no bar, as the sticky panes do, when none is published', () => {
+    render(<Probe />)
+
+    expect(observedMargin).toBe('-0px 0px 0px 0px')
   })
 })

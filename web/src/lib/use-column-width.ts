@@ -2,14 +2,12 @@
 
 import { useSyncExternalStore } from 'react'
 
-export const COLUMN_STORAGE_KEY = 'annex-column-width'
-export const COLUMN_MIN = 480
-export const COLUMN_MAX = 760
-export const COLUMN_DEFAULT = 640
-
-export function clampColumnWidth(width: number): number {
-  return Math.round(Math.min(COLUMN_MAX, Math.max(COLUMN_MIN, width)))
-}
+import {
+  clampColumnWidth,
+  COLUMN_DEFAULT,
+  COLUMN_STORAGE_KEY,
+  COLUMN_WIDTH_PROPERTY,
+} from '@/lib/column-bounds'
 
 /**
  * The width kept for this page view when the browser refuses to store it.
@@ -29,11 +27,17 @@ function notify() {
 }
 
 function subscribe(onChange: () => void) {
+  // A width stored from another tab reaches this one only through the storage
+  // event, so the handler moves the grid as well as the handle reading it.
+  function handleStorage() {
+    publish(readWidth())
+    onChange()
+  }
   listeners.add(onChange)
-  window.addEventListener('storage', onChange)
+  window.addEventListener('storage', handleStorage)
   return () => {
     listeners.delete(onChange)
-    window.removeEventListener('storage', onChange)
+    window.removeEventListener('storage', handleStorage)
   }
 }
 
@@ -51,13 +55,6 @@ function readWidth(): number {
 function serverWidth(): number {
   return COLUMN_DEFAULT
 }
-
-/**
- * Where the layout reads the width from. The pre-paint script in `layout.tsx`
- * writes the stored value here before the page draws, and every change lands
- * here too, so the columns never render at one width and move to another.
- */
-export const COLUMN_WIDTH_PROPERTY = '--annex-answer-width'
 
 function publish(width: number) {
   document.documentElement.style.setProperty(
@@ -94,8 +91,8 @@ function resetWidth() {
  *
  * Read through a store rather than copied into state by an effect, the pattern
  * `theme-toggle.tsx` already follows for the same reason. The value is applied
- * before first paint by the script in `layout.tsx`, so the store and that
- * script read the same key.
+ * before first paint by the script in `stored-choices.ts`, so the store and
+ * that script read the same key and the same bounds.
  */
 export function useColumnWidth(): {
   width: number

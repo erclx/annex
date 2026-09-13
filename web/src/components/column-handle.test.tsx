@@ -53,6 +53,15 @@ describe('ColumnHandle', () => {
     expect(onReset).toHaveBeenCalled()
   })
 
+  it('should reset the split on Enter for a reader on the keyboard', async () => {
+    const { onReset } = renderHandle()
+
+    screen.getByRole('separator').focus()
+    await userEvent.keyboard('{Enter}')
+
+    expect(onReset).toHaveBeenCalled()
+  })
+
   it('should follow the pointer from the answer column edge while dragging', () => {
     const { onWidthChange } = renderHandle()
     const handle = screen.getByRole('separator')
