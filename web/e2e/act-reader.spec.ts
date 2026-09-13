@@ -186,12 +186,13 @@ test.describe('as an overlay below 1024 pixels', () => {
     // article names nothing. Whether the landing scrolls the heading itself
     // into view depends on whether the paragraph and its heading fit the
     // overlay together, per `canon/wireframes/answer.md` § Reading the Act,
-    // so this sticky label is what keeps the article named regardless.
+    // so this label is what keeps the article named regardless. It is the
+    // one element between the header and the scrolling body, rather than a
+    // role or an accessible name, since it carries neither.
     const articleNumber = citationText?.match(/^Article (\d+)/)?.[1]
-    await expect(dialog.locator('.sticky')).toHaveText(
-      `Article ${articleNumber}`,
-    )
-    await expect(dialog.locator('.sticky')).toBeInViewport()
+    const articleLabel = dialog.locator('header + div')
+    await expect(articleLabel).toHaveText(`Article ${articleNumber}`)
+    await expect(articleLabel).toBeInViewport()
   })
 
   test('closing the panel returns to the answer underneath', async ({

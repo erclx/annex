@@ -74,6 +74,8 @@ The sans stack no longer carries that same tag. `fc-match` against every name in
 | label      | `ui-monospace, Menlo, Consolas, "Liberation Mono", monospace`     | 400    | 10.5px | 1.4         |
 | code       | `ui-monospace, Menlo, Consolas, "Liberation Mono", monospace`     | 400    | 11.5px | 1.6         |
 
+The Family column above is a CSS value rather than a statement of intent, so the sans rows still name the fallback stack rather than the embedded family `--font-sans` now reads first. The paragraph above states which family actually renders.
+
 Labels set in the mono stack are drawn in capitals with letter spacing near 0.08em. That treatment belongs to labels and to nothing else on the surface.
 
 ## Spacing
