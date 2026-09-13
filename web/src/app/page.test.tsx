@@ -194,19 +194,62 @@ describe('the invalid state', () => {
   })
 })
 
+/**
+ * A stream route that sends the given frames and then holds the body open, the
+ * way a live run sits in drafting for half a minute.
+ */
+function streamThenHold(frames: string[]) {
+  vi.stubGlobal(
+    'fetch',
+    vi.fn(() =>
+      Promise.resolve({
+        ok: true,
+        status: 200,
+        body: new ReadableStream({
+          start(controller) {
+            for (const frame of frames)
+              controller.enqueue(new TextEncoder().encode(frame))
+          },
+        }),
+        json: () => Promise.resolve(null),
+      }),
+    ),
+  )
+}
+
+function nodeFrame(data: Record<string, unknown>): string {
+  return `event: node\ndata: ${JSON.stringify(data)}\n\n`
+}
+
 describe('the loading state', () => {
-  it('names the version being read and the measured range', async () => {
-    vi.stubGlobal(
-      'fetch',
-      vi.fn(() => new Promise(() => undefined)),
-    )
+  it('shows the steps the agent has taken and names the text it is searching', async () => {
+    streamThenHold([nodeFrame({ node: 'route' })])
+    render(<Home />)
+
+    await describeSystem()
+
+    const steps = await screen.findByRole('region', {
+      name: 'The agent working',
+    })
+    expect(await within(steps).findByText('Query ready')).toBeInTheDocument()
+    expect(
+      within(steps).getByText('Searching the amended text by meaning'),
+    ).toBeInTheDocument()
+    expect(screen.queryByText(/20 to 30 seconds/)).not.toBeInTheDocument()
+  })
+
+  it('reports what search matched as its frame arrives', async () => {
+    streamThenHold([
+      nodeFrame({ node: 'route' }),
+      nodeFrame({ node: 'retrieve', searched_ids: ['art_50', 'art_50.1'] }),
+    ])
     render(<Home />)
 
     await describeSystem()
 
     expect(
-      screen.getByText(
-        'Reading the amended text. Usually around 20 to 30 seconds.',
+      await screen.findByText(
+        '2 provisions matched: Article 50, Article 50(1)',
       ),
     ).toBeInTheDocument()
   })
@@ -596,6 +639,43 @@ describe('the docked pane at 1024 pixels and wider', () => {
       'aria-pressed',
       'true',
     )
+  })
+
+  it('opens a provision in the Act from its chip in the walk', async () => {
+    respondWith(
+      200,
+      anAnswer({
+        retrieval: {
+          ...trace,
+          uncited_ids: [],
+          edges: [{ source_id: 'art_50', target_id: 'art_50.2', hop: 1 }],
+        },
+      }),
+    )
+    render(<Home />)
+    const user = await describeSystem()
+    await user.click(await screen.findByRole('button', { name: /searched/ }))
+
+    await user.click(screen.getByRole('button', { name: 'Article 50(2)' }))
+
+    expect(screen.getByRole('button', { name: 'The Act' })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    )
+  })
+
+  it('fills the pane with the walk while a question runs', async () => {
+    streamThenHold([
+      nodeFrame({ node: 'route' }),
+      nodeFrame({ node: 'retrieve', searched_ids: ['art_50.1'] }),
+    ])
+    render(<Home />)
+
+    await describeSystem()
+
+    expect(
+      await screen.findByRole('complementary', { name: 'The agent working' }),
+    ).toBeInTheDocument()
   })
 
   it('lands Read all on the point the excerpt opened on', async () => {

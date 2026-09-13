@@ -134,6 +134,21 @@
   --color-error: var(--error);
   --color-error-surface: var(--error-surface);
   --color-error-rule: var(--error-rule);
+
+  /* The running step's dot, the one indicator `canon/DESIGN.md` § Motion lets
+     move while a question runs. A ring widening off the dot rather than the
+     dot itself blinking, so the step stays legible on every frame. Utilities
+     using it carry `motion-reduce:animate-none`. */
+  --animate-step-pulse: step-pulse 1.2s ease-out infinite;
+
+  @keyframes step-pulse {
+    0% {
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent);
+    }
+    100% {
+      box-shadow: 0 0 0 9px transparent;
+    }
+  }
 }
 
 body {

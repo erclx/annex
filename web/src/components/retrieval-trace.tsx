@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 
-import { TraversalGraph } from '@/components/traversal-graph'
-import type { Retrieval } from '@/components/versions'
+import type { CorpusVersion, Retrieval } from '@/components/versions'
+import { WalkChips } from '@/components/walk-chips'
 import { group } from '@/lib/format'
 
 const SHOWN = 8
@@ -19,10 +19,14 @@ const SHOWN = 8
  */
 export function RetrievalTrace({
   retrieval,
+  version,
   onOpenWalk,
+  onOpenProvision,
 }: {
   retrieval: Retrieval
+  version: CorpusVersion
   onOpenWalk?: () => void
+  onOpenProvision?: (provisionId: string) => void
 }) {
   const [open, setOpen] = useState(false)
   const opensInPane = onOpenWalk !== undefined
@@ -57,7 +61,11 @@ export function RetrievalTrace({
 
       {!opensInPane && open && (
         <div className="mt-[11px] border-t border-rule-soft pt-[11px]">
-          <Walk retrieval={retrieval} />
+          <Walk
+            retrieval={retrieval}
+            version={version}
+            onOpen={onOpenProvision}
+          />
         </div>
       )}
     </footer>
@@ -65,16 +73,31 @@ export function RetrievalTrace({
 }
 
 /**
- * The walk drawn, with the three id lists under it as its text equivalent.
+ * The walk as chips that open the Act, with the three id lists under them.
  *
- * The lists stay beside the drawing rather than behind it, since they are what
- * a screen reader reads and removing them to make room would remove that.
+ * The lists stay under the chips rather than being replaced by them, since
+ * they are the raw ids a reader checking the trace against a recording reads.
  */
-export function Walk({ retrieval }: { retrieval: Retrieval }) {
+export function Walk({
+  retrieval,
+  version,
+  onOpen,
+}: {
+  retrieval: Retrieval
+  version: CorpusVersion
+  onOpen?: (provisionId: string) => void
+}) {
   return (
-    <div className="font-mono text-[11.5px] text-muted">
-      <TraversalGraph retrieval={retrieval} />
-      <dl className="grid grid-cols-[96px_1fr] gap-x-4 gap-y-[7px] text-[11px]">
+    <div className="text-muted">
+      <div className="mb-4">
+        <WalkChips
+          walk={retrieval}
+          version={version}
+          onOpen={onOpen}
+          summarized
+        />
+      </div>
+      <dl className="grid grid-cols-[96px_1fr] gap-x-4 gap-y-[7px] font-mono text-[11px]">
         <IdList label="searched" ids={retrieval.searched_ids} />
         <IdList label="traversed" ids={retrieval.traversed_ids} />
         <IdList
