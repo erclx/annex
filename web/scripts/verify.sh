@@ -16,15 +16,15 @@ command -v bun >/dev/null 2>&1 || {
 # check answers the wrong question: it reports nothing for a file git does not track,
 # and it fails on the very commit that first adds one. What matters is whether the
 # committed output still matches what the current schema produces.
-GENERATED=src/lib/answer.ts
-before=$(sha256sum "$GENERATED" 2>/dev/null | cut -d' ' -f1 || true)
+GENERATED=(src/lib/answer.ts src/lib/stream-node.ts src/lib/stream-error.ts)
+before=$(sha256sum "${GENERATED[@]}" 2>/dev/null || true)
 bun run generate:answer
-after=$(sha256sum "$GENERATED" | cut -d' ' -f1)
+after=$(sha256sum "${GENERATED[@]}")
 
 if [ "$before" != "$after" ]; then
-  echo "$GENERATED was stale against python/schema/answer.schema.json and has been regenerated."
+  echo "${GENERATED[*]} were stale against python/schema/ and have been regenerated."
   echo "Review the change and commit it."
-  git --no-pager diff -- "$GENERATED"
+  git --no-pager diff -- "${GENERATED[@]}"
   exit 1
 fi
 

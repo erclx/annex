@@ -21,6 +21,8 @@ import { z } from 'zod'
 
 import { type Answer, answerSchema } from '@/lib/answer'
 import { replay, REPLAY_MODE } from '@/lib/replay'
+import { playRecording } from '@/lib/replay-playback'
+import { readStreamedAnswer, type StreamNode } from '@/lib/stream'
 
 export const ASK_TIMEOUT_MS = 300_000
 
@@ -65,6 +67,14 @@ export interface AskOptions {
   version?: 'original' | 'consolidated'
   traversal?: boolean
   signal?: AbortSignal
+  /**
+   * Called as each graph node finishes. Supplying it asks through
+   * `/ask/stream` on the live build, and on the deployed build plays the
+   * recording's frames when `playback` is also set.
+   */
+  onNode?: (node: StreamNode) => void
+  /** Whether the deployed build paces the recording before answering. */
+  playback?: boolean
 }
 
 function baseUrl(): string {
@@ -97,7 +107,17 @@ export async function ask(
   // The deployed build has no service to reach, so it answers from the
   // recording instead. Every caller above this line is unchanged either way,
   // which is the property this module was split out to hold.
-  if (REPLAY_MODE) return replay(description, options)
+  if (REPLAY_MODE) {
+    const recorded = replay(description, options)
+    if (
+      options.playback &&
+      options.onNode &&
+      (recorded.state === 'answered' || recorded.state === 'refused')
+    ) {
+      await playRecording(recorded.answer, options.onNode, options.signal)
+    }
+    return recorded
+  }
 
   const controller = new AbortController()
   const timer = setTimeout(() => {
@@ -108,8 +128,8 @@ export async function ask(
   }
   options.signal?.addEventListener('abort', abortFromCaller)
 
-  try {
-    const response = await fetch(`${baseUrl()}/ask`, {
+  const request = (path: string) =>
+    fetch(`${baseUrl()}${path}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -119,6 +139,28 @@ export async function ask(
       }),
       signal: controller.signal,
     })
+
+  try {
+    if (options.onNode) {
+      const streamed = await request('/ask/stream')
+      if (streamed.ok && streamed.body) {
+        return await readStreamedAnswer(
+          streamed.body,
+          options.onNode,
+          controller.signal,
+        )
+      }
+      // Validation and readiness answer before a stream starts, as the same
+      // JSON body `/ask` sends, so a named failure is final here. A status
+      // with no such body is a service older than the stream route, which
+      // `/ask` still answers.
+      const failure: unknown = await streamed.json().catch(() => null)
+      if (serviceErrorSchema.safeParse(failure).success) {
+        return readFailure(failure)
+      }
+    }
+
+    const response = await request('/ask')
 
     const body: unknown = await response.json().catch(() => null)
     if (!response.ok) return readFailure(body)

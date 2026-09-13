@@ -403,7 +403,7 @@ Drawing every reference edge among the 52 provisions a median answer carries
 gives 93 edges at the median, a hairball rather than a walk. Drawing only the
 edge the walk took to reach each provision gives exactly one edge a traversed
 provision, so 40 at the cap, which is what `RetrievalTrace.edges` now carries
-and what `web/src/components/traversal-graph.tsx` draws.
+and what `web/src/components/walk-chips.tsx` lays out, one row per search result.
 
 ## The synthesis prompt is bounded against the window
 

@@ -14,8 +14,20 @@ from fastapi.testclient import TestClient
 from annex.agent.pipeline import State
 from annex.answer import Answer, Citation, Claim, Refusal, RetrievalTrace
 from annex.corpus import CorpusVersion, ProvisionKind
+from annex.retrieval import Hit
+from annex.retrieval import TraversalEdge as WalkedEdge
 from annex.service import create_app
 from annex.settings import Settings
+
+
+def a_hit(provision_id: str, *, chunk_id: str | None = None) -> Hit:
+    return Hit(
+        chunk_id=chunk_id or provision_id,
+        provision_id=provision_id,
+        citation=provision_id,
+        text='',
+        distance=0.1,
+    )
 
 
 class StubCompiledGraph:
@@ -36,8 +48,36 @@ class StubCompiledGraph:
         self, initial_state: State, *, stream_mode: str
     ) -> Iterator[dict[str, State]]:
         assert stream_mode == 'updates'
-        for node_name in ('route', 'retrieve', 'traverse'):
-            yield {node_name: State()}
+        yield {'route': State(query='transparency obligations')}
+        yield {
+            'retrieve': State(
+                hits=(
+                    a_hit('art_50.1'),
+                    a_hit('art_50.1', chunk_id='art_50.1#2'),
+                    a_hit('art_3'),
+                )
+            )
+        }
+        yield {
+            'traverse': State(
+                searched_ids=('art_50.1', 'art_3'),
+                traversed_ids=('art_50', 'art_2'),
+                edges=(
+                    WalkedEdge(source_id='art_50.1', target_id='art_50', hop=0),
+                    WalkedEdge(source_id='art_3', target_id='art_2', hop=1),
+                ),
+            )
+        }
+        yield {
+            'budget': State(
+                citations=(
+                    a_citation('art_50.1'),
+                    a_citation('art_3'),
+                    a_citation('art_50'),
+                ),
+                dropped_ids=('art_2',),
+            )
+        }
         if self.raises is not None:
             raise self.raises
         if self.no_answer:

@@ -23,6 +23,14 @@ Every claim, citation and quoted provision in it is still text the pipeline
 produced. Only the one flag that decides whether the banner renders is set by
 the harness rather than read off the recording.
 
+The loading state carries a second exception, and it is in the times rather than
+the content. `e2e/capture-states.ts` holds a stream open mid-draft by sending a
+recording's frames all at once, so the step times it shows read a few
+milliseconds where a live run reads 13 seconds restating and tens of
+milliseconds for search and the walk. The steps, their results, the collapsed
+walk and the reading card are what the page renders. The times beside them are
+the stub's, and a faithful set wants a live model run.
+
 Both themes, symmetrically, because both ship and neither is a variant of the
 other. The dark theme re-values every role rather than inverting the light one,
 and `canon/DESIGN.md` records contrast measured separately for each, so a
@@ -46,7 +54,7 @@ on top of an answer rather than instead of it.
 | ----- | ----- | ---- |
 | On arrival, before anything is asked | [light](1-empty/light.png) | [dark](1-empty/dark.png) |
 | The description is empty or past the bound | [light](2-invalid/light.png) | [dark](2-invalid/dark.png) |
-| The skeleton, and the measured range in the copy | [light](3-loading/light.png) | [dark](3-loading/dark.png) |
+| The agent's steps mid-draft, and the pane reading what the model was supplied | [light](3-loading/light.png) | [dark](3-loading/dark.png) |
 | Claims, inline citations, the moved-citation chip and word diff, the trace opened | [light](4-answered/light.png) | [dark](4-answered/dark.png) |
 | The answer stopped for want of prompt room | [light](5-answered-cut-short/light.png) | [dark](5-answered-cut-short/dark.png) |
 | The text does not settle it, and what was read before saying so | [light](6-refused/light.png) | [dark](6-refused/dark.png) |

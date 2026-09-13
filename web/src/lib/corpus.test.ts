@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { findProvision, provisionsFor } from './corpus'
+import { citationLabel, findProvision, provisionsFor } from './corpus'
 
 describe('provisionsFor', () => {
   it('should return every provision in document order for each version', () => {
@@ -33,5 +33,15 @@ describe('findProvision', () => {
 
   it('should return undefined for an id this version does not carry', () => {
     expect(findProvision('original', 'nonexistent')).toBeUndefined()
+  })
+})
+
+describe('citationLabel', () => {
+  it('should name a paragraph the way the export cites it', () => {
+    expect(citationLabel('consolidated', 'art_50.1')).toBe('Article 50(1)')
+  })
+
+  it('should spell an id this version does not carry rather than show it raw', () => {
+    expect(citationLabel('consolidated', 'rct_132')).toBe('Recital 132')
   })
 })

@@ -4,7 +4,8 @@
 structure. `uv run python -m annex graph` reports the reference predicate and
 what it yields, rather than asserting a figure nobody can reproduce.
 `uv run python -m annex schema` writes the answer contract the web half
-generates its types from, so neither side hand-copies the other's shape.
+generates its types from, so neither side hand-copies the other's shape, and
+`--model stream-node` or `--model stream-error` writes a stream frame's.
 `uv run python -m annex evaluate` answers the gold question set with all three
 arms and reports accuracy and cost for each, which is the number this project
 exists to produce. It is a multi-hour run at full size: see `--limit`, `--arm`
@@ -103,8 +104,24 @@ def _export_corpus(refresh: bool, out: Path | None) -> int:
     return 0
 
 
-def _schema() -> int:
-    print(json.dumps(Answer.model_json_schema(), indent=2, sort_keys=True))
+def _schema(model: str) -> int:
+    """Print one contract the web half generates a strict parser from.
+
+    The error frame is emitted in serialization mode by alias, since that is
+    the shape `build_stream` sends, `correlationId` included. The frame models
+    are imported here for the reason `_serve` gives, since `annex.service`
+    pulls in FastAPI.
+    """
+    from annex.service.models import StreamError, StreamNode
+
+    schemas = {
+        'answer': lambda: Answer.model_json_schema(),
+        'stream-node': lambda: StreamNode.model_json_schema(),
+        'stream-error': lambda: StreamError.model_json_schema(
+            by_alias=True, mode='serialization'
+        ),
+    }
+    print(json.dumps(schemas[model](), indent=2, sort_keys=True))
     return 0
 
 
@@ -330,7 +347,15 @@ def main(argv: list[str] | None = None) -> int:
     subcommands = parser.add_subparsers(dest='command', required=True)
     subcommands.add_parser('ingest', help='fetch, parse and check both versions')
     subcommands.add_parser('graph', help='report the reference predicate and its yield')
-    subcommands.add_parser('schema', help='write the answer JSON Schema to stdout')
+    schema = subcommands.add_parser(
+        'schema', help='write a contract JSON Schema to stdout'
+    )
+    schema.add_argument(
+        '--model',
+        choices=('answer', 'stream-node', 'stream-error'),
+        default='answer',
+        help='which contract: the answer, or a /ask/stream frame',
+    )
     exporting = subcommands.add_parser(
         'export-corpus', help='write both versions to web/src/fixtures/corpus'
     )
@@ -446,7 +471,7 @@ def main(argv: list[str] | None = None) -> int:
         if arguments.command == 'ingest':
             return _ingest(arguments.refresh)
         if arguments.command == 'schema':
-            return _schema()
+            return _schema(arguments.model)
         if arguments.command == 'export-corpus':
             return _export_corpus(arguments.refresh, arguments.out)
         if arguments.command == 'context':

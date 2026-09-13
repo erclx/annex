@@ -224,3 +224,90 @@ describe('what the request carries', () => {
     expect(sent.traversal).toBe(true)
   })
 })
+
+/** A stream body carrying the given SSE text, closed once it is read. */
+function sseBody(text: string): ReadableStream<Uint8Array> {
+  return new ReadableStream({
+    start(controller) {
+      controller.enqueue(new TextEncoder().encode(text))
+      controller.close()
+    },
+  })
+}
+
+/** Answers each path with what the table names, and records every request. */
+function respondByPath(
+  routes: Record<
+    string,
+    { status: number; body?: unknown; stream?: ReadableStream<Uint8Array> }
+  >,
+) {
+  const stub = vi.fn((url: string, _init: RequestInit) => {
+    const path = new URL(url).pathname
+    const route = routes[path]
+    return Promise.resolve({
+      ok: route.status >= 200 && route.status < 300,
+      status: route.status,
+      body: route.stream ?? null,
+      json: () => Promise.resolve(route.body ?? null),
+    })
+  })
+  vi.stubGlobal('fetch', stub)
+  return stub
+}
+
+describe('asking through the stream', () => {
+  it('reads the stream route and hands each node over when frames are wanted', async () => {
+    const stub = respondByPath({
+      '/ask/stream': {
+        status: 200,
+        stream: sseBody(
+          `event: node\ndata: {"node":"route"}\n\nevent: answer\ndata: ${JSON.stringify(anAnswer())}\n\n`,
+        ),
+      },
+    })
+    const onNode = vi.fn()
+
+    const result = await ask('a customer chatbot', { onNode })
+
+    expect(result.state).toBe('answered')
+    expect(onNode).toHaveBeenCalledWith(
+      expect.objectContaining({ node: 'route' }),
+    )
+    expect(new URL(stub.mock.calls[0][0]).pathname).toBe('/ask/stream')
+  })
+
+  it('returns a named failure the stream route answered before any frame, without asking again', async () => {
+    const stub = respondByPath({
+      '/ask/stream': {
+        status: 503,
+        body: {
+          state: 'unavailable',
+          detail:
+            'The service is up and could not reach the model or the index.',
+          correlationId: '8f2a-41d7',
+        },
+      },
+    })
+
+    const result = await ask('a customer chatbot', { onNode: vi.fn() })
+
+    expect(result.state).toBe('unavailable')
+    expect(stub).toHaveBeenCalledTimes(1)
+  })
+
+  it('falls back to the plain route on a service that has no stream route', async () => {
+    const stub = respondByPath({
+      '/ask/stream': { status: 404, body: { detail: 'Not Found' } },
+      '/ask': { status: 200, body: anAnswer() },
+    })
+
+    const result = await ask('a customer chatbot', { onNode: vi.fn() })
+
+    expect(result.state).toBe('answered')
+    expect(stub.mock.calls.map(([url]) => new URL(url).pathname)).toEqual([
+      '/ask/stream',
+      '/ask',
+    ])
+  })
+})

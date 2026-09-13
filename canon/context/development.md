@@ -60,7 +60,7 @@ The answer endpoint takes `4200`, above the 4100 to 4150 band that offset derive
 | `bun run check:python`                              | `cd python && bun run check`: mypy, ruff, ruff format check, pytest                                                |
 | `bun run check:web`                                 | `cd web && bun run check`: prettier check, typecheck, eslint, vitest                                               |
 | `bun run format`                                    | Auto-fix prettier and shfmt formatting at the root                                                                 |
-| `cd web && bun run generate:answer`                 | Regenerate `web/src/lib/answer.ts` from `python/schema/answer.schema.json`                                         |
+| `cd web && bun run generate:answer`                 | Regenerate `web/src/lib/answer.ts`, `stream-node.ts` and `stream-error.ts` from their schemas in `python/schema/`  |
 | `cd web && bun run test:e2e`                        | Playwright against the app, starting a server if one is not already up                                             |
 | `cd web && bun run capture:evidence`                | Drive every answer-surface state into `web/evidence/<state>/`, asserting each state was reached before it captures |
 | `cd python && uv run python -m annex capture`       | Record the pipeline's answers into `web/src/fixtures/`, which the deployed build replays                           |
@@ -129,6 +129,8 @@ The generator resolves the schema's `$defs` references itself, in `web/scripts/g
 - **`out/` is gitignored and was not in eslint's ignore list.** `output: 'export'` writes minified bundles there, which `eslint . --max-warnings 0` then read as source and failed on. The entry is in `eslint.config.mjs` beside `.next`.
 - **Remove `web/out-replay/` before running the root gate.** `bun run check` runs prettier at the root with the root `.gitignore` as its only ignore path, and `web/out-replay/` is ignored by `web/.gitignore` alone, so a replay export left in the tree is reformatted and fails `check:format`.
 - **Run the web suite from `web/`.** `src/app/globals.test.ts` reads `globals.css` relative to the process working directory, so vitest started at the repository root with `--root web` fails that file at collection. `bun run --cwd web test:run` starts it in the right place.
+- **Read the served page for the replay band before capturing against a production server.** Building the local half and then the replay half back to back from one `web/` directory, the second with `NEXT_PUBLIC_ANNEX_MODE=replay ANNEX_DIST_DIR=out-replay`, left `bunx next start` serving the replay page, and `capture-states.ts` captured four states against it before its cut-short case failed. A rebuild after `rm -rf .next` with both variables unset served the local page. The cause was not isolated. Measured at `b93e8be` on 2026-09-14.
+- **The replay build takes seconds to answer a pick.** It plays the recording's steps at a fifth of the recording's `duration_ms` before the answer renders, up to about 17 seconds. The suite keeps Playwright's 5-second expect default, so an assertion that waits on a replayed answer passes its own `{ timeout: PLAYBACK_TIMEOUT }` from `web/e2e/playback.ts`, which marks at the call site which waits are slow. A click already waits up to the test timeout and needs nothing.
 
 ## Spelling
 

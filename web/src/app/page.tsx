@@ -7,6 +7,7 @@ import {
   type CitedProvision,
   type PaneView,
 } from '@/components/act-reader'
+import { AgentSteps } from '@/components/agent-steps'
 import { AnswerView } from '@/components/answer-view'
 import { BeforeYouAsk } from '@/components/before-you-ask'
 import { ColumnHandle } from '@/components/column-handle'
@@ -20,13 +21,13 @@ import {
   type NextStepState,
 } from '@/components/failure-next-step'
 import { FailureRegion } from '@/components/failure-region'
-import { LoadingAnswer } from '@/components/loading-answer'
 import { RecordedPicks } from '@/components/recorded-picks'
 import { RefusalView } from '@/components/refusal-view'
 import { ReplayNotice } from '@/components/replay-notice'
 import { RetrievalTrace, Walk } from '@/components/retrieval-trace'
 import { TopBar, TraversalSwitch, VersionToggle } from '@/components/top-bar'
 import type { CorpusVersion } from '@/components/versions'
+import { WaitPane } from '@/components/wait-pane'
 import { addressSearch, readAddress } from '@/lib/address'
 import type { Answer } from '@/lib/answer'
 import { ask, type AskResult, MAXIMUM_DESCRIPTION } from '@/lib/ask'
@@ -35,9 +36,11 @@ import {
   recordedQuestionIdFor,
   REPLAY_MODE,
 } from '@/lib/replay'
+import { PLAYBACK_SPEEDUP } from '@/lib/replay-playback'
 import { useColumnWidth } from '@/lib/use-column-width'
 import { useDocked } from '@/lib/use-docked'
 import { useScrolledPast } from '@/lib/use-scrolled-past'
+import { advance, startProgress, type WalkProgress } from '@/lib/walk-progress'
 
 /**
  * The empty state's measure beside the pane holding the terms, from
@@ -115,6 +118,7 @@ export default function Home() {
   const [asked, setAsked] = useState<string | null>(null)
   const [result, setResult] = useState<AskResult | null>(null)
   const [pending, setPending] = useState(false)
+  const [progress, setProgress] = useState<WalkProgress | null>(null)
   const [touched, setTouched] = useState(false)
   const [version, setVersion] = useState<CorpusVersion>('consolidated')
   const [traversal, setTraversal] = useState(true)
@@ -151,8 +155,19 @@ export default function Home() {
    */
   const hasAsked = useRef(false)
 
+  /**
+   * `play` decides whether the deployed build paces its recording through the
+   * steps first. A pick and a reopened address play, and the version toggle
+   * does not, since an instant toggle is what the first-use pass accepted
+   * re-asking on replay for.
+   */
   const run = useCallback(
-    async (text: string, against: CorpusVersion, follow: boolean) => {
+    async (
+      text: string,
+      against: CorpusVersion,
+      follow: boolean,
+      play = true,
+    ) => {
       inFlight.current?.abort()
       const controller = new AbortController()
       inFlight.current = controller
@@ -160,6 +175,7 @@ export default function Home() {
       setAsked(text)
       setResult(null)
       setPending(true)
+      setProgress(startProgress(Date.now()))
       setReaderProvisionId(null)
       setReaderPoint(null)
       setReaderVersion(against)
@@ -169,6 +185,13 @@ export default function Home() {
         version: against,
         traversal: follow,
         signal: controller.signal,
+        playback: play,
+        onNode: (node) => {
+          if (controller.signal.aborted) return
+          setProgress(
+            (current) => current && advance(current, node, Date.now()),
+          )
+        },
       })
 
       if (controller.signal.aborted) return
@@ -218,7 +241,7 @@ export default function Home() {
   const changeVersion = useCallback(
     (next: CorpusVersion) => {
       setVersion(next)
-      if (asked !== null) void run(asked, next, traversal)
+      if (asked !== null) void run(asked, next, traversal, false)
     },
     [asked, run, traversal],
   )
@@ -385,7 +408,16 @@ export default function Home() {
                 screen reader and every e2e case find the cost line by. */}
             <div className="px-6 pb-12 lg:pl-8">
               <main>
-                {pending && <LoadingAnswer version={version} />}
+                {pending && REPLAY_MODE && (
+                  <p className="mt-6 mb-0 border-l-2 border-warning-rule bg-warning-surface px-3 py-2 text-[12.5px] text-ink">
+                    Illustrative pace. These steps replay the recording{' '}
+                    {PLAYBACK_SPEEDUP} times faster than it ran, and the times
+                    beside them are this replay&apos;s, not the model&apos;s.
+                  </p>
+                )}
+                {pending && progress && (
+                  <AgentSteps progress={progress} version={version} />
+                )}
                 {result?.state === 'answered' && (
                   <AnswerView
                     answer={result.answer}
@@ -416,6 +448,10 @@ export default function Home() {
               {answer && (
                 <RetrievalTrace
                   retrieval={answer.retrieval}
+                  version={answer.version}
+                  onOpenProvision={(provisionId) => {
+                    openProvision(provisionId, answer.version)
+                  }}
                   onOpenWalk={
                     docked
                       ? () => {
@@ -446,11 +482,26 @@ export default function Home() {
                 onOpen={(provisionId) => {
                   openProvision(provisionId, answer.version)
                 }}
-                walk={<Walk retrieval={answer.retrieval} />}
+                walk={
+                  <Walk
+                    retrieval={answer.retrieval}
+                    version={answer.version}
+                    onOpen={(provisionId) => {
+                      openProvision(provisionId, answer.version)
+                    }}
+                  />
+                }
                 view={paneView}
                 onViewChange={setPaneView}
                 onClose={closeReader}
                 onVersionChange={setReaderVersion}
+              />
+            )}
+            {docked && pending && progress && (
+              <WaitPane
+                key={progress.startedAt}
+                progress={progress}
+                version={version}
               />
             )}
             {docked && nextStep && (

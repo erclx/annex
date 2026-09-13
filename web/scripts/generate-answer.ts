@@ -12,12 +12,42 @@ import { readFileSync, writeFileSync } from 'node:fs'
 
 import { type JsonSchemaObject, jsonSchemaToZod } from 'json-schema-to-zod'
 
-const SCHEMA_PATH = new URL(
-  '../../python/schema/answer.schema.json',
-  import.meta.url,
-)
-const OUTPUT_PATH = new URL('../src/lib/answer.ts', import.meta.url)
+const SCHEMA_DIRECTORY = new URL('../../python/schema/', import.meta.url)
+const OUTPUT_DIRECTORY = new URL('../src/lib/', import.meta.url)
 const REF_PREFIX = '#/$defs/'
+
+interface Contract {
+  schema: string
+  output: string
+  name: string
+  type: string
+}
+
+/**
+ * The answer `/ask` returns, and the two frames `/ask/stream` sends before or
+ * instead of it. The terminal `answer` frame carries the first contract, so the
+ * stream needs no schema of its own for it.
+ */
+const CONTRACTS: Contract[] = [
+  {
+    schema: 'answer.schema.json',
+    output: 'answer.ts',
+    name: 'answerSchema',
+    type: 'Answer',
+  },
+  {
+    schema: 'stream-node.schema.json',
+    output: 'stream-node.ts',
+    name: 'streamNodeSchema',
+    type: 'StreamNode',
+  },
+  {
+    schema: 'stream-error.schema.json',
+    output: 'stream-error.ts',
+    name: 'streamErrorSchema',
+    type: 'StreamError',
+  },
+]
 
 type JsonNode = Record<string, unknown>
 
@@ -72,28 +102,36 @@ function dereference(
   return output
 }
 
-const raw = JSON.parse(readFileSync(SCHEMA_PATH, 'utf8')) as JsonNode
-const { $defs: definitions = {}, ...root } = raw
-const resolved = dereference(root, definitions as JsonNode)
-if (!isObject(resolved)) {
-  throw new Error('The schema root resolved to something other than an object')
+function generate({ schema, output, name, type }: Contract) {
+  const raw = JSON.parse(
+    readFileSync(new URL(schema, SCHEMA_DIRECTORY), 'utf8'),
+  ) as JsonNode
+  const { $defs: definitions = {}, ...root } = raw
+  const resolved = dereference(root, definitions as JsonNode)
+  if (!isObject(resolved)) {
+    throw new Error(
+      `The root of ${schema} resolved to something other than an object`,
+    )
+  }
+
+  // Parsed JSON cannot be narrowed to JsonSchemaObject by a guard without writing a
+  // validator for the whole JSON Schema vocabulary. The guard above establishes the
+  // only property this script depends on, and the input is a committed artifact this
+  // project generates rather than arbitrary third-party input.
+  const generated = jsonSchemaToZod(resolved as JsonSchemaObject, {
+    name,
+    type,
+    module: 'esm',
+    zodVersion: 4,
+  })
+
+  const banner = [
+    `// Generated from python/schema/${schema} by \`bun run generate:answer\`.`,
+    '// Do not edit. `web/scripts/verify.sh` fails when this file and the schema disagree.',
+    '',
+  ].join('\n')
+
+  writeFileSync(new URL(output, OUTPUT_DIRECTORY), `${banner}${generated}\n`)
 }
 
-// Parsed JSON cannot be narrowed to JsonSchemaObject by a guard without writing a
-// validator for the whole JSON Schema vocabulary. The guard above establishes the
-// only property this script depends on, and the input is a committed artifact this
-// project generates rather than arbitrary third-party input.
-const generated = jsonSchemaToZod(resolved as JsonSchemaObject, {
-  name: 'answerSchema',
-  type: 'Answer',
-  module: 'esm',
-  zodVersion: 4,
-})
-
-const banner = [
-  '// Generated from python/schema/answer.schema.json by `bun run generate:answer`.',
-  '// Do not edit. `web/scripts/verify.sh` fails when this file and the schema disagree.',
-  '',
-].join('\n')
-
-writeFileSync(OUTPUT_PATH, `${banner}${generated}\n`)
+for (const contract of CONTRACTS) generate(contract)

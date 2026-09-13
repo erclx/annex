@@ -1,5 +1,12 @@
 import { expect, type Page, test } from '@playwright/test'
 
+import recorded from '../src/fixtures/q01-support-chatbot.consolidated.json'
+import type { Answer } from '../src/lib/answer'
+import { holdStreamOpen, streamAnswers } from './stream-stub'
+
+/** A real recording, 12 searched and 40 traversed, for cases about the walk's size. */
+const RECORDED = recorded as Answer
+
 /**
  * The surface against a real browser and a real fetch.
  *
@@ -41,6 +48,7 @@ const ANSWER = {
     searched_ids: ['art_50', 'art_50.1'],
     traversed_ids: ['art_50.2'],
     dropped_ids: [],
+    uncited_ids: [],
     edges: [{ source_id: 'art_50', target_id: 'art_50.2', hop: 1 }],
     traversal_enabled: true,
     truncated: false,
@@ -51,7 +59,12 @@ const ANSWER = {
   },
 }
 
+/**
+ * The page asks through `/ask/stream`, so that route carries the answer. `/ask`
+ * answers the same body for a page that falls back to it.
+ */
 async function serviceAnswers(page: Page, body: unknown, status = 200) {
+  await streamAnswers(page, body, status)
   await page.route('**/ask', async (route) => {
     if (route.request().method() === 'OPTIONS') {
       await route.fulfill({ status: 204, headers: CORS })
@@ -140,8 +153,8 @@ test('the trace reports cost without being opened, and opens to the ids', async 
 
   await page.getByRole('contentinfo').getByRole('button').click()
 
-  // The definition-list term, scoped past the drawing's own column label,
-  // which repeats the same word as the graph's leftmost hop.
+  // The definition-list term, scoped to the id lists under the chips rather
+  // than to any text on the page reading the same word.
   await expect(
     page.getByRole('term').getByText('searched', { exact: true }),
   ).toBeVisible()
@@ -174,7 +187,7 @@ test('a refusal renders as a result rather than as a failure', async ({
   await expect(page.getByRole('main').getByRole('alert')).toHaveCount(0)
 })
 
-test('the trace disclosure draws the walk above the id lists', async ({
+test('the trace opens the walk as chips above the id lists', async ({
   page,
 }) => {
   await serviceAnswers(page, ANSWER)
@@ -183,11 +196,143 @@ test('the trace disclosure draws the walk above the id lists', async ({
   await describeSystem(page)
   await page.getByRole('contentinfo').getByRole('button').click()
 
-  await expect(page.getByRole('img', { name: /The walk,/ })).toBeVisible()
-  // The lists stay, as the drawing's text equivalent.
+  await expect(page.getByRole('group', { name: /^The walk,/ })).toBeVisible()
+  await expect(
+    page.getByRole('button', { name: 'Article 50(2)' }),
+  ).toBeVisible()
+  // The raw id lists stay under the chips.
   await expect(
     page.getByRole('term').getByText('searched', { exact: true }),
   ).toBeVisible()
+})
+
+test('a chip in the walk opens its provision in the Act', async ({ page }) => {
+  await serviceAnswers(page, ANSWER)
+  await page.goto('/')
+
+  await describeSystem(page)
+  await page.getByRole('contentinfo').getByRole('button').click()
+  await page.getByRole('button', { name: 'Article 50(2)' }).focus()
+  await page.keyboard.press('Enter')
+
+  await expect(
+    page
+      .getByRole('complementary', { name: 'The Act' })
+      .getByRole('button', { name: 'The Act' }),
+  ).toHaveAttribute('aria-pressed', 'true')
+})
+
+test('the wait shows the steps and fills the pane while the model drafts', async ({
+  page,
+}) => {
+  await holdStreamOpen(page, ANSWER as Answer, 'budget')
+  await page.goto('/')
+
+  await describeSystem(page)
+
+  const steps = page.getByRole('region', { name: 'The agent working' })
+  await expect(steps.getByText('Query ready')).toBeVisible()
+  await expect(
+    steps.getByText(
+      /^1 of the 3 provisions found set aside|found fit the prompt budget$/,
+    ),
+  ).toBeVisible()
+  await expect(
+    page.getByRole('complementary', { name: 'The agent working' }),
+  ).toBeVisible()
+  await expect(page.getByText(/^Being read by the model · 1 of/)).toBeVisible()
+})
+
+test.describe('motion while a question runs', () => {
+  test('the running step pulses, and holds still for a reader who asked for less motion', async ({
+    page,
+  }) => {
+    await holdStreamOpen(page, RECORDED, 'traverse')
+    await page.goto('/')
+    await describeSystem(page)
+
+    const running = page
+      .getByRole('region', { name: 'The agent working' })
+      .locator('li[aria-current="step"] > span')
+      .first()
+    await expect
+      .poll(() => running.evaluate((el) => getComputedStyle(el).animationName))
+      .toBe('step-pulse')
+
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await expect
+      .poll(() => running.evaluate((el) => getComputedStyle(el).animationName))
+      .toBe('none')
+  })
+
+  test('the walk grows until every provision it reached is shown', async ({
+    page,
+  }) => {
+    await holdStreamOpen(page, RECORDED, 'traverse')
+    await page.goto('/')
+    await describeSystem(page)
+
+    const chips = page
+      .getByRole('complementary', { name: 'The agent working' })
+      .getByRole('button')
+    await expect(chips.first()).toBeVisible()
+    expect(await chips.count()).toBeLessThan(52)
+    await expect(chips).toHaveCount(52)
+  })
+
+  test('the reading card steps to the next supplied provision', async ({
+    page,
+  }) => {
+    await holdStreamOpen(page, RECORDED, 'budget')
+    await page.goto('/')
+    await describeSystem(page)
+
+    await expect(
+      page.getByText(/^Being read by the model · 1 of \d+ supplied$/),
+    ).toBeVisible()
+    await expect(
+      page.getByText(/^Being read by the model · 2 of \d+ supplied$/),
+    ).toBeVisible()
+  })
+})
+
+test('hovering a chip fades the provisions off its path', async ({ page }) => {
+  await serviceAnswers(page, RECORDED)
+  await page.goto('/')
+  await describeSystem(page)
+  await page.getByRole('contentinfo').getByRole('button').click()
+
+  const walk = page.getByRole('group', { name: /^The walk,/ })
+  await walk.getByRole('button', { name: /^Article 102/ }).hover()
+
+  await expect(
+    walk.getByRole('button', { name: /^Article 2$/ }),
+  ).toHaveAttribute('data-traced', 'true')
+  await expect
+    .poll(() =>
+      walk
+        .getByRole('button', { name: /^Article 13\(1\)$/ })
+        .evaluate((el) => getComputedStyle(el).opacity),
+    )
+    .toBe('0.4')
+})
+
+test.describe('the finished walk at 400 pixels', () => {
+  test.use({ viewport: { width: 400, height: 860 } })
+
+  test('expands as chips in place under the cost line', async ({ page }) => {
+    await serviceAnswers(page, RECORDED)
+    await page.goto('/')
+    await describeSystem(page)
+
+    const trace = page.getByRole('contentinfo')
+    await trace.getByRole('button', { expanded: false }).click()
+
+    await expect(trace.getByRole('group', { name: /^The walk,/ })).toBeVisible()
+    await expect(
+      trace.getByRole('button', { name: /^Article 50\(1\)$/ }),
+    ).toBeVisible()
+  })
 })
 
 test('a refusal draws the walk too, since it names what was consulted', async ({
@@ -207,23 +352,34 @@ test('a refusal draws the walk too, since it names what was consulted', async ({
   await describeSystem(page, 'quarterly retraining of a credit model')
   await page.getByRole('contentinfo').getByRole('button').click()
 
-  await expect(page.getByRole('img', { name: /The walk,/ })).toBeVisible()
+  await expect(page.getByRole('group', { name: /^The walk,/ })).toBeVisible()
 })
 
-test('a trace with no edges degrades to the id lists rather than an empty frame', async ({
+test('a trace with traversal off keeps search alone rather than an empty frame', async ({
   page,
 }) => {
   await serviceAnswers(page, {
     ...ANSWER,
-    retrieval: { ...ANSWER.retrieval, edges: [] },
+    retrieval: {
+      ...ANSWER.retrieval,
+      traversed_ids: [],
+      edges: [],
+      traversal_enabled: false,
+    },
   })
   await page.goto('/')
 
   await describeSystem(page)
   await page.getByRole('contentinfo').getByRole('button').click()
 
-  await expect(page.getByRole('img', { name: /The walk,/ })).toHaveCount(0)
-  await expect(page.getByText('searched', { exact: true })).toBeVisible()
+  const walk = page.getByRole('group', { name: /^The walk,/ })
+  await expect(
+    walk.getByRole('button', { name: 'Article 50(1)' }),
+  ).toBeVisible()
+  await expect(page.getByText('Their article')).toHaveCount(0)
+  await expect(
+    page.getByRole('term').getByText('searched', { exact: true }),
+  ).toBeVisible()
 })
 
 test('a service that is not running names the port rather than stalling', async ({
