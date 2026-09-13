@@ -21,6 +21,13 @@ interface ColumnHandleProps {
  * than where the pointer sits, so grabbing the handle anywhere across its width
  * never jumps the column. The store clamps the result, which keeps the range in
  * one place.
+ *
+ * The line carries a grip so the divider reads as draggable before the pointer
+ * finds it, per the operator's second-use pass. Hover darkens the line and the
+ * grip in neutral ink rather than accent, since a first draft that turned the
+ * whole line accent on hover read as a much larger change than a grip
+ * deserves; accent is reserved for keyboard focus, which needs the stronger
+ * signal since a keyboard reader cannot see a hover cursor at all.
  */
 export function ColumnHandle({
   width,
@@ -73,9 +80,17 @@ export function ColumnHandle({
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerEnd}
       onPointerCancel={handlePointerEnd}
-      className="group flex h-full w-full cursor-col-resize touch-none justify-center"
+      className="group relative flex h-full w-full cursor-col-resize touch-none justify-center"
     >
-      <span className="h-full w-px bg-rule group-hover:bg-accent group-focus-visible:bg-accent" />
+      <span className="h-full w-px bg-rule group-hover:bg-cite-rule group-focus-visible:bg-accent" />
+      <span
+        aria-hidden="true"
+        className="absolute top-1/2 flex h-10 w-[10px] -translate-y-1/2 flex-col items-center justify-center gap-[3px] rounded-[5px] border border-cite-rule bg-surface group-hover:border-ink group-focus-visible:border-accent group-focus-visible:ring-2 group-focus-visible:ring-accent"
+      >
+        <span className="size-[3px] rounded-full bg-cite-rule group-hover:bg-ink group-focus-visible:bg-accent" />
+        <span className="size-[3px] rounded-full bg-cite-rule group-hover:bg-ink group-focus-visible:bg-accent" />
+        <span className="size-[3px] rounded-full bg-cite-rule group-hover:bg-ink group-focus-visible:bg-accent" />
+      </span>
     </div>
   )
 }
