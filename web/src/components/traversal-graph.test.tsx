@@ -16,6 +16,7 @@ function makeRetrieval(overrides: Partial<Retrieval> = {}): Retrieval {
     traversal_enabled: true,
     traversed_ids: [],
     truncated: false,
+    uncited_ids: [],
     ...overrides,
   }
 }

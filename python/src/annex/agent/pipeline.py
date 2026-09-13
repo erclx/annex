@@ -321,6 +321,7 @@ class Pipeline:
             searched_ids=state.get('searched_ids', ()),
             traversed_ids=state.get('traversed_ids', ()),
             dropped_ids=dropped_ids,
+            uncited_ids=_uncited_ids(completion.text, citations),
             edges=tuple(
                 TraversalEdge(
                     source_id=edge.source_id, target_id=edge.target_id, hop=edge.hop
@@ -434,6 +435,24 @@ class Pipeline:
 
 
 _SPACE_BEFORE_PUNCTUATION = re.compile(r'\s+([.,;:)])')
+
+
+def _uncited_ids(drafted: str, citations: tuple[Citation, ...]) -> tuple[str, ...]:
+    """Which supplied provisions the model's raw completion never bracketed.
+
+    Reads `drafted` directly rather than the lines `parse_draft` keeps, since
+    the question this answers is what the model's own generation did with a
+    supplied number, not what survived parsing into a claim. A bracket number
+    inside a declared `REFUSE` block's `missing` lines, or one a stray line of
+    prose happens to carry, both count as cited here even though `parse_draft`
+    never turns either into a claim.
+    """
+    cited = {int(number) for number in CITATION_MARKER.findall(drafted)}
+    return tuple(
+        citation.provision_id
+        for index, citation in enumerate(citations, start=1)
+        if index not in cited
+    )
 
 
 def _comparable(text: str) -> str:

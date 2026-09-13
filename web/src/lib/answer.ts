@@ -102,10 +102,11 @@ export const answerSchema = z
         traversal_enabled: z.boolean().default(false),
         traversed_ids: z.array(z.string()).default([]),
         truncated: z.boolean().default(false),
+        uncited_ids: z.array(z.string()).default([]),
       })
       .strict()
       .describe(
-        "What the pipeline did to produce an answer, and what it cost.\n\nHeld on the answer rather than beside it. The evaluation harness scores hit\nrate and cost per question from this object, and a trace that travels\nseparately from the answer it describes is a trace something eventually\nmismatches.\n\n`dropped_ids` is the part a scorer cannot infer. Retrieval reaches more\nprovisions than a prompt has room for, so `traversed_ids` names what\ntraversal found and `dropped_ids` names which of those the budget cut\nbefore the model saw them. Scoring traversal's contribution against the\nfirst without subtracting the second credits it for text nothing read. Ids\nrather than a count, because the scorer resolves them.\n\n`truncated` says the model stopped for want of room rather than because it\nhad finished. A cut answer reads as a complete one, so a caller that does\nnot check this field cannot tell them apart.\n\n`edges` is what a drawing needs and the three id tuples above do not\ncarry: which provision each traversed provision was reached from. It is\nempty on every fixture recorded before this field existed, and on any run\nwith traversal switched off, so an empty tuple does not by itself mean\nnothing was traversed. Read it alongside `traversal_enabled` and\n`traversed_ids` rather than on its own.",
+        "What the pipeline did to produce an answer, and what it cost.\n\nHeld on the answer rather than beside it. The evaluation harness scores hit\nrate and cost per question from this object, and a trace that travels\nseparately from the answer it describes is a trace something eventually\nmismatches.\n\n`dropped_ids` is the part a scorer cannot infer. Retrieval reaches more\nprovisions than a prompt has room for, so `traversed_ids` names what\ntraversal found and `dropped_ids` names which of those the budget cut\nbefore the model saw them. Scoring traversal's contribution against the\nfirst without subtracting the second credits it for text nothing read. Ids\nrather than a count, because the scorer resolves them.\n\n`truncated` says the model stopped for want of room rather than because it\nhad finished. A cut answer reads as a complete one, so a caller that does\nnot check this field cannot tell them apart.\n\n`edges` is what a drawing needs and the three id tuples above do not\ncarry: which provision each traversed provision was reached from. It is\nempty on every fixture recorded before this field existed, and on any run\nwith traversal switched off, so an empty tuple does not by itself mean\nnothing was traversed. Read it alongside `traversal_enabled` and\n`traversed_ids` rather than on its own.\n\n`uncited_ids` names a different gap from `dropped_ids`. `dropped_ids` is\nprovisions the budget cut before the model ever saw them; `uncited_ids` is\nprovisions the model saw and never wrote a bracket number for. Neither\nsubsumes the other, and a provision that survives the budget can still\nland here. It is also distinct from a claim a verifier drops for failing\ngrounding, since that is a citation the model made that the retrieved\ntext does not support, where this is a citation the model never made at\nall.",
       )
       .default({
         completion_tokens: 0,
@@ -118,6 +119,7 @@ export const answerSchema = z
         traversal_enabled: false,
         traversed_ids: [],
         truncated: false,
+        uncited_ids: [],
       }),
     version: z
       .enum(['original', 'consolidated'])

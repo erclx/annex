@@ -112,6 +112,7 @@ class TestAnswer:
             retrieval=RetrievalTrace(
                 searched_ids=('art_6',),
                 traversed_ids=('anx_III',),
+                uncited_ids=('anx_III',),
                 traversal_enabled=True,
                 prompt_tokens=1200,
                 model='qwen3.8:27b',
@@ -125,6 +126,7 @@ class TestAnswer:
         assert restored.refusal is not None
         assert restored.refusal.consulted[0].provision_id == 'art_6'
         assert restored.retrieval.traversal_enabled
+        assert restored.retrieval.uncited_ids == ('anx_III',)
 
 
 class TestTheCommittedSchema:

@@ -11,6 +11,7 @@ from annex.agent.pipeline import (
     SCAFFOLDING_TOKENS,
     SYNTHESIS_BUDGET,
     _amendment,
+    _uncited_ids,
     parse_draft,
 )
 from annex.answer import Citation
@@ -519,6 +520,24 @@ class TestTheTrace:
         assert set(answer.retrieval.dropped_ids) <= set(
             answer.retrieval.searched_ids + answer.retrieval.traversed_ids
         )
+
+    def test_uncited_ids_names_a_supplied_provision_the_draft_never_bracketed(
+        self,
+    ) -> None:
+        citations = (
+            make_citation('art_50.1', 'x'),
+            make_citation('art_50.2', 'y'),
+            make_citation('art_2', 'z'),
+        )
+
+        assert _uncited_ids('cites only [1]', citations) == ('art_50.2', 'art_2')
+
+    def test_uncited_ids_is_empty_when_every_supplied_provision_is_cited(
+        self,
+    ) -> None:
+        citations = (make_citation('art_50.1', 'x'), make_citation('art_2', 'z'))
+
+        assert _uncited_ids('cites [1] and then [2]', citations) == ()
 
     def test_an_uncut_generation_is_not_reported_as_truncated(
         self, build_pipeline: BuildPipeline
