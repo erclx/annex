@@ -2,7 +2,7 @@
   "covers": ["governance", "tooling"],
   "domains": {
     "governance": {
-      "syncedAt": "2026-09-12T14:53:00.551Z",
+      "syncedAt": "2026-09-13T00:57:23.328Z",
       "files": {
         ".claude/rules/canon/ci/700-ci-workflow.md": "sha256:ee4b0988ef94dc92229004020dead689c0904176356e4caf7e83da0b1bbfc478",
         ".claude/rules/canon/claude/500-prose.md": "sha256:c1d40f1381c6f8c3838c9ea3469d91c8a5e42e9496690fc5b69945d162bad8d7",
@@ -70,7 +70,7 @@
         ".claude/rules/canon/ui/410-a11y.md": "sha256:a8cef5488830dc2aafbb833020ea7e0ed336aa4c42c83a714e4adf1563a84453",
         ".claude/rules/canon/ui/420-forms.md": "sha256:1aa6732167418af4fe934267cf1526d8a96fafae40c82408b91f71bc77a61d44",
         ".claude/rules/canon/ui/430-ux-completeness.md": "sha256:dd22ca3ff07d3c4fc79538802fed98d9f7b3c5715af1b1b27565b0951ec5d8c9",
-        ".claude/rules/canon/ui/440-surface-capture.md": "sha256:f5cc24e863bd38f5b7d0f459f7bd843f5d171d73adf1572ba9e42247515810aa",
+        ".claude/rules/canon/ui/440-surface-capture.md": "sha256:b4a3eae1de741343571dce47d9a2fddced3bea76251e7a4292efce24cbca1452",
         ".claude/rules/canon/ui/450-link-behavior.md": "sha256:43c4aa1c8e3db74541266164f59d1e8bcd1ff30e5b19172fa6b764e3bb8b5f97"
       },
       "chain": ["react"]
