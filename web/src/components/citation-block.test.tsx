@@ -103,11 +103,13 @@ describe('CitationBlock', () => {
     expect(onOpen).toHaveBeenCalledWith('art_6', 'consolidated')
   })
 
-  it('should offer to open a provision that fits whole in the Act', () => {
-    render(<CitationBlock citation={CITATION} onOpen={vi.fn()} />)
+  it('should name the length of a short provision too, since the clamp may still cut it', () => {
+    render(<CitationBlock citation={CITATION} onOpen={vi.fn()} lines={3} />)
 
     expect(
-      screen.getByRole('button', { name: 'Open in the Act' }),
+      screen.getByRole('button', {
+        name: 'Read all 46 characters in the Act',
+      }),
     ).toBeInTheDocument()
   })
 })

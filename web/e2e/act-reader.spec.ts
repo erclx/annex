@@ -52,6 +52,26 @@ test.describe('docked beside the answer', () => {
     ).toHaveCount(1)
   })
 
+  test('jumping to a paragraph keeps its article heading in view', async ({
+    page,
+  }) => {
+    await page.goto(REPLAY_URL)
+    await page.getByRole('button', { name: RECORDED }).click()
+
+    const pane = page.getByRole('complementary', { name: 'The Act' })
+    await pane
+      .getByRole('navigation', { name: 'Cited in this answer' })
+      .getByRole('button', { name: /\(\d+\)$/ })
+      .first()
+      .click()
+
+    // The tint marks the paragraph, and the heading of the article carrying it
+    // is what tells a reader which article they are reading.
+    await expect(
+      pane.locator('article:has(p.bg-accent-soft) > h2'),
+    ).toBeInViewport()
+  })
+
   test('the trace opens the walk in the pane', async ({ page }) => {
     await page.goto(REPLAY_URL)
     await page.getByRole('button', { name: RECORDED }).click()

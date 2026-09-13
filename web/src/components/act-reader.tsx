@@ -113,8 +113,22 @@ export function ActReader({
     // scroll the page behind a sticky pane and take the answer off its place.
     if (docked && bodyRef.current) {
       const body = bodyRef.current
+      // A paragraph means nothing without the article carrying it, so the pane
+      // lands on that article's heading whenever the heading and the whole
+      // paragraph fit in view together, and on the paragraph itself only when
+      // they do not. Testing the article's full height instead sent every
+      // paragraph of a long article to the paragraph's own top, heading lost.
+      const article = target.closest('article')
+      const anchor =
+        article &&
+        article !== target &&
+        target.getBoundingClientRect().bottom -
+          article.getBoundingClientRect().top <=
+          body.clientHeight
+          ? article
+          : target
       body.scrollTop =
-        target.getBoundingClientRect().top -
+        anchor.getBoundingClientRect().top -
         body.getBoundingClientRect().top +
         body.scrollTop
       return

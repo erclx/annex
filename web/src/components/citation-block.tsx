@@ -3,15 +3,6 @@ import { eurLexUrl } from '@/lib/eur-lex'
 import { group } from '@/lib/format'
 
 /**
- * Roughly what six lines of the quote measure hold at the column's width.
- *
- * The clamp itself is drawn by line count, which no render-free check can read,
- * so this is what decides whether the handle names the provision's length. A
- * provision under it fits the excerpt whole, and one over it is cut.
- */
-const EXCERPT_CHARACTERS = 600
-
-/**
  * One provision, quoted behind a left rule.
  *
  * Three layers appear inside this block and a reader has to separate them
@@ -34,10 +25,12 @@ const EXCERPT_CHARACTERS = 600
  * `.claude/wireframes/answer.md` § Reading the Act.
  *
  * The quote is an excerpt clamped to `lines`, and the full text is one
- * activation away in the Act. The handle under it names the provision's length
- * whenever the excerpt is cut, so a reader never mistakes the clamp for the
- * whole provision. The note is never clamped, since it is the one layer the
- * amendment adds rather than a part of the statute.
+ * activation away in the Act. The handle under it always names the provision's
+ * length. Whether the clamp cut a given provision depends on the column's width
+ * at render, which a character count cannot predict, and a handle that named the
+ * length only when it guessed a cut would sometimes sit under a cut quote
+ * reading as though it were whole. The note is never clamped, since it is the
+ * one layer the amendment adds rather than a part of the statute.
  */
 export function CitationBlock({
   citation,
@@ -48,7 +41,6 @@ export function CitationBlock({
   onOpen?: (provisionId: string, version: CorpusVersion) => void
   lines?: number
 }) {
-  const isCut = citation.text.length > EXCERPT_CHARACTERS
   return (
     <figure
       className={`mt-[10px] border-l-2 py-[2px] pl-[14px] ${
@@ -114,9 +106,7 @@ export function CitationBlock({
           }}
           className="mt-[4px] text-[12px] text-accent underline-offset-2 hover:underline"
         >
-          {isCut
-            ? `Read all ${group(citation.text.length)} characters in the Act`
-            : 'Open in the Act'}
+          {`Read all ${group(citation.text.length)} characters in the Act`}
           <span aria-hidden="true"> →</span>
         </button>
       )}

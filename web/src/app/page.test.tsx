@@ -492,7 +492,9 @@ describe('the docked pane at 1024 pixels and wider', () => {
     const user = await describeSystem()
 
     await user.click(
-      await screen.findByRole('button', { name: 'Open in the Act' }),
+      await screen.findByRole('button', {
+        name: /^Read all .* characters in the Act/,
+      }),
     )
 
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()

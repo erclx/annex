@@ -198,14 +198,14 @@ The plain case. No provision moved, nothing cut.
 │  │ systems intended to interact   │ ░ that AI systems intended to  ░ │   held in a tint
 │  │ directly with natural persons  │ ░ interact directly with…      ░ │
 │  │ are designed and developed in… │   2. Providers of AI systems,    │
-│  │ Open in the Act →   ← excerpt  │   including general-purpose…     │
+│  │ Read all 702 characters… →     │   including general-purpose…     │
 │                                   │                                  │
 │ The disclosure obligation does    │   3. Deployers of an emotion     │
 │ not apply where it is obvious…    │   recognition system…            │
 │                                   │                                  │
 │  │ Article 50(6)  AMENDED         │                   ← the whole    │
 │  │ Paragraphs 1 to 4 shall not…   │                     Act, scrolls │
-│  │ Open in the Act →              │                     inside itself│
+│  │ Read all 227 characters… →     │                     inside itself│
 │ ───────────────────────────────── │                                  │
 │ qwen3.8:27b  7 940 prompt  288…   │                                  │
 │ 8 searched · 11 traversed · 0     │                                  │
@@ -215,7 +215,7 @@ The plain case. No provision moved, nothing cut.
 
 A claim is set in the interface's own voice and a quoted provision in a serif behind a left rule, so the two are never mistaken for each other. Every claim carries at least one citation. A claim that reached the surface with none is a contract violation rather than a layout case.
 
-The excerpt under a claim shows at most six lines of the provision. A provision that fits whole ends in `Open in the Act →`. One that is cut ends with an ellipsis and `Read all <n> characters in the Act →`, naming its length so the clamp is never mistaken for the whole text. Activating that line or the citation's heading scrolls the pane to the provision.
+The excerpt under a claim shows at most six lines of the provision and always ends in `Read all <n> characters in the Act →`. The handle names the length whether or not the clamp cut the quote, since whether six lines hold a provision depends on the width the column renders at, and a handle that named the length only when it guessed a cut would sometimes sit under a cut quote reading as whole. Activating that line or the citation's heading scrolls the pane to the provision.
 
 The pane opens on the first provision the answer cites. Its list of cited provisions carries every citation in the answer once, in the order the claims first cite them, and marks the one the pane is showing.
 
@@ -223,7 +223,7 @@ Copy, verbatim:
 
 - Pane views: `The Act`, `The walk`
 - Cited list label: `Cited in this answer`
-- Excerpt handles: `Open in the Act →`, `Read all <n> characters in the Act →`, where `<n>` is the provision's own length
+- Excerpt handle: `Read all <n> characters in the Act →`, where `<n>` is the provision's own length
 
 ## Answered, below 1024
 
@@ -239,7 +239,7 @@ Copy, verbatim:
 │  │ Article 50(1)  AMENDED    │
 │  │ Providers shall ensure    │
 │  │ that AI systems intended… │
-│  │ Open in the Act →         │ ← opens the overlay
+│  │ Read all 702 characters…  │ ← opens the overlay
 │                              │
 │ ──────────────────────────── │
 │ qwen3.8:27b  7 940 prompt…   │
@@ -443,6 +443,7 @@ It links to the article, annex, or recital the citation's paragraph sits under, 
 ### Behavior
 
 - Activating a citation's heading or its excerpt handle scrolls the Act to that provision immediately, with no transition, consistent with the motion rule. At 1024 and wider that moves the pane, and below 1024 it opens the overlay first
+- A paragraph lands with its article's heading in view whenever the heading and the whole paragraph fit in the pane together, and at the paragraph's own top only when they do not, since a paragraph read without its article names nothing
 - The provision the Act was scrolled to is held in a tinted background so a reader can find it again after scrolling away
 - The version toggle in the Act's header re-renders the Act against the other text. It does not re-ask the question and does not touch the answer
 - Below 1024, Escape, the close control, and activating the scrim all return to the answer exactly as it stood before the overlay opened
