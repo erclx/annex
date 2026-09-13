@@ -1,0 +1,29 @@
+{
+  "description": "The one `event: error` frame a stream ends on when a call fails mid-run.\n\nMirrors `ServiceError`'s shape, correlation id included. `bound_and_identify`\nnever sees a failure raised inside a `StreamingResponse` body, so the id\nthat reaches this frame is the one the route read before it started\nstreaming, logged separately by whatever raises inside `build_stream`.",
+  "properties": {
+    "correlationId": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Correlation id"
+    },
+    "detail": {
+      "title": "Detail",
+      "type": "string"
+    },
+    "state": {
+      "enum": ["invalid", "unavailable", "timeout", "failed"],
+      "title": "State",
+      "type": "string"
+    }
+  },
+  "required": ["state", "detail"],
+  "title": "StreamError",
+  "type": "object"
+}

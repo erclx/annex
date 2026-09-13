@@ -11,6 +11,7 @@ from typing import Annotated, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, StringConstraints
 
+from annex.answer import TraversalEdge
 from annex.corpus import CorpusVersion
 
 MAXIMUM_DESCRIPTION = 4000
@@ -59,11 +60,27 @@ class AskRequest(BaseModel):
 
 
 class StreamNode(BaseModel):
-    """One `event: node` frame, naming the graph node that just completed."""
+    """One `event: node` frame, naming the graph node that just completed.
+
+    Each optional field is present only on the frame of the node that produced
+    it, so a reader can tell "this node reached nothing" from "this node does
+    not report that". Ids rather than text throughout: the page resolves an id
+    against the corpus export it already ships, and statute text on every frame
+    would repeat what the terminal `answer` frame carries anyway.
+
+    `supplied_ids` keeps the prompt's own order and repeats, since a provision
+    reached by both search and the walk is numbered twice in the prompt. A
+    reader showing them deduplicates for display.
+    """
 
     model_config = ConfigDict(frozen=True)
 
     node: str
+    searched_ids: tuple[str, ...] | None = None
+    traversed_ids: tuple[str, ...] | None = None
+    edges: tuple[TraversalEdge, ...] | None = None
+    supplied_ids: tuple[str, ...] | None = None
+    dropped_ids: tuple[str, ...] | None = None
 
 
 class StreamError(BaseModel):
@@ -80,7 +97,7 @@ class StreamError(BaseModel):
     state: ServiceState
     detail: str
     correlation_id: str | None = Field(
-        default=None, serialization_alias='correlationId'
+        default=None, serialization_alias='correlationId', title='Correlation id'
     )
 
 

@@ -20,6 +20,7 @@ caller and keeps calling the model until the graph itself finishes.
 from collections.abc import Callable, Iterator
 
 from annex.agent.pipeline import State
+from annex.answer import TraversalEdge
 from annex.service import logging as boundary_log
 from annex.service.errors import DETAIL, classify
 from annex.service.models import StreamError, StreamNode
@@ -37,6 +38,35 @@ def _frame(event: str, data: str) -> str:
     return f'event: {event}\ndata: {data}\n\n'
 
 
+def _node(node_name: str, update: State) -> StreamNode:
+    """What a node reached, read off its own update and nothing else.
+
+    `retrieve` reports search's ids before `traverse` restates them, deduped
+    the way `traverse` does, since several chunks of one provision can match.
+    `budget` reports the kept citations as ids alone.
+    """
+    fields: dict[str, object] = {}
+    if 'hits' in update:
+        fields['searched_ids'] = tuple(
+            dict.fromkeys(hit.provision_id for hit in update['hits'])
+        )
+    for key in ('searched_ids', 'traversed_ids', 'dropped_ids'):
+        if key in update:
+            fields[key] = update[key]
+    if 'edges' in update:
+        fields['edges'] = tuple(
+            TraversalEdge(
+                source_id=edge.source_id, target_id=edge.target_id, hop=edge.hop
+            )
+            for edge in update['edges']
+        )
+    if 'citations' in update:
+        fields['supplied_ids'] = tuple(
+            citation.provision_id for citation in update['citations']
+        )
+    return StreamNode(node=node_name, **fields)  # type: ignore[arg-type]
+
+
 def build_stream(
     stream: PipelineStream, initial_state: State, correlation_id: str
 ) -> Iterator[str]:
@@ -52,7 +82,9 @@ def build_stream(
     try:
         for chunk in stream(initial_state, stream_mode='updates'):
             for node_name, update in chunk.items():
-                yield _frame('node', StreamNode(node=node_name).model_dump_json())
+                yield _frame(
+                    'node', _node(node_name, update).model_dump_json(exclude_none=True)
+                )
                 answer = update.get('answer')
                 if answer is not None:
                     last_answer = answer

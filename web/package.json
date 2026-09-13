@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "generate:answer": "bun scripts/generate-answer.ts && prettier --write --log-level warn src/lib/answer.ts",
+    "generate:answer": "bun scripts/generate-answer.ts && prettier --write --log-level warn src/lib/answer.ts src/lib/stream-node.ts src/lib/stream-error.ts",
     "generate:social-card": "bun scripts/generate-social-card.ts",
     "typecheck": "tsc --noEmit",
     "typegen": "next typegen",

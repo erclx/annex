@@ -1,0 +1,109 @@
+{
+  "$defs": {
+    "TraversalEdge": {
+      "description": "One edge the walk took, from the provision it came from to the one it reached.\n\n`hop` is the target's distance from a seed. Every edge here is the one the\nwalk actually took to first reach `target_id`, not every reference between\nthe two provisions, which is what lets a drawing lay a traversed provision\nout at exactly one point without choosing among the citations that reach\nit.",
+      "properties": {
+        "hop": {
+          "title": "Hop",
+          "type": "integer"
+        },
+        "source_id": {
+          "title": "Source Id",
+          "type": "string"
+        },
+        "target_id": {
+          "title": "Target Id",
+          "type": "string"
+        }
+      },
+      "required": ["source_id", "target_id", "hop"],
+      "title": "TraversalEdge",
+      "type": "object"
+    }
+  },
+  "description": "One `event: node` frame, naming the graph node that just completed.\n\nEach optional field is present only on the frame of the node that produced\nit, so a reader can tell \"this node reached nothing\" from \"this node does\nnot report that\". Ids rather than text throughout: the page resolves an id\nagainst the corpus export it already ships, and statute text on every frame\nwould repeat what the terminal `answer` frame carries anyway.\n\n`supplied_ids` keeps the prompt's own order and repeats, since a provision\nreached by both search and the walk is numbered twice in the prompt. A\nreader showing them deduplicates for display.",
+  "properties": {
+    "dropped_ids": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Dropped Ids"
+    },
+    "edges": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/$defs/TraversalEdge"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Edges"
+    },
+    "node": {
+      "title": "Node",
+      "type": "string"
+    },
+    "searched_ids": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Searched Ids"
+    },
+    "supplied_ids": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Supplied Ids"
+    },
+    "traversed_ids": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Traversed Ids"
+    }
+  },
+  "required": ["node"],
+  "title": "StreamNode",
+  "type": "object"
+}
