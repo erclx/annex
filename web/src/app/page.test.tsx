@@ -9,7 +9,10 @@ import { recordedQuestions } from '@/lib/service/replay'
 const navigation = vi.hoisted(() => ({ push: vi.fn(), replace: vi.fn() }))
 const build = vi.hoisted(() => ({ replay: false }))
 
-vi.mock('next/navigation', () => ({ useRouter: () => navigation }))
+vi.mock('next/navigation', () => ({
+  useRouter: () => navigation,
+  usePathname: () => '/',
+}))
 
 // The replay flag is read at module scope, so a case about the deployed build
 // flips it through a getter rather than through the environment.
@@ -78,20 +81,26 @@ describe('the empty state', () => {
     ).toBeInTheDocument()
   })
 
-  it('gathers the load-bearing terms into a strip', () => {
-    renderHome()
-
-    expect(screen.getByText('Terms used on this page')).toBeInTheDocument()
-    expect(screen.getByText('High risk')).toBeInTheDocument()
-  })
-
-  it('sets the terms and the comparison as page sections rather than a pane at 1024 and wider', () => {
-    stubWideViewport()
+  it('ends after the recorded questions, reaching the evaluation instead of holding it', () => {
     renderHome()
 
     expect(
-      screen.getByRole('heading', { name: 'The three-arm comparison' }),
-    ).toBeInTheDocument()
+      screen.queryByText('Terms used on this page'),
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('heading', { name: 'The three-arm comparison' }),
+    ).not.toBeInTheDocument()
+    expect(
+      screen.getByRole('link', {
+        name: 'How answers are built and measured →',
+      }),
+    ).toHaveAttribute('href', '/evaluation')
+  })
+
+  it('draws no pane at 1024 and wider, now that the page ends after the picks', () => {
+    stubWideViewport()
+    renderHome()
+
     expect(screen.queryByRole('complementary')).not.toBeInTheDocument()
   })
 })

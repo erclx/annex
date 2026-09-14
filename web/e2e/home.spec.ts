@@ -1,5 +1,6 @@
 import { expect, type Page, test } from '@playwright/test'
 
+import { REPLAY_URL } from '../playwright.config'
 import recorded from '../src/fixtures/q01-support-chatbot.consolidated.json'
 import type { Answer } from '../src/lib/service/answer'
 import { holdStreamOpen, SERVICE_ASK, streamAnswers } from './stream-stub'
@@ -436,7 +437,7 @@ test('a recorded pick on the local build asks the real service', async ({
 test('the terms strip gathers the load-bearing definitions', async ({
   page,
 }) => {
-  await page.goto('/')
+  await page.goto('/evaluation')
 
   await expect(page.getByText('Terms used on this page')).toBeVisible()
   await expect(
@@ -444,7 +445,7 @@ test('the terms strip gathers the load-bearing definitions', async ({
   ).toBeVisible()
 })
 
-test('the top bar links to the repository and the evaluation', async ({
+test('the top bar links to the repository and opens the evaluation in-site', async ({
   page,
 }) => {
   await page.goto('/')
@@ -455,8 +456,58 @@ test('the top bar links to the repository and the evaluation', async ({
   )
   await expect(page.getByRole('link', { name: 'Evaluation' })).toHaveAttribute(
     'href',
-    'https://github.com/erclx/annex/blob/main/docs/evaluation.md',
+    '/evaluation',
   )
+})
+
+test.describe('the evaluation route', () => {
+  test('/ ends after the recorded questions with no terms strip or comparison', async ({
+    page,
+  }) => {
+    await page.goto('/')
+
+    await expect(
+      page.getByText('Or start from a recorded question'),
+    ).toBeVisible()
+    await expect(page.getByText('Terms used on this page')).toHaveCount(0)
+    await expect(
+      page.getByRole('heading', { name: 'The three-arm comparison' }),
+    ).toHaveCount(0)
+  })
+
+  test('the bar link and the composer line both reach /evaluation', async ({
+    page,
+  }) => {
+    await page.goto('/')
+
+    await page
+      .getByRole('link', { name: 'How answers are built and measured →' })
+      .click()
+    await expect(page).toHaveURL(/\/evaluation$/)
+    await expect(
+      page.getByRole('heading', { name: 'Evaluation' }),
+    ).toBeVisible()
+
+    await page.goto('/')
+    await page.getByRole('link', { name: 'Evaluation' }).click()
+    await expect(page).toHaveURL(/\/evaluation$/)
+    await expect(
+      page.getByRole('heading', { name: 'Evaluation' }),
+    ).toBeVisible()
+  })
+
+  test('the built export resolves the route the way it resolves /ask', async ({
+    page,
+  }) => {
+    await page.goto(`${REPLAY_URL}/evaluation`)
+
+    await expect(
+      page.getByRole('heading', { name: 'Evaluation' }),
+    ).toBeVisible()
+    await expect(
+      page.getByRole('heading', { name: 'The three-arm comparison' }),
+    ).toBeVisible()
+  })
 })
 
 test('a citation carries a quieter EUR-Lex link beside its heading', async ({
@@ -565,7 +616,7 @@ test('a recorded question card answers hover by changing its border', async ({
  * reads the visible wrapper's own grid rather than the figure's first child,
  * which is a wrapper div rather than the grid itself.
  *
- * Measured on the landing page, where the figure is a section of its own.
+ * Measured on `/evaluation`, where the figure is a section of its own.
  */
 async function bracketGap(page: Page): Promise<number> {
   const rail = page.getByRole('img', { name: /The five-stage pipeline/ })
@@ -641,14 +692,14 @@ async function pipelineRowShape(page: Page): Promise<{
 test.describe('the comparison on the landing page', () => {
   test('sets the rail beside the table at 1280 pixels', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 860 })
-    await page.goto('/')
+    await page.goto('/evaluation')
 
     expect(await halfHeadingOffset(page)).toBeLessThanOrEqual(1)
   })
 
   test('stacks the rail above the table at 400 pixels', async ({ page }) => {
     await page.setViewportSize({ width: 400, height: 860 })
-    await page.goto('/')
+    await page.goto('/evaluation')
 
     expect(await halfHeadingOffset(page)).toBeGreaterThan(100)
   })
@@ -657,7 +708,7 @@ test.describe('the comparison on the landing page', () => {
     page,
   }) => {
     await page.setViewportSize({ width: 810, height: 860 })
-    await page.goto('/')
+    await page.goto('/evaluation')
 
     expect(await halfHeadingOffset(page)).toBeGreaterThan(100)
 
@@ -673,7 +724,7 @@ test.describe('the comparison on the landing page', () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1024, height: 860 })
-    await page.goto('/')
+    await page.goto('/evaluation')
 
     expect(await halfHeadingOffset(page)).toBeGreaterThan(100)
 
@@ -743,7 +794,7 @@ test.describe('the frame at 1536 pixels', () => {
   test.use({ viewport: { width: 1536, height: 860 } })
 
   test('the pipeline bracket sits beside the stage text', async ({ page }) => {
-    await page.goto('/')
+    await page.goto('/evaluation')
 
     // The rail's column gap is 12 pixels, and the bracket should sit that far
     // from the stage text. Its column used to sit past a `1fr` stage column,
@@ -774,7 +825,7 @@ test.describe('the frame at 1280 pixels', () => {
   test.use({ viewport: { width: 1280, height: 860 } })
 
   test('the pipeline bracket sits beside the stage text', async ({ page }) => {
-    await page.goto('/')
+    await page.goto('/evaluation')
 
     expect(await bracketGap(page)).toBeLessThanOrEqual(16)
   })

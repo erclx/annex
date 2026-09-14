@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useEffect, useId, useRef } from 'react'
 
 import { BrandMark } from '@/components/frame/brand-mark'
@@ -8,8 +9,7 @@ import { ThemeToggle } from '@/components/frame/theme-toggle'
 import type { CorpusVersion } from '@/components/shared/versions'
 
 const REPOSITORY_URL = 'https://github.com/erclx/annex'
-const EVALUATION_URL =
-  'https://github.com/erclx/annex/blob/main/docs/evaluation.md'
+const EVALUATION_ROUTE = '/evaluation'
 
 /** Where the bar publishes its rendered height, for the docked pane to sit under. */
 const BAR_HEIGHT_PROPERTY = '--annex-bar-height'
@@ -49,6 +49,8 @@ export function TopBar({
   showTraversal = true,
 }: TopBarProps) {
   const barRef = useRef<HTMLElement | null>(null)
+  const pathname = usePathname()
+  const onEvaluation = pathname === EVALUATION_ROUTE
 
   useEffect(() => {
     const bar = barRef.current
@@ -92,9 +94,17 @@ export function TopBar({
             <a href={REPOSITORY_URL} className="text-accent hover:underline">
               Repository
             </a>
-            <a href={EVALUATION_URL} className="text-accent hover:underline">
+            <Link
+              href={EVALUATION_ROUTE}
+              aria-current={onEvaluation ? 'page' : undefined}
+              className={
+                onEvaluation
+                  ? 'font-semibold text-ink'
+                  : 'text-accent hover:underline'
+              }
+            >
               Evaluation
-            </a>
+            </Link>
           </nav>
 
           {showTraversal && (

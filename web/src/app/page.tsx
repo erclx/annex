@@ -1,9 +1,9 @@
 'use client'
 
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { ComparisonArgument } from '@/components/answer/comparison-argument'
 import {
   type DescriptionError,
   DescriptionForm,
@@ -15,7 +15,6 @@ import {
   TraversalSwitch,
   VersionToggle,
 } from '@/components/frame/top-bar'
-import { TermsStrip } from '@/components/shared/terms-strip'
 import {
   addressSearch,
   forwardedAskPath,
@@ -41,13 +40,7 @@ import {
 const INTRO =
   'px-6 lg:mx-auto lg:w-full lg:max-w-[760px] lg:px-0 lg:pt-2 lg:[&_form]:items-center lg:[&_form>div]:w-full lg:[&_form>div]:max-w-[640px] lg:[&_form>p]:text-center lg:[&_h1]:max-w-none lg:[&_h1]:text-center lg:[&_h1]:text-[34px] lg:[&_h1]:leading-[1.25]'
 
-/**
- * The recorded questions, the terms and the comparison as full-width sections.
- *
- * The measure is held at 1080 pixels inside the gutter rather than including
- * it, so the comparison's container reaches the 1 040 its two columns need at
- * 1280 and wider.
- */
+/** The recorded questions as a full-width section. */
 const SECTIONS = 'mx-auto flex w-full max-w-[1080px] flex-col gap-10 pb-16'
 
 /** Which of the two validation messages a description earns, if any. */
@@ -60,7 +53,8 @@ function descriptionErrorFor(description: string): DescriptionError | null {
 
 /**
  * The landing page: what the tool does, the composer, the recorded questions,
- * then the terms and the three-arm comparison.
+ * then a line reaching `/evaluation`, which holds the terms and the
+ * three-arm comparison.
  *
  * Nothing here asks the service. A valid submit or a pick writes the handoff
  * and opens `/ask`, which holds the answer, so the browser's back action and
@@ -183,8 +177,12 @@ export default function Home() {
       <div className="px-6 lg:px-8">
         <div className={SECTIONS}>
           <RecordedPicks onPick={pick} />
-          <TermsStrip />
-          <ComparisonArgument />
+          <Link
+            href="/evaluation"
+            className="text-[13px] text-accent hover:underline"
+          >
+            How answers are built and measured →
+          </Link>
         </div>
       </div>
     </div>
