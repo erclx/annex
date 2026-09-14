@@ -78,6 +78,8 @@ The Family column above is a CSS value rather than a statement of intent, so the
 
 A label reads in sentence case in the sans stack, with no letter spacing, per the operator's second-use pass on 2026-09-14, retiring the row's earlier mono, tracked, all-caps treatment. Every label site carries it. The last one in the retired form was the flow label in `web/src/components/recorded-picks.tsx`, drawn in capitals at 9.5px with 0.06em of letter spacing in the mono stack, and it converted with the cards that pass picked for the same file. Measured at `036dc52` on 2026-09-14, and the last site converted at this branch on the same day.
 
+`web/evidence/settled-design.html` was the fourth round of the render-and-pick loop that chose this design, picked at `#12` on 2026-09-12 for the type scale, spacing and treatments a wireframe and a token table now describe in words. It carried the retired label treatment as its single most repeated declaration: 9 sites in the mono family, 7 of them `text-transform:uppercase` and 4 of them `letter-spacing:.08em`. It was authoritative for that one round, and the first-use and both second-use passes since have moved past what it still showed as current. `.claude/rules/project/ui/900-surface-evidence.md` no longer names it as a source. Measured at this branch on 2026-09-14.
+
 ## Spacing
 
 Base unit 8px.
