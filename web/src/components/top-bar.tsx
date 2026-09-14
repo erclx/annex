@@ -20,7 +20,6 @@ interface TopBarProps {
   disabled: boolean
   traversalFixed?: boolean
   showTraversal?: boolean
-  onHome?: () => void
 }
 
 /**
@@ -31,12 +30,12 @@ interface TopBarProps {
  * second-use pass reversed the slimming bar the first pass picked, so the
  * tagline and the links never drop out.
  *
- * The mark and the name go home. On this one route that is the empty state,
- * which `onHome` returns to, and the link still names `/` so it reads as the
- * way home to anything that follows it without running this handler.
+ * The mark and the name link to `/`, the landing page, as a client navigation,
+ * so the description a reader typed survives in the handoff the root layout
+ * holds.
  *
- * The bar carries no version toggle. Before an ask the composer holds it and
- * after one the described-system card does, so no screen draws two controls
+ * The bar carries no version toggle. On `/` the composer holds it and on `/ask`
+ * the described-system card does, so no screen draws two controls
  * carrying the same two labels. The line under the switch says what it does:
  * turning it off compares against search alone on the live build, and on the
  * deployed build it states the recording was taken with traversal on, which is
@@ -48,7 +47,6 @@ export function TopBar({
   disabled,
   traversalFixed = false,
   showTraversal = true,
-  onHome,
 }: TopBarProps) {
   const barRef = useRef<HTMLElement | null>(null)
 
@@ -78,15 +76,7 @@ export function TopBar({
     >
       <div className="flex w-full flex-wrap items-center justify-between gap-x-4 gap-y-2 px-6 py-4 lg:px-8">
         <div className="flex min-w-0 items-center gap-2">
-          <Link
-            href="/"
-            onClick={(event) => {
-              if (!onHome) return
-              event.preventDefault()
-              onHome()
-            }}
-            className="flex items-center gap-2 text-ink"
-          >
+          <Link href="/" className="flex items-center gap-2 text-ink">
             <BrandMark size={20} />
             <b className="text-[16px] font-semibold tracking-[-0.01em]">
               Annex

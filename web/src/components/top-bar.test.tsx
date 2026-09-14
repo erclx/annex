@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { TopBar } from '@/components/top-bar'
@@ -80,15 +79,6 @@ describe('TopBar', () => {
       'href',
       '/',
     )
-  })
-
-  it('should hand going home back to its caller', async () => {
-    const onHome = vi.fn()
-    renderBar({ onHome })
-
-    await userEvent.click(screen.getByRole('link', { name: 'Annex' }))
-
-    expect(onHome).toHaveBeenCalled()
   })
 
   it('should keep the links while the traversal switch sits elsewhere', () => {
