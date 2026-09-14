@@ -11,68 +11,52 @@ So the comparison is the deliverable. The same twelve questions are answered thr
 
 1. **Full context.** The whole Act in the prompt, no retrieval at all
 2. **Search only.** Top-k vector search over the embedded provisions
-3. **Search plus traversal.** The same search, then a bounded walk over the cross-references the retrieved provisions carry
+3. **Search + traversal.** The same search, then a bounded walk over the cross-references the retrieved provisions carry
 
 The answer is allowed to be that the baseline wins. Reporting that is the point rather than a failure of it.
-
-## How it was measured
-
-### The question set
-
-Twelve questions, in `python/src/annex/eval/questions.py` and emitted to `python/data/eval/questions.json`. They instantiate the four corpus-answering demo flows, three questions each: an Article 50 transparency question, a CV-screening question that has to walk the high-risk chain, a substantial-modification question the text does not settle, and a deadline question whose answer moved between the two versions.
-
-Each question names the provisions a correct answer has to have read, per version, and whether the correct behavior is an answer or a refusal. Gold ids are article-level and annex-level, and a retrieved paragraph counts as having found the article holding it, because search returns paragraphs and asking a gold set to predict which paragraph would rank would score the tokenizer.
-
-Twelve is a small denominator and the report says so. One wrong answer moves a rate by more than eight points, so every rate is given with its count.
-
-### The three arms
-
-All three satisfy one protocol, return the same `Answer` object, and are scored by one function with no branch on which produced the result. They share the synthesis prompt, the draft parser and the grounding check, so a gap between arms is a gap between ways of finding text rather than between pieces of scaffolding.
-
-The baseline needs its own model. Ollama's OpenAI-compatible `/v1` route accepts a per-request `num_ctx` and silently discards it, so the window is carried by `python/ollama/annex-longctx.Modelfile` at 131,072 and `verify_context` reads back what the loaded model actually holds. `annex-qwen3-27b` stays at 32,768 because it answers from a retrieval result, and widening it would hold 30 GB of the card for every agent call.
-
-One trap is worth naming because no artifact in the repository would show it. The machine this ran on has `OLLAMA_CONTEXT_LENGTH=131072` set on the server, so the baseline appears to work with no Modelfile at all here and truncates silently anywhere that variable is unset. That is the whole reason the setting is carried by a tracked file.
-
-### What is scored
-
-Everything below the citation exception is read off `RetrievalTrace`, which the pipeline fills as it runs. Nothing there is scored from the answer's citations alone, because an arm handed a quarter of the document that cites three provisions would score 1.0 on every metric derived from its citations against what it was supplied.
-
-- **Recall.** Of the provisions a correct answer has to read, how many reached the model
-- **Precision**, against two denominators. Against every node supplied, which is what the model actually read, and against articles alone once paragraphs are collapsed. Never against every provision the corpus addresses, which flatters any arm
-- **Faithfulness**, as span containment of a claim's content words against the text that was supplied
-- **Answer recall**, as the share of the gold provisions the delivered claims actually cite, scored against the gold set rather than against what was supplied. This is the one column that does read the answer's citations alone, and the objection above does not reach it: dividing by the gold set rather than by what an arm was handed gives no arm a denominator it can pad by reading more. Read beside recall, the gap between the two is synthesis dropping what retrieval reached
-- **Refusal**, scored in both directions, so an arm that refuses everything does not win the refusal flow
-- **Cost**, as prompt and completion tokens and wall time, per question
-
-Supplied is not the same as retrieved. `traversed_ids` names what traversal reached and `dropped_ids` names which of those the prompt budget cut before synthesis, and every metric runs over the difference. Crediting traversal for text nothing read is the specific dishonesty that field exists to prevent.
 
 ## The result
 
 72 runs, none failed. Measured on 2026-09-08 against `annex-longctx` and `annex-qwen3-27b`, both `qwen3.8:27b` derivatives, embedding with `snowflake-arctic-embed2`, on one RTX 5090.
 
-**Stuffing the whole document still wins on recall, precision and faithfulness. It loses on tokens, and it loses on completeness. The gap narrowed by a third when the embedding model changed.**
+**Stuffing the whole document still wins on recall, precision and faithfulness. It loses on tokens, and it loses on completeness.**
 
-| Arm              | Version      | Recall | v0.6 | Precision, nodes | Nodes sent | Faithfulness | Correct refusals | False refusals | Answers cut |
-| ---------------- | ------------ | ------ | ---- | ---------------- | ---------- | ------------ | ---------------- | -------------- | ----------- |
-| full-context     | original     | 1.00   | 1.00 | 0.014            | 306.0      | 0.98         | 0/3              | 0/9            | 1           |
-| full-context     | consolidated | 1.00   | 1.00 | 0.032            | 133.0      | 0.97         | 2/3              | 0/9            | 2           |
-| search-only      | original     | 0.61   | 0.41 | 0.236            | 12.0       | 0.91         | 1/3              | 0/9            | 1           |
-| search-only      | consolidated | 0.71   | 0.46 | 0.364            | 11.9       | 0.93         | 1/3              | 1/9            | 0           |
-| search-traversal | original     | 0.83   | 0.54 | 0.255            | 22.8       | 0.91         | 0/3              | 0/9            | 2           |
-| search-traversal | consolidated | 0.81   | 0.56 | 0.248            | 26.0       | 0.92         | 1/3              | 0/9            | 0           |
+| Arm                | Version      | Recall | Precision, nodes | Nodes sent | Faithfulness | Correct refusals | False refusals | Answers cut |
+| ------------------ | ------------ | ------ | ---------------- | ---------- | ------------ | ---------------- | -------------- | ----------- |
+| Full context       | original     | 1.00   | 0.014            | 306.0      | 0.98         | 0/3              | 0/9            | 1           |
+| Full context       | consolidated | 1.00   | 0.032            | 133.0      | 0.97         | 2/3              | 0/9            | 2           |
+| Search only        | original     | 0.61   | 0.236            | 12.0       | 0.91         | 1/3              | 0/9            | 1           |
+| Search only        | consolidated | 0.71   | 0.364            | 11.9       | 0.93         | 1/3              | 1/9            | 0           |
+| Search + traversal | original     | 0.83   | 0.255            | 22.8       | 0.91         | 0/3              | 0/9            | 2           |
+| Search + traversal | consolidated | 0.81   | 0.248            | 26.0       | 0.92         | 1/3              | 0/9            | 0           |
 
-The v0.6 column is the same harness over the same questions on `nomic-embed-text`, kept at `python/data/eval/runs/v0.6-nomic-embed-text.json` and recomputed from that file rather than copied from the old table. One change to the embedding model moved every retrieval row by 0.20 to 0.25 of recall, and it moved precision the same way rather than trading against it.
+Precision, nodes is precision against every node the model actually read, never against every provision the corpus addresses. Answers cut counts how many of that arm's twelve answers stopped for want of room rather than because the model had finished.
 
-The completeness half of the headline is the last column. Three of the baseline's twenty-four answers stopped because the window filled rather than because the model had finished, against none for search alone. A cut answer reads as a finished one, and every metric beside it scores whatever survived the cut, so those rows are measuring a shorter answer than the arm meant to give. That is a cost of stuffing and it belongs in the sentence rather than in a footnote under it.
+### What moved since v0.6
 
-| Arm              | Version      | Prompt tokens | Wall time | First call | Later calls |
-| ---------------- | ------------ | ------------- | --------- | ---------- | ----------- |
-| full-context     | original     | 1 416 797     | 417.6 s   | 110.4 s    | 27.9 s      |
-| full-context     | consolidated | 940 889       | 325.0 s   | 63.4 s     | 23.8 s      |
-| search-only      | original     | 51 622        | 342.2 s   | 32.7 s     | 28.1 s      |
-| search-only      | consolidated | 54 072        | 312.7 s   | 30.3 s     | 25.7 s      |
-| search-traversal | original     | 193 575       | 362.0 s   | 28.8 s     | 30.3 s      |
-| search-traversal | consolidated | 189 460       | 369.8 s   | 29.5 s     | 30.9 s      |
+| Arm                | Version      | v0.6 recall | v0.9 recall |
+| ------------------ | ------------ | ----------- | ----------- |
+| Full context       | original     | 1.00        | 1.00        |
+| Full context       | consolidated | 1.00        | 1.00        |
+| Search only        | original     | 0.41        | 0.61        |
+| Search only        | consolidated | 0.46        | 0.71        |
+| Search + traversal | original     | 0.54        | 0.83        |
+| Search + traversal | consolidated | 0.56        | 0.81        |
+
+v0.6 is the same harness over the same questions on `nomic-embed-text`, kept at `python/data/eval/runs/v0.6-nomic-embed-text.json` and recomputed from that file rather than copied from an old table. One change to the embedding model moved every retrieval row by 0.20 to 0.25 of recall, and it moved precision the same way rather than trading against it.
+
+The completeness half of the headline is the last column of the result table above. Three of the baseline's twenty-four answers stopped because the window filled rather than because the model had finished, against none for search alone. A cut answer reads as a finished one, and every metric beside it scores whatever survived the cut, so those rows are measuring a shorter answer than the arm meant to give. That is a cost of stuffing and it belongs in the sentence rather than in a footnote under it.
+
+| Arm                | Version      | Prompt tokens | Wall time | First call | Later calls | Projected hosted cost |
+| ------------------ | ------------ | ------------- | --------- | ---------- | ----------- | --------------------- |
+| Full context       | original     | 1 416 797     | 417.6 s   | 110.4 s    | 27.9 s      | $4.78                 |
+| Full context       | consolidated | 940 889       | 325.0 s   | 63.4 s     | 23.8 s      | $3.33                 |
+| Search only        | original     | 51 622        | 342.2 s   | 32.7 s     | 28.1 s      | $0.81                 |
+| Search only        | consolidated | 54 072        | 312.7 s   | 30.3 s     | 25.7 s      | $0.80                 |
+| Search + traversal | original     | 193 575       | 362.0 s   | 28.8 s     | 30.3 s      | $1.23                 |
+| Search + traversal | consolidated | 189 460       | 369.8 s   | 29.5 s     | 30.9 s      | $1.22                 |
+
+Projected hosted cost is the same token counts priced at $3.00 per million prompt tokens and $15.00 per million completion tokens, computed by `python/src/annex/eval/report.py`. Nothing here was actually paid for, since every call ran locally against Ollama. The rate is illustrative rather than attributed to a provider.
 
 The baseline still reads 27 times the prompt tokens of search alone on the original text. Its first call is the one to read: 110.4 s against 27.9 s for the calls behind it, which is the cache filling rather than the model thinking.
 
@@ -109,6 +93,37 @@ The harness is behaving as designed here rather than failing. `RetrievalTrace.dr
 
 Reordering the twelve citations search-only ever sends also moves their `[n]` markers wherever a recital sits among them, which is every high-risk-chain and transparency question on the original text. No claim's grounding depends on its marker's position, so faithfulness on those rows holds, but the model reads a differently ordered prompt and can draft a different answer from it: `search-only`'s refusal correctness on the original text moved from 0/3 to 1/3 and its false refusals from 2/9 to 0/9, on citations the ranking reordered without dropping any of them.
 
+## How it was measured
+
+### The question set
+
+Twelve questions, in `python/src/annex/eval/questions.py` and emitted to `python/data/eval/questions.json`. They instantiate the four corpus-answering demo flows, three questions each: an Article 50 transparency question, a CV-screening question that has to walk the high-risk chain, a substantial-modification question the text does not settle, and a deadline question whose answer moved between the two versions.
+
+Each question names the provisions a correct answer has to have read, per version, and whether the correct behavior is an answer or a refusal. Gold ids are article-level and annex-level, and a retrieved paragraph counts as having found the article holding it, because search returns paragraphs and asking a gold set to predict which paragraph would rank would score the tokenizer.
+
+Twelve is a small denominator and the report says so. One wrong answer moves a rate by more than eight points, so every rate is given with its count.
+
+### The three arms
+
+All three satisfy one protocol, return the same `Answer` object, and are scored by one function with no branch on which produced the result. They share the synthesis prompt, the draft parser and the grounding check, so a gap between arms is a gap between ways of finding text rather than between pieces of scaffolding.
+
+The baseline needs its own model. Ollama's OpenAI-compatible `/v1` route accepts a per-request `num_ctx` and silently discards it, so the window is carried by `python/ollama/annex-longctx.Modelfile` at 131,072 and `verify_context` reads back what the loaded model actually holds. `annex-qwen3-27b` stays at 32,768 because it answers from a retrieval result, and widening it would hold 30 GB of the card for every agent call.
+
+One trap is worth naming because no artifact in the repository would show it. The machine this ran on has `OLLAMA_CONTEXT_LENGTH=131072` set on the server, so the baseline appears to work with no Modelfile at all here and truncates silently anywhere that variable is unset. That is the whole reason the setting is carried by a tracked file.
+
+### What is scored
+
+Everything below the citation exception is read off `RetrievalTrace`, which the pipeline fills as it runs. Nothing there is scored from the answer's citations alone, because an arm handed a quarter of the document that cites three provisions would score 1.0 on every metric derived from its citations against what it was supplied.
+
+- **Recall.** Of the provisions a correct answer has to read, how many reached the model
+- **Precision**, against two denominators. Against every node supplied, which is what the model actually read, and against articles alone once paragraphs are collapsed. Never against every provision the corpus addresses, which flatters any arm
+- **Faithfulness**, as span containment of a claim's content words against the text that was supplied
+- **Answer recall**, as the share of the gold provisions the delivered claims actually cite, scored against the gold set rather than against what was supplied. This is the one column that does read the answer's citations alone, and the objection above does not reach it: dividing by the gold set rather than by what an arm was handed gives no arm a denominator it can pad by reading more. Read beside recall, the gap between the two is synthesis dropping what retrieval reached
+- **Refusal**, scored in both directions, so an arm that refuses everything does not win the refusal flow
+- **Cost**, as prompt and completion tokens and wall time, per question
+
+Supplied is not the same as retrieved. `traversed_ids` names what traversal reached and `dropped_ids` names which of those the prompt budget cut before synthesis, and every metric runs over the difference. Crediting traversal for text nothing read is the specific dishonesty that field exists to prevent.
+
 ### Depth 2 is a cost setting rather than a forced one
 
 | Version      | Depth | Recall | Nodes reached | Articles reached |
@@ -134,15 +149,15 @@ The first-call column in the tables above reads cold on this run, unlike the v0.
 
 ### The wrong refusals are mostly gone, and the right ones are still rare
 
-Three of the twelve questions are ones the text does not settle. Across six arm and version pairs that is eighteen chances to refuse correctly, and the arms took **four**, against five at v0.6. Refusing correctly is no better than it was.
+Three of the twelve questions are ones the text does not settle. Across six arm and version pairs that is eighteen chances to refuse correctly, and the arms took **five**, the same as at v0.6. Refusing correctly is no better than it was.
 
-Refusing wrongly is much better. False refusals fell from **eight to three**, and the pattern that made the v0.6 eight worth writing about has gone:
+Refusing wrongly is much better. False refusals fell from **eight to one**, and the pattern that made the v0.6 eight worth writing about has gone:
 
 ```plaintext
 false refusals, by question
                     v0.6                    v0.9
   full-context      q02, q03, q05           none
-  search-only       q10, q11, q12           q03, q10, q12
+  search-only       q10, q11, q12           q12
   search-traversal  q10, q10                none
 ```
 
@@ -150,9 +165,9 @@ At v0.6 every false refusal by a retrieval arm landed on the version-comparison 
 
 Two changes account for that together and neither is the refusal machinery. The routing step used to ask the model for the obligations a description touches and got exactly that, so a question about when an obligation applies reached the index with its timing discarded, and Article 113 was never searched for. That prompt now asks for the timing, and the embedding swap put Article 111 in reach, from which the walk arrives at Article 113. An arm handed the date stops refusing to give it.
 
-The three that remain belong to `search-only`, and two of them are the arm without the walk missing Article 113 on `q10` and `q12` and declining to answer a date it was never shown. Refusing there is the machinery working on a genuinely inadequate retrieval, and it is scored false because the text does settle the question. The third, `q03` on the original text, is a transparency question the same arm answers correctly on the consolidated text, and nothing here explains it.
+The one that remains belongs to `search-only`: missing Article 113 on `q12` over the consolidated text and declining to answer a date it was never shown. Refusing there is the machinery working on a genuinely inadequate retrieval, and it is scored false because the text does settle the question.
 
-Refusal remains the product's headline safety property and its weakest measured behavior. Four correct refusals in eighteen is not a number to ship a safety claim on, and the count is small enough that the honest reading is a direction rather than a rate. `canon/ARCHITECTURE.md` carries the account under its refusal decision.
+Refusal remains the product's headline safety property and its weakest measured behavior. Five correct refusals in eighteen is not a number to ship a safety claim on, and the count is small enough that the honest reading is a direction rather than a rate. `canon/ARCHITECTURE.md` carries the account under its refusal decision.
 
 ### What this means
 
@@ -160,7 +175,7 @@ On this corpus, with this model, **retrieval still does not earn its place on ac
 
 ### Answer recall is a new column, and this row does not carry its re-run
 
-Everything above this paragraph reads the run recorded before answer recall existed, because `Result` records what the trace reached and not what the delivered claims cited, and neither can be backfilled onto a run that never wrote it. The `annex-qwen3-27b` and `snowflake-arctic-embed2` GPU this project measures on was running another session's calls at the time this row shipped, and a sweep taken under contention for the card would time the wrong thing, per this project's own rule that a measurement holds only under the conditions it ran in. The column, the count beside it and the tests in `python/tests/eval/test_scoring.py` and `python/tests/eval/test_report.py` are what this row ships. The numbers it would report on the twelve-question set are not, and the next unattended sweep on this machine carries them.
+Answer recall exists as a scored column and a test suite, `python/tests/eval/test_scoring.py` and `python/tests/eval/test_report.py`, but this run predates it, so the twelve-question numbers it would report are not carried here and wait on the next unattended sweep.
 
 What changed is the size of the gap and where the remaining loss sits. Swapping one embedding model closed a third of the distance to the baseline, 0.54 to 0.74 on the original and 0.56 to 0.81 on the consolidated, for no new dependency and a 27-second index rebuild. That is the cheapest change measured against this harness so far.
 
