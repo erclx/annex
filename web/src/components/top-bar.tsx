@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import Link from 'next/link'
+import { useEffect, useId, useRef } from 'react'
 
 import { BrandMark } from '@/components/brand-mark'
 import { ThemeToggle } from '@/components/theme-toggle'
@@ -14,43 +15,40 @@ const EVALUATION_URL =
 const BAR_HEIGHT_PROPERTY = '--annex-bar-height'
 
 interface TopBarProps {
-  version: CorpusVersion
-  onVersionChange: (version: CorpusVersion) => void
   traversal: boolean
   onTraversalChange: (traversal: boolean) => void
   disabled: boolean
   traversalFixed?: boolean
-  slim?: boolean
-  showControls?: boolean
+  showTraversal?: boolean
+  onHome?: () => void
 }
 
 /**
- * The one persistent band: what this is, and the two controls that re-ask.
+ * The one persistent band: what this is, where its source lives, and the
+ * traversal switch once an answer is on screen at 1024 pixels and wider.
  *
- * Pinned to the top so the version toggle and the traversal switch stay in
- * reach while an answer is read. Past the described system it slims, dropping
- * the tagline and the links, which the operator's first-use pass picked over
- * both a full pinned bar and a bar carrying the question.
+ * Pinned to the top at one full height in every state. The operator's
+ * second-use pass reversed the slimming bar the first pass picked, so the
+ * tagline and the links never drop out.
  *
- * The version control is a segmented pair whose active half is filled with the
- * accent, and the traversal control is a drawn switch rather than a checkbox.
- * The line under the switch says what it does: turning it off compares against
- * search alone on the live build, and on the deployed build it states the
- * recording was taken with traversal on, which is why the switch is held
- * inactive there rather than removed.
+ * The mark and the name go home. On this one route that is the empty state,
+ * which `onHome` returns to, and the link still names `/` so it reads as the
+ * way home to anything that follows it without running this handler.
  *
- * `showControls` is false below 1024 pixels before anything is asked, where the
- * two controls sit under the description instead and the bar holds the brand.
+ * The bar carries no version toggle. Before an ask the composer holds it and
+ * after one the described-system card does, so no screen draws two controls
+ * carrying the same two labels. The line under the switch says what it does:
+ * turning it off compares against search alone on the live build, and on the
+ * deployed build it states the recording was taken with traversal on, which is
+ * why the switch is held inactive there rather than removed.
  */
 export function TopBar({
-  version,
-  onVersionChange,
   traversal,
   onTraversalChange,
   disabled,
   traversalFixed = false,
-  slim = false,
-  showControls = true,
+  showTraversal = true,
+  onHome,
 }: TopBarProps) {
   const barRef = useRef<HTMLElement | null>(null)
 
@@ -63,7 +61,7 @@ export function TopBar({
         root.style.setProperty(BAR_HEIGHT_PROPERTY, `${bar.offsetHeight}px`)
     }
     // `observe()` schedules its first callback rather than running it, and the
-    // sticky panes and the slim trigger read the height at mount.
+    // sticky panes and the column handle read the height at mount.
     publishHeight()
     const observer = new ResizeObserver(publishHeight)
     observer.observe(bar)
@@ -78,56 +76,46 @@ export function TopBar({
       ref={barRef}
       className="sticky top-0 z-20 border-b border-rule bg-surface"
     >
-      <div
-        className={`flex w-full flex-wrap items-center justify-between gap-x-4 gap-y-2 px-6 lg:px-8 ${
-          slim ? 'py-2' : 'py-4'
-        }`}
-      >
+      <div className="flex w-full flex-wrap items-center justify-between gap-x-4 gap-y-2 px-6 py-4 lg:px-8">
         <div className="flex min-w-0 items-center gap-2">
-          <BrandMark size={slim ? 18 : 20} />
-          <b className="text-[16px] font-semibold tracking-[-0.01em] text-ink">
-            Annex
-          </b>
-          {!slim && (
-            <span className="hidden truncate text-[12px] text-muted lg:inline">
-              Which articles of the EU AI Act you have to read
-            </span>
-          )}
+          <Link
+            href="/"
+            onClick={(event) => {
+              if (!onHome) return
+              event.preventDefault()
+              onHome()
+            }}
+            className="flex items-center gap-2 text-ink"
+          >
+            <BrandMark size={20} />
+            <b className="text-[16px] font-semibold tracking-[-0.01em]">
+              Annex
+            </b>
+          </Link>
+          <span className="hidden truncate text-[12px] text-muted lg:inline">
+            Which articles of the EU AI Act you have to read
+          </span>
         </div>
 
-        {showControls && (
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-            {!slim && (
-              <nav className="flex items-center gap-3 text-[12px]">
-                <a
-                  href={REPOSITORY_URL}
-                  className="text-accent hover:underline"
-                >
-                  Repository
-                </a>
-                <a
-                  href={EVALUATION_URL}
-                  className="text-accent hover:underline"
-                >
-                  Evaluation
-                </a>
-              </nav>
-            )}
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <nav className="flex items-center gap-3 text-[12px]">
+            <a href={REPOSITORY_URL} className="text-accent hover:underline">
+              Repository
+            </a>
+            <a href={EVALUATION_URL} className="text-accent hover:underline">
+              Evaluation
+            </a>
+          </nav>
 
-            <VersionToggle
-              version={version}
-              onVersionChange={onVersionChange}
-              disabled={disabled}
-            />
-
+          {showTraversal && (
             <TraversalSwitch
               traversal={traversal}
               onTraversalChange={onTraversalChange}
               disabled={disabled}
               traversalFixed={traversalFixed}
             />
-          </div>
-        )}
+          )}
+        </div>
 
         <ThemeToggle />
       </div>
@@ -183,6 +171,10 @@ export function TraversalSwitch({
   disabled: boolean
   traversalFixed: boolean
 }) {
+  // One switch renders at a time today, but the composer, the card and the bar
+  // each draw one, so the hint's id is derived rather than fixed.
+  const hintId = useId()
+
   return (
     <div className="flex items-center gap-[7px] text-[12px] text-muted">
       <button
@@ -190,7 +182,7 @@ export function TraversalSwitch({
         role="switch"
         aria-checked={traversal}
         aria-label="Reference traversal"
-        aria-describedby="traversal-hint"
+        aria-describedby={hintId}
         disabled={disabled || traversalFixed}
         onClick={() => {
           onTraversalChange(!traversal)
@@ -207,7 +199,7 @@ export function TraversalSwitch({
       </button>
       <span className="flex flex-col leading-[1.3]">
         <span>Reference traversal</span>
-        <span id="traversal-hint" className="text-[10.5px]">
+        <span id={hintId} className="text-[10.5px]">
           {traversalFixed
             ? 'Recorded with traversal on'
             : 'Turn off to compare against search alone'}

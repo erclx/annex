@@ -39,7 +39,6 @@ import {
 import { PLAYBACK_SPEEDUP } from '@/lib/replay-playback'
 import { useColumnWidth } from '@/lib/use-column-width'
 import { useDocked } from '@/lib/use-docked'
-import { useScrolledPast } from '@/lib/use-scrolled-past'
 import { advance, startProgress, type WalkProgress } from '@/lib/walk-progress'
 
 /**
@@ -140,9 +139,6 @@ export default function Home() {
    * reader just toggled away from.
    */
   const inFlight = useRef<AbortController | null>(null)
-
-  /** Sits after the described system, or after the form before anything is asked. */
-  const slimMarker = useRef<HTMLDivElement | null>(null)
 
   /** Whether the address has been read into the page yet. */
   const hasReadAddress = useRef(false)
@@ -280,10 +276,20 @@ export default function Home() {
   // because the service never started work on it.
   const onForm = asked === null || rejected
 
-  // Below 1024 before anything is asked, the bar holds the brand and the two
-  // controls sit under the description. Everywhere else they stay in the bar.
-  const showControlsInBar = docked || asked !== null
-  const isSlim = useScrolledPast(slimMarker, onForm ? 'form' : 'answer')
+  // Keyed on `onForm` rather than on whether anything was asked, since a
+  // rejected submit keeps the form on screen with `asked` set, and keying the
+  // bar on `asked` would mount a second set of choices beside the composer's.
+  // Before an ask the composer holds both choices. After one the card holds
+  // the version toggle, and the traversal switch sits in the bar at 1024 and
+  // wider and in the card below it.
+  const traversalSwitch = (
+    <TraversalSwitch
+      traversal={traversal}
+      onTraversalChange={changeTraversal}
+      disabled={pending}
+      traversalFixed={REPLAY_MODE}
+    />
+  )
 
   const pick = useCallback(
     (recorded: string) => {
@@ -342,8 +348,6 @@ export default function Home() {
   return (
     <div className="flex min-h-full flex-col bg-paper">
       <TopBar
-        version={version}
-        onVersionChange={changeVersion}
         traversal={traversal}
         onTraversalChange={changeTraversal}
         disabled={pending}
@@ -352,8 +356,8 @@ export default function Home() {
         // way. Held inactive rather than removed, since the control is part of
         // what the recorded walkthrough demonstrates against the live system.
         traversalFixed={REPLAY_MODE}
-        slim={isSlim}
-        showControls={showControlsInBar}
+        showTraversal={docked && !onForm}
+        onHome={edit}
       />
 
       {REPLAY_MODE && <ReplayNotice />}
@@ -371,24 +375,16 @@ export default function Home() {
               error={formError}
               pending={pending}
               choices={
-                showControlsInBar ? undefined : (
-                  <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-                    <VersionToggle
-                      version={version}
-                      onVersionChange={changeVersion}
-                      disabled={pending}
-                    />
-                    <TraversalSwitch
-                      traversal={traversal}
-                      onTraversalChange={changeTraversal}
-                      disabled={pending}
-                      traversalFixed={REPLAY_MODE}
-                    />
-                  </div>
-                )
+                <>
+                  <VersionToggle
+                    version={version}
+                    onVersionChange={changeVersion}
+                    disabled={pending}
+                  />
+                  {traversalSwitch}
+                </>
               }
             />
-            <div ref={slimMarker} aria-hidden="true" />
             <RecordedPicks onPick={pick} />
             {!docked && <BeforeYouAsk docked={false} />}
           </div>
@@ -396,8 +392,6 @@ export default function Home() {
         </div>
       ) : (
         <>
-          <DescribedSystem description={asked} onEdit={edit} />
-          <div ref={slimMarker} aria-hidden="true" />
           <div
             className={`flex-1 ${
               docked ? (answer ? ANSWER_SPLIT : `${SPLIT} gap-x-10`) : ''
@@ -407,6 +401,14 @@ export default function Home() {
                 in `main` is no longer a contentinfo landmark, which is what a
                 screen reader and every e2e case find the cost line by. */}
             <div className="px-6 pb-12 lg:pl-8">
+              <DescribedSystem
+                description={asked}
+                onEdit={edit}
+                version={version}
+                onVersionChange={changeVersion}
+                pending={pending}
+                traversal={docked ? undefined : traversalSwitch}
+              />
               <main>
                 {pending && REPLAY_MODE && (
                   <p className="mt-6 mb-0 border-l-2 border-warning-rule bg-warning-surface px-3 py-2 text-[12.5px] text-ink">

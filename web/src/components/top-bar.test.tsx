@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { TopBar } from '@/components/top-bar'
@@ -6,8 +7,6 @@ import { TopBar } from '@/components/top-bar'
 function renderBar(overrides: Partial<Parameters<typeof TopBar>[0]> = {}) {
   render(
     <TopBar
-      version="consolidated"
-      onVersionChange={vi.fn()}
       traversal={true}
       onTraversalChange={vi.fn()}
       disabled={false}
@@ -74,29 +73,38 @@ describe('TopBar', () => {
     expect(screen.queryByText(/^recorded$/i)).not.toBeInTheDocument()
   })
 
-  it('should drop the tagline and the links once slim', () => {
-    renderBar({ slim: true })
+  it('should link the mark and the name to the empty page', () => {
+    renderBar()
 
-    expect(
-      screen.queryByText('Which articles of the EU AI Act you have to read'),
-    ).not.toBeInTheDocument()
-    expect(
-      screen.queryByRole('link', { name: 'Repository' }),
-    ).not.toBeInTheDocument()
-    expect(
-      screen.getByRole('group', { name: 'Which text to read against' }),
-    ).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Annex' })).toHaveAttribute(
+      'href',
+      '/',
+    )
   })
 
-  it('should hold the brand alone when the controls sit elsewhere', () => {
-    renderBar({ showControls: false })
+  it('should hand going home back to its caller', async () => {
+    const onHome = vi.fn()
+    renderBar({ onHome })
 
-    expect(screen.getByText('Annex')).toBeInTheDocument()
-    expect(
-      screen.queryByRole('group', { name: 'Which text to read against' }),
-    ).not.toBeInTheDocument()
+    await userEvent.click(screen.getByRole('link', { name: 'Annex' }))
+
+    expect(onHome).toHaveBeenCalled()
+  })
+
+  it('should keep the links while the traversal switch sits elsewhere', () => {
+    renderBar({ showTraversal: false })
+
+    expect(screen.getByRole('link', { name: 'Repository' })).toBeInTheDocument()
     expect(
       screen.queryByRole('switch', { name: 'Reference traversal' }),
+    ).not.toBeInTheDocument()
+  })
+
+  it('should draw no version toggle, which the composer and the card carry', () => {
+    renderBar()
+
+    expect(
+      screen.queryByRole('group', { name: 'Which text to read against' }),
     ).not.toBeInTheDocument()
   })
 })
