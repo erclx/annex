@@ -64,13 +64,23 @@ spare. `num_ctx` 262 144 needs roughly 40 GB against a 32.6 GB card, so this is
 a ceiling rather than a preference.
 """
 
-STUFFED_KINDS = (ProvisionKind.ARTICLE, ProvisionKind.ANNEX, ProvisionKind.RECITAL)
+STUFFED_KINDS = (
+    ProvisionKind.ARTICLE,
+    ProvisionKind.ANNEX,
+    ProvisionKind.RECITAL,
+    ProvisionKind.CHAPTER,
+)
 """What the arm sends, which is the document rather than every addressable id.
 
 A paragraph is not stuffed separately because its article's parsed text already
-contains it, so stuffing both would send the Act twice. This is what makes the
-arm 306 provisions on the original and 133 on the consolidated, against the 806
-and 685 the corpus addresses.
+contains it, so stuffing both would send the Act twice. Chapter is included for
+the reason the other three are: before `feature-cut-provisions-at-headings` an
+article's own text carried the chapter heading that used to trail it, so the
+arm read that fact from the document it was already sending. Leaving the new
+chapter records out would make the arm strictly narrower than it was on a
+change that never set out to touch it. This is what makes the arm 319
+provisions on the original and 146 on the consolidated, against the 819 and
+698 the corpus addresses.
 """
 
 LOOSEST_CHARACTERS_A_TOKEN = 6.5
