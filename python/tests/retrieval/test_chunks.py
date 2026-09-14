@@ -1,12 +1,12 @@
 """The chunk rule, checked against what it was written from.
 
 The counts are provisions covered rather than chunks produced, and the two
-differ by exactly the splitting. 712 and 585 are what
-`.canon/plans/feature-retrieval-and-the-agent.md` measured, and splitting
-`art_3` in both versions used to take the original's chunk count to 716. The
-original's `art_113` split alongside it only because the ingest defect
-`.canon/plans/feature-corpus-and-answer-text.md` fixed put the Official
-Journal's signature block and footnotes inside the article. Article 113 is
+differ by exactly the splitting. 712 and 585 are what the retrieval-and-agent
+plan measured, and splitting `art_3` in both versions used to take the
+original's chunk count to 716. The original's `art_113` split alongside it
+only because the ingest defect the corpus-and-answer-text branch fixed put
+the Official Journal's signature block and footnotes inside the article.
+Article 113 is
 535 characters once that text is gone, so it no longer overflows the budget
 and the original's chunk count is 714.
 

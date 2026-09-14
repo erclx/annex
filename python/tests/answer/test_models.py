@@ -1,9 +1,9 @@
 """The invariants the schema enforces are the ones a pipeline gets wrong.
 
-Each of these is a failure mode named in `.canon/plans/feature-retrieval-and-the-agent.md`:
-a claim that lost its citations on the way through verification, an answer that
-refused and answered at once, and a citation asserting the amendment moved a
-provision without saying what moved.
+Each of these is a failure mode this pipeline can produce: a claim that lost
+its citations on the way through verification, an answer that refused and
+answered at once, and a citation asserting the amendment moved a provision
+without saying what moved.
 """
 
 import json

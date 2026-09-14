@@ -1,8 +1,11 @@
 """The gold question set: twelve descriptions and what each one has to reach.
 
-Written once here and read three times. `.canon/tasks/v00.7-mock-capture-and-deploy.md`
-settles five demo flows, and the same set is the evaluation's gold set, the
-fixtures the deployed build replays, and the spine of the recorded walkthrough.
+Written once here and read three times. The task that scoped the deployed
+demo settled five demo flows on 2026-09-05: an Article 50 chatbot question, a
+CV-screening question walking the high-risk chain, a refusal on substantial
+modification, an original-versus-amended comparison, and the three-arm
+result. The same set is the evaluation's gold set, the fixtures the deployed
+build replays, and the spine of the recorded walkthrough.
 Four of the five flows ask the corpus something. The fifth is the result screen
 this harness produces, so it asks nothing and appears here as no question.
 
