@@ -14,14 +14,19 @@ Regenerating them from real output is what retired that.
 
 The cut-short state is the one exception, and it is a fixture plus a harness
 override rather than a fixture alone. Generation is deterministic here,
-`temperature` fixed at `0.0`, so which question truncates is not chance: it
-follows the ranked synthesis budget, and that budget has moved between
-recordings. No question in the fixtures committed at this capture happens to
-truncate under the current budget, so `e2e/capture-states.ts` takes a real
-answered fixture and sets `retrieval.truncated` before handing it to the stub.
-Every claim, citation and quoted provision in it is still text the pipeline
-produced. Only the one flag that decides whether the banner renders is set by
-the harness rather than read off the recording.
+`temperature` fixed at `0.0`, so which question truncates is not chance.
+`Pipeline._synthesize` retries a completion that trips the synthesis budget
+at a larger one before giving up on it, and `retrieval.truncated` is read off
+the completion after that retry, so a draft only stays marked truncated when
+the retry itself runs out of the model's whole context window rather than the
+smaller budget alone.
+
+No question in the fixtures committed at this capture reaches that ceiling,
+so `e2e/capture-states.ts` takes a real answered fixture and sets
+`retrieval.truncated` before handing it to the stub. Every claim, citation
+and quoted provision in it is still text the pipeline produced. Only the one
+flag that decides whether the banner renders is set by the harness rather
+than read off the recording.
 
 The loading state carries a second exception, and it is in the times rather than
 the content. `e2e/capture-states.ts` holds a stream open mid-draft by sending a
