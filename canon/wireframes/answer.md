@@ -610,7 +610,7 @@ At 1024 and wider the counts open the walk as the pane's second view, beside the
 
 The walk view holds a summary sentence, the chips, and under them three id lists, each capped at roughly eight ids and followed by a count of the rest. On the full-context arm those lists run to hundreds, and an uncapped one would swamp the answer it describes. The count carries the scale and the expansion carries the detail.
 
-The three lists render as a two-column `dl`, a 96px label column naming `searched`, `traversed` or `dropped` in `ink` beside a `1fr` value column of ids at 11px mono. Only the `dropped` list's value column tints `text-warning`, closed with its own note sentence, `Reached by traversal, cut by the prompt budget, never read.`, so a reader sees which list carries the caveat before reading the note itself.
+The three lists render as a two-column `dl`, a 96px label column naming `searched`, `traversed` or `dropped` in `ink` beside a `1fr` value column of ids at 11px mono. A list's value column tints `text-warning` wherever it carries a note, and `dropped` is the only one that does today, closed with its own note sentence, `Reached by traversal, cut by the prompt budget, never read.`, so a reader sees which list carries the caveat before reading the note itself.
 
 Dropped ids are named beside traversed ids and never omitted. Traversal reaches more provisions than a prompt has room for, so reporting what traversal found without reporting what the budget cut overstates what the answer actually rests on.
 
