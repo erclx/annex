@@ -616,7 +616,7 @@ test('a recorded question card answers hover by changing its border', async ({
  * reads the visible wrapper's own grid rather than the figure's first child,
  * which is a wrapper div rather than the grid itself.
  *
- * Measured on the landing page, where the figure is a section of its own.
+ * Measured on `/evaluation`, where the figure is a section of its own.
  */
 async function bracketGap(page: Page): Promise<number> {
   const rail = page.getByRole('img', { name: /The five-stage pipeline/ })
@@ -692,14 +692,14 @@ async function pipelineRowShape(page: Page): Promise<{
 test.describe('the comparison on the landing page', () => {
   test('sets the rail beside the table at 1280 pixels', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 860 })
-    await page.goto('/')
+    await page.goto('/evaluation')
 
     expect(await halfHeadingOffset(page)).toBeLessThanOrEqual(1)
   })
 
   test('stacks the rail above the table at 400 pixels', async ({ page }) => {
     await page.setViewportSize({ width: 400, height: 860 })
-    await page.goto('/')
+    await page.goto('/evaluation')
 
     expect(await halfHeadingOffset(page)).toBeGreaterThan(100)
   })
@@ -708,7 +708,7 @@ test.describe('the comparison on the landing page', () => {
     page,
   }) => {
     await page.setViewportSize({ width: 810, height: 860 })
-    await page.goto('/')
+    await page.goto('/evaluation')
 
     expect(await halfHeadingOffset(page)).toBeGreaterThan(100)
 
@@ -724,7 +724,7 @@ test.describe('the comparison on the landing page', () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1024, height: 860 })
-    await page.goto('/')
+    await page.goto('/evaluation')
 
     expect(await halfHeadingOffset(page)).toBeGreaterThan(100)
 
@@ -794,7 +794,7 @@ test.describe('the frame at 1536 pixels', () => {
   test.use({ viewport: { width: 1536, height: 860 } })
 
   test('the pipeline bracket sits beside the stage text', async ({ page }) => {
-    await page.goto('/')
+    await page.goto('/evaluation')
 
     // The rail's column gap is 12 pixels, and the bracket should sit that far
     // from the stage text. Its column used to sit past a `1fr` stage column,
@@ -825,7 +825,7 @@ test.describe('the frame at 1280 pixels', () => {
   test.use({ viewport: { width: 1280, height: 860 } })
 
   test('the pipeline bracket sits beside the stage text', async ({ page }) => {
-    await page.goto('/')
+    await page.goto('/evaluation')
 
     expect(await bracketGap(page)).toBeLessThanOrEqual(16)
   })
