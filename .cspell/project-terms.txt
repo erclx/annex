@@ -10,12 +10,14 @@ elkjs
 embedder
 GPAI
 Gwern
+hardlink
 harmonisation
 Menlo
 neighbour
 neighbours
 Noto
 organisational
+rects
 Segoe
 sidenotes
 stopword
