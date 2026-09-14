@@ -100,10 +100,10 @@ test('the empty state asks for a description and disclaims a verdict', async ({
   await page.goto('/')
 
   await expect(
-    page.getByText('Describe what you are building. You get back'),
+    page.getByText('Describe your AI system. Get back the articles'),
   ).toBeVisible()
   await expect(
-    page.getByText('It does not tell you whether you comply'),
+    page.getByText("It won't tell you whether you comply"),
   ).toBeVisible()
 })
 
@@ -424,7 +424,7 @@ test('a recorded pick on the local build asks the real service', async ({
   await page.goto('/')
 
   await expect(
-    page.getByText('Or read one of the recorded questions'),
+    page.getByText('Or start from a recorded question'),
   ).toBeVisible()
   await page.getByRole('button', { name: /answers customer questions/ }).click()
 
@@ -473,26 +473,135 @@ test('a citation carries a quieter EUR-Lex link beside its heading', async ({
   )
 })
 
+test('the mark in the bar returns an answer to the empty page', async ({
+  page,
+}) => {
+  await serviceAnswers(page, ANSWER)
+  await page.goto('/')
+  await describeSystem(page)
+  await expect(
+    page.getByText('The chatbot has to tell the person'),
+  ).toBeVisible()
+
+  await page.getByRole('link', { name: 'Annex' }).click()
+
+  await expect(
+    page.getByRole('heading', { name: /Describe your AI system/ }),
+  ).toBeVisible()
+  await expect(page).not.toHaveURL(/v=/)
+})
+
+test('a recorded question card answers hover by changing its border', async ({
+  page,
+}) => {
+  await page.goto('/')
+  const card = page.getByRole('button', { name: /answers customer questions/ })
+  const borderAtRest = await card.evaluate(
+    (element) => getComputedStyle(element).borderTopColor,
+  )
+
+  await card.hover()
+
+  await expect
+    .poll(() =>
+      card.evaluate((element) => getComputedStyle(element).borderTopColor),
+    )
+    .not.toBe(borderAtRest)
+})
+
+/**
+ * How far the pipeline's bracket sits from the widest stage text, in pixels.
+ *
+ * Every stage row sits in the rail's second grid column, so the widest of those
+ * is where the stage text ends. The column is read off the computed style
+ * rather than the `style` attribute, because the server writes that attribute
+ * as `grid-column:2` with no space and hydration leaves it as written.
+ *
+ * Measured inside the docked pane once it shows. The page first renders as a
+ * single column and moves the figure into the pane when the width is read, so
+ * a figure found before that move is unmounted by the time it is measured and
+ * every box on it reads zero.
+ */
+async function bracketGap(page: Page): Promise<number> {
+  const pane = page.getByRole('complementary', { name: 'Before you ask' })
+  await expect(pane).toBeVisible()
+
+  return pane
+    .getByRole('img', { name: /The five-stage pipeline/ })
+    .evaluate((figure) => {
+      const grid = figure.firstElementChild
+      const stageRights = [...(grid?.children ?? [])]
+        .filter((child) => getComputedStyle(child).gridColumnStart === '2')
+        .map((stage) => stage.getBoundingClientRect().right)
+      const bracket = figure.querySelector('svg')
+      return (
+        (bracket?.getBoundingClientRect().left ?? Infinity) -
+        Math.max(...stageRights)
+      )
+    })
+}
+
+test.describe('the frame at 1536 pixels', () => {
+  test.use({ viewport: { width: 1536, height: 860 } })
+
+  test('the pipeline bracket sits beside the stage text', async ({ page }) => {
+    await page.goto('/')
+
+    // The rail's column gap is 12 pixels, and the bracket should sit that far
+    // from the stage text. Its column used to sit past a `1fr` stage column,
+    // which the operator's second-use pass measured at 657 pixels away.
+    expect(await bracketGap(page)).toBeLessThanOrEqual(16)
+  })
+
+  test('the docked pane ends at the fold before the page scrolls', async ({
+    page,
+  }) => {
+    await serviceAnswers(page, LONG_ANSWER)
+    await page.goto('/')
+    await describeSystem(page)
+
+    const pane = page.getByRole('complementary', { name: 'The Act' })
+    await expect(pane).toBeVisible()
+
+    await expect
+      .poll(async () => {
+        const box = await pane.boundingBox()
+        return box ? Math.round(box.y + box.height) : Infinity
+      })
+      .toBeLessThanOrEqual(861)
+  })
+})
+
 test.describe('the frame at 1280 pixels', () => {
   test.use({ viewport: { width: 1280, height: 860 } })
 
-  test('the top bar stays pinned and slims once the answer scrolls under it', async ({
+  test('the pipeline bracket sits beside the stage text', async ({ page }) => {
+    await page.goto('/')
+
+    expect(await bracketGap(page)).toBeLessThanOrEqual(16)
+  })
+
+  test('the top bar stays pinned at full height once the answer scrolls under it', async ({
     page,
   }) => {
     await serviceAnswers(page, LONG_ANSWER)
     await page.goto('/')
     await describeSystem(page)
     await expect(page.getByRole('contentinfo')).toBeVisible()
+    const banner = page.getByRole('banner').first()
+    const heightBefore = (await banner.boundingBox())?.height
 
     await page.mouse.wheel(0, 900)
 
-    const banner = page.getByRole('banner')
     await expect.poll(async () => (await banner.boundingBox())?.y).toBe(0)
-    await expect(banner.getByRole('link', { name: 'Repository' })).toHaveCount(
-      0,
-    )
+    await expect
+      .poll(async () => (await banner.boundingBox())?.height)
+      .toBe(heightBefore)
     await expect(
-      banner.getByRole('group', { name: 'Which text to read against' }),
+      banner.getByRole('link', { name: 'Repository' }),
+    ).toBeInViewport()
+    await expect(
+      banner.getByRole('switch', { name: 'Reference traversal' }),
     ).toBeInViewport()
   })
 
@@ -507,8 +616,9 @@ test.describe('the frame at 1280 pixels', () => {
     await expect(pane).toBeVisible()
 
     // The class height is only the first frame. The pane's own effect sets an
-    // inline height of the viewport less its top, so at scroll 0 a pane seated
-    // below the described system still ends at the fold.
+    // inline height of the viewport less its top, so at scroll 0 the pane,
+    // which now starts under the bar with the described system inside the
+    // answer column beside it, still ends at the fold.
     await expect
       .poll(async () => {
         const box = await pane.boundingBox()
