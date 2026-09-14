@@ -536,7 +536,7 @@ The pane holds what a refusal read behind that one line rather than as a row of 
 
 The consulted provisions are not decoration. They carry what was retrieved and found not to answer, which is the difference between a refusal and a shrug, so a refusal that renders without them has lost its argument.
 
-Every consulted provision stays on the list, each clamped to three lines with the same handle an answer's excerpt carries. A refusal's argument is that the text was read and did not settle the question, and the full text of each provision is one activation away in the pane. The largest recorded refusal, `q05-university-admission` on the consolidated text, consults 25 provisions over 69 406 characters. Quoting them whole would run several times the clamped height. The count stays on the list and the length goes.
+Every consulted provision stays on the list, each clamped to three lines with the same handle an answer's excerpt carries. A refusal's argument is that the text was read and did not settle the question, and the full text of each provision is one activation away in the pane. The heaviest recorded refusal, `q07-retrained-credit-model` on the original text, consults 23 provisions over 72 643 characters. Quoting them whole would run several times the clamped height. The count stays on the list and the length goes.
 
 ## Unrecorded
 
