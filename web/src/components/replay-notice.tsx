@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 
-import { capturedFrom, capturedOn } from '@/lib/replay'
+import { capturedOn } from '@/lib/replay'
 import { useDocked } from '@/lib/use-docked'
 
 /**
@@ -19,9 +19,12 @@ import { useDocked } from '@/lib/use-docked'
  * the top of a phone screen. The short line still says it is a recording, so
  * nothing the page claims changes with the width.
  *
- * The date and the commit are read off the capture manifest rather than typed,
- * so a re-capture moves them and a stale recording cannot claim to be fresh.
- * Copy is owned by `canon/wireframes/answer.md`.
+ * The date is read off the capture manifest rather than typed, so a
+ * re-capture moves it and a stale recording cannot claim to be fresh. The
+ * commit no longer renders here, per the operator's second-use pass: it named
+ * a build a visitor has no use for reading, and the terms strip dropped its
+ * matching glossary entry in the same pass. Copy is owned by
+ * `canon/wireframes/answer.md`.
  */
 export function ReplayNotice() {
   const docked = useDocked()
@@ -30,11 +33,10 @@ export function ReplayNotice() {
   const details = (
     <>
       <span className="text-[12px] text-muted">
-        Every answer below came back from the live system on {capturedOn} and
-        was captured as it stood.
+        Nothing on this page calls a model.
       </span>
-      <span className="font-mono text-[10.5px] text-muted">
-        {capturedFrom.slice(0, 7)}
+      <span className="text-[12px] text-muted">
+        Every answer was captured from the live system on {capturedOn}.
       </span>
     </>
   )
@@ -42,18 +44,13 @@ export function ReplayNotice() {
   return (
     <div className="border-b border-rule bg-surface">
       <div className="flex w-full flex-wrap items-baseline gap-x-2 gap-y-1 px-6 py-[9px] lg:px-8">
+        <b className="text-[12px] font-semibold text-ink">
+          You are looking at a recording.
+        </b>
         {docked ? (
-          <>
-            <b className="text-[12px] font-semibold text-ink">
-              This page replays a recording. Nothing here is asking a model.
-            </b>
-            {details}
-          </>
+          details
         ) : (
           <>
-            <b className="text-[12px] font-semibold text-ink">
-              A recording, not a live model.
-            </b>
             <button
               type="button"
               aria-expanded={isOpen}

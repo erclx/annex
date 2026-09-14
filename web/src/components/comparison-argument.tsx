@@ -55,9 +55,7 @@ export function ComparisonArgument() {
 
   return (
     <section>
-      <span className="font-mono text-[10.5px] tracking-[0.08em] text-muted uppercase">
-        The three-arm comparison
-      </span>
+      <span className="text-[10.5px] text-muted">The three-arm comparison</span>
 
       <p className="mt-2 text-[12px] leading-[1.5] text-act">
         The Act fits inside a current context window, so a model can read the

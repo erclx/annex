@@ -17,35 +17,35 @@ Rendered under the top bar in every state, and only on the deployed build. A loc
 
 ```plaintext
 ├──────────────────────────────────────────────────────────────────────┤
-│ This page replays a recording. Nothing here is asking a model.       │
-│ Every answer below came back from the live system on 2026-09-07 and  │
-│ was captured as it stood.                             2c74d20        │
+│ You are looking at a recording. Nothing on this page calls a model.  │
+│ Every answer was captured from the live system on 2026-09-07.        │
 ├──────────────────────────────────────────────────────────────────────┤
 ```
 
 Copy, verbatim:
 
-- `This page replays a recording. Nothing here is asking a model.`
-- `Every answer below came back from the live system on <date> and was captured as it stood.`
+- `You are looking at a recording.`
+- `Nothing on this page calls a model.`
+- `Every answer was captured from the live system on <date>.`
 
-The date and the short commit are read off the capture manifest rather than written here, so a re-capture moves them and a stale recording cannot claim to be fresh.
+The date is read off the capture manifest rather than written here, so a re-capture moves it and a stale recording cannot claim to be fresh. The band carries no commit, per the operator's second-use pass: a visitor has no use for the exact build a recording came from, and the terms strip dropped its matching glossary entry in the same pass.
 
 The band is on the page rather than in a footnote because the claim a visitor would otherwise carry away is that they watched a model answer. They did not. The model this project runs holds 30 GB of a card, nothing hosted answers these questions, and what a deployment can honestly serve is what the live system already said.
 
 The traversal switch is held inactive on this build, and the line under it reads `Recorded with traversal on`. Capture ran with reference following on, so both positions would return one answer and a live switch would lie about it. Beside it the version control is untouched, since both texts were captured and comparing them is what the deployed page is for.
 
-Below 1024 the band shortens to one line, so the question starts near the top of a phone screen. The line still says the page is a recording, and the date and commit sit behind a details control.
+Below 1024 the band shortens to one sentence, so the question starts near the top of a phone screen. The line still says the page is a recording, and the rest sits behind a details control.
 
 ```plaintext
 ├──────────────────────────────┤
-│ A recording, not a live      │
-│ model.  Details              │ ← opens the date and commit
+│ You are looking at a         │
+│ recording.  Details          │ ← opens the rest of the band
 ├──────────────────────────────┤
 ```
 
 Copy, verbatim, below 1024:
 
-- `A recording, not a live model.`
+- `You are looking at a recording.`
 - Details control: `Details`
 
 ## Empty, at 1024 and wider
@@ -146,7 +146,7 @@ The four flow labels are the evaluation's own grouping, three questions apiece. 
 
 ### The terms strip
 
-Gathers the seven load-bearing terms that appear unglossed elsewhere on this surface: `provisions`, the `Original` / `Amended 27 Jul 2026` pair, `Reference traversal`, `high risk`, `general-purpose AI model`, `prohibited practice`, and the bare commit hash. Term and definition sit side by side under the label `Terms used on this page`.
+Gathers the six load-bearing terms that appear unglossed elsewhere on this surface: `provisions`, the `Original` / `Amended 27 Jul 2026` pair, `Reference traversal`, `high risk`, `general-purpose AI model`, and `prohibited practice`. Term and definition sit side by side under the label `Terms used on this page`.
 
 An inline hover definition was drafted and rejected by looking. It is a second overlay on a surface whose only overlay is the pane below 1024, and a gathered strip needs no hover state, so it carries every definition at once.
 
@@ -303,7 +303,7 @@ Copy, verbatim:
 - Section bar jump field placeholder: `Go to`
 - Section bar position, dynamic: `<n> of <total>` through the whole Act, `<n> of <total> cited` through citations
 
-The divider between the answer and the pane is a handle. Dragging it, or stepping it with the arrow keys, sets the answer column anywhere from 480 to 760 pixels, and a double-click or Enter puts it back at 640. It remembers.
+The divider between the answer and the pane is a handle. Dragging it, or stepping it with the arrow keys, sets the answer column anywhere from 480 to 760 pixels, and a double-click or Enter puts it back at 640. It remembers. A small rounded grip with three dots sits on the line so the divider reads as draggable before the pointer finds it, darkening to neutral ink on hover and to accent only on keyboard focus.
 
 The section bar sits over the Act's text. It names the article or cited paragraph in view with its place in the whole, steps to the section before or after it or, once switched to `Cited`, to the citation before or after, and takes an article number or annex numeral in its jump field. The operator's first-use pass picked it over the cited links alone, step buttons in the cited row, and the bar without a jump field or the switch.
 

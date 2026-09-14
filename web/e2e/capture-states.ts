@@ -199,9 +199,7 @@ async function reached(page: Page, captureCase: Case) {
       break
     case '9-replay-empty':
       await expect(
-        page.getByText(
-          'This page replays a recording. Nothing here is asking a model.',
-        ),
+        page.getByText('You are looking at a recording.'),
       ).toBeVisible()
       await expect(
         page.getByRole('heading', {

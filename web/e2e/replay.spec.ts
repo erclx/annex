@@ -23,11 +23,9 @@ test('the page says it is a recording before anything is asked', async ({
 }) => {
   await page.goto(REPLAY_URL)
 
+  await expect(page.getByText('You are looking at a recording.')).toBeVisible()
   await expect(
-    page.getByText('This page replays a recording. Nothing here is asking a'),
-  ).toBeVisible()
-  await expect(
-    page.getByText('came back from the live system on'),
+    page.getByText('was captured from the live system on'),
   ).toBeVisible()
 })
 
@@ -182,10 +180,18 @@ test.describe('the top of the page at 400 pixels', () => {
   }) => {
     await page.goto(REPLAY_URL)
 
-    await expect(page.getByText('A recording, not a live model.')).toBeVisible()
+    await expect(
+      page.getByText('You are looking at a recording.'),
+    ).toBeVisible()
+    await expect(
+      page.getByText('Nothing on this page calls a model.'),
+    ).not.toBeVisible()
     await page.getByRole('button', { name: 'Details' }).click()
     await expect(
-      page.getByText(/came back from the live system on/),
+      page.getByText('Nothing on this page calls a model.'),
+    ).toBeVisible()
+    await expect(
+      page.getByText(/was captured from the live system on/),
     ).toBeVisible()
   })
 })

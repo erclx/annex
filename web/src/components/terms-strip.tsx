@@ -1,5 +1,5 @@
 /**
- * The seven terms that render unglossed elsewhere on this surface, gathered
+ * The six terms that render unglossed elsewhere on this surface, gathered
  * into one list rather than marked inline.
  *
  * An inline hover definition was drafted and dropped: it would be a second
@@ -45,19 +45,12 @@ const TERMS: { term: string; definition: string }[] = [
     definition:
       'A use of AI the Act bans outright, such as manipulation that causes harm, rather than one it regulates.',
   },
-  {
-    term: 'Commit hash',
-    definition:
-      'The exact build a recorded answer was captured from, so a stale recording can be told from a fresh one.',
-  },
 ]
 
 export function TermsStrip() {
   return (
     <section>
-      <span className="font-mono text-[10.5px] tracking-[0.08em] text-muted uppercase">
-        Terms used on this page
-      </span>
+      <span className="text-[10.5px] text-muted">Terms used on this page</span>
       <dl className="mt-2 grid grid-cols-1 gap-x-4 gap-y-[6px] sm:grid-cols-[max-content_1fr]">
         {TERMS.map(({ term, definition }) => (
           <div key={term} className="contents">

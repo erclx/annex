@@ -110,7 +110,7 @@ export function WalkChips({
       >
         <div
           aria-hidden="true"
-          className={`mb-2 font-mono text-[11px] tracking-[0.08em] text-muted uppercase ${
+          className={`mb-2 text-[11px] text-muted ${
             hasWalk
               ? 'hidden @min-[520px]:grid @min-[520px]:grid-cols-[minmax(0,9.5rem)_minmax(0,7.5rem)_minmax(0,1fr)] @min-[520px]:gap-x-4'
               : ''

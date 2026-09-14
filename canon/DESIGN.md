@@ -71,12 +71,12 @@ The sans stack no longer carries that same tag. `fc-match` against every name in
 | act        | `Georgia, "Times New Roman", Times, serif ? verify`               | 400    | 13px   | 1.5         |
 | body       | `system-ui, -apple-system, "Segoe UI", Roboto, sans-serif`        | 400    | 14px   | 1.6         |
 | note label | `system-ui, -apple-system, "Segoe UI", Roboto, sans-serif` italic | 600    | 11.5px | 1.45        |
-| label      | `ui-monospace, Menlo, Consolas, "Liberation Mono", monospace`     | 400    | 10.5px | 1.4         |
+| label      | `system-ui, -apple-system, "Segoe UI", Roboto, sans-serif`        | 400    | 10.5px | 1.4         |
 | code       | `ui-monospace, Menlo, Consolas, "Liberation Mono", monospace`     | 400    | 11.5px | 1.6         |
 
 The Family column above is a CSS value rather than a statement of intent, so the sans rows still name the fallback stack rather than the embedded family `--font-sans` now reads first. The paragraph above states which family actually renders.
 
-Labels set in the mono stack are drawn in capitals with letter spacing near 0.08em. That treatment belongs to labels and to nothing else on the surface.
+A label reads in sentence case in the sans stack, with no letter spacing, per the operator's second-use pass on 2026-09-14, retiring the row's earlier mono, tracked, all-caps treatment. 17 of the 18 sites this row describes carry the new treatment. `web/src/components/recorded-picks.tsx` still carries the one remaining site in the retired form, drawn in capitals with letter spacing near 0.08em in the mono stack, reserved for the branch rebuilding that file whole rather than swept here. Measured at `036dc52` on 2026-09-14.
 
 ## Spacing
 

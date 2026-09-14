@@ -393,9 +393,7 @@ export function ActReader({
               </ViewButton>
             </div>
           ) : (
-            <span className="font-mono text-[10.5px] tracking-[0.08em] text-muted uppercase">
-              The Act
-            </span>
+            <span className="text-[10.5px] text-muted">The Act</span>
           )}
           <VersionToggle version={version} onVersionChange={onVersionChange} />
         </header>
@@ -418,7 +416,7 @@ export function ActReader({
                 aria-label="Cited in this answer"
                 className="border-b border-rule-soft px-5 py-[10px]"
               >
-                <span className="mb-1 block font-mono text-[10.5px] tracking-[0.08em] text-muted uppercase">
+                <span className="mb-1 block text-[10.5px] text-muted">
                   Cited in this answer
                 </span>
                 <div className="flex flex-wrap gap-x-[14px] gap-y-1">
@@ -500,7 +498,7 @@ export function ActReader({
           </button>
         </header>
 
-        <div className="border-b border-rule-soft bg-paper px-6 py-2 font-mono text-[10.5px] tracking-[0.08em] text-muted uppercase">
+        <div className="border-b border-rule-soft bg-paper px-6 py-2 text-[10.5px] text-muted">
           {sections[openIndex]?.heading.citation}
         </div>
 

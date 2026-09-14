@@ -51,7 +51,7 @@ export function ReadingCard({
       aria-label="Being read by the model"
       className="border-l-2 border-cite-rule py-1 pl-[14px]"
     >
-      <p className="m-0 font-mono text-[11px] tracking-[0.08em] text-muted uppercase">
+      <p className="m-0 text-[11px] text-muted">
         Being read by the model · {index + 1} of {ids.length} supplied
       </p>
       <h3 className="mt-1 mb-[2px] text-[13px] font-semibold text-accent">

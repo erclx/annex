@@ -82,4 +82,39 @@ describe('ColumnHandle', () => {
 
     expect(onWidthChange).not.toHaveBeenCalled()
   })
+
+  it('should give the line a hit area wider than the line itself', () => {
+    renderHandle()
+
+    const handle = screen.getByRole('separator')
+    const line = handle.querySelector('span')
+
+    expect(handle).toHaveClass('w-full')
+    expect(line).toHaveClass('w-px')
+  })
+
+  it('should darken the grip in neutral ink on hover, never in accent', () => {
+    renderHandle()
+
+    const handle = screen.getByRole('separator')
+    const grip = handle.querySelector('[aria-hidden="true"]')
+
+    expect(grip).toHaveClass('group-hover:border-ink')
+    const hoverClasses = grip?.className
+      .split(' ')
+      .filter((className) => className.startsWith('group-hover:'))
+    expect(
+      hoverClasses?.some((className) => className.includes('accent')),
+    ).toBe(false)
+  })
+
+  it('should reserve accent for keyboard focus rather than hover', () => {
+    renderHandle()
+
+    const handle = screen.getByRole('separator')
+    const grip = handle.querySelector('[aria-hidden="true"]')
+
+    expect(grip).toHaveClass('group-focus-visible:border-accent')
+    expect(grip).toHaveClass('group-focus-visible:ring-accent')
+  })
 })
