@@ -1,5 +1,6 @@
 import { expect, type Page, test } from '@playwright/test'
 
+import { REPLAY_URL } from '../playwright.config'
 import recorded from '../src/fixtures/q01-support-chatbot.consolidated.json'
 import type { Answer } from '../src/lib/service/answer'
 import { holdStreamOpen, SERVICE_ASK, streamAnswers } from './stream-stub'
@@ -436,7 +437,7 @@ test('a recorded pick on the local build asks the real service', async ({
 test('the terms strip gathers the load-bearing definitions', async ({
   page,
 }) => {
-  await page.goto('/')
+  await page.goto('/evaluation')
 
   await expect(page.getByText('Terms used on this page')).toBeVisible()
   await expect(
@@ -444,7 +445,7 @@ test('the terms strip gathers the load-bearing definitions', async ({
   ).toBeVisible()
 })
 
-test('the top bar links to the repository and the evaluation', async ({
+test('the top bar links to the repository and opens the evaluation in-site', async ({
   page,
 }) => {
   await page.goto('/')
@@ -455,8 +456,58 @@ test('the top bar links to the repository and the evaluation', async ({
   )
   await expect(page.getByRole('link', { name: 'Evaluation' })).toHaveAttribute(
     'href',
-    'https://github.com/erclx/annex/blob/main/docs/evaluation.md',
+    '/evaluation',
   )
+})
+
+test.describe('the evaluation route', () => {
+  test('/ ends after the recorded questions with no terms strip or comparison', async ({
+    page,
+  }) => {
+    await page.goto('/')
+
+    await expect(
+      page.getByText('Or start from a recorded question'),
+    ).toBeVisible()
+    await expect(page.getByText('Terms used on this page')).toHaveCount(0)
+    await expect(
+      page.getByRole('heading', { name: 'The three-arm comparison' }),
+    ).toHaveCount(0)
+  })
+
+  test('the bar link and the composer line both reach /evaluation', async ({
+    page,
+  }) => {
+    await page.goto('/')
+
+    await page
+      .getByRole('link', { name: 'How answers are built and measured →' })
+      .click()
+    await expect(page).toHaveURL(/\/evaluation$/)
+    await expect(
+      page.getByRole('heading', { name: 'Evaluation' }),
+    ).toBeVisible()
+
+    await page.goto('/')
+    await page.getByRole('link', { name: 'Evaluation' }).click()
+    await expect(page).toHaveURL(/\/evaluation$/)
+    await expect(
+      page.getByRole('heading', { name: 'Evaluation' }),
+    ).toBeVisible()
+  })
+
+  test('the built export resolves the route the way it resolves /ask', async ({
+    page,
+  }) => {
+    await page.goto(`${REPLAY_URL}/evaluation`)
+
+    await expect(
+      page.getByRole('heading', { name: 'Evaluation' }),
+    ).toBeVisible()
+    await expect(
+      page.getByRole('heading', { name: 'The three-arm comparison' }),
+    ).toBeVisible()
+  })
 })
 
 test('a citation carries a quieter EUR-Lex link beside its heading', async ({

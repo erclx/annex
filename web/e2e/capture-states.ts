@@ -75,6 +75,7 @@ const UNRECORDED =
 
 interface Case {
   name: string
+  path?: string
   body?: unknown
   status?: number
   hang?: boolean
@@ -101,10 +102,11 @@ const CASES: Case[] = [
   { name: '8-failure-unreachable', reject: true },
   { name: '9-replay-empty', skipAsk: true, replay: true },
   { name: '10-unrecorded', describe: UNRECORDED, replay: true },
+  { name: '11-evaluation', path: '/evaluation', skipAsk: true },
 ]
 
 async function drive(page: Page, captureCase: Case, base: string) {
-  await page.goto(base)
+  await page.goto(`${base}${captureCase.path ?? ''}`)
   // The empty-description message waits for a submit, since leaving the box
   // raises nothing, so the invalid state is reached by submitting it empty.
   if (captureCase.submitEmpty) {
@@ -196,6 +198,14 @@ async function reached(page: Page, captureCase: Case) {
         page.getByText(
           'This page holds a recording, and your description is not in it.',
         ),
+      ).toBeVisible()
+      break
+    case '11-evaluation':
+      await expect(
+        page.getByRole('heading', { name: 'Evaluation' }),
+      ).toBeVisible()
+      await expect(
+        page.getByRole('heading', { name: 'The three-arm comparison' }),
       ).toBeVisible()
       break
   }

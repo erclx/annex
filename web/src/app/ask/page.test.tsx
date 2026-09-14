@@ -12,7 +12,10 @@ import { recordedQuestions } from '@/lib/service/replay'
 const navigation = vi.hoisted(() => ({ push: vi.fn(), replace: vi.fn() }))
 const build = vi.hoisted(() => ({ replay: false }))
 
-vi.mock('next/navigation', () => ({ useRouter: () => navigation }))
+vi.mock('next/navigation', () => ({
+  useRouter: () => navigation,
+  usePathname: () => '/ask',
+}))
 
 vi.mock('@/lib/service/replay', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/lib/service/replay')>()

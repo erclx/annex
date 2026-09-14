@@ -3,6 +3,12 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { TopBar } from '@/components/frame/top-bar'
 
+const navigation = vi.hoisted(() => ({ pathname: '/' }))
+
+vi.mock('next/navigation', () => ({
+  usePathname: () => navigation.pathname,
+}))
+
 function renderBar(overrides: Partial<Parameters<typeof TopBar>[0]> = {}) {
   render(
     <TopBar
@@ -25,6 +31,7 @@ class SilentResizeObserver {
 
 afterEach(() => {
   vi.unstubAllGlobals()
+  navigation.pathname = '/'
 })
 
 describe('TopBar', () => {
@@ -38,16 +45,24 @@ describe('TopBar', () => {
     ).toMatch(/^\d+px$/)
   })
 
-  it('should link to the repository and the evaluation', () => {
+  it('should link to the repository and open the evaluation in-site', () => {
     renderBar()
 
     const repository = screen.getByRole('link', { name: 'Repository' })
     expect(repository).toHaveAttribute('href', 'https://github.com/erclx/annex')
 
     const evaluation = screen.getByRole('link', { name: 'Evaluation' })
-    expect(evaluation).toHaveAttribute(
-      'href',
-      'https://github.com/erclx/annex/blob/main/docs/evaluation.md',
+    expect(evaluation).toHaveAttribute('href', '/evaluation')
+    expect(evaluation).not.toHaveAttribute('aria-current')
+  })
+
+  it('should mark the evaluation link current on that route', () => {
+    navigation.pathname = '/evaluation'
+    renderBar()
+
+    expect(screen.getByRole('link', { name: 'Evaluation' })).toHaveAttribute(
+      'aria-current',
+      'page',
     )
   })
 
