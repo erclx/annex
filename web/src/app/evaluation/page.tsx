@@ -4,6 +4,7 @@ import { ComparisonArgument } from '@/components/answer/comparison-argument'
 import { ReplayNotice } from '@/components/frame/replay-notice'
 import { TopBar } from '@/components/frame/top-bar'
 import { TermsStrip } from '@/components/shared/terms-strip'
+import { useScrollRestore } from '@/lib/browser/use-scroll-restore'
 import { capturedOnFor, REPLAY_MODE } from '@/lib/service/replay'
 
 const GITHUB_URL = 'https://github.com/erclx/annex/blob/main/docs/evaluation.md'
@@ -17,8 +18,16 @@ const GITHUB_URL = 'https://github.com/erclx/annex/blob/main/docs/evaluation.md'
  * operator's third-use pass, so a visitor meets the tool without scrolling
  * past the project's own argument for itself. `canon/wireframes/answer.md` §
  * Evaluation carries the layout and `canon/ARCHITECTURE.md` the pick.
+ *
+ * Restores its own scroll on a return, since the session-wide switch that
+ * lets `/ask` restore a kept answer without racing the app router's own
+ * scroll handling costs this route the native restoration it otherwise
+ * would have had. `@/lib/browser/use-scroll-restore` carries the same
+ * pattern.
  */
 export default function Evaluation() {
+  useScrollRestore()
+
   return (
     <div className="flex min-h-full flex-col bg-paper">
       <TopBar

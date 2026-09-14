@@ -39,10 +39,18 @@ export function AskHandoffProvider({ children }: { children: ReactNode }) {
   const [keptAnswer, setKeptAnswer] = useState<KeptAnswer | null>(null)
 
   // The app router restores scroll on a back or forward navigation itself,
-  // which races a kept answer's own restore of the same offset. Taking the
-  // browser's native history scroll restoration out of that race, once, for
-  // the life of the session, is what turns the kept answer's restore into
-  // the only write rather than one of two.
+  // which races a kept answer's own restore of the same offset on `/ask`.
+  // Taking the browser's native history scroll restoration out of that
+  // race, once, for the life of the session, is what turns the kept
+  // answer's restore into the only write rather than one of two.
+  //
+  // Toggling this per route rather than once here was tried and measured
+  // worse: switching it back to `auto` while `/ask` is unmounted and back
+  // to `manual` on remount left the very write it exists to protect an
+  // intermittent no-op, the same failure mode this session-wide version
+  // was built to close. `/evaluation`'s own scroll restoration, which this
+  // wider scope costs, is restored in `web/src/app/evaluation/page.tsx`
+  // instead, with the same pattern this file's own history names.
   useEffect(() => {
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual'

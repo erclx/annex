@@ -150,9 +150,13 @@ export default function Ask() {
    * Set once a link press has frozen `pageScrollRef` for the leave in
    * progress, so the scroll listener stops overwriting it with the app
    * router's own scroll-to-top for that same transition, which still fires
-   * as a real scroll event while this page is mounted. Cleared on mount.
+   * as a real scroll event while this page is mounted. Cleared on mount,
+   * and by `pageScrollThaw` below on a press that never became a leave.
    */
   const pageScrollFrozen = useRef(false)
+
+  /** Releases a freeze the pressed link never turned into a navigation. */
+  const pageScrollThaw = useRef(0)
 
   /**
    * The kept-answer entry this session would leave behind, current as of the
@@ -198,6 +202,7 @@ export default function Ask() {
       flights.current?.abort()
       addressRead.current = false
       cancelAnimationFrame(reassertFrame.current)
+      clearTimeout(pageScrollThaw.current)
       if (keptSnapshotRef.current) {
         setKeptAnswer({
           ...keptSnapshotRef.current,
@@ -242,12 +247,25 @@ export default function Ask() {
   // than every pointer press anywhere in the document, since selecting
   // text, toggling the theme and opening a citation none of them start a
   // navigation and none needs this freeze.
+  //
+  // A press does not always turn into a leave: a middle-click or a
+  // modifier-click opens a new tab and this page stays put, and so does a
+  // press released away from the link. Left frozen, the scroll listener
+  // would stay dead for the rest of this mount's life, keeping a stale
+  // offset on whatever leave eventually happens. A short timeout thaws it
+  // when no unmount claimed the freeze first, and a real leave's own
+  // cleanup clears the pending timeout so it never fires against the next
+  // page.
   useEffect(() => {
     function handlePointerDown(event: PointerEvent) {
       if (!(event.target instanceof Element)) return
       if (!event.target.closest('a')) return
       pageScrollRef.current = window.scrollY
       pageScrollFrozen.current = true
+      clearTimeout(pageScrollThaw.current)
+      pageScrollThaw.current = window.setTimeout(() => {
+        pageScrollFrozen.current = false
+      }, 1000)
       if (!keptSnapshotRef.current) return
       setKeptAnswer({
         ...keptSnapshotRef.current,
