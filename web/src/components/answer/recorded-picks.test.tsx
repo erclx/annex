@@ -82,7 +82,7 @@ describe('the outcome line on each card', () => {
 
     expect(
       screen.getByRole('button', {
-        name: 'we generate product photographs with an image model and publish them in our online shop',
+        name: 'our credit scoring system has been on the market since 2025 and we have since retrained it on newer data',
       }),
     ).toHaveAccessibleDescription(
       'Refused on the original, answered on the amended',
@@ -92,11 +92,13 @@ describe('the outcome line on each card', () => {
   it('should claim a refusal on both texts only for the questions refused on both', () => {
     render(<RecordedPicks onPick={vi.fn()} />)
 
-    expect(screen.getAllByText('Refused on both texts')).toHaveLength(
-      recordedQuestions.filter(
-        (question) =>
-          question.refused.original && question.refused.consolidated,
-      ).length,
+    const expected = recordedQuestions.filter(
+      (question) => question.refused.original && question.refused.consolidated,
+    ).length
+
+    expect(expected).toBe(0)
+    expect(screen.queryAllByText('Refused on both texts')).toHaveLength(
+      expected,
     )
   })
 

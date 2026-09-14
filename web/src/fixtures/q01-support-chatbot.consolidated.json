@@ -3,7 +3,7 @@
   "version": "consolidated",
   "claims": [
     {
-      "statement": "A chatbot on a website that answers customer product questions is an AI system intended to interact directly with natural persons, so the provider must ensure those persons are informed they are interacting with an AI system unless that is obvious to a reasonably well-informed person in the context of use",
+      "statement": "A chatbot that interacts directly with natural persons on a website triggers the provider obligation to ensure those persons are informed they are interacting with an AI system, unless obvious to a reasonably well-informed person in context",
       "citations": [
         {
           "provision_id": "art_50.1",
@@ -17,7 +17,7 @@
       ]
     },
     {
-      "statement": "The disclosure required by the preceding provision must be provided in a clear and distinguishable manner at the latest at the time of the first interaction, and must conform to applicable accessibility requirements",
+      "statement": "The disclosure required by the preceding obligation must be provided in a clear and distinguishable manner at the latest at the time of the first interaction, and must conform to applicable accessibility requirements",
       "citations": [
         {
           "provision_id": "art_50.5",
@@ -25,20 +25,6 @@
           "kind": "paragraph",
           "version": "consolidated",
           "text": "5. The information referred to in paragraphs 1 to 4 shall be provided to the natural persons concerned in a clear and distinguishable manner at the latest at the time of the first interaction or exposure. The information shall conform to the applicable accessibility requirements.",
-          "changed": false,
-          "change_note": null
-        }
-      ]
-    },
-    {
-      "statement": "Because the chatbot generates text content as its output, the provider must ensure those outputs are marked in a machine-readable format and detectable as artificially generated, unless the system performs only an assistive function for standard editing or does not substantially alter the deployer's input data or its semantics",
-      "citations": [
-        {
-          "provision_id": "art_50.2",
-          "citation": "Article 50(2)",
-          "kind": "paragraph",
-          "version": "consolidated",
-          "text": "2. Providers of AI systems, including general-purpose AI systems, generating synthetic audio, image, video or text content, shall ensure that the outputs of the AI system are marked in a machine-readable format and detectable as artificially generated or manipulated. Providers shall ensure their technical solutions are effective, interoperable, robust and reliable as far as this is technically feasible, taking into account the specificities and limitations of various types of content, the costs of implementation and the generally acknowledged state of the art, as may be reflected in relevant technical standards. This obligation shall not apply to the extent the AI systems perform an assistive function for standard editing or do not substantially alter the input data provided by the deployer or the semantics thereof, or where authorised by law to detect, prevent, investigate or prosecute criminal offences.",
           "changed": false,
           "change_note": null
         }
@@ -123,7 +109,7 @@
     "uncited_ids": [
       "art_50.3",
       "art_13.1",
-      "art_50.4",
+      "art_50.6",
       "art_13.2",
       "art_26.5",
       "art_26.11",
@@ -357,9 +343,9 @@
     ],
     "traversal_enabled": true,
     "truncated": false,
-    "prompt_tokens": 16369,
-    "completion_tokens": 3202,
-    "duration_ms": 29374,
+    "prompt_tokens": 16337,
+    "completion_tokens": 3217,
+    "duration_ms": 32525,
     "model": "annex-qwen3-27b"
   }
 }

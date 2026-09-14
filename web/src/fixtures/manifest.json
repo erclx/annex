@@ -7,8 +7,8 @@
       "version": "original",
       "file": "q01-support-chatbot.original.json",
       "refused": false,
-      "commit": "f32985049df6ec6f31342ace05f29fc8726921fe",
-      "captured_at": "2026-09-13"
+      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "captured_at": "2026-09-14"
     },
     {
       "question_id": "q02-synthetic-voice-agent",
@@ -17,8 +17,8 @@
       "version": "original",
       "file": "q02-synthetic-voice-agent.original.json",
       "refused": false,
-      "commit": "f32985049df6ec6f31342ace05f29fc8726921fe",
-      "captured_at": "2026-09-13"
+      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "captured_at": "2026-09-14"
     },
     {
       "question_id": "q03-generated-product-images",
@@ -26,9 +26,9 @@
       "flow": "transparency",
       "version": "original",
       "file": "q03-generated-product-images.original.json",
-      "refused": true,
-      "commit": "f32985049df6ec6f31342ace05f29fc8726921fe",
-      "captured_at": "2026-09-13"
+      "refused": false,
+      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "captured_at": "2026-09-14"
     },
     {
       "question_id": "q04-cv-screening",
@@ -37,8 +37,8 @@
       "version": "original",
       "file": "q04-cv-screening.original.json",
       "refused": false,
-      "commit": "f32985049df6ec6f31342ace05f29fc8726921fe",
-      "captured_at": "2026-09-13"
+      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "captured_at": "2026-09-14"
     },
     {
       "question_id": "q05-university-admission",
@@ -47,8 +47,8 @@
       "version": "original",
       "file": "q05-university-admission.original.json",
       "refused": false,
-      "commit": "f32985049df6ec6f31342ace05f29fc8726921fe",
-      "captured_at": "2026-09-13"
+      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "captured_at": "2026-09-14"
     },
     {
       "question_id": "q06-worker-promotion",
@@ -57,8 +57,8 @@
       "version": "original",
       "file": "q06-worker-promotion.original.json",
       "refused": false,
-      "commit": "f32985049df6ec6f31342ace05f29fc8726921fe",
-      "captured_at": "2026-09-13"
+      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "captured_at": "2026-09-14"
     },
     {
       "question_id": "q07-retrained-credit-model",
@@ -66,9 +66,9 @@
       "flow": "substantial-modification",
       "version": "original",
       "file": "q07-retrained-credit-model.original.json",
-      "refused": false,
-      "commit": "f32985049df6ec6f31342ace05f29fc8726921fe",
-      "captured_at": "2026-09-13"
+      "refused": true,
+      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "captured_at": "2026-09-14"
     },
     {
       "question_id": "q08-redesigned-interface",
@@ -76,9 +76,9 @@
       "flow": "substantial-modification",
       "version": "original",
       "file": "q08-redesigned-interface.original.json",
-      "refused": true,
-      "commit": "f32985049df6ec6f31342ace05f29fc8726921fe",
-      "captured_at": "2026-09-13"
+      "refused": false,
+      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "captured_at": "2026-09-14"
     },
     {
       "question_id": "q09-wider-rollout",
@@ -86,9 +86,9 @@
       "flow": "substantial-modification",
       "version": "original",
       "file": "q09-wider-rollout.original.json",
-      "refused": true,
-      "commit": "f32985049df6ec6f31342ace05f29fc8726921fe",
-      "captured_at": "2026-09-13"
+      "refused": false,
+      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "captured_at": "2026-09-14"
     },
     {
       "question_id": "q10-high-risk-deadline",
@@ -97,8 +97,8 @@
       "version": "original",
       "file": "q10-high-risk-deadline.original.json",
       "refused": false,
-      "commit": "f32985049df6ec6f31342ace05f29fc8726921fe",
-      "captured_at": "2026-09-13"
+      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "captured_at": "2026-09-14"
     },
     {
       "question_id": "q11-prohibited-deadline",
@@ -106,9 +106,9 @@
       "flow": "version-comparison",
       "version": "original",
       "file": "q11-prohibited-deadline.original.json",
-      "refused": false,
-      "commit": "f32985049df6ec6f31342ace05f29fc8726921fe",
-      "captured_at": "2026-09-13"
+      "refused": true,
+      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "captured_at": "2026-09-14"
     },
     {
       "question_id": "q12-gpai-deadline",
@@ -117,8 +117,8 @@
       "version": "original",
       "file": "q12-gpai-deadline.original.json",
       "refused": false,
-      "commit": "f32985049df6ec6f31342ace05f29fc8726921fe",
-      "captured_at": "2026-09-13"
+      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "captured_at": "2026-09-14"
     },
     {
       "question_id": "q01-support-chatbot",
@@ -127,7 +127,7 @@
       "version": "consolidated",
       "file": "q01-support-chatbot.consolidated.json",
       "refused": false,
-      "commit": "1fe62faa8f019f15b70373d5ec1620ef0fe85dc2",
+      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
       "captured_at": "2026-09-14"
     },
     {
@@ -137,8 +137,8 @@
       "version": "consolidated",
       "file": "q02-synthetic-voice-agent.consolidated.json",
       "refused": false,
-      "commit": "f32985049df6ec6f31342ace05f29fc8726921fe",
-      "captured_at": "2026-09-13"
+      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "captured_at": "2026-09-14"
     },
     {
       "question_id": "q03-generated-product-images",
@@ -147,8 +147,8 @@
       "version": "consolidated",
       "file": "q03-generated-product-images.consolidated.json",
       "refused": false,
-      "commit": "f32985049df6ec6f31342ace05f29fc8726921fe",
-      "captured_at": "2026-09-13"
+      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "captured_at": "2026-09-14"
     },
     {
       "question_id": "q04-cv-screening",
@@ -157,8 +157,8 @@
       "version": "consolidated",
       "file": "q04-cv-screening.consolidated.json",
       "refused": false,
-      "commit": "f32985049df6ec6f31342ace05f29fc8726921fe",
-      "captured_at": "2026-09-13"
+      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "captured_at": "2026-09-14"
     },
     {
       "question_id": "q05-university-admission",
@@ -166,9 +166,9 @@
       "flow": "high-risk-chain",
       "version": "consolidated",
       "file": "q05-university-admission.consolidated.json",
-      "refused": false,
-      "commit": "f32985049df6ec6f31342ace05f29fc8726921fe",
-      "captured_at": "2026-09-13"
+      "refused": true,
+      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "captured_at": "2026-09-14"
     },
     {
       "question_id": "q06-worker-promotion",
@@ -177,8 +177,8 @@
       "version": "consolidated",
       "file": "q06-worker-promotion.consolidated.json",
       "refused": false,
-      "commit": "f32985049df6ec6f31342ace05f29fc8726921fe",
-      "captured_at": "2026-09-13"
+      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "captured_at": "2026-09-14"
     },
     {
       "question_id": "q07-retrained-credit-model",
@@ -187,8 +187,8 @@
       "version": "consolidated",
       "file": "q07-retrained-credit-model.consolidated.json",
       "refused": false,
-      "commit": "f32985049df6ec6f31342ace05f29fc8726921fe",
-      "captured_at": "2026-09-13"
+      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "captured_at": "2026-09-14"
     },
     {
       "question_id": "q08-redesigned-interface",
@@ -197,8 +197,8 @@
       "version": "consolidated",
       "file": "q08-redesigned-interface.consolidated.json",
       "refused": true,
-      "commit": "f32985049df6ec6f31342ace05f29fc8726921fe",
-      "captured_at": "2026-09-13"
+      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "captured_at": "2026-09-14"
     },
     {
       "question_id": "q09-wider-rollout",
@@ -206,9 +206,9 @@
       "flow": "substantial-modification",
       "version": "consolidated",
       "file": "q09-wider-rollout.consolidated.json",
-      "refused": true,
-      "commit": "f32985049df6ec6f31342ace05f29fc8726921fe",
-      "captured_at": "2026-09-13"
+      "refused": false,
+      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "captured_at": "2026-09-14"
     },
     {
       "question_id": "q10-high-risk-deadline",
@@ -217,8 +217,8 @@
       "version": "consolidated",
       "file": "q10-high-risk-deadline.consolidated.json",
       "refused": false,
-      "commit": "f32985049df6ec6f31342ace05f29fc8726921fe",
-      "captured_at": "2026-09-13"
+      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "captured_at": "2026-09-14"
     },
     {
       "question_id": "q11-prohibited-deadline",
@@ -227,8 +227,8 @@
       "version": "consolidated",
       "file": "q11-prohibited-deadline.consolidated.json",
       "refused": false,
-      "commit": "f32985049df6ec6f31342ace05f29fc8726921fe",
-      "captured_at": "2026-09-13"
+      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "captured_at": "2026-09-14"
     },
     {
       "question_id": "q12-gpai-deadline",
@@ -237,8 +237,8 @@
       "version": "consolidated",
       "file": "q12-gpai-deadline.consolidated.json",
       "refused": false,
-      "commit": "f32985049df6ec6f31342ace05f29fc8726921fe",
-      "captured_at": "2026-09-13"
+      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "captured_at": "2026-09-14"
     }
   ]
 }
