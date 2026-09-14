@@ -14,10 +14,9 @@ const GITHUB_URL = 'https://github.com/erclx/annex/blob/main/docs/evaluation.md'
  * bar's `Evaluation` link on every route and from the line under the
  * composer on `/`.
  *
- * Split off the landing page on `feature-evaluation-route`, T6 Pick 5 of the
- * operator's third-use pass, so a visitor meets the tool without scrolling
+ * Split off the landing page so a visitor meets the tool without scrolling
  * past the project's own argument for itself. `canon/wireframes/answer.md` §
- * Evaluation carries the layout and `canon/ARCHITECTURE.md` the pick.
+ * Evaluation carries the layout.
  *
  * Restores its own scroll on a return, since the session-wide switch that
  * lets `/ask` restore a kept answer without racing the app router's own

@@ -536,7 +536,7 @@ The pane holds what a refusal read behind that one line rather than as a row of 
 
 The consulted provisions are not decoration. They carry what was retrieved and found not to answer, which is the difference between a refusal and a shrug, so a refusal that renders without them has lost its argument.
 
-Every consulted provision stays on the list, each clamped to three lines with the same handle an answer's excerpt carries. A refusal's argument is that the text was read and did not settle the question, and the full text of each provision is one activation away in the pane. Quoting every consulted provision whole would run a refusal citing 20 provisions and 67 320 characters to 11 041 pixels tall at 1280. Clamping each one to three lines holds it to 3 287. The count stays on the list and the length goes.
+Every consulted provision stays on the list, each clamped to three lines with the same handle an answer's excerpt carries. A refusal's argument is that the text was read and did not settle the question, and the full text of each provision is one activation away in the pane. Quoting every consulted provision whole would run a refusal citing dozens of thousands of characters to several times the clamped height. The count stays on the list and the length goes.
 
 ## Unrecorded
 
