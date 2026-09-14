@@ -48,6 +48,13 @@ and drops out of the split set. § Two of Article 113's three original-text
 chunks are footnotes, below, is the defect as it stood before that fix.
 Measured at this branch on 2026-09-13.
 
+Both counts moved again on `feature-cut-provisions-at-headings`: 725 and 598
+provisions covered, 727 and 600 chunks after splitting. A chapter heading is
+now its own addressable provision, one per chapter and 13 in each version,
+carrying no paragraph of its own, so the existing rule's second line already
+covers it without a rule written for it. Measured at this branch on
+2026-09-14.
+
 ## The budget is set from the embedder, not from a ratio
 
 Both embedding models this project has run report a 2048-token context, which
