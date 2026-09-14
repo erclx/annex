@@ -1,3 +1,4 @@
+import { outcomeLine } from '@/lib/recorded-outcome'
 import { recordedQuestions } from '@/lib/replay'
 
 /**
@@ -39,35 +40,46 @@ export function RecordedPicks({
 
   return (
     <section className="w-full border-t border-rule pt-6 pb-10">
-      <h2 className="m-0 mb-1 text-[13px] font-semibold text-ink">
-        Or read one of the recorded questions
+      <h2 className="m-0 mb-1 text-[15px] font-semibold text-ink">
+        Or start from a recorded question
       </h2>
-      <p className="m-0 mb-4 max-w-[62ch] text-[13px] leading-[1.6] text-muted">
-        These are the twelve descriptions the live system was asked, against
-        both texts. Anything else reaches a state saying the recording does not
-        hold it.
+      <p className="m-0 mb-5 max-w-[62ch] text-[13px] leading-[1.6] text-muted">
+        Twelve descriptions were put to the live system, on both versions of the
+        Act. A description outside those twelve has no recorded answer here.
       </p>
 
       <div className="flex flex-col gap-5">
         {flows.map((flow) => (
-          <div key={flow} className="flex flex-col gap-[6px]">
-            <span className="font-mono text-[9.5px] tracking-[0.06em] text-muted uppercase">
+          <div key={flow} className="flex flex-col gap-2">
+            <span className="text-[12px] font-medium text-muted">
               {FLOW_LABELS[flow] ?? flow}
             </span>
-            {recordedQuestions
-              .filter((question) => question.flow === flow)
-              .map((question) => (
-                <button
-                  key={question.id}
-                  type="button"
-                  onClick={() => {
-                    onPick(question.description)
-                  }}
-                  className="w-full border-b border-rule-soft py-[6px] text-left text-[13px] leading-[1.5] text-ink hover:text-accent"
-                >
-                  {question.description}
-                </button>
-              ))}
+            <div className="grid grid-cols-1 gap-2 lg:grid-cols-3">
+              {recordedQuestions
+                .filter((question) => question.flow === flow)
+                .map((question) => (
+                  // Named by the description alone, so a pick is found by
+                  // what was asked, and the outcome is read as its description.
+                  <button
+                    key={question.id}
+                    type="button"
+                    aria-label={question.description}
+                    aria-describedby={`outcome-${question.id}`}
+                    onClick={() => {
+                      onPick(question.description)
+                    }}
+                    className="flex h-full flex-col justify-between gap-3 rounded-lg border border-rule bg-surface px-3 py-[10px] text-left text-[13px] leading-[1.5] text-ink hover:border-cite-rule"
+                  >
+                    <span>{question.description}</span>
+                    <span
+                      id={`outcome-${question.id}`}
+                      className="text-[11.5px] leading-[1.4] text-muted"
+                    >
+                      {outcomeLine(question.refused)}
+                    </span>
+                  </button>
+                ))}
+            </div>
           </div>
         ))}
       </div>
