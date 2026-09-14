@@ -9,7 +9,15 @@ import { AskHandoffProvider } from '@/components/frame/ask-handoff'
 import { findProvision } from '@/lib/corpus/corpus'
 import { recordedQuestions } from '@/lib/service/replay'
 
-const navigation = vi.hoisted(() => ({ push: vi.fn(), replace: vi.fn() }))
+const navigation = vi.hoisted(() => ({
+  push: vi.fn(),
+  // A real `router.replace` moves the address bar as well as Next's own
+  // router state, which is the part this mock exists to stand in for: an
+  // assertion reading `window.location` needs the bar actually moved.
+  replace: vi.fn((href: string) => {
+    window.history.replaceState(window.history.state, '', href)
+  }),
+}))
 const build = vi.hoisted(() => ({ replay: false }))
 
 vi.mock('next/navigation', () => ({
@@ -724,6 +732,71 @@ describe('the address', () => {
     render(withProvider(<Ask />))
 
     expect(navigation.replace).toHaveBeenCalledWith('/')
+  })
+
+  describe('a return to a settled answer', () => {
+    it('shows a kept answer with no call to ask on a return matching its key', async () => {
+      respondWith(200, anAnswer())
+      const { view } = await describeSystem()
+      await screen.findByText(/has to tell the person they are interacting/)
+
+      view.rerender(withProvider(<div />))
+      vi.mocked(fetch).mockClear()
+      view.rerender(withProvider(<Ask />))
+
+      expect(
+        await screen.findByText(/has to tell the person they are interacting/),
+      ).toBeInTheDocument()
+      expect(fetch).not.toHaveBeenCalled()
+    })
+
+    it('asks again when the address names a version other than the kept answer', async () => {
+      respondWith(200, anAnswer())
+      const { view } = await describeSystem()
+      await screen.findByText(/has to tell the person they are interacting/)
+
+      view.rerender(withProvider(<div />))
+      vi.mocked(fetch).mockClear()
+      window.history.replaceState(null, '', '/ask?v=original')
+      view.rerender(withProvider(<Ask />))
+
+      await screen.findByText(/has to tell the person they are interacting/)
+      expect(fetch).toHaveBeenCalled()
+    })
+
+    it('asks again on a return from a visit that left the ask still pending', async () => {
+      streamThenHold([nodeFrame({ node: 'route' })])
+      const { view } = await describeSystem()
+      await screen.findByRole('region', { name: 'The agent working' })
+
+      view.rerender(withProvider(<div />))
+      respondWith(200, anAnswer())
+      view.rerender(withProvider(<Ask />))
+
+      expect(
+        await screen.findByText(/has to tell the person they are interacting/),
+      ).toBeInTheDocument()
+      expect(fetch).toHaveBeenCalled()
+    })
+
+    it('keeps the open provision in the address across the return', async () => {
+      respondWith(200, anAnswer())
+      const { view } = await describeSystem()
+      await screen.findByText(/has to tell the person they are interacting/)
+      expect(new URLSearchParams(window.location.search).get('p')).toBe(
+        'art_50.1',
+      )
+
+      view.rerender(withProvider(<div />))
+      vi.mocked(fetch).mockClear()
+      view.rerender(withProvider(<Ask />))
+
+      await screen.findByText(/has to tell the person they are interacting/)
+      expect(fetch).not.toHaveBeenCalled()
+      expect(new URLSearchParams(window.location.search).get('p')).toBe(
+        'art_50.1',
+      )
+    })
   })
 })
 

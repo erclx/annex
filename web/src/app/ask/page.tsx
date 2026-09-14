@@ -25,7 +25,13 @@ import {
 import { FailureRegion } from '@/components/status/failure-region'
 import { WaitPane } from '@/components/status/wait-pane'
 import { addressSearch, readAddress } from '@/lib/browser/address'
-import { useAskHandoff } from '@/lib/browser/ask-handoff'
+import {
+  type KeptAnswer,
+  type KeptAnswerKey,
+  keptAnswerMatches,
+  useAskHandoff,
+  useKeptAnswer,
+} from '@/lib/browser/ask-handoff'
 import { useColumnWidth } from '@/lib/browser/use-column-width'
 import { useDocked } from '@/lib/browser/use-docked'
 import type { Answer } from '@/lib/service/answer'
@@ -112,6 +118,7 @@ export default function Ask() {
   const router = useRouter()
   const docked = useDocked()
   const { handoff, setHandoff } = useAskHandoff()
+  const { keptAnswer, setKeptAnswer } = useKeptAnswer()
   const { version, traversal } = handoff
   const [asked, setAsked] = useState<string | null>(null)
   const [result, setResult] = useState<AskResult | null>(null)
@@ -125,6 +132,45 @@ export default function Ask() {
   const [readerPoint, setReaderPoint] = useState<string | null>(null)
   const [paneView, setPaneView] = useState<PaneView>('act')
   const { width: answerWidth, setWidth, resetWidth } = useColumnWidth()
+
+  /**
+   * A pane scroll offset a restore is about to apply, handed to the pane as
+   * a prop. Left in place once applied rather than cleared, since the pane
+   * itself only reapplies a value that actually changes, per its own prop.
+   */
+  const [pendingRestore, setPendingRestore] = useState<{
+    paneScrollTop: number
+  } | null>(null)
+
+  /** The latest read of each scroll position, kept current between renders. */
+  const pageScrollRef = useRef(0)
+  const paneScrollRef = useRef(0)
+
+  /**
+   * Set once a link press has frozen `pageScrollRef` for the leave in
+   * progress, so the scroll listener stops overwriting it with the app
+   * router's own scroll-to-top for that same transition, which still fires
+   * as a real scroll event while this page is mounted. Cleared on mount,
+   * and by `pageScrollThaw` below on a press that never became a leave.
+   */
+  const pageScrollFrozen = useRef(false)
+
+  /** Releases a freeze the pressed link never turned into a navigation. */
+  const pageScrollThaw = useRef(0)
+
+  /**
+   * The kept-answer entry this session would leave behind, current as of the
+   * last settled result or reader pick, and flushed with the latest scroll
+   * offsets on leaving.
+   */
+  const keptSnapshotRef = useRef<KeptAnswer | null>(null)
+
+  /**
+   * The restore's own deferred scroll write, so leaving again before it has
+   * run cancels it rather than letting it write `scrollTop` on whatever page
+   * replaced this one.
+   */
+  const reassertFrame = useRef(0)
 
   /**
    * The in-flight ask, so a re-ask replaces its answer rather than racing it.
@@ -144,13 +190,101 @@ export default function Ask() {
   // The address is marked unread again with it, because strict mode rehearses
   // an unmount straight after the first mount, and a remount that still counted
   // the address as read would never ask again after this abort.
+  //
+  // The kept-answer entry is flushed here too, with the latest scroll
+  // offsets folded in: `keptSnapshotRef` is null until a result first
+  // settles, so the rehearsed unmount strict mode runs straight after mount
+  // writes nothing, the same reason the address mark is safe to reset there.
   useEffect(() => {
     const flights = inFlight
     const addressRead = hasReadAddress
     return () => {
       flights.current?.abort()
       addressRead.current = false
+      cancelAnimationFrame(reassertFrame.current)
+      clearTimeout(pageScrollThaw.current)
+      if (keptSnapshotRef.current) {
+        setKeptAnswer({
+          ...keptSnapshotRef.current,
+          pageScrollY: pageScrollRef.current,
+          paneScrollTop: paneScrollRef.current,
+        })
+      }
     }
+  }, [setKeptAnswer])
+
+  // Kept current from a scroll listener, per the risk this plan names: the
+  // app router may render the next route before this one unmounts, so an
+  // offset read only in the cleanup above can read whatever the new page
+  // already scrolled to. Written directly rather than through a
+  // `requestAnimationFrame` throttle, since a scroll firing faster than
+  // frames arrive can cancel and reschedule that callback indefinitely and
+  // never once let it run, and the write itself is a plain ref assignment
+  // cheap enough to need no throttle.
+  useEffect(() => {
+    function handleScroll() {
+      if (pageScrollFrozen.current) return
+      pageScrollRef.current = window.scrollY
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
+
+  // The risk above understates the race: leaving through a link such as
+  // `Evaluation` has the app router scroll this page to the top as part of
+  // starting that transition, while this page is still mounted, and that
+  // reset fires as a real scroll event the listener above cannot tell from
+  // the reader's own scrolling. By the time the cleanup two effects up
+  // reads it, the value it reads is the reset's rather than the reader's,
+  // since the reset lands before the unmount does. A capture-phase listener
+  // on a link's own pointer press freezes `pageScrollRef` at whatever the
+  // offset is at that instant, ahead of the click that would start the
+  // transition and the reset that rides along with it, and flushes the kept
+  // entry with the same value so a session that never remounts still keeps
+  // the reader's own position rather than nothing. Scoped to a link rather
+  // than every pointer press anywhere in the document, since selecting
+  // text, toggling the theme and opening a citation none of them start a
+  // navigation and none needs this freeze.
+  //
+  // A press does not always turn into a leave: a middle-click or a
+  // modifier-click opens a new tab and this page stays put, and so does a
+  // press released away from the link. Left frozen, the scroll listener
+  // would stay dead for the rest of this mount's life, keeping a stale
+  // offset on whatever leave eventually happens. A short timeout thaws it
+  // when no unmount claimed the freeze first, and a real leave's own
+  // cleanup clears the pending timeout so it never fires against the next
+  // page.
+  useEffect(() => {
+    function handlePointerDown(event: PointerEvent) {
+      if (!(event.target instanceof Element)) return
+      if (!event.target.closest('a')) return
+      pageScrollRef.current = window.scrollY
+      pageScrollFrozen.current = true
+      clearTimeout(pageScrollThaw.current)
+      pageScrollThaw.current = window.setTimeout(() => {
+        pageScrollFrozen.current = false
+      }, 1000)
+      if (!keptSnapshotRef.current) return
+      setKeptAnswer({
+        ...keptSnapshotRef.current,
+        pageScrollY: window.scrollY,
+        paneScrollTop: paneScrollRef.current,
+      })
+    }
+    document.addEventListener('pointerdown', handlePointerDown, {
+      capture: true,
+    })
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown, {
+        capture: true,
+      })
+    }
+  }, [setKeptAnswer])
+
+  const handlePaneScrollChange = useCallback((scrollTop: number) => {
+    paneScrollRef.current = scrollTop
   }, [])
 
   /**
@@ -210,9 +344,54 @@ export default function Ask() {
   )
 
   /**
+   * Shows a kept answer matching `key` instead of asking again: the claims,
+   * the reader's provision, and both scroll offsets, docked. Below 1024 the
+   * overlay stays closed, per the operator's pick, since one reopened on
+   * arrival would hide the answer the reader came back for.
+   */
+  const restoreKeptAnswer = useCallback(
+    (kept: KeptAnswer, description: string) => {
+      setAsked(description)
+      setResult(kept.result)
+      setReaderVersion(kept.result.answer.version)
+      setReaderProvisionId(docked ? kept.provisionId : null)
+      setReaderPoint(docked ? kept.point : null)
+      setPaneView('act')
+      keptSnapshotRef.current = kept
+      setPendingRestore({ paneScrollTop: docked ? kept.paneScrollTop : 0 })
+
+      // The pane offset above reaches the pane as a prop and that component
+      // applies it from its own effect. The page offset has no such
+      // component to hand it to, so it is applied directly here, a frame
+      // out so the answer has painted first.
+      //
+      // `document.documentElement.scrollTop` rather than `window.scrollTo`:
+      // measured as more reliable against a real back navigation, and it is
+      // one write rather than a loop because the mount effect in
+      // `ask-handoff.tsx` takes the app router's own scroll handling out of
+      // the race by setting `history.scrollRestoration = 'manual'`, so
+      // nothing else is left writing the offset this restore just wrote.
+      // The unmount cleanup cancels `reassertFrame` in case this frame has
+      // not yet run when the reader leaves again.
+      const pageScrollY = kept.pageScrollY
+      reassertFrame.current = requestAnimationFrame(() => {
+        document.documentElement.scrollTop = pageScrollY
+        pageScrollRef.current = pageScrollY
+      })
+    },
+    [docked],
+  )
+
+  /**
    * Opens the page as the address or the handoff left it. Only the deployed
    * build holds a recorded question to reopen, and a version the address names
    * wins over the one the handoff carried.
+   *
+   * A kept answer matching what this open would otherwise ask for takes
+   * precedence over both the recorded-replay path and the ordinary ask, so a
+   * return to a settled question shows it rather than replaying or asking
+   * again. A shared link opened fresh, with nothing kept, still replays or
+   * asks as it does today.
    */
   const open = useCallback(
     (search: string) => {
@@ -224,6 +403,15 @@ export default function Ask() {
 
       if (recorded !== null) {
         const against = address.version ?? 'consolidated'
+        const key: KeptAnswerKey = {
+          description: recorded,
+          version: against,
+          traversal: true,
+        }
+        if (keptAnswer && keptAnswerMatches(keptAnswer.key, key)) {
+          restoreKeptAnswer(keptAnswer, recorded)
+          return
+        }
         setHandoff({ description: recorded, version: against, rejected: false })
         void run(recorded, against, true)
         if (address.provision) setReaderProvisionId(address.provision)
@@ -236,10 +424,20 @@ export default function Ask() {
       }
 
       const against = address.version ?? handoff.version
+      const key: KeptAnswerKey = {
+        description: handoff.description,
+        version: against,
+        traversal: handoff.traversal,
+      }
+      if (keptAnswer && keptAnswerMatches(keptAnswer.key, key)) {
+        restoreKeptAnswer(keptAnswer, handoff.description)
+        return
+      }
+
       if (address.version) setHandoff({ version: address.version })
       void run(handoff.description, against, handoff.traversal)
     },
-    [handoff, router, run, setHandoff],
+    [handoff, keptAnswer, restoreKeptAnswer, router, run, setHandoff],
   )
 
   // The address is an external system read once, after hydration, because the
@@ -325,6 +523,15 @@ export default function Ask() {
   // Written only once something is asked, since this effect runs in the same
   // commit as the one reading the address, and writing then would replace a
   // shared link before the answer it names is back.
+  //
+  // A raw `window.history.replaceState` rather than `router.replace`: the
+  // router's own version was tried first, on the theory that a raw call
+  // leaves its attached history state pointing at the entry's original URL
+  // and the router's own restoration on a later back action reads that
+  // stale state back. It measured worse rather than better, breaking the
+  // back action's ordinary return to `/` in `web/e2e/replay.spec.ts`. What
+  // actually dropped `p=` on the way back is `restoreKeptAnswer` below
+  // supplying the restored provision late, not this write.
   useEffect(() => {
     if (asked === null) return
     const question = REPLAY_MODE ? recordedQuestionIdFor(asked) : null
@@ -333,13 +540,41 @@ export default function Ask() {
       version,
       provision: shownProvisionId ?? undefined,
     })
-    const { pathname, hash } = window.location
+    const { pathname: currentPath, hash } = window.location
     window.history.replaceState(
       window.history.state,
       '',
-      `${pathname}${search}${hash}`,
+      `${currentPath}${search}${hash}`,
     )
   }, [asked, shownProvisionId, version])
+
+  // Written once a result settles, so a return before anything else changes
+  // already has something to restore. The unmount cleanup further up folds
+  // in the latest scroll offsets, and any later reader pick, before this
+  // session ends.
+  useEffect(() => {
+    if (asked === null) return
+    if (result === null) return
+    if (result.state !== 'answered' && result.state !== 'refused') return
+    const kept: KeptAnswer = {
+      key: { description: asked, version, traversal },
+      result,
+      provisionId: shownProvisionId,
+      point: readerPoint,
+      pageScrollY: pageScrollRef.current,
+      paneScrollTop: paneScrollRef.current,
+    }
+    keptSnapshotRef.current = kept
+    setKeptAnswer(kept)
+  }, [
+    asked,
+    readerPoint,
+    result,
+    setKeptAnswer,
+    shownProvisionId,
+    traversal,
+    version,
+  ])
 
   const nextStep = result && isNextStepState(result.state) ? result.state : null
   const shownQuestionId = asked !== null ? recordedQuestionIdFor(asked) : null
@@ -471,6 +706,8 @@ export default function Ask() {
               onViewChange={setPaneView}
               onClose={closeReader}
               onVersionChange={setReaderVersion}
+              restoreScrollTop={pendingRestore?.paneScrollTop ?? null}
+              onScrollChange={handlePaneScrollChange}
             />
           )}
           {docked && pending && progress && (

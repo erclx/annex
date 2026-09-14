@@ -244,6 +244,44 @@ test.describe('an answer carried in the address', () => {
     ).toBeVisible()
   })
 
+  test('the back action from a later route restores the answer, the provision and the scroll', async ({
+    page,
+  }) => {
+    await page.goto(REPLAY_URL)
+    await page.getByRole('button', { name: linked.description }).click()
+    await expect(page.getByRole('contentinfo')).toBeVisible({
+      timeout: PLAYBACK_TIMEOUT,
+    })
+    await expect(page.getByText(linked.description).first()).toBeVisible()
+
+    await page
+      .getByRole('complementary', { name: 'The Act' })
+      .getByRole('button', { name: 'Article 50(5)' })
+      .click()
+    await page.mouse.move(300, 400)
+    await page.mouse.wheel(0, 1200)
+    await page.waitForTimeout(50)
+    const scrollBefore = await page.evaluate(() => window.scrollY)
+    const provisionBefore = new URL(page.url()).searchParams.get('p')
+    expect(provisionBefore).toBe('art_50.5')
+
+    await page.getByRole('link', { name: 'Evaluation' }).click()
+    await expect(page).toHaveURL(/\/evaluation/)
+
+    await page.goBack()
+
+    await expect(
+      page.getByRole('region', { name: 'The agent working' }),
+    ).toHaveCount(0)
+    await expect(page.getByText(linked.description).first()).toBeVisible()
+    expect(new URL(page.url()).searchParams.get('p')).toBe(provisionBefore)
+    await expect
+      .poll(() => page.evaluate(() => window.scrollY))
+      .toBeGreaterThan(scrollBefore - 4)
+    const scrollAfter = await page.evaluate(() => window.scrollY)
+    expect(Math.abs(scrollAfter - scrollBefore)).toBeLessThanOrEqual(4)
+  })
+
   async function expectLinkedAnswer(page: Page) {
     await expect(page.getByRole('contentinfo')).toBeVisible({
       timeout: PLAYBACK_TIMEOUT,

@@ -3,6 +3,7 @@
 import { createContext, useContext } from 'react'
 
 import type { CorpusVersion } from '@/components/shared/versions'
+import type { AskResult } from '@/lib/service/ask'
 
 /**
  * What a navigation carries between the landing page and `/ask`.
@@ -42,4 +43,57 @@ export function useAskHandoff(): AskHandoffValue {
     throw new Error('useAskHandoff needs an AskHandoffProvider above it.')
   }
   return value
+}
+
+/** A settled ask, the only outcome a return to `/ask` restores rather than re-asks. */
+export type SettledAskResult = Extract<
+  AskResult,
+  { state: 'answered' | 'refused' }
+>
+
+/** What a return has to match before a kept answer replaces asking again. */
+export interface KeptAnswerKey {
+  description: string
+  version: CorpusVersion
+  traversal: boolean
+}
+
+/**
+ * The last settled answer `/ask` left with, restored on a return matching its
+ * key rather than asked again. One answer stays kept until another question
+ * replaces it.
+ */
+export interface KeptAnswer {
+  key: KeptAnswerKey
+  result: SettledAskResult
+  provisionId: string | null
+  point: string | null
+  pageScrollY: number
+  paneScrollTop: number
+}
+
+export interface KeptAnswerValue {
+  keptAnswer: KeptAnswer | null
+  setKeptAnswer: (next: KeptAnswer) => void
+}
+
+export const KeptAnswerContext = createContext<KeptAnswerValue | null>(null)
+
+export function useKeptAnswer(): KeptAnswerValue {
+  const value = useContext(KeptAnswerContext)
+  if (value === null) {
+    throw new Error('useKeptAnswer needs a KeptAnswerProvider above it.')
+  }
+  return value
+}
+
+export function keptAnswerMatches(
+  key: KeptAnswerKey,
+  other: KeptAnswerKey,
+): boolean {
+  return (
+    key.description === other.description &&
+    key.version === other.version &&
+    key.traversal === other.traversal
+  )
 }

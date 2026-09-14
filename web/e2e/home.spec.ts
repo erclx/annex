@@ -958,3 +958,24 @@ test.describe('the frame at 1280 pixels', () => {
     await expect(handle).toHaveAttribute('aria-valuenow', '640')
   })
 })
+
+test('the evaluation route restores its own scroll on a back action, which the session-wide switch letting /ask restore a kept answer would otherwise cost it', async ({
+  page,
+}) => {
+  await page.goto('/evaluation')
+  await page.mouse.move(300, 300)
+  await page.mouse.wheel(0, 900)
+  await expect
+    .poll(() => page.evaluate(() => window.scrollY))
+    .toBeGreaterThan(0)
+  const before = await page.evaluate(() => window.scrollY)
+
+  await page.getByRole('link', { name: 'Home', exact: true }).click()
+  await expect(page).toHaveURL('/')
+
+  await page.goBack()
+  await expect(page).toHaveURL(/\/evaluation/)
+  await expect
+    .poll(() => page.evaluate(() => window.scrollY))
+    .toBeGreaterThan(before - 4)
+})

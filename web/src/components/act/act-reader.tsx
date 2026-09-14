@@ -186,6 +186,8 @@ export function ActReader({
   walk,
   view = 'act',
   onViewChange,
+  restoreScrollTop = null,
+  onScrollChange,
 }: {
   version: CorpusVersion
   openId: string | null
@@ -199,12 +201,21 @@ export function ActReader({
   walk?: ReactNode
   view?: PaneView
   onViewChange?: (view: PaneView) => void
+  /**
+   * A pane scroll offset a return to `/ask` hands back instead of the
+   * landing effect's own top-of-provision placement, applied once and then
+   * cleared, since a later pick from the reader lands normally again.
+   */
+  restoreScrollTop?: number | null
+  /** Called as the pane's own scroll container moves, so a leaving page can keep the offset current. */
+  onScrollChange?: (scrollTop: number) => void
 }) {
   const paneRef = useRef<HTMLElement | null>(null)
   const bodyRef = useRef<HTMLDivElement | null>(null)
   const targetRef = useRef<HTMLElement | null>(null)
   const closeRef = useRef<HTMLButtonElement | null>(null)
   const triggerRef = useRef<HTMLElement | null>(null)
+  const pendingRestoreRef = useRef<number | null>(null)
   const isOpen = openId !== null
   const isOverlayOpen = isOpen && !docked
   const showsWalk = docked && walk !== undefined && view === 'walk'
@@ -264,11 +275,24 @@ export function ActReader({
     }
   }, [docked, isOverlayOpen])
 
+  // Populated ahead of the landing effect below, in the same commit: React
+  // runs one component's own effects in the order they are declared, so a
+  // restore handed down as this prop is in the ref before the landing
+  // effect below ever reads it.
+  useEffect(() => {
+    if (restoreScrollTop !== null) pendingRestoreRef.current = restoreScrollTop
+  }, [restoreScrollTop])
+
   useEffect(() => {
     if (!isOpen || showsWalk) return
+    const body = bodyRef.current
+    if (pendingRestoreRef.current !== null) {
+      if (body) body.scrollTop = pendingRestoreRef.current
+      pendingRestoreRef.current = null
+      return
+    }
     const target = targetRef.current
     if (!target) return
-    const body = bodyRef.current
     if (!body) {
       target.scrollIntoView({ block: 'start' })
       return
@@ -344,6 +368,7 @@ export function ActReader({
   function handleBodyScroll() {
     const body = bodyRef.current
     if (!body) return
+    onScrollChange?.(body.scrollTop)
     const top = body.getBoundingClientRect().top + 12
     let index = 0
     for (const article of body.querySelectorAll<HTMLElement>(
