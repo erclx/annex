@@ -309,7 +309,7 @@ The plain case. No provision moved, nothing cut.
 │ │ for a Swedish retail bank…    │ │ Cited in this answer             │
 │ │ ───────────────────────────── │ │ *Article 50(1)*  Article 50(6)   │ ← jumps the pane
 │ │ Answered against [Orig|*Am*]  │ ├──────────────────────────────────┤ ← the one version toggle
-│ └───────────────────────────────┘ │ ‹ Article 50   51 of 133  Go to ›│ ← section bar
+│ └───────────────────────────────┘ │ ‹ Article 50   64 of 146  Go to ›│ ← section bar
 │                                   ├──────────────────────────────────┤
 │ The chatbot has to tell the       │ ░ Article 50  Transparency…    ░ │
 │ person they are interacting with  │ ░ 1. Providers shall ensure    ░ │ ← scrolled to,
