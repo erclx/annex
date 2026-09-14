@@ -1,5 +1,161 @@
 [
   {
+    "id": "chp_I",
+    "kind": "chapter",
+    "number": "I",
+    "title": "GENERAL PROVISIONS",
+    "text": "CHAPTER I GENERAL PROVISIONS",
+    "version": "original",
+    "parent_id": null,
+    "amended": false,
+    "chapter_id": null,
+    "citation": "Chapter I"
+  },
+  {
+    "id": "chp_II",
+    "kind": "chapter",
+    "number": "II",
+    "title": "PROHIBITED AI PRACTICES",
+    "text": "CHAPTER II PROHIBITED AI PRACTICES",
+    "version": "original",
+    "parent_id": null,
+    "amended": false,
+    "chapter_id": null,
+    "citation": "Chapter II"
+  },
+  {
+    "id": "chp_III",
+    "kind": "chapter",
+    "number": "III",
+    "title": "HIGH-RISK AI SYSTEMS",
+    "text": "CHAPTER III HIGH-RISK AI SYSTEMS",
+    "version": "original",
+    "parent_id": null,
+    "amended": false,
+    "chapter_id": null,
+    "citation": "Chapter III"
+  },
+  {
+    "id": "chp_IV",
+    "kind": "chapter",
+    "number": "IV",
+    "title": "TRANSPARENCY OBLIGATIONS FOR PROVIDERS AND DEPLOYERS OF CERTAIN AI SYSTEMS",
+    "text": "CHAPTER IV TRANSPARENCY OBLIGATIONS FOR PROVIDERS AND DEPLOYERS OF CERTAIN AI SYSTEMS",
+    "version": "original",
+    "parent_id": null,
+    "amended": false,
+    "chapter_id": null,
+    "citation": "Chapter IV"
+  },
+  {
+    "id": "chp_V",
+    "kind": "chapter",
+    "number": "V",
+    "title": "GENERAL-PURPOSE AI MODELS",
+    "text": "CHAPTER V GENERAL-PURPOSE AI MODELS",
+    "version": "original",
+    "parent_id": null,
+    "amended": false,
+    "chapter_id": null,
+    "citation": "Chapter V"
+  },
+  {
+    "id": "chp_VI",
+    "kind": "chapter",
+    "number": "VI",
+    "title": "MEASURES IN SUPPORT OF INNOVATION",
+    "text": "CHAPTER VI MEASURES IN SUPPORT OF INNOVATION",
+    "version": "original",
+    "parent_id": null,
+    "amended": false,
+    "chapter_id": null,
+    "citation": "Chapter VI"
+  },
+  {
+    "id": "chp_VII",
+    "kind": "chapter",
+    "number": "VII",
+    "title": "GOVERNANCE",
+    "text": "CHAPTER VII GOVERNANCE",
+    "version": "original",
+    "parent_id": null,
+    "amended": false,
+    "chapter_id": null,
+    "citation": "Chapter VII"
+  },
+  {
+    "id": "chp_VIII",
+    "kind": "chapter",
+    "number": "VIII",
+    "title": "EU DATABASE FOR HIGH-RISK AI SYSTEMS",
+    "text": "CHAPTER VIII EU DATABASE FOR HIGH-RISK AI SYSTEMS",
+    "version": "original",
+    "parent_id": null,
+    "amended": false,
+    "chapter_id": null,
+    "citation": "Chapter VIII"
+  },
+  {
+    "id": "chp_IX",
+    "kind": "chapter",
+    "number": "IX",
+    "title": "POST-MARKET MONITORING, INFORMATION SHARING AND MARKET SURVEILLANCE",
+    "text": "CHAPTER IX POST-MARKET MONITORING, INFORMATION SHARING AND MARKET SURVEILLANCE",
+    "version": "original",
+    "parent_id": null,
+    "amended": false,
+    "chapter_id": null,
+    "citation": "Chapter IX"
+  },
+  {
+    "id": "chp_X",
+    "kind": "chapter",
+    "number": "X",
+    "title": "CODES OF CONDUCT AND GUIDELINES",
+    "text": "CHAPTER X CODES OF CONDUCT AND GUIDELINES",
+    "version": "original",
+    "parent_id": null,
+    "amended": false,
+    "chapter_id": null,
+    "citation": "Chapter X"
+  },
+  {
+    "id": "chp_XI",
+    "kind": "chapter",
+    "number": "XI",
+    "title": "DELEGATION OF POWER AND COMMITTEE PROCEDURE",
+    "text": "CHAPTER XI DELEGATION OF POWER AND COMMITTEE PROCEDURE",
+    "version": "original",
+    "parent_id": null,
+    "amended": false,
+    "chapter_id": null,
+    "citation": "Chapter XI"
+  },
+  {
+    "id": "chp_XII",
+    "kind": "chapter",
+    "number": "XII",
+    "title": "PENALTIES",
+    "text": "CHAPTER XII PENALTIES",
+    "version": "original",
+    "parent_id": null,
+    "amended": false,
+    "chapter_id": null,
+    "citation": "Chapter XII"
+  },
+  {
+    "id": "chp_XIII",
+    "kind": "chapter",
+    "number": "XIII",
+    "title": "FINAL PROVISIONS",
+    "text": "CHAPTER XIII FINAL PROVISIONS",
+    "version": "original",
+    "parent_id": null,
+    "amended": false,
+    "chapter_id": null,
+    "citation": "Chapter XIII"
+  },
+  {
     "id": "art_1",
     "kind": "article",
     "number": "1",
@@ -8,6 +164,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_I",
     "citation": "Article 1"
   },
   {
@@ -19,6 +176,7 @@
     "version": "original",
     "parent_id": "art_1",
     "amended": false,
+    "chapter_id": "chp_I",
     "citation": "Article 1(1)"
   },
   {
@@ -30,6 +188,7 @@
     "version": "original",
     "parent_id": "art_1",
     "amended": false,
+    "chapter_id": "chp_I",
     "citation": "Article 1(2)"
   },
   {
@@ -41,6 +200,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_I",
     "citation": "Article 2"
   },
   {
@@ -52,6 +212,7 @@
     "version": "original",
     "parent_id": "art_2",
     "amended": false,
+    "chapter_id": "chp_I",
     "citation": "Article 2(1)"
   },
   {
@@ -63,6 +224,7 @@
     "version": "original",
     "parent_id": "art_2",
     "amended": false,
+    "chapter_id": "chp_I",
     "citation": "Article 2(2)"
   },
   {
@@ -74,6 +236,7 @@
     "version": "original",
     "parent_id": "art_2",
     "amended": false,
+    "chapter_id": "chp_I",
     "citation": "Article 2(3)"
   },
   {
@@ -85,6 +248,7 @@
     "version": "original",
     "parent_id": "art_2",
     "amended": false,
+    "chapter_id": "chp_I",
     "citation": "Article 2(4)"
   },
   {
@@ -96,6 +260,7 @@
     "version": "original",
     "parent_id": "art_2",
     "amended": false,
+    "chapter_id": "chp_I",
     "citation": "Article 2(5)"
   },
   {
@@ -107,6 +272,7 @@
     "version": "original",
     "parent_id": "art_2",
     "amended": false,
+    "chapter_id": "chp_I",
     "citation": "Article 2(6)"
   },
   {
@@ -118,6 +284,7 @@
     "version": "original",
     "parent_id": "art_2",
     "amended": false,
+    "chapter_id": "chp_I",
     "citation": "Article 2(7)"
   },
   {
@@ -129,6 +296,7 @@
     "version": "original",
     "parent_id": "art_2",
     "amended": false,
+    "chapter_id": "chp_I",
     "citation": "Article 2(8)"
   },
   {
@@ -140,6 +308,7 @@
     "version": "original",
     "parent_id": "art_2",
     "amended": false,
+    "chapter_id": "chp_I",
     "citation": "Article 2(9)"
   },
   {
@@ -151,6 +320,7 @@
     "version": "original",
     "parent_id": "art_2",
     "amended": false,
+    "chapter_id": "chp_I",
     "citation": "Article 2(10)"
   },
   {
@@ -162,6 +332,7 @@
     "version": "original",
     "parent_id": "art_2",
     "amended": false,
+    "chapter_id": "chp_I",
     "citation": "Article 2(11)"
   },
   {
@@ -173,6 +344,7 @@
     "version": "original",
     "parent_id": "art_2",
     "amended": false,
+    "chapter_id": "chp_I",
     "citation": "Article 2(12)"
   },
   {
@@ -184,6 +356,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_I",
     "citation": "Article 3"
   },
   {
@@ -195,6 +368,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_I",
     "citation": "Article 4"
   },
   {
@@ -206,6 +380,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_II",
     "citation": "Article 5"
   },
   {
@@ -217,6 +392,7 @@
     "version": "original",
     "parent_id": "art_5",
     "amended": false,
+    "chapter_id": "chp_II",
     "citation": "Article 5(1)"
   },
   {
@@ -228,6 +404,7 @@
     "version": "original",
     "parent_id": "art_5",
     "amended": false,
+    "chapter_id": "chp_II",
     "citation": "Article 5(2)"
   },
   {
@@ -239,6 +416,7 @@
     "version": "original",
     "parent_id": "art_5",
     "amended": false,
+    "chapter_id": "chp_II",
     "citation": "Article 5(3)"
   },
   {
@@ -250,6 +428,7 @@
     "version": "original",
     "parent_id": "art_5",
     "amended": false,
+    "chapter_id": "chp_II",
     "citation": "Article 5(4)"
   },
   {
@@ -261,6 +440,7 @@
     "version": "original",
     "parent_id": "art_5",
     "amended": false,
+    "chapter_id": "chp_II",
     "citation": "Article 5(5)"
   },
   {
@@ -272,6 +452,7 @@
     "version": "original",
     "parent_id": "art_5",
     "amended": false,
+    "chapter_id": "chp_II",
     "citation": "Article 5(6)"
   },
   {
@@ -283,6 +464,7 @@
     "version": "original",
     "parent_id": "art_5",
     "amended": false,
+    "chapter_id": "chp_II",
     "citation": "Article 5(7)"
   },
   {
@@ -294,6 +476,7 @@
     "version": "original",
     "parent_id": "art_5",
     "amended": false,
+    "chapter_id": "chp_II",
     "citation": "Article 5(8)"
   },
   {
@@ -305,6 +488,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 6"
   },
   {
@@ -316,6 +500,7 @@
     "version": "original",
     "parent_id": "art_6",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 6(1)"
   },
   {
@@ -327,6 +512,7 @@
     "version": "original",
     "parent_id": "art_6",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 6(2)"
   },
   {
@@ -338,6 +524,7 @@
     "version": "original",
     "parent_id": "art_6",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 6(3)"
   },
   {
@@ -349,6 +536,7 @@
     "version": "original",
     "parent_id": "art_6",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 6(4)"
   },
   {
@@ -360,6 +548,7 @@
     "version": "original",
     "parent_id": "art_6",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 6(5)"
   },
   {
@@ -371,6 +560,7 @@
     "version": "original",
     "parent_id": "art_6",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 6(6)"
   },
   {
@@ -382,6 +572,7 @@
     "version": "original",
     "parent_id": "art_6",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 6(7)"
   },
   {
@@ -393,6 +584,7 @@
     "version": "original",
     "parent_id": "art_6",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 6(8)"
   },
   {
@@ -404,6 +596,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 7"
   },
   {
@@ -415,6 +608,7 @@
     "version": "original",
     "parent_id": "art_7",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 7(1)"
   },
   {
@@ -426,6 +620,7 @@
     "version": "original",
     "parent_id": "art_7",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 7(2)"
   },
   {
@@ -437,6 +632,7 @@
     "version": "original",
     "parent_id": "art_7",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 7(3)"
   },
   {
@@ -448,6 +644,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 8"
   },
   {
@@ -459,6 +656,7 @@
     "version": "original",
     "parent_id": "art_8",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 8(1)"
   },
   {
@@ -470,6 +668,7 @@
     "version": "original",
     "parent_id": "art_8",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 8(2)"
   },
   {
@@ -481,6 +680,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 9"
   },
   {
@@ -492,6 +692,7 @@
     "version": "original",
     "parent_id": "art_9",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 9(1)"
   },
   {
@@ -503,6 +704,7 @@
     "version": "original",
     "parent_id": "art_9",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 9(2)"
   },
   {
@@ -514,6 +716,7 @@
     "version": "original",
     "parent_id": "art_9",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 9(3)"
   },
   {
@@ -525,6 +728,7 @@
     "version": "original",
     "parent_id": "art_9",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 9(4)"
   },
   {
@@ -536,6 +740,7 @@
     "version": "original",
     "parent_id": "art_9",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 9(5)"
   },
   {
@@ -547,6 +752,7 @@
     "version": "original",
     "parent_id": "art_9",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 9(6)"
   },
   {
@@ -558,6 +764,7 @@
     "version": "original",
     "parent_id": "art_9",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 9(7)"
   },
   {
@@ -569,6 +776,7 @@
     "version": "original",
     "parent_id": "art_9",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 9(8)"
   },
   {
@@ -580,6 +788,7 @@
     "version": "original",
     "parent_id": "art_9",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 9(9)"
   },
   {
@@ -591,6 +800,7 @@
     "version": "original",
     "parent_id": "art_9",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 9(10)"
   },
   {
@@ -602,6 +812,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 10"
   },
   {
@@ -613,6 +824,7 @@
     "version": "original",
     "parent_id": "art_10",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 10(1)"
   },
   {
@@ -624,6 +836,7 @@
     "version": "original",
     "parent_id": "art_10",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 10(2)"
   },
   {
@@ -635,6 +848,7 @@
     "version": "original",
     "parent_id": "art_10",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 10(3)"
   },
   {
@@ -646,6 +860,7 @@
     "version": "original",
     "parent_id": "art_10",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 10(4)"
   },
   {
@@ -657,6 +872,7 @@
     "version": "original",
     "parent_id": "art_10",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 10(5)"
   },
   {
@@ -668,6 +884,7 @@
     "version": "original",
     "parent_id": "art_10",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 10(6)"
   },
   {
@@ -679,6 +896,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 11"
   },
   {
@@ -690,6 +908,7 @@
     "version": "original",
     "parent_id": "art_11",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 11(1)"
   },
   {
@@ -701,6 +920,7 @@
     "version": "original",
     "parent_id": "art_11",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 11(2)"
   },
   {
@@ -712,6 +932,7 @@
     "version": "original",
     "parent_id": "art_11",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 11(3)"
   },
   {
@@ -723,6 +944,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 12"
   },
   {
@@ -734,6 +956,7 @@
     "version": "original",
     "parent_id": "art_12",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 12(1)"
   },
   {
@@ -745,6 +968,7 @@
     "version": "original",
     "parent_id": "art_12",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 12(2)"
   },
   {
@@ -756,6 +980,7 @@
     "version": "original",
     "parent_id": "art_12",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 12(3)"
   },
   {
@@ -767,6 +992,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 13"
   },
   {
@@ -778,6 +1004,7 @@
     "version": "original",
     "parent_id": "art_13",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 13(1)"
   },
   {
@@ -789,6 +1016,7 @@
     "version": "original",
     "parent_id": "art_13",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 13(2)"
   },
   {
@@ -800,6 +1028,7 @@
     "version": "original",
     "parent_id": "art_13",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 13(3)"
   },
   {
@@ -811,6 +1040,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 14"
   },
   {
@@ -822,6 +1052,7 @@
     "version": "original",
     "parent_id": "art_14",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 14(1)"
   },
   {
@@ -833,6 +1064,7 @@
     "version": "original",
     "parent_id": "art_14",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 14(2)"
   },
   {
@@ -844,6 +1076,7 @@
     "version": "original",
     "parent_id": "art_14",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 14(3)"
   },
   {
@@ -855,6 +1088,7 @@
     "version": "original",
     "parent_id": "art_14",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 14(4)"
   },
   {
@@ -866,6 +1100,7 @@
     "version": "original",
     "parent_id": "art_14",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 14(5)"
   },
   {
@@ -877,6 +1112,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 15"
   },
   {
@@ -888,6 +1124,7 @@
     "version": "original",
     "parent_id": "art_15",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 15(1)"
   },
   {
@@ -899,6 +1136,7 @@
     "version": "original",
     "parent_id": "art_15",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 15(2)"
   },
   {
@@ -910,6 +1148,7 @@
     "version": "original",
     "parent_id": "art_15",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 15(3)"
   },
   {
@@ -921,6 +1160,7 @@
     "version": "original",
     "parent_id": "art_15",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 15(4)"
   },
   {
@@ -932,6 +1172,7 @@
     "version": "original",
     "parent_id": "art_15",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 15(5)"
   },
   {
@@ -943,6 +1184,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 16"
   },
   {
@@ -954,6 +1196,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 17"
   },
   {
@@ -965,6 +1208,7 @@
     "version": "original",
     "parent_id": "art_17",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 17(1)"
   },
   {
@@ -976,6 +1220,7 @@
     "version": "original",
     "parent_id": "art_17",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 17(2)"
   },
   {
@@ -987,6 +1232,7 @@
     "version": "original",
     "parent_id": "art_17",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 17(3)"
   },
   {
@@ -998,6 +1244,7 @@
     "version": "original",
     "parent_id": "art_17",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 17(4)"
   },
   {
@@ -1009,6 +1256,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 18"
   },
   {
@@ -1020,6 +1268,7 @@
     "version": "original",
     "parent_id": "art_18",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 18(1)"
   },
   {
@@ -1031,6 +1280,7 @@
     "version": "original",
     "parent_id": "art_18",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 18(2)"
   },
   {
@@ -1042,6 +1292,7 @@
     "version": "original",
     "parent_id": "art_18",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 18(3)"
   },
   {
@@ -1053,6 +1304,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 19"
   },
   {
@@ -1064,6 +1316,7 @@
     "version": "original",
     "parent_id": "art_19",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 19(1)"
   },
   {
@@ -1075,6 +1328,7 @@
     "version": "original",
     "parent_id": "art_19",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 19(2)"
   },
   {
@@ -1086,6 +1340,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 20"
   },
   {
@@ -1097,6 +1352,7 @@
     "version": "original",
     "parent_id": "art_20",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 20(1)"
   },
   {
@@ -1108,6 +1364,7 @@
     "version": "original",
     "parent_id": "art_20",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 20(2)"
   },
   {
@@ -1119,6 +1376,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 21"
   },
   {
@@ -1130,6 +1388,7 @@
     "version": "original",
     "parent_id": "art_21",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 21(1)"
   },
   {
@@ -1141,6 +1400,7 @@
     "version": "original",
     "parent_id": "art_21",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 21(2)"
   },
   {
@@ -1152,6 +1412,7 @@
     "version": "original",
     "parent_id": "art_21",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 21(3)"
   },
   {
@@ -1163,6 +1424,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 22"
   },
   {
@@ -1174,6 +1436,7 @@
     "version": "original",
     "parent_id": "art_22",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 22(1)"
   },
   {
@@ -1185,6 +1448,7 @@
     "version": "original",
     "parent_id": "art_22",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 22(2)"
   },
   {
@@ -1196,6 +1460,7 @@
     "version": "original",
     "parent_id": "art_22",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 22(3)"
   },
   {
@@ -1207,6 +1472,7 @@
     "version": "original",
     "parent_id": "art_22",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 22(4)"
   },
   {
@@ -1218,6 +1484,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 23"
   },
   {
@@ -1229,6 +1496,7 @@
     "version": "original",
     "parent_id": "art_23",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 23(1)"
   },
   {
@@ -1240,6 +1508,7 @@
     "version": "original",
     "parent_id": "art_23",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 23(2)"
   },
   {
@@ -1251,6 +1520,7 @@
     "version": "original",
     "parent_id": "art_23",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 23(3)"
   },
   {
@@ -1262,6 +1532,7 @@
     "version": "original",
     "parent_id": "art_23",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 23(4)"
   },
   {
@@ -1273,6 +1544,7 @@
     "version": "original",
     "parent_id": "art_23",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 23(5)"
   },
   {
@@ -1284,6 +1556,7 @@
     "version": "original",
     "parent_id": "art_23",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 23(6)"
   },
   {
@@ -1295,6 +1568,7 @@
     "version": "original",
     "parent_id": "art_23",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 23(7)"
   },
   {
@@ -1306,6 +1580,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 24"
   },
   {
@@ -1317,6 +1592,7 @@
     "version": "original",
     "parent_id": "art_24",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 24(1)"
   },
   {
@@ -1328,6 +1604,7 @@
     "version": "original",
     "parent_id": "art_24",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 24(2)"
   },
   {
@@ -1339,6 +1616,7 @@
     "version": "original",
     "parent_id": "art_24",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 24(3)"
   },
   {
@@ -1350,6 +1628,7 @@
     "version": "original",
     "parent_id": "art_24",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 24(4)"
   },
   {
@@ -1361,6 +1640,7 @@
     "version": "original",
     "parent_id": "art_24",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 24(5)"
   },
   {
@@ -1372,6 +1652,7 @@
     "version": "original",
     "parent_id": "art_24",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 24(6)"
   },
   {
@@ -1383,6 +1664,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 25"
   },
   {
@@ -1394,6 +1676,7 @@
     "version": "original",
     "parent_id": "art_25",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 25(1)"
   },
   {
@@ -1405,6 +1688,7 @@
     "version": "original",
     "parent_id": "art_25",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 25(2)"
   },
   {
@@ -1416,6 +1700,7 @@
     "version": "original",
     "parent_id": "art_25",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 25(3)"
   },
   {
@@ -1427,6 +1712,7 @@
     "version": "original",
     "parent_id": "art_25",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 25(4)"
   },
   {
@@ -1438,6 +1724,7 @@
     "version": "original",
     "parent_id": "art_25",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 25(5)"
   },
   {
@@ -1449,6 +1736,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 26"
   },
   {
@@ -1460,6 +1748,7 @@
     "version": "original",
     "parent_id": "art_26",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 26(1)"
   },
   {
@@ -1471,6 +1760,7 @@
     "version": "original",
     "parent_id": "art_26",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 26(2)"
   },
   {
@@ -1482,6 +1772,7 @@
     "version": "original",
     "parent_id": "art_26",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 26(3)"
   },
   {
@@ -1493,6 +1784,7 @@
     "version": "original",
     "parent_id": "art_26",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 26(4)"
   },
   {
@@ -1504,6 +1796,7 @@
     "version": "original",
     "parent_id": "art_26",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 26(5)"
   },
   {
@@ -1515,6 +1808,7 @@
     "version": "original",
     "parent_id": "art_26",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 26(6)"
   },
   {
@@ -1526,6 +1820,7 @@
     "version": "original",
     "parent_id": "art_26",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 26(7)"
   },
   {
@@ -1537,6 +1832,7 @@
     "version": "original",
     "parent_id": "art_26",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 26(8)"
   },
   {
@@ -1548,6 +1844,7 @@
     "version": "original",
     "parent_id": "art_26",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 26(9)"
   },
   {
@@ -1559,6 +1856,7 @@
     "version": "original",
     "parent_id": "art_26",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 26(10)"
   },
   {
@@ -1570,6 +1868,7 @@
     "version": "original",
     "parent_id": "art_26",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 26(11)"
   },
   {
@@ -1581,6 +1880,7 @@
     "version": "original",
     "parent_id": "art_26",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 26(12)"
   },
   {
@@ -1592,6 +1892,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 27"
   },
   {
@@ -1603,6 +1904,7 @@
     "version": "original",
     "parent_id": "art_27",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 27(1)"
   },
   {
@@ -1614,6 +1916,7 @@
     "version": "original",
     "parent_id": "art_27",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 27(2)"
   },
   {
@@ -1625,6 +1928,7 @@
     "version": "original",
     "parent_id": "art_27",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 27(3)"
   },
   {
@@ -1636,6 +1940,7 @@
     "version": "original",
     "parent_id": "art_27",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 27(4)"
   },
   {
@@ -1647,6 +1952,7 @@
     "version": "original",
     "parent_id": "art_27",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 27(5)"
   },
   {
@@ -1658,6 +1964,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 28"
   },
   {
@@ -1669,6 +1976,7 @@
     "version": "original",
     "parent_id": "art_28",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 28(1)"
   },
   {
@@ -1680,6 +1988,7 @@
     "version": "original",
     "parent_id": "art_28",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 28(2)"
   },
   {
@@ -1691,6 +2000,7 @@
     "version": "original",
     "parent_id": "art_28",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 28(3)"
   },
   {
@@ -1702,6 +2012,7 @@
     "version": "original",
     "parent_id": "art_28",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 28(4)"
   },
   {
@@ -1713,6 +2024,7 @@
     "version": "original",
     "parent_id": "art_28",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 28(5)"
   },
   {
@@ -1724,6 +2036,7 @@
     "version": "original",
     "parent_id": "art_28",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 28(6)"
   },
   {
@@ -1735,6 +2048,7 @@
     "version": "original",
     "parent_id": "art_28",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 28(7)"
   },
   {
@@ -1746,6 +2060,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 29"
   },
   {
@@ -1757,6 +2072,7 @@
     "version": "original",
     "parent_id": "art_29",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 29(1)"
   },
   {
@@ -1768,6 +2084,7 @@
     "version": "original",
     "parent_id": "art_29",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 29(2)"
   },
   {
@@ -1779,6 +2096,7 @@
     "version": "original",
     "parent_id": "art_29",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 29(3)"
   },
   {
@@ -1790,6 +2108,7 @@
     "version": "original",
     "parent_id": "art_29",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 29(4)"
   },
   {
@@ -1801,6 +2120,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 30"
   },
   {
@@ -1812,6 +2132,7 @@
     "version": "original",
     "parent_id": "art_30",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 30(1)"
   },
   {
@@ -1823,6 +2144,7 @@
     "version": "original",
     "parent_id": "art_30",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 30(2)"
   },
   {
@@ -1834,6 +2156,7 @@
     "version": "original",
     "parent_id": "art_30",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 30(3)"
   },
   {
@@ -1845,6 +2168,7 @@
     "version": "original",
     "parent_id": "art_30",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 30(4)"
   },
   {
@@ -1856,6 +2180,7 @@
     "version": "original",
     "parent_id": "art_30",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 30(5)"
   },
   {
@@ -1867,6 +2192,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 31"
   },
   {
@@ -1878,6 +2204,7 @@
     "version": "original",
     "parent_id": "art_31",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 31(1)"
   },
   {
@@ -1889,6 +2216,7 @@
     "version": "original",
     "parent_id": "art_31",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 31(2)"
   },
   {
@@ -1900,6 +2228,7 @@
     "version": "original",
     "parent_id": "art_31",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 31(3)"
   },
   {
@@ -1911,6 +2240,7 @@
     "version": "original",
     "parent_id": "art_31",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 31(4)"
   },
   {
@@ -1922,6 +2252,7 @@
     "version": "original",
     "parent_id": "art_31",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 31(5)"
   },
   {
@@ -1933,6 +2264,7 @@
     "version": "original",
     "parent_id": "art_31",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 31(6)"
   },
   {
@@ -1944,6 +2276,7 @@
     "version": "original",
     "parent_id": "art_31",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 31(7)"
   },
   {
@@ -1955,6 +2288,7 @@
     "version": "original",
     "parent_id": "art_31",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 31(8)"
   },
   {
@@ -1966,6 +2300,7 @@
     "version": "original",
     "parent_id": "art_31",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 31(9)"
   },
   {
@@ -1977,6 +2312,7 @@
     "version": "original",
     "parent_id": "art_31",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 31(10)"
   },
   {
@@ -1988,6 +2324,7 @@
     "version": "original",
     "parent_id": "art_31",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 31(11)"
   },
   {
@@ -1999,6 +2336,7 @@
     "version": "original",
     "parent_id": "art_31",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 31(12)"
   },
   {
@@ -2010,6 +2348,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 32"
   },
   {
@@ -2021,6 +2360,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 33"
   },
   {
@@ -2032,6 +2372,7 @@
     "version": "original",
     "parent_id": "art_33",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 33(1)"
   },
   {
@@ -2043,6 +2384,7 @@
     "version": "original",
     "parent_id": "art_33",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 33(2)"
   },
   {
@@ -2054,6 +2396,7 @@
     "version": "original",
     "parent_id": "art_33",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 33(3)"
   },
   {
@@ -2065,6 +2408,7 @@
     "version": "original",
     "parent_id": "art_33",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 33(4)"
   },
   {
@@ -2076,6 +2420,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 34"
   },
   {
@@ -2087,6 +2432,7 @@
     "version": "original",
     "parent_id": "art_34",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 34(1)"
   },
   {
@@ -2098,6 +2444,7 @@
     "version": "original",
     "parent_id": "art_34",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 34(2)"
   },
   {
@@ -2109,6 +2456,7 @@
     "version": "original",
     "parent_id": "art_34",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 34(3)"
   },
   {
@@ -2120,6 +2468,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 35"
   },
   {
@@ -2131,6 +2480,7 @@
     "version": "original",
     "parent_id": "art_35",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 35(1)"
   },
   {
@@ -2142,6 +2492,7 @@
     "version": "original",
     "parent_id": "art_35",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 35(2)"
   },
   {
@@ -2153,6 +2504,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 36"
   },
   {
@@ -2164,6 +2516,7 @@
     "version": "original",
     "parent_id": "art_36",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 36(1)"
   },
   {
@@ -2175,6 +2528,7 @@
     "version": "original",
     "parent_id": "art_36",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 36(2)"
   },
   {
@@ -2186,6 +2540,7 @@
     "version": "original",
     "parent_id": "art_36",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 36(3)"
   },
   {
@@ -2197,6 +2552,7 @@
     "version": "original",
     "parent_id": "art_36",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 36(4)"
   },
   {
@@ -2208,6 +2564,7 @@
     "version": "original",
     "parent_id": "art_36",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 36(5)"
   },
   {
@@ -2219,6 +2576,7 @@
     "version": "original",
     "parent_id": "art_36",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 36(6)"
   },
   {
@@ -2230,6 +2588,7 @@
     "version": "original",
     "parent_id": "art_36",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 36(7)"
   },
   {
@@ -2241,6 +2600,7 @@
     "version": "original",
     "parent_id": "art_36",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 36(8)"
   },
   {
@@ -2252,6 +2612,7 @@
     "version": "original",
     "parent_id": "art_36",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 36(9)"
   },
   {
@@ -2263,6 +2624,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 37"
   },
   {
@@ -2274,6 +2636,7 @@
     "version": "original",
     "parent_id": "art_37",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 37(1)"
   },
   {
@@ -2285,6 +2648,7 @@
     "version": "original",
     "parent_id": "art_37",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 37(2)"
   },
   {
@@ -2296,6 +2660,7 @@
     "version": "original",
     "parent_id": "art_37",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 37(3)"
   },
   {
@@ -2307,6 +2672,7 @@
     "version": "original",
     "parent_id": "art_37",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 37(4)"
   },
   {
@@ -2318,6 +2684,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 38"
   },
   {
@@ -2329,6 +2696,7 @@
     "version": "original",
     "parent_id": "art_38",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 38(1)"
   },
   {
@@ -2340,6 +2708,7 @@
     "version": "original",
     "parent_id": "art_38",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 38(2)"
   },
   {
@@ -2351,6 +2720,7 @@
     "version": "original",
     "parent_id": "art_38",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 38(3)"
   },
   {
@@ -2362,6 +2732,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 39"
   },
   {
@@ -2373,6 +2744,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 40"
   },
   {
@@ -2384,6 +2756,7 @@
     "version": "original",
     "parent_id": "art_40",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 40(1)"
   },
   {
@@ -2395,6 +2768,7 @@
     "version": "original",
     "parent_id": "art_40",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 40(2)"
   },
   {
@@ -2406,6 +2780,7 @@
     "version": "original",
     "parent_id": "art_40",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 40(3)"
   },
   {
@@ -2417,6 +2792,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 41"
   },
   {
@@ -2428,6 +2804,7 @@
     "version": "original",
     "parent_id": "art_41",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 41(1)"
   },
   {
@@ -2439,6 +2816,7 @@
     "version": "original",
     "parent_id": "art_41",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 41(2)"
   },
   {
@@ -2450,6 +2828,7 @@
     "version": "original",
     "parent_id": "art_41",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 41(3)"
   },
   {
@@ -2461,6 +2840,7 @@
     "version": "original",
     "parent_id": "art_41",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 41(4)"
   },
   {
@@ -2472,6 +2852,7 @@
     "version": "original",
     "parent_id": "art_41",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 41(5)"
   },
   {
@@ -2483,6 +2864,7 @@
     "version": "original",
     "parent_id": "art_41",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 41(6)"
   },
   {
@@ -2494,6 +2876,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 42"
   },
   {
@@ -2505,6 +2888,7 @@
     "version": "original",
     "parent_id": "art_42",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 42(1)"
   },
   {
@@ -2516,6 +2900,7 @@
     "version": "original",
     "parent_id": "art_42",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 42(2)"
   },
   {
@@ -2527,6 +2912,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 43"
   },
   {
@@ -2538,6 +2924,7 @@
     "version": "original",
     "parent_id": "art_43",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 43(1)"
   },
   {
@@ -2549,6 +2936,7 @@
     "version": "original",
     "parent_id": "art_43",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 43(2)"
   },
   {
@@ -2560,6 +2948,7 @@
     "version": "original",
     "parent_id": "art_43",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 43(3)"
   },
   {
@@ -2571,6 +2960,7 @@
     "version": "original",
     "parent_id": "art_43",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 43(4)"
   },
   {
@@ -2582,6 +2972,7 @@
     "version": "original",
     "parent_id": "art_43",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 43(5)"
   },
   {
@@ -2593,6 +2984,7 @@
     "version": "original",
     "parent_id": "art_43",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 43(6)"
   },
   {
@@ -2604,6 +2996,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 44"
   },
   {
@@ -2615,6 +3008,7 @@
     "version": "original",
     "parent_id": "art_44",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 44(1)"
   },
   {
@@ -2626,6 +3020,7 @@
     "version": "original",
     "parent_id": "art_44",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 44(2)"
   },
   {
@@ -2637,6 +3032,7 @@
     "version": "original",
     "parent_id": "art_44",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 44(3)"
   },
   {
@@ -2648,6 +3044,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 45"
   },
   {
@@ -2659,6 +3056,7 @@
     "version": "original",
     "parent_id": "art_45",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 45(1)"
   },
   {
@@ -2670,6 +3068,7 @@
     "version": "original",
     "parent_id": "art_45",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 45(2)"
   },
   {
@@ -2681,6 +3080,7 @@
     "version": "original",
     "parent_id": "art_45",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 45(3)"
   },
   {
@@ -2692,6 +3092,7 @@
     "version": "original",
     "parent_id": "art_45",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 45(4)"
   },
   {
@@ -2703,6 +3104,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 46"
   },
   {
@@ -2714,6 +3116,7 @@
     "version": "original",
     "parent_id": "art_46",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 46(1)"
   },
   {
@@ -2725,6 +3128,7 @@
     "version": "original",
     "parent_id": "art_46",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 46(2)"
   },
   {
@@ -2736,6 +3140,7 @@
     "version": "original",
     "parent_id": "art_46",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 46(3)"
   },
   {
@@ -2747,6 +3152,7 @@
     "version": "original",
     "parent_id": "art_46",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 46(4)"
   },
   {
@@ -2758,6 +3164,7 @@
     "version": "original",
     "parent_id": "art_46",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 46(5)"
   },
   {
@@ -2769,6 +3176,7 @@
     "version": "original",
     "parent_id": "art_46",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 46(6)"
   },
   {
@@ -2780,6 +3188,7 @@
     "version": "original",
     "parent_id": "art_46",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 46(7)"
   },
   {
@@ -2791,6 +3200,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 47"
   },
   {
@@ -2802,6 +3212,7 @@
     "version": "original",
     "parent_id": "art_47",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 47(1)"
   },
   {
@@ -2813,6 +3224,7 @@
     "version": "original",
     "parent_id": "art_47",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 47(2)"
   },
   {
@@ -2824,6 +3236,7 @@
     "version": "original",
     "parent_id": "art_47",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 47(3)"
   },
   {
@@ -2835,6 +3248,7 @@
     "version": "original",
     "parent_id": "art_47",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 47(4)"
   },
   {
@@ -2846,6 +3260,7 @@
     "version": "original",
     "parent_id": "art_47",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 47(5)"
   },
   {
@@ -2857,6 +3272,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 48"
   },
   {
@@ -2868,6 +3284,7 @@
     "version": "original",
     "parent_id": "art_48",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 48(1)"
   },
   {
@@ -2879,6 +3296,7 @@
     "version": "original",
     "parent_id": "art_48",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 48(2)"
   },
   {
@@ -2890,6 +3308,7 @@
     "version": "original",
     "parent_id": "art_48",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 48(3)"
   },
   {
@@ -2901,6 +3320,7 @@
     "version": "original",
     "parent_id": "art_48",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 48(4)"
   },
   {
@@ -2912,6 +3332,7 @@
     "version": "original",
     "parent_id": "art_48",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 48(5)"
   },
   {
@@ -2923,6 +3344,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 49"
   },
   {
@@ -2934,6 +3356,7 @@
     "version": "original",
     "parent_id": "art_49",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 49(1)"
   },
   {
@@ -2945,6 +3368,7 @@
     "version": "original",
     "parent_id": "art_49",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 49(2)"
   },
   {
@@ -2956,6 +3380,7 @@
     "version": "original",
     "parent_id": "art_49",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 49(3)"
   },
   {
@@ -2967,6 +3392,7 @@
     "version": "original",
     "parent_id": "art_49",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 49(4)"
   },
   {
@@ -2978,6 +3404,7 @@
     "version": "original",
     "parent_id": "art_49",
     "amended": false,
+    "chapter_id": "chp_III",
     "citation": "Article 49(5)"
   },
   {
@@ -2989,6 +3416,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_IV",
     "citation": "Article 50"
   },
   {
@@ -3000,6 +3428,7 @@
     "version": "original",
     "parent_id": "art_50",
     "amended": false,
+    "chapter_id": "chp_IV",
     "citation": "Article 50(1)"
   },
   {
@@ -3011,6 +3440,7 @@
     "version": "original",
     "parent_id": "art_50",
     "amended": false,
+    "chapter_id": "chp_IV",
     "citation": "Article 50(2)"
   },
   {
@@ -3022,6 +3452,7 @@
     "version": "original",
     "parent_id": "art_50",
     "amended": false,
+    "chapter_id": "chp_IV",
     "citation": "Article 50(3)"
   },
   {
@@ -3033,6 +3464,7 @@
     "version": "original",
     "parent_id": "art_50",
     "amended": false,
+    "chapter_id": "chp_IV",
     "citation": "Article 50(4)"
   },
   {
@@ -3044,6 +3476,7 @@
     "version": "original",
     "parent_id": "art_50",
     "amended": false,
+    "chapter_id": "chp_IV",
     "citation": "Article 50(5)"
   },
   {
@@ -3055,6 +3488,7 @@
     "version": "original",
     "parent_id": "art_50",
     "amended": false,
+    "chapter_id": "chp_IV",
     "citation": "Article 50(6)"
   },
   {
@@ -3066,6 +3500,7 @@
     "version": "original",
     "parent_id": "art_50",
     "amended": false,
+    "chapter_id": "chp_IV",
     "citation": "Article 50(7)"
   },
   {
@@ -3077,6 +3512,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 51"
   },
   {
@@ -3088,6 +3524,7 @@
     "version": "original",
     "parent_id": "art_51",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 51(1)"
   },
   {
@@ -3099,6 +3536,7 @@
     "version": "original",
     "parent_id": "art_51",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 51(2)"
   },
   {
@@ -3110,6 +3548,7 @@
     "version": "original",
     "parent_id": "art_51",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 51(3)"
   },
   {
@@ -3121,6 +3560,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 52"
   },
   {
@@ -3132,6 +3572,7 @@
     "version": "original",
     "parent_id": "art_52",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 52(1)"
   },
   {
@@ -3143,6 +3584,7 @@
     "version": "original",
     "parent_id": "art_52",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 52(2)"
   },
   {
@@ -3154,6 +3596,7 @@
     "version": "original",
     "parent_id": "art_52",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 52(3)"
   },
   {
@@ -3165,6 +3608,7 @@
     "version": "original",
     "parent_id": "art_52",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 52(4)"
   },
   {
@@ -3176,6 +3620,7 @@
     "version": "original",
     "parent_id": "art_52",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 52(5)"
   },
   {
@@ -3187,6 +3632,7 @@
     "version": "original",
     "parent_id": "art_52",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 52(6)"
   },
   {
@@ -3198,6 +3644,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 53"
   },
   {
@@ -3209,6 +3656,7 @@
     "version": "original",
     "parent_id": "art_53",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 53(1)"
   },
   {
@@ -3220,6 +3668,7 @@
     "version": "original",
     "parent_id": "art_53",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 53(2)"
   },
   {
@@ -3231,6 +3680,7 @@
     "version": "original",
     "parent_id": "art_53",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 53(3)"
   },
   {
@@ -3242,6 +3692,7 @@
     "version": "original",
     "parent_id": "art_53",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 53(4)"
   },
   {
@@ -3253,6 +3704,7 @@
     "version": "original",
     "parent_id": "art_53",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 53(5)"
   },
   {
@@ -3264,6 +3716,7 @@
     "version": "original",
     "parent_id": "art_53",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 53(6)"
   },
   {
@@ -3275,6 +3728,7 @@
     "version": "original",
     "parent_id": "art_53",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 53(7)"
   },
   {
@@ -3286,6 +3740,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 54"
   },
   {
@@ -3297,6 +3752,7 @@
     "version": "original",
     "parent_id": "art_54",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 54(1)"
   },
   {
@@ -3308,6 +3764,7 @@
     "version": "original",
     "parent_id": "art_54",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 54(2)"
   },
   {
@@ -3319,6 +3776,7 @@
     "version": "original",
     "parent_id": "art_54",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 54(3)"
   },
   {
@@ -3330,6 +3788,7 @@
     "version": "original",
     "parent_id": "art_54",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 54(4)"
   },
   {
@@ -3341,6 +3800,7 @@
     "version": "original",
     "parent_id": "art_54",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 54(5)"
   },
   {
@@ -3352,6 +3812,7 @@
     "version": "original",
     "parent_id": "art_54",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 54(6)"
   },
   {
@@ -3363,6 +3824,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 55"
   },
   {
@@ -3374,6 +3836,7 @@
     "version": "original",
     "parent_id": "art_55",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 55(1)"
   },
   {
@@ -3385,6 +3848,7 @@
     "version": "original",
     "parent_id": "art_55",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 55(2)"
   },
   {
@@ -3396,6 +3860,7 @@
     "version": "original",
     "parent_id": "art_55",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 55(3)"
   },
   {
@@ -3407,6 +3872,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 56"
   },
   {
@@ -3418,6 +3884,7 @@
     "version": "original",
     "parent_id": "art_56",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 56(1)"
   },
   {
@@ -3429,6 +3896,7 @@
     "version": "original",
     "parent_id": "art_56",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 56(2)"
   },
   {
@@ -3440,6 +3908,7 @@
     "version": "original",
     "parent_id": "art_56",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 56(3)"
   },
   {
@@ -3451,6 +3920,7 @@
     "version": "original",
     "parent_id": "art_56",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 56(4)"
   },
   {
@@ -3462,6 +3932,7 @@
     "version": "original",
     "parent_id": "art_56",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 56(5)"
   },
   {
@@ -3473,6 +3944,7 @@
     "version": "original",
     "parent_id": "art_56",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 56(6)"
   },
   {
@@ -3484,6 +3956,7 @@
     "version": "original",
     "parent_id": "art_56",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 56(7)"
   },
   {
@@ -3495,6 +3968,7 @@
     "version": "original",
     "parent_id": "art_56",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 56(8)"
   },
   {
@@ -3506,6 +3980,7 @@
     "version": "original",
     "parent_id": "art_56",
     "amended": false,
+    "chapter_id": "chp_V",
     "citation": "Article 56(9)"
   },
   {
@@ -3517,6 +3992,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 57"
   },
   {
@@ -3528,6 +4004,7 @@
     "version": "original",
     "parent_id": "art_57",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 57(1)"
   },
   {
@@ -3539,6 +4016,7 @@
     "version": "original",
     "parent_id": "art_57",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 57(2)"
   },
   {
@@ -3550,6 +4028,7 @@
     "version": "original",
     "parent_id": "art_57",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 57(3)"
   },
   {
@@ -3561,6 +4040,7 @@
     "version": "original",
     "parent_id": "art_57",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 57(4)"
   },
   {
@@ -3572,6 +4052,7 @@
     "version": "original",
     "parent_id": "art_57",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 57(5)"
   },
   {
@@ -3583,6 +4064,7 @@
     "version": "original",
     "parent_id": "art_57",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 57(6)"
   },
   {
@@ -3594,6 +4076,7 @@
     "version": "original",
     "parent_id": "art_57",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 57(7)"
   },
   {
@@ -3605,6 +4088,7 @@
     "version": "original",
     "parent_id": "art_57",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 57(8)"
   },
   {
@@ -3616,6 +4100,7 @@
     "version": "original",
     "parent_id": "art_57",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 57(9)"
   },
   {
@@ -3627,6 +4112,7 @@
     "version": "original",
     "parent_id": "art_57",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 57(10)"
   },
   {
@@ -3638,6 +4124,7 @@
     "version": "original",
     "parent_id": "art_57",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 57(11)"
   },
   {
@@ -3649,6 +4136,7 @@
     "version": "original",
     "parent_id": "art_57",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 57(12)"
   },
   {
@@ -3660,6 +4148,7 @@
     "version": "original",
     "parent_id": "art_57",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 57(13)"
   },
   {
@@ -3671,6 +4160,7 @@
     "version": "original",
     "parent_id": "art_57",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 57(14)"
   },
   {
@@ -3682,6 +4172,7 @@
     "version": "original",
     "parent_id": "art_57",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 57(15)"
   },
   {
@@ -3693,6 +4184,7 @@
     "version": "original",
     "parent_id": "art_57",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 57(16)"
   },
   {
@@ -3704,6 +4196,7 @@
     "version": "original",
     "parent_id": "art_57",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 57(17)"
   },
   {
@@ -3715,6 +4208,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 58"
   },
   {
@@ -3726,6 +4220,7 @@
     "version": "original",
     "parent_id": "art_58",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 58(1)"
   },
   {
@@ -3737,6 +4232,7 @@
     "version": "original",
     "parent_id": "art_58",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 58(2)"
   },
   {
@@ -3748,6 +4244,7 @@
     "version": "original",
     "parent_id": "art_58",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 58(3)"
   },
   {
@@ -3759,6 +4256,7 @@
     "version": "original",
     "parent_id": "art_58",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 58(4)"
   },
   {
@@ -3770,6 +4268,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 59"
   },
   {
@@ -3781,6 +4280,7 @@
     "version": "original",
     "parent_id": "art_59",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 59(1)"
   },
   {
@@ -3792,6 +4292,7 @@
     "version": "original",
     "parent_id": "art_59",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 59(2)"
   },
   {
@@ -3803,6 +4304,7 @@
     "version": "original",
     "parent_id": "art_59",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 59(3)"
   },
   {
@@ -3814,6 +4316,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 60"
   },
   {
@@ -3825,6 +4328,7 @@
     "version": "original",
     "parent_id": "art_60",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 60(1)"
   },
   {
@@ -3836,6 +4340,7 @@
     "version": "original",
     "parent_id": "art_60",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 60(2)"
   },
   {
@@ -3847,6 +4352,7 @@
     "version": "original",
     "parent_id": "art_60",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 60(3)"
   },
   {
@@ -3858,6 +4364,7 @@
     "version": "original",
     "parent_id": "art_60",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 60(4)"
   },
   {
@@ -3869,6 +4376,7 @@
     "version": "original",
     "parent_id": "art_60",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 60(5)"
   },
   {
@@ -3880,6 +4388,7 @@
     "version": "original",
     "parent_id": "art_60",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 60(6)"
   },
   {
@@ -3891,6 +4400,7 @@
     "version": "original",
     "parent_id": "art_60",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 60(7)"
   },
   {
@@ -3902,6 +4412,7 @@
     "version": "original",
     "parent_id": "art_60",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 60(8)"
   },
   {
@@ -3913,6 +4424,7 @@
     "version": "original",
     "parent_id": "art_60",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 60(9)"
   },
   {
@@ -3924,6 +4436,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 61"
   },
   {
@@ -3935,6 +4448,7 @@
     "version": "original",
     "parent_id": "art_61",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 61(1)"
   },
   {
@@ -3946,6 +4460,7 @@
     "version": "original",
     "parent_id": "art_61",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 61(2)"
   },
   {
@@ -3957,6 +4472,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 62"
   },
   {
@@ -3968,6 +4484,7 @@
     "version": "original",
     "parent_id": "art_62",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 62(1)"
   },
   {
@@ -3979,6 +4496,7 @@
     "version": "original",
     "parent_id": "art_62",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 62(2)"
   },
   {
@@ -3990,6 +4508,7 @@
     "version": "original",
     "parent_id": "art_62",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 62(3)"
   },
   {
@@ -4001,6 +4520,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 63"
   },
   {
@@ -4012,6 +4532,7 @@
     "version": "original",
     "parent_id": "art_63",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 63(1)"
   },
   {
@@ -4023,6 +4544,7 @@
     "version": "original",
     "parent_id": "art_63",
     "amended": false,
+    "chapter_id": "chp_VI",
     "citation": "Article 63(2)"
   },
   {
@@ -4034,6 +4556,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 64"
   },
   {
@@ -4045,6 +4568,7 @@
     "version": "original",
     "parent_id": "art_64",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 64(1)"
   },
   {
@@ -4056,6 +4580,7 @@
     "version": "original",
     "parent_id": "art_64",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 64(2)"
   },
   {
@@ -4067,6 +4592,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 65"
   },
   {
@@ -4078,6 +4604,7 @@
     "version": "original",
     "parent_id": "art_65",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 65(1)"
   },
   {
@@ -4089,6 +4616,7 @@
     "version": "original",
     "parent_id": "art_65",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 65(2)"
   },
   {
@@ -4100,6 +4628,7 @@
     "version": "original",
     "parent_id": "art_65",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 65(3)"
   },
   {
@@ -4111,6 +4640,7 @@
     "version": "original",
     "parent_id": "art_65",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 65(4)"
   },
   {
@@ -4122,6 +4652,7 @@
     "version": "original",
     "parent_id": "art_65",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 65(5)"
   },
   {
@@ -4133,6 +4664,7 @@
     "version": "original",
     "parent_id": "art_65",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 65(6)"
   },
   {
@@ -4144,6 +4676,7 @@
     "version": "original",
     "parent_id": "art_65",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 65(7)"
   },
   {
@@ -4155,6 +4688,7 @@
     "version": "original",
     "parent_id": "art_65",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 65(8)"
   },
   {
@@ -4166,6 +4700,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 66"
   },
   {
@@ -4177,6 +4712,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 67"
   },
   {
@@ -4188,6 +4724,7 @@
     "version": "original",
     "parent_id": "art_67",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 67(1)"
   },
   {
@@ -4199,6 +4736,7 @@
     "version": "original",
     "parent_id": "art_67",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 67(2)"
   },
   {
@@ -4210,6 +4748,7 @@
     "version": "original",
     "parent_id": "art_67",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 67(3)"
   },
   {
@@ -4221,6 +4760,7 @@
     "version": "original",
     "parent_id": "art_67",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 67(4)"
   },
   {
@@ -4232,6 +4772,7 @@
     "version": "original",
     "parent_id": "art_67",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 67(5)"
   },
   {
@@ -4243,6 +4784,7 @@
     "version": "original",
     "parent_id": "art_67",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 67(6)"
   },
   {
@@ -4254,6 +4796,7 @@
     "version": "original",
     "parent_id": "art_67",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 67(7)"
   },
   {
@@ -4265,6 +4808,7 @@
     "version": "original",
     "parent_id": "art_67",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 67(8)"
   },
   {
@@ -4276,6 +4820,7 @@
     "version": "original",
     "parent_id": "art_67",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 67(9)"
   },
   {
@@ -4287,6 +4832,7 @@
     "version": "original",
     "parent_id": "art_67",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 67(10)"
   },
   {
@@ -4298,6 +4844,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 68"
   },
   {
@@ -4309,6 +4856,7 @@
     "version": "original",
     "parent_id": "art_68",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 68(1)"
   },
   {
@@ -4320,6 +4868,7 @@
     "version": "original",
     "parent_id": "art_68",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 68(2)"
   },
   {
@@ -4331,6 +4880,7 @@
     "version": "original",
     "parent_id": "art_68",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 68(3)"
   },
   {
@@ -4342,6 +4892,7 @@
     "version": "original",
     "parent_id": "art_68",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 68(4)"
   },
   {
@@ -4353,6 +4904,7 @@
     "version": "original",
     "parent_id": "art_68",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 68(5)"
   },
   {
@@ -4364,6 +4916,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 69"
   },
   {
@@ -4375,6 +4928,7 @@
     "version": "original",
     "parent_id": "art_69",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 69(1)"
   },
   {
@@ -4386,6 +4940,7 @@
     "version": "original",
     "parent_id": "art_69",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 69(2)"
   },
   {
@@ -4397,6 +4952,7 @@
     "version": "original",
     "parent_id": "art_69",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 69(3)"
   },
   {
@@ -4408,6 +4964,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 70"
   },
   {
@@ -4419,6 +4976,7 @@
     "version": "original",
     "parent_id": "art_70",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 70(1)"
   },
   {
@@ -4430,6 +4988,7 @@
     "version": "original",
     "parent_id": "art_70",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 70(2)"
   },
   {
@@ -4441,6 +5000,7 @@
     "version": "original",
     "parent_id": "art_70",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 70(3)"
   },
   {
@@ -4452,6 +5012,7 @@
     "version": "original",
     "parent_id": "art_70",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 70(4)"
   },
   {
@@ -4463,6 +5024,7 @@
     "version": "original",
     "parent_id": "art_70",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 70(5)"
   },
   {
@@ -4474,6 +5036,7 @@
     "version": "original",
     "parent_id": "art_70",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 70(6)"
   },
   {
@@ -4485,6 +5048,7 @@
     "version": "original",
     "parent_id": "art_70",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 70(7)"
   },
   {
@@ -4496,6 +5060,7 @@
     "version": "original",
     "parent_id": "art_70",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 70(8)"
   },
   {
@@ -4507,6 +5072,7 @@
     "version": "original",
     "parent_id": "art_70",
     "amended": false,
+    "chapter_id": "chp_VII",
     "citation": "Article 70(9)"
   },
   {
@@ -4518,6 +5084,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_VIII",
     "citation": "Article 71"
   },
   {
@@ -4529,6 +5096,7 @@
     "version": "original",
     "parent_id": "art_71",
     "amended": false,
+    "chapter_id": "chp_VIII",
     "citation": "Article 71(1)"
   },
   {
@@ -4540,6 +5108,7 @@
     "version": "original",
     "parent_id": "art_71",
     "amended": false,
+    "chapter_id": "chp_VIII",
     "citation": "Article 71(2)"
   },
   {
@@ -4551,6 +5120,7 @@
     "version": "original",
     "parent_id": "art_71",
     "amended": false,
+    "chapter_id": "chp_VIII",
     "citation": "Article 71(3)"
   },
   {
@@ -4562,6 +5132,7 @@
     "version": "original",
     "parent_id": "art_71",
     "amended": false,
+    "chapter_id": "chp_VIII",
     "citation": "Article 71(4)"
   },
   {
@@ -4573,6 +5144,7 @@
     "version": "original",
     "parent_id": "art_71",
     "amended": false,
+    "chapter_id": "chp_VIII",
     "citation": "Article 71(5)"
   },
   {
@@ -4584,6 +5156,7 @@
     "version": "original",
     "parent_id": "art_71",
     "amended": false,
+    "chapter_id": "chp_VIII",
     "citation": "Article 71(6)"
   },
   {
@@ -4595,6 +5168,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 72"
   },
   {
@@ -4606,6 +5180,7 @@
     "version": "original",
     "parent_id": "art_72",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 72(1)"
   },
   {
@@ -4617,6 +5192,7 @@
     "version": "original",
     "parent_id": "art_72",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 72(2)"
   },
   {
@@ -4628,6 +5204,7 @@
     "version": "original",
     "parent_id": "art_72",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 72(3)"
   },
   {
@@ -4639,6 +5216,7 @@
     "version": "original",
     "parent_id": "art_72",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 72(4)"
   },
   {
@@ -4650,6 +5228,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 73"
   },
   {
@@ -4661,6 +5240,7 @@
     "version": "original",
     "parent_id": "art_73",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 73(1)"
   },
   {
@@ -4672,6 +5252,7 @@
     "version": "original",
     "parent_id": "art_73",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 73(2)"
   },
   {
@@ -4683,6 +5264,7 @@
     "version": "original",
     "parent_id": "art_73",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 73(3)"
   },
   {
@@ -4694,6 +5276,7 @@
     "version": "original",
     "parent_id": "art_73",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 73(4)"
   },
   {
@@ -4705,6 +5288,7 @@
     "version": "original",
     "parent_id": "art_73",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 73(5)"
   },
   {
@@ -4716,6 +5300,7 @@
     "version": "original",
     "parent_id": "art_73",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 73(6)"
   },
   {
@@ -4727,6 +5312,7 @@
     "version": "original",
     "parent_id": "art_73",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 73(7)"
   },
   {
@@ -4738,6 +5324,7 @@
     "version": "original",
     "parent_id": "art_73",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 73(8)"
   },
   {
@@ -4749,6 +5336,7 @@
     "version": "original",
     "parent_id": "art_73",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 73(9)"
   },
   {
@@ -4760,6 +5348,7 @@
     "version": "original",
     "parent_id": "art_73",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 73(10)"
   },
   {
@@ -4771,6 +5360,7 @@
     "version": "original",
     "parent_id": "art_73",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 73(11)"
   },
   {
@@ -4782,6 +5372,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 74"
   },
   {
@@ -4793,6 +5384,7 @@
     "version": "original",
     "parent_id": "art_74",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 74(1)"
   },
   {
@@ -4804,6 +5396,7 @@
     "version": "original",
     "parent_id": "art_74",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 74(2)"
   },
   {
@@ -4815,6 +5408,7 @@
     "version": "original",
     "parent_id": "art_74",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 74(3)"
   },
   {
@@ -4826,6 +5420,7 @@
     "version": "original",
     "parent_id": "art_74",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 74(4)"
   },
   {
@@ -4837,6 +5432,7 @@
     "version": "original",
     "parent_id": "art_74",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 74(5)"
   },
   {
@@ -4848,6 +5444,7 @@
     "version": "original",
     "parent_id": "art_74",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 74(6)"
   },
   {
@@ -4859,6 +5456,7 @@
     "version": "original",
     "parent_id": "art_74",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 74(7)"
   },
   {
@@ -4870,6 +5468,7 @@
     "version": "original",
     "parent_id": "art_74",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 74(8)"
   },
   {
@@ -4881,6 +5480,7 @@
     "version": "original",
     "parent_id": "art_74",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 74(9)"
   },
   {
@@ -4892,6 +5492,7 @@
     "version": "original",
     "parent_id": "art_74",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 74(10)"
   },
   {
@@ -4903,6 +5504,7 @@
     "version": "original",
     "parent_id": "art_74",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 74(11)"
   },
   {
@@ -4914,6 +5516,7 @@
     "version": "original",
     "parent_id": "art_74",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 74(12)"
   },
   {
@@ -4925,6 +5528,7 @@
     "version": "original",
     "parent_id": "art_74",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 74(13)"
   },
   {
@@ -4936,6 +5540,7 @@
     "version": "original",
     "parent_id": "art_74",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 74(14)"
   },
   {
@@ -4947,6 +5552,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 75"
   },
   {
@@ -4958,6 +5564,7 @@
     "version": "original",
     "parent_id": "art_75",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 75(1)"
   },
   {
@@ -4969,6 +5576,7 @@
     "version": "original",
     "parent_id": "art_75",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 75(2)"
   },
   {
@@ -4980,6 +5588,7 @@
     "version": "original",
     "parent_id": "art_75",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 75(3)"
   },
   {
@@ -4991,6 +5600,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 76"
   },
   {
@@ -5002,6 +5612,7 @@
     "version": "original",
     "parent_id": "art_76",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 76(1)"
   },
   {
@@ -5013,6 +5624,7 @@
     "version": "original",
     "parent_id": "art_76",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 76(2)"
   },
   {
@@ -5024,6 +5636,7 @@
     "version": "original",
     "parent_id": "art_76",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 76(3)"
   },
   {
@@ -5035,6 +5648,7 @@
     "version": "original",
     "parent_id": "art_76",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 76(4)"
   },
   {
@@ -5046,6 +5660,7 @@
     "version": "original",
     "parent_id": "art_76",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 76(5)"
   },
   {
@@ -5057,6 +5672,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 77"
   },
   {
@@ -5068,6 +5684,7 @@
     "version": "original",
     "parent_id": "art_77",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 77(1)"
   },
   {
@@ -5079,6 +5696,7 @@
     "version": "original",
     "parent_id": "art_77",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 77(2)"
   },
   {
@@ -5090,6 +5708,7 @@
     "version": "original",
     "parent_id": "art_77",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 77(3)"
   },
   {
@@ -5101,6 +5720,7 @@
     "version": "original",
     "parent_id": "art_77",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 77(4)"
   },
   {
@@ -5112,6 +5732,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 78"
   },
   {
@@ -5123,6 +5744,7 @@
     "version": "original",
     "parent_id": "art_78",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 78(1)"
   },
   {
@@ -5134,6 +5756,7 @@
     "version": "original",
     "parent_id": "art_78",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 78(2)"
   },
   {
@@ -5145,6 +5768,7 @@
     "version": "original",
     "parent_id": "art_78",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 78(3)"
   },
   {
@@ -5156,6 +5780,7 @@
     "version": "original",
     "parent_id": "art_78",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 78(4)"
   },
   {
@@ -5167,6 +5792,7 @@
     "version": "original",
     "parent_id": "art_78",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 78(5)"
   },
   {
@@ -5178,6 +5804,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 79"
   },
   {
@@ -5189,6 +5816,7 @@
     "version": "original",
     "parent_id": "art_79",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 79(1)"
   },
   {
@@ -5200,6 +5828,7 @@
     "version": "original",
     "parent_id": "art_79",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 79(2)"
   },
   {
@@ -5211,6 +5840,7 @@
     "version": "original",
     "parent_id": "art_79",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 79(3)"
   },
   {
@@ -5222,6 +5852,7 @@
     "version": "original",
     "parent_id": "art_79",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 79(4)"
   },
   {
@@ -5233,6 +5864,7 @@
     "version": "original",
     "parent_id": "art_79",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 79(5)"
   },
   {
@@ -5244,6 +5876,7 @@
     "version": "original",
     "parent_id": "art_79",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 79(6)"
   },
   {
@@ -5255,6 +5888,7 @@
     "version": "original",
     "parent_id": "art_79",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 79(7)"
   },
   {
@@ -5266,6 +5900,7 @@
     "version": "original",
     "parent_id": "art_79",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 79(8)"
   },
   {
@@ -5277,6 +5912,7 @@
     "version": "original",
     "parent_id": "art_79",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 79(9)"
   },
   {
@@ -5288,6 +5924,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 80"
   },
   {
@@ -5299,6 +5936,7 @@
     "version": "original",
     "parent_id": "art_80",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 80(1)"
   },
   {
@@ -5310,6 +5948,7 @@
     "version": "original",
     "parent_id": "art_80",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 80(2)"
   },
   {
@@ -5321,6 +5960,7 @@
     "version": "original",
     "parent_id": "art_80",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 80(3)"
   },
   {
@@ -5332,6 +5972,7 @@
     "version": "original",
     "parent_id": "art_80",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 80(4)"
   },
   {
@@ -5343,6 +5984,7 @@
     "version": "original",
     "parent_id": "art_80",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 80(5)"
   },
   {
@@ -5354,6 +5996,7 @@
     "version": "original",
     "parent_id": "art_80",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 80(6)"
   },
   {
@@ -5365,6 +6008,7 @@
     "version": "original",
     "parent_id": "art_80",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 80(7)"
   },
   {
@@ -5376,6 +6020,7 @@
     "version": "original",
     "parent_id": "art_80",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 80(8)"
   },
   {
@@ -5387,6 +6032,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 81"
   },
   {
@@ -5398,6 +6044,7 @@
     "version": "original",
     "parent_id": "art_81",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 81(1)"
   },
   {
@@ -5409,6 +6056,7 @@
     "version": "original",
     "parent_id": "art_81",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 81(2)"
   },
   {
@@ -5420,6 +6068,7 @@
     "version": "original",
     "parent_id": "art_81",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 81(3)"
   },
   {
@@ -5431,6 +6080,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 82"
   },
   {
@@ -5442,6 +6092,7 @@
     "version": "original",
     "parent_id": "art_82",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 82(1)"
   },
   {
@@ -5453,6 +6104,7 @@
     "version": "original",
     "parent_id": "art_82",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 82(2)"
   },
   {
@@ -5464,6 +6116,7 @@
     "version": "original",
     "parent_id": "art_82",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 82(3)"
   },
   {
@@ -5475,6 +6128,7 @@
     "version": "original",
     "parent_id": "art_82",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 82(4)"
   },
   {
@@ -5486,6 +6140,7 @@
     "version": "original",
     "parent_id": "art_82",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 82(5)"
   },
   {
@@ -5497,6 +6152,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 83"
   },
   {
@@ -5508,6 +6164,7 @@
     "version": "original",
     "parent_id": "art_83",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 83(1)"
   },
   {
@@ -5519,6 +6176,7 @@
     "version": "original",
     "parent_id": "art_83",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 83(2)"
   },
   {
@@ -5530,6 +6188,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 84"
   },
   {
@@ -5541,6 +6200,7 @@
     "version": "original",
     "parent_id": "art_84",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 84(1)"
   },
   {
@@ -5552,6 +6212,7 @@
     "version": "original",
     "parent_id": "art_84",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 84(2)"
   },
   {
@@ -5563,6 +6224,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 85"
   },
   {
@@ -5574,6 +6236,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 86"
   },
   {
@@ -5585,6 +6248,7 @@
     "version": "original",
     "parent_id": "art_86",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 86(1)"
   },
   {
@@ -5596,6 +6260,7 @@
     "version": "original",
     "parent_id": "art_86",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 86(2)"
   },
   {
@@ -5607,6 +6272,7 @@
     "version": "original",
     "parent_id": "art_86",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 86(3)"
   },
   {
@@ -5618,6 +6284,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 87"
   },
   {
@@ -5629,6 +6296,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 88"
   },
   {
@@ -5640,6 +6308,7 @@
     "version": "original",
     "parent_id": "art_88",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 88(1)"
   },
   {
@@ -5651,6 +6320,7 @@
     "version": "original",
     "parent_id": "art_88",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 88(2)"
   },
   {
@@ -5662,6 +6332,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 89"
   },
   {
@@ -5673,6 +6344,7 @@
     "version": "original",
     "parent_id": "art_89",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 89(1)"
   },
   {
@@ -5684,6 +6356,7 @@
     "version": "original",
     "parent_id": "art_89",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 89(2)"
   },
   {
@@ -5695,6 +6368,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 90"
   },
   {
@@ -5706,6 +6380,7 @@
     "version": "original",
     "parent_id": "art_90",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 90(1)"
   },
   {
@@ -5717,6 +6392,7 @@
     "version": "original",
     "parent_id": "art_90",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 90(2)"
   },
   {
@@ -5728,6 +6404,7 @@
     "version": "original",
     "parent_id": "art_90",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 90(3)"
   },
   {
@@ -5739,6 +6416,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 91"
   },
   {
@@ -5750,6 +6428,7 @@
     "version": "original",
     "parent_id": "art_91",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 91(1)"
   },
   {
@@ -5761,6 +6440,7 @@
     "version": "original",
     "parent_id": "art_91",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 91(2)"
   },
   {
@@ -5772,6 +6452,7 @@
     "version": "original",
     "parent_id": "art_91",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 91(3)"
   },
   {
@@ -5783,6 +6464,7 @@
     "version": "original",
     "parent_id": "art_91",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 91(4)"
   },
   {
@@ -5794,6 +6476,7 @@
     "version": "original",
     "parent_id": "art_91",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 91(5)"
   },
   {
@@ -5805,6 +6488,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 92"
   },
   {
@@ -5816,6 +6500,7 @@
     "version": "original",
     "parent_id": "art_92",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 92(1)"
   },
   {
@@ -5827,6 +6512,7 @@
     "version": "original",
     "parent_id": "art_92",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 92(2)"
   },
   {
@@ -5838,6 +6524,7 @@
     "version": "original",
     "parent_id": "art_92",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 92(3)"
   },
   {
@@ -5849,6 +6536,7 @@
     "version": "original",
     "parent_id": "art_92",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 92(4)"
   },
   {
@@ -5860,6 +6548,7 @@
     "version": "original",
     "parent_id": "art_92",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 92(5)"
   },
   {
@@ -5871,6 +6560,7 @@
     "version": "original",
     "parent_id": "art_92",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 92(6)"
   },
   {
@@ -5882,6 +6572,7 @@
     "version": "original",
     "parent_id": "art_92",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 92(7)"
   },
   {
@@ -5893,6 +6584,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 93"
   },
   {
@@ -5904,6 +6596,7 @@
     "version": "original",
     "parent_id": "art_93",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 93(1)"
   },
   {
@@ -5915,6 +6608,7 @@
     "version": "original",
     "parent_id": "art_93",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 93(2)"
   },
   {
@@ -5926,6 +6620,7 @@
     "version": "original",
     "parent_id": "art_93",
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 93(3)"
   },
   {
@@ -5937,6 +6632,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_IX",
     "citation": "Article 94"
   },
   {
@@ -5948,6 +6644,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_X",
     "citation": "Article 95"
   },
   {
@@ -5959,6 +6656,7 @@
     "version": "original",
     "parent_id": "art_95",
     "amended": false,
+    "chapter_id": "chp_X",
     "citation": "Article 95(1)"
   },
   {
@@ -5970,6 +6668,7 @@
     "version": "original",
     "parent_id": "art_95",
     "amended": false,
+    "chapter_id": "chp_X",
     "citation": "Article 95(2)"
   },
   {
@@ -5981,6 +6680,7 @@
     "version": "original",
     "parent_id": "art_95",
     "amended": false,
+    "chapter_id": "chp_X",
     "citation": "Article 95(3)"
   },
   {
@@ -5992,6 +6692,7 @@
     "version": "original",
     "parent_id": "art_95",
     "amended": false,
+    "chapter_id": "chp_X",
     "citation": "Article 95(4)"
   },
   {
@@ -6003,6 +6704,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_X",
     "citation": "Article 96"
   },
   {
@@ -6014,6 +6716,7 @@
     "version": "original",
     "parent_id": "art_96",
     "amended": false,
+    "chapter_id": "chp_X",
     "citation": "Article 96(1)"
   },
   {
@@ -6025,6 +6728,7 @@
     "version": "original",
     "parent_id": "art_96",
     "amended": false,
+    "chapter_id": "chp_X",
     "citation": "Article 96(2)"
   },
   {
@@ -6036,6 +6740,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_XI",
     "citation": "Article 97"
   },
   {
@@ -6047,6 +6752,7 @@
     "version": "original",
     "parent_id": "art_97",
     "amended": false,
+    "chapter_id": "chp_XI",
     "citation": "Article 97(1)"
   },
   {
@@ -6058,6 +6764,7 @@
     "version": "original",
     "parent_id": "art_97",
     "amended": false,
+    "chapter_id": "chp_XI",
     "citation": "Article 97(2)"
   },
   {
@@ -6069,6 +6776,7 @@
     "version": "original",
     "parent_id": "art_97",
     "amended": false,
+    "chapter_id": "chp_XI",
     "citation": "Article 97(3)"
   },
   {
@@ -6080,6 +6788,7 @@
     "version": "original",
     "parent_id": "art_97",
     "amended": false,
+    "chapter_id": "chp_XI",
     "citation": "Article 97(4)"
   },
   {
@@ -6091,6 +6800,7 @@
     "version": "original",
     "parent_id": "art_97",
     "amended": false,
+    "chapter_id": "chp_XI",
     "citation": "Article 97(5)"
   },
   {
@@ -6102,6 +6812,7 @@
     "version": "original",
     "parent_id": "art_97",
     "amended": false,
+    "chapter_id": "chp_XI",
     "citation": "Article 97(6)"
   },
   {
@@ -6113,6 +6824,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_XI",
     "citation": "Article 98"
   },
   {
@@ -6124,6 +6836,7 @@
     "version": "original",
     "parent_id": "art_98",
     "amended": false,
+    "chapter_id": "chp_XI",
     "citation": "Article 98(1)"
   },
   {
@@ -6135,6 +6848,7 @@
     "version": "original",
     "parent_id": "art_98",
     "amended": false,
+    "chapter_id": "chp_XI",
     "citation": "Article 98(2)"
   },
   {
@@ -6146,6 +6860,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_XII",
     "citation": "Article 99"
   },
   {
@@ -6157,6 +6872,7 @@
     "version": "original",
     "parent_id": "art_99",
     "amended": false,
+    "chapter_id": "chp_XII",
     "citation": "Article 99(1)"
   },
   {
@@ -6168,6 +6884,7 @@
     "version": "original",
     "parent_id": "art_99",
     "amended": false,
+    "chapter_id": "chp_XII",
     "citation": "Article 99(2)"
   },
   {
@@ -6179,6 +6896,7 @@
     "version": "original",
     "parent_id": "art_99",
     "amended": false,
+    "chapter_id": "chp_XII",
     "citation": "Article 99(3)"
   },
   {
@@ -6190,6 +6908,7 @@
     "version": "original",
     "parent_id": "art_99",
     "amended": false,
+    "chapter_id": "chp_XII",
     "citation": "Article 99(4)"
   },
   {
@@ -6201,6 +6920,7 @@
     "version": "original",
     "parent_id": "art_99",
     "amended": false,
+    "chapter_id": "chp_XII",
     "citation": "Article 99(5)"
   },
   {
@@ -6212,6 +6932,7 @@
     "version": "original",
     "parent_id": "art_99",
     "amended": false,
+    "chapter_id": "chp_XII",
     "citation": "Article 99(6)"
   },
   {
@@ -6223,6 +6944,7 @@
     "version": "original",
     "parent_id": "art_99",
     "amended": false,
+    "chapter_id": "chp_XII",
     "citation": "Article 99(7)"
   },
   {
@@ -6234,6 +6956,7 @@
     "version": "original",
     "parent_id": "art_99",
     "amended": false,
+    "chapter_id": "chp_XII",
     "citation": "Article 99(8)"
   },
   {
@@ -6245,6 +6968,7 @@
     "version": "original",
     "parent_id": "art_99",
     "amended": false,
+    "chapter_id": "chp_XII",
     "citation": "Article 99(9)"
   },
   {
@@ -6256,6 +6980,7 @@
     "version": "original",
     "parent_id": "art_99",
     "amended": false,
+    "chapter_id": "chp_XII",
     "citation": "Article 99(10)"
   },
   {
@@ -6267,6 +6992,7 @@
     "version": "original",
     "parent_id": "art_99",
     "amended": false,
+    "chapter_id": "chp_XII",
     "citation": "Article 99(11)"
   },
   {
@@ -6278,6 +7004,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_XII",
     "citation": "Article 100"
   },
   {
@@ -6289,6 +7016,7 @@
     "version": "original",
     "parent_id": "art_100",
     "amended": false,
+    "chapter_id": "chp_XII",
     "citation": "Article 100(1)"
   },
   {
@@ -6300,6 +7028,7 @@
     "version": "original",
     "parent_id": "art_100",
     "amended": false,
+    "chapter_id": "chp_XII",
     "citation": "Article 100(2)"
   },
   {
@@ -6311,6 +7040,7 @@
     "version": "original",
     "parent_id": "art_100",
     "amended": false,
+    "chapter_id": "chp_XII",
     "citation": "Article 100(3)"
   },
   {
@@ -6322,6 +7052,7 @@
     "version": "original",
     "parent_id": "art_100",
     "amended": false,
+    "chapter_id": "chp_XII",
     "citation": "Article 100(4)"
   },
   {
@@ -6333,6 +7064,7 @@
     "version": "original",
     "parent_id": "art_100",
     "amended": false,
+    "chapter_id": "chp_XII",
     "citation": "Article 100(5)"
   },
   {
@@ -6344,6 +7076,7 @@
     "version": "original",
     "parent_id": "art_100",
     "amended": false,
+    "chapter_id": "chp_XII",
     "citation": "Article 100(6)"
   },
   {
@@ -6355,6 +7088,7 @@
     "version": "original",
     "parent_id": "art_100",
     "amended": false,
+    "chapter_id": "chp_XII",
     "citation": "Article 100(7)"
   },
   {
@@ -6366,6 +7100,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_XII",
     "citation": "Article 101"
   },
   {
@@ -6377,6 +7112,7 @@
     "version": "original",
     "parent_id": "art_101",
     "amended": false,
+    "chapter_id": "chp_XII",
     "citation": "Article 101(1)"
   },
   {
@@ -6388,6 +7124,7 @@
     "version": "original",
     "parent_id": "art_101",
     "amended": false,
+    "chapter_id": "chp_XII",
     "citation": "Article 101(2)"
   },
   {
@@ -6399,6 +7136,7 @@
     "version": "original",
     "parent_id": "art_101",
     "amended": false,
+    "chapter_id": "chp_XII",
     "citation": "Article 101(3)"
   },
   {
@@ -6410,6 +7148,7 @@
     "version": "original",
     "parent_id": "art_101",
     "amended": false,
+    "chapter_id": "chp_XII",
     "citation": "Article 101(4)"
   },
   {
@@ -6421,6 +7160,7 @@
     "version": "original",
     "parent_id": "art_101",
     "amended": false,
+    "chapter_id": "chp_XII",
     "citation": "Article 101(5)"
   },
   {
@@ -6432,6 +7172,7 @@
     "version": "original",
     "parent_id": "art_101",
     "amended": false,
+    "chapter_id": "chp_XII",
     "citation": "Article 101(6)"
   },
   {
@@ -6443,6 +7184,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_XIII",
     "citation": "Article 102"
   },
   {
@@ -6454,6 +7196,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_XIII",
     "citation": "Article 103"
   },
   {
@@ -6465,6 +7208,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_XIII",
     "citation": "Article 104"
   },
   {
@@ -6476,6 +7220,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_XIII",
     "citation": "Article 105"
   },
   {
@@ -6487,6 +7232,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_XIII",
     "citation": "Article 106"
   },
   {
@@ -6498,6 +7244,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_XIII",
     "citation": "Article 107"
   },
   {
@@ -6509,6 +7256,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_XIII",
     "citation": "Article 108"
   },
   {
@@ -6520,6 +7268,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_XIII",
     "citation": "Article 109"
   },
   {
@@ -6531,6 +7280,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_XIII",
     "citation": "Article 110"
   },
   {
@@ -6542,6 +7292,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_XIII",
     "citation": "Article 111"
   },
   {
@@ -6553,6 +7304,7 @@
     "version": "original",
     "parent_id": "art_111",
     "amended": false,
+    "chapter_id": "chp_XIII",
     "citation": "Article 111(1)"
   },
   {
@@ -6564,6 +7316,7 @@
     "version": "original",
     "parent_id": "art_111",
     "amended": false,
+    "chapter_id": "chp_XIII",
     "citation": "Article 111(2)"
   },
   {
@@ -6575,6 +7328,7 @@
     "version": "original",
     "parent_id": "art_111",
     "amended": false,
+    "chapter_id": "chp_XIII",
     "citation": "Article 111(3)"
   },
   {
@@ -6586,6 +7340,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_XIII",
     "citation": "Article 112"
   },
   {
@@ -6597,6 +7352,7 @@
     "version": "original",
     "parent_id": "art_112",
     "amended": false,
+    "chapter_id": "chp_XIII",
     "citation": "Article 112(1)"
   },
   {
@@ -6608,6 +7364,7 @@
     "version": "original",
     "parent_id": "art_112",
     "amended": false,
+    "chapter_id": "chp_XIII",
     "citation": "Article 112(2)"
   },
   {
@@ -6619,6 +7376,7 @@
     "version": "original",
     "parent_id": "art_112",
     "amended": false,
+    "chapter_id": "chp_XIII",
     "citation": "Article 112(3)"
   },
   {
@@ -6630,6 +7388,7 @@
     "version": "original",
     "parent_id": "art_112",
     "amended": false,
+    "chapter_id": "chp_XIII",
     "citation": "Article 112(4)"
   },
   {
@@ -6641,6 +7400,7 @@
     "version": "original",
     "parent_id": "art_112",
     "amended": false,
+    "chapter_id": "chp_XIII",
     "citation": "Article 112(5)"
   },
   {
@@ -6652,6 +7412,7 @@
     "version": "original",
     "parent_id": "art_112",
     "amended": false,
+    "chapter_id": "chp_XIII",
     "citation": "Article 112(6)"
   },
   {
@@ -6663,6 +7424,7 @@
     "version": "original",
     "parent_id": "art_112",
     "amended": false,
+    "chapter_id": "chp_XIII",
     "citation": "Article 112(7)"
   },
   {
@@ -6674,6 +7436,7 @@
     "version": "original",
     "parent_id": "art_112",
     "amended": false,
+    "chapter_id": "chp_XIII",
     "citation": "Article 112(8)"
   },
   {
@@ -6685,6 +7448,7 @@
     "version": "original",
     "parent_id": "art_112",
     "amended": false,
+    "chapter_id": "chp_XIII",
     "citation": "Article 112(9)"
   },
   {
@@ -6696,6 +7460,7 @@
     "version": "original",
     "parent_id": "art_112",
     "amended": false,
+    "chapter_id": "chp_XIII",
     "citation": "Article 112(10)"
   },
   {
@@ -6707,6 +7472,7 @@
     "version": "original",
     "parent_id": "art_112",
     "amended": false,
+    "chapter_id": "chp_XIII",
     "citation": "Article 112(11)"
   },
   {
@@ -6718,6 +7484,7 @@
     "version": "original",
     "parent_id": "art_112",
     "amended": false,
+    "chapter_id": "chp_XIII",
     "citation": "Article 112(12)"
   },
   {
@@ -6729,6 +7496,7 @@
     "version": "original",
     "parent_id": "art_112",
     "amended": false,
+    "chapter_id": "chp_XIII",
     "citation": "Article 112(13)"
   },
   {
@@ -6740,6 +7508,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": "chp_XIII",
     "citation": "Article 113"
   },
   {
@@ -6751,6 +7520,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Annex I"
   },
   {
@@ -6762,6 +7532,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Annex II"
   },
   {
@@ -6773,6 +7544,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Annex III"
   },
   {
@@ -6784,6 +7556,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Annex IV"
   },
   {
@@ -6795,6 +7568,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Annex V"
   },
   {
@@ -6806,6 +7580,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Annex VI"
   },
   {
@@ -6817,6 +7592,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Annex VII"
   },
   {
@@ -6828,6 +7604,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Annex VIII"
   },
   {
@@ -6839,6 +7616,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Annex IX"
   },
   {
@@ -6850,6 +7628,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Annex X"
   },
   {
@@ -6861,6 +7640,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Annex XI"
   },
   {
@@ -6872,6 +7652,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Annex XII"
   },
   {
@@ -6883,6 +7664,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Annex XIII"
   },
   {
@@ -6894,6 +7676,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 1"
   },
   {
@@ -6905,6 +7688,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 2"
   },
   {
@@ -6916,6 +7700,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 3"
   },
   {
@@ -6927,6 +7712,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 4"
   },
   {
@@ -6938,6 +7724,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 5"
   },
   {
@@ -6949,6 +7736,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 6"
   },
   {
@@ -6960,6 +7748,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 7"
   },
   {
@@ -6971,6 +7760,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 8"
   },
   {
@@ -6982,6 +7772,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 9"
   },
   {
@@ -6993,6 +7784,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 10"
   },
   {
@@ -7004,6 +7796,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 11"
   },
   {
@@ -7015,6 +7808,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 12"
   },
   {
@@ -7026,6 +7820,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 13"
   },
   {
@@ -7037,6 +7832,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 14"
   },
   {
@@ -7048,6 +7844,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 15"
   },
   {
@@ -7059,6 +7856,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 16"
   },
   {
@@ -7070,6 +7868,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 17"
   },
   {
@@ -7081,6 +7880,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 18"
   },
   {
@@ -7092,6 +7892,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 19"
   },
   {
@@ -7103,6 +7904,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 20"
   },
   {
@@ -7114,6 +7916,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 21"
   },
   {
@@ -7125,6 +7928,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 22"
   },
   {
@@ -7136,6 +7940,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 23"
   },
   {
@@ -7147,6 +7952,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 24"
   },
   {
@@ -7158,6 +7964,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 25"
   },
   {
@@ -7169,6 +7976,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 26"
   },
   {
@@ -7180,6 +7988,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 27"
   },
   {
@@ -7191,6 +8000,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 28"
   },
   {
@@ -7202,6 +8012,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 29"
   },
   {
@@ -7213,6 +8024,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 30"
   },
   {
@@ -7224,6 +8036,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 31"
   },
   {
@@ -7235,6 +8048,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 32"
   },
   {
@@ -7246,6 +8060,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 33"
   },
   {
@@ -7257,6 +8072,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 34"
   },
   {
@@ -7268,6 +8084,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 35"
   },
   {
@@ -7279,6 +8096,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 36"
   },
   {
@@ -7290,6 +8108,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 37"
   },
   {
@@ -7301,6 +8120,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 38"
   },
   {
@@ -7312,6 +8132,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 39"
   },
   {
@@ -7323,6 +8144,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 40"
   },
   {
@@ -7334,6 +8156,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 41"
   },
   {
@@ -7345,6 +8168,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 42"
   },
   {
@@ -7356,6 +8180,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 43"
   },
   {
@@ -7367,6 +8192,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 44"
   },
   {
@@ -7378,6 +8204,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 45"
   },
   {
@@ -7389,6 +8216,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 46"
   },
   {
@@ -7400,6 +8228,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 47"
   },
   {
@@ -7411,6 +8240,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 48"
   },
   {
@@ -7422,6 +8252,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 49"
   },
   {
@@ -7433,6 +8264,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 50"
   },
   {
@@ -7444,6 +8276,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 51"
   },
   {
@@ -7455,6 +8288,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 52"
   },
   {
@@ -7466,6 +8300,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 53"
   },
   {
@@ -7477,6 +8312,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 54"
   },
   {
@@ -7488,6 +8324,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 55"
   },
   {
@@ -7499,6 +8336,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 56"
   },
   {
@@ -7510,6 +8348,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 57"
   },
   {
@@ -7521,6 +8360,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 58"
   },
   {
@@ -7532,6 +8372,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 59"
   },
   {
@@ -7543,6 +8384,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 60"
   },
   {
@@ -7554,6 +8396,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 61"
   },
   {
@@ -7565,6 +8408,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 62"
   },
   {
@@ -7576,6 +8420,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 63"
   },
   {
@@ -7587,6 +8432,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 64"
   },
   {
@@ -7598,6 +8444,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 65"
   },
   {
@@ -7609,6 +8456,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 66"
   },
   {
@@ -7620,6 +8468,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 67"
   },
   {
@@ -7631,6 +8480,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 68"
   },
   {
@@ -7642,6 +8492,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 69"
   },
   {
@@ -7653,6 +8504,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 70"
   },
   {
@@ -7664,6 +8516,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 71"
   },
   {
@@ -7675,6 +8528,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 72"
   },
   {
@@ -7686,6 +8540,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 73"
   },
   {
@@ -7697,6 +8552,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 74"
   },
   {
@@ -7708,6 +8564,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 75"
   },
   {
@@ -7719,6 +8576,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 76"
   },
   {
@@ -7730,6 +8588,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 77"
   },
   {
@@ -7741,6 +8600,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 78"
   },
   {
@@ -7752,6 +8612,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 79"
   },
   {
@@ -7763,6 +8624,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 80"
   },
   {
@@ -7774,6 +8636,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 81"
   },
   {
@@ -7785,6 +8648,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 82"
   },
   {
@@ -7796,6 +8660,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 83"
   },
   {
@@ -7807,6 +8672,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 84"
   },
   {
@@ -7818,6 +8684,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 85"
   },
   {
@@ -7829,6 +8696,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 86"
   },
   {
@@ -7840,6 +8708,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 87"
   },
   {
@@ -7851,6 +8720,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 88"
   },
   {
@@ -7862,6 +8732,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 89"
   },
   {
@@ -7873,6 +8744,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 90"
   },
   {
@@ -7884,6 +8756,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 91"
   },
   {
@@ -7895,6 +8768,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 92"
   },
   {
@@ -7906,6 +8780,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 93"
   },
   {
@@ -7917,6 +8792,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 94"
   },
   {
@@ -7928,6 +8804,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 95"
   },
   {
@@ -7939,6 +8816,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 96"
   },
   {
@@ -7950,6 +8828,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 97"
   },
   {
@@ -7961,6 +8840,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 98"
   },
   {
@@ -7972,6 +8852,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 99"
   },
   {
@@ -7983,6 +8864,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 100"
   },
   {
@@ -7994,6 +8876,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 101"
   },
   {
@@ -8005,6 +8888,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 102"
   },
   {
@@ -8016,6 +8900,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 103"
   },
   {
@@ -8027,6 +8912,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 104"
   },
   {
@@ -8038,6 +8924,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 105"
   },
   {
@@ -8049,6 +8936,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 106"
   },
   {
@@ -8060,6 +8948,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 107"
   },
   {
@@ -8071,6 +8960,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 108"
   },
   {
@@ -8082,6 +8972,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 109"
   },
   {
@@ -8093,6 +8984,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 110"
   },
   {
@@ -8104,6 +8996,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 111"
   },
   {
@@ -8115,6 +9008,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 112"
   },
   {
@@ -8126,6 +9020,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 113"
   },
   {
@@ -8137,6 +9032,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 114"
   },
   {
@@ -8148,6 +9044,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 115"
   },
   {
@@ -8159,6 +9056,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 116"
   },
   {
@@ -8170,6 +9068,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 117"
   },
   {
@@ -8181,6 +9080,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 118"
   },
   {
@@ -8192,6 +9092,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 119"
   },
   {
@@ -8203,6 +9104,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 120"
   },
   {
@@ -8214,6 +9116,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 121"
   },
   {
@@ -8225,6 +9128,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 122"
   },
   {
@@ -8236,6 +9140,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 123"
   },
   {
@@ -8247,6 +9152,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 124"
   },
   {
@@ -8258,6 +9164,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 125"
   },
   {
@@ -8269,6 +9176,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 126"
   },
   {
@@ -8280,6 +9188,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 127"
   },
   {
@@ -8291,6 +9200,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 128"
   },
   {
@@ -8302,6 +9212,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 129"
   },
   {
@@ -8313,6 +9224,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 130"
   },
   {
@@ -8324,6 +9236,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 131"
   },
   {
@@ -8335,6 +9248,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 132"
   },
   {
@@ -8346,6 +9260,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 133"
   },
   {
@@ -8357,6 +9272,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 134"
   },
   {
@@ -8368,6 +9284,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 135"
   },
   {
@@ -8379,6 +9296,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 136"
   },
   {
@@ -8390,6 +9308,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 137"
   },
   {
@@ -8401,6 +9320,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 138"
   },
   {
@@ -8412,6 +9332,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 139"
   },
   {
@@ -8423,6 +9344,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 140"
   },
   {
@@ -8434,6 +9356,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 141"
   },
   {
@@ -8445,6 +9368,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 142"
   },
   {
@@ -8456,6 +9380,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 143"
   },
   {
@@ -8467,6 +9392,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 144"
   },
   {
@@ -8478,6 +9404,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 145"
   },
   {
@@ -8489,6 +9416,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 146"
   },
   {
@@ -8500,6 +9428,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 147"
   },
   {
@@ -8511,6 +9440,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 148"
   },
   {
@@ -8522,6 +9452,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 149"
   },
   {
@@ -8533,6 +9464,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 150"
   },
   {
@@ -8544,6 +9476,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 151"
   },
   {
@@ -8555,6 +9488,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 152"
   },
   {
@@ -8566,6 +9500,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 153"
   },
   {
@@ -8577,6 +9512,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 154"
   },
   {
@@ -8588,6 +9524,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 155"
   },
   {
@@ -8599,6 +9536,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 156"
   },
   {
@@ -8610,6 +9548,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 157"
   },
   {
@@ -8621,6 +9560,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 158"
   },
   {
@@ -8632,6 +9572,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 159"
   },
   {
@@ -8643,6 +9584,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 160"
   },
   {
@@ -8654,6 +9596,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 161"
   },
   {
@@ -8665,6 +9608,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 162"
   },
   {
@@ -8676,6 +9620,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 163"
   },
   {
@@ -8687,6 +9632,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 164"
   },
   {
@@ -8698,6 +9644,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 165"
   },
   {
@@ -8709,6 +9656,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 166"
   },
   {
@@ -8720,6 +9668,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 167"
   },
   {
@@ -8731,6 +9680,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 168"
   },
   {
@@ -8742,6 +9692,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 169"
   },
   {
@@ -8753,6 +9704,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 170"
   },
   {
@@ -8764,6 +9716,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 171"
   },
   {
@@ -8775,6 +9728,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 172"
   },
   {
@@ -8786,6 +9740,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 173"
   },
   {
@@ -8797,6 +9752,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 174"
   },
   {
@@ -8808,6 +9764,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 175"
   },
   {
@@ -8819,6 +9776,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 176"
   },
   {
@@ -8830,6 +9788,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 177"
   },
   {
@@ -8841,6 +9800,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 178"
   },
   {
@@ -8852,6 +9812,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 179"
   },
   {
@@ -8863,6 +9824,7 @@
     "version": "original",
     "parent_id": null,
     "amended": false,
+    "chapter_id": null,
     "citation": "Recital 180"
   }
 ]

@@ -197,7 +197,7 @@ describe('ActReader', () => {
         />,
       )
 
-      expect(screen.getByText('51 of 133')).toBeInTheDocument()
+      expect(screen.getByText('64 of 146')).toBeInTheDocument()
     })
 
     it('should open the next section a step names', async () => {
