@@ -26,4 +26,16 @@ describe('outcomeLine', () => {
       'Answered on the original, refused on the amended',
     )
   })
+
+  it('should say a text holds no recording rather than claim it was answered', () => {
+    expect(outcomeLine({ original: null, consolidated: false })).toBe(
+      'Not recorded on the original, answered on the amended',
+    )
+  })
+
+  it('should say a text holds no recording beside a refusal on the other', () => {
+    expect(outcomeLine({ original: true, consolidated: null })).toBe(
+      'Refused on the original, not recorded on the amended',
+    )
+  })
 })

@@ -153,6 +153,7 @@ Copy, verbatim:
 - Heading: `Or start from a recorded question`
 - Supporting text: `Twelve descriptions were put to the live system, on both versions of the Act. A description outside those twelve has no recorded answer here.`
 - Outcome lines: `Answered on both texts`, `Refused on both texts`, `Refused on the original, answered on the amended`, `Answered on the original, refused on the amended`
+- A text the manifest holds no entry for: `not recorded on the original` or `not recorded on the amended` in place of that text's half of the line, so a missing recording never reads as answered
 - Flow labels: `Telling a person they are dealing with an AI system`, `Whether a system is high risk, and what follows`, `Changing a system already on the market`, `When an obligation starts to apply`
 
 The picks sit beside the input rather than in place of it. Narrowing the input to a picker would remove the unrecorded state below and change the surface the design was settled on, and the free-text field is what a visitor arrives expecting.

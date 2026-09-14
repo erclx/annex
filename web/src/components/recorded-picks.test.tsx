@@ -106,7 +106,8 @@ describe('the outcome line on each card', () => {
     expect(screen.getAllByText('Answered on both texts')).toHaveLength(
       recordedQuestions.filter(
         (question) =>
-          !question.refused.original && !question.refused.consolidated,
+          question.refused.original === false &&
+          question.refused.consolidated === false,
       ).length,
     )
   })

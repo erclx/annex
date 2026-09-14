@@ -37,8 +37,11 @@ export interface RecordedQuestion {
   id: string
   description: string
   flow: string
-  /** Whether the recording holds a refusal on each text, read off the manifest. */
-  refused: Record<CorpusVersion, boolean>
+  /**
+   * Whether the recording holds a refusal on each text, read off the manifest,
+   * and `null` for a text the manifest holds no entry for.
+   */
+  refused: Record<CorpusVersion, boolean | null>
 }
 
 export const capturedOn = manifest.captured_at
@@ -54,13 +57,12 @@ const byDescription = new Map(
   ]),
 )
 
-function refusedOn(questionId: string, version: CorpusVersion): boolean {
-  return manifest.entries.some(
-    (entry) =>
-      entry.question_id === questionId &&
-      entry.version === version &&
-      entry.refused,
+function refusedOn(questionId: string, version: CorpusVersion): boolean | null {
+  const entry = manifest.entries.find(
+    (candidate) =>
+      candidate.question_id === questionId && candidate.version === version,
   )
+  return entry ? entry.refused : null
 }
 
 export const recordedQuestions: RecordedQuestion[] = manifest.entries

@@ -76,7 +76,7 @@ The sans stack no longer carries that same tag. `fc-match` against every name in
 
 The Family column above is a CSS value rather than a statement of intent, so the sans rows still name the fallback stack rather than the embedded family `--font-sans` now reads first. The paragraph above states which family actually renders.
 
-A label reads in sentence case in the sans stack, with no letter spacing, per the operator's second-use pass on 2026-09-14, retiring the row's earlier mono, tracked, all-caps treatment. Every label site carries it. The last one in the retired form was the flow label in `web/src/components/recorded-picks.tsx`, drawn in capitals at 9.5px with 0.06em of letter spacing in the mono stack, and it converted with the cards that pass picked for the same file. Measured at `036dc52` on 2026-09-14, and the last site at `cf0f014` on the same day.
+A label reads in sentence case in the sans stack, with no letter spacing, per the operator's second-use pass on 2026-09-14, retiring the row's earlier mono, tracked, all-caps treatment. Every label site carries it. The last one in the retired form was the flow label in `web/src/components/recorded-picks.tsx`, drawn in capitals at 9.5px with 0.06em of letter spacing in the mono stack, and it converted with the cards that pass picked for the same file. Measured at `036dc52` on 2026-09-14, and the last site converted at this branch on the same day.
 
 ## Spacing
 
