@@ -147,3 +147,5 @@ All `.sh` files live under a `scripts/` folder, at the root or inside a half. Do
 - `pre-commit` runs `lint-staged` (prettier, cspell, shfmt, shellcheck on staged files).
 - `commit-msg` runs `commitlint` against the conventional commit format.
 - `pre-push` runs `bun run check`. When a markdown-bans audit tool is on PATH, it also gates on banned characters, words, and spellings across every tracked markdown file except `CHANGELOG.md`. After pushing, run `git status`. If files changed, commit the diff as `style(<scope>):` and push again.
+- `pre-push` fails loudly on the first push out of a fresh worktree, because `bun run check` runs `web`'s scripts over `web/node_modules`, which a root `bun install` does not populate. Run `cd web && bun install` once, per the Web dependencies bullet above, before the first push.
+- Git tracks each hook file's executable bit. A hook re-added at mode `644` is skipped silently rather than invoked, and `scripts/verify.sh` now checks `git ls-files -s .husky/` for that mode on every run.
