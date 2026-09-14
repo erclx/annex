@@ -96,8 +96,10 @@ on.
 
 > when do the obligations for a high-risk AI system start to apply to us
 
-Ask it, then move the version toggle from the amended text to the original and
-let it re-ask. Two different dates, each cited to Article 113, and the citation
+Ask it, then move the version toggle in the card holding the described system,
+at the head of the answer column, from the amended text to the original, and let
+it re-ask. The `Read the original text` link beside the Act swaps only the text
+the pane shows and asks nothing again, so it is not the control for this flow. Two different dates, each cited to Article 113, and the citation
 that moved is marked, its changed words highlighted against the excerpt rather
 than only flagged.
 
