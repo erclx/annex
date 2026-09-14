@@ -2,7 +2,7 @@
   "covers": ["governance", "tooling"],
   "domains": {
     "governance": {
-      "syncedAt": "2026-09-13T16:24:58.693Z",
+      "syncedAt": "2026-09-14T19:50:43.352Z",
       "files": {
         ".claude/rules/canon/ci/700-ci-workflow.md": "sha256:ee4b0988ef94dc92229004020dead689c0904176356e4caf7e83da0b1bbfc478",
         ".claude/rules/canon/claude/500-prose.md": "sha256:c1d40f1381c6f8c3838c9ea3469d91c8a5e42e9496690fc5b69945d162bad8d7",
@@ -10,9 +10,10 @@
         ".claude/rules/canon/claude/502-mermaid.md": "sha256:c16bd34102c72cd10e94419463e440236f5724f108ac51f6d18c3651c02f9bdd",
         ".claude/rules/canon/claude/510-context.md": "sha256:34ef87e414bd67cf6e52e83760225ce34f436a5e13a5c4d4a067abd895d3aec7",
         ".claude/rules/canon/claude/511-indexes.md": "sha256:1f63d582719cf2db0f55d404fa2277fa5c599770e95a2d75b0c96b94da1b6c8c",
-        ".claude/rules/canon/claude/520-wireframes.md": "sha256:10df1c0a4d2b84cc59916220df1f69eea1ced3fa0b84bb3f34edac13e90d9fac",
+        ".claude/rules/canon/claude/520-wireframes.md": "sha256:4f83a956d7f39e20cceb9608e2bbd3c0923a58508439276ec1d5d6633d6ee332",
         ".claude/rules/canon/claude/530-requirements.md": "sha256:1fe4f11769d186c4bbe79c1a3b066aa5d4f90c2a03db76a9867e1e1309f522a3",
         ".claude/rules/canon/claude/540-architecture.md": "sha256:de3522fdc0c620e8f5758cab1bcf10c38c8bf0aec83e91661ecde6cab3d05180",
+        ".claude/rules/canon/claude/545-decisions.md": "sha256:6dfcfcf29d99060fe1dba77f82fd3dd03a7562fa0fef17a3bef27be9fb0a7ff8",
         ".claude/rules/canon/claude/550-design.md": "sha256:6d1ad7028d6df8c76e5d44036e75df3fdcd9513065e37e5e0677fd5f15dea6bf",
         ".claude/rules/canon/claude/555-tasks.md": "sha256:5338c5ba5d59733ca61924e4009843db17fd26a470c0b820eff7bc6ff9659fb0",
         ".claude/rules/canon/claude/556-groundwork.md": "sha256:835487ec02e465c49c8a212bfac57718b0a0464aafcde1c0914948f16bae451f",
