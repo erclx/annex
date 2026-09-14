@@ -10,7 +10,6 @@ elkjs
 embedder
 GPAI
 Gwern
-hardlink
 harmonisation
 Menlo
 neighbour
