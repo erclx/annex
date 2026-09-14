@@ -2,8 +2,20 @@
 
 import { useState } from 'react'
 
-import { capturedOn } from '@/lib/replay'
 import { useDocked } from '@/lib/use-docked'
+
+interface ReplayNoticeProps {
+  /**
+   * The date this band names, and whether it dates one shown answer.
+   *
+   * `specific` is true when an answer is on screen, wording the sentence as
+   * a claim about that one recording. It is false on the landing page and
+   * before anything is asked, wording it as covering the set instead, since
+   * no single answer is what the visitor is looking at.
+   */
+  capturedOn: string
+  specific: boolean
+}
 
 /**
  * The band saying this page is a recording, rendered in every state.
@@ -20,13 +32,15 @@ import { useDocked } from '@/lib/use-docked'
  * nothing the page claims changes with the width.
  *
  * The date is read off the capture manifest rather than typed, so a
- * re-capture moves it and a stale recording cannot claim to be fresh. The
- * commit no longer renders here, per the operator's second-use pass: it named
- * a build a visitor has no use for reading, and the terms strip dropped its
+ * re-capture moves it and a stale recording cannot claim to be fresh, and it
+ * is the caller's own answer's date rather than one shared constant, since a
+ * narrowed re-capture can leave two recordings dated differently. The commit
+ * no longer renders here, per the operator's second-use pass: it named a
+ * build a visitor has no use for reading, and the terms strip dropped its
  * matching glossary entry in the same pass. Copy is owned by
  * `canon/wireframes/answer.md`.
  */
-export function ReplayNotice() {
+export function ReplayNotice({ capturedOn, specific }: ReplayNoticeProps) {
   const docked = useDocked()
   const [isOpen, setIsOpen] = useState(false)
 
@@ -36,7 +50,9 @@ export function ReplayNotice() {
         Nothing on this page calls a model.
       </span>
       <span className="text-[12px] text-muted">
-        Every answer was captured from the live system on {capturedOn}.
+        {specific
+          ? `This answer was captured from the live system on ${capturedOn}.`
+          : `Every answer was captured from the live system, most recently on ${capturedOn}.`}
       </span>
     </>
   )

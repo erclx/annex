@@ -29,6 +29,7 @@ import type { Answer } from '@/lib/answer'
 import { ask, type AskResult } from '@/lib/ask'
 import { useAskHandoff } from '@/lib/ask-handoff'
 import {
+  capturedOnFor,
   recordedDescriptionFor,
   recordedQuestionIdFor,
   REPLAY_MODE,
@@ -337,6 +338,7 @@ export default function Ask() {
   }, [asked, shownProvisionId, version])
 
   const nextStep = result && isNextStepState(result.state) ? result.state : null
+  const shownQuestionId = asked !== null ? recordedQuestionIdFor(asked) : null
 
   return (
     <div className="flex min-h-full flex-col bg-paper">
@@ -352,7 +354,12 @@ export default function Ask() {
         showTraversal={docked && asked !== null}
       />
 
-      {REPLAY_MODE && <ReplayNotice />}
+      {REPLAY_MODE && (
+        <ReplayNotice
+          capturedOn={capturedOnFor(shownQuestionId, version)}
+          specific={shownQuestionId !== null}
+        />
+      )}
 
       {asked !== null && (
         <div

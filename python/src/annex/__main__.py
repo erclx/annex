@@ -190,20 +190,38 @@ def _capture(
             print(f'{error.args[0]}', file=sys.stderr)
             return 1
 
+    destination = out or FIXTURES_PATH
     pipeline = Pipeline()
+    captured_pairs: set[tuple[str, CorpusVersion]] = set()
+
+    def ask(description: str, version: CorpusVersion) -> Answer:
+        answer = pipeline.ask(description, version=version)
+        captured_pairs.add((description, version))
+        return answer
+
     manifest = capture(
-        lambda description, version: pipeline.ask(description, version=version),
+        ask,
         questions=questions,
         versions=versions,
-        out=out or FIXTURES_PATH,
+        out=destination,
     )
-    refused = sum(1 for entry in manifest.entries if entry.refused)
+    this_run = [
+        entry
+        for entry in manifest.entries
+        if (entry.description, entry.version) in captured_pairs
+    ]
+    refused = sum(1 for entry in this_run if entry.refused)
+    stamp = this_run[0] if this_run else None
     print(
-        f'captured {len(manifest.entries)} answers, {refused} of them refusals, '
-        f'at {manifest.commit[:7]} on {manifest.captured_at}',
+        f'captured {len(this_run)} answers, {refused} of them refusals, '
+        + (
+            f'at {stamp.commit[:7]} on {stamp.captured_at}'
+            if stamp
+            else 'nothing recorded'
+        ),
         file=sys.stderr,
     )
-    print(f'fixtures at {out or FIXTURES_PATH}')
+    print(f'fixtures at {destination}')
     print('now run: cd web && bun run format', file=sys.stderr)
     return 0
 

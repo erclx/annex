@@ -20,17 +20,23 @@ Rendered under the top bar in every state, and only on the deployed build. A loc
 ```plaintext
 ├──────────────────────────────────────────────────────────────────────┤
 │ You are looking at a recording. Nothing on this page calls a model.  │
-│ Every answer was captured from the live system on 2026-09-07.        │
+│ This answer was captured from the live system on 2026-09-07.         │
 ├──────────────────────────────────────────────────────────────────────┤
 ```
 
-Copy, verbatim:
+Copy, verbatim, with an answer on screen:
 
 - `You are looking at a recording.`
 - `Nothing on this page calls a model.`
-- `Every answer was captured from the live system on <date>.`
+- `This answer was captured from the live system on <date>.`
 
-The date is read off the capture manifest rather than written here, so a re-capture moves it and a stale recording cannot claim to be fresh. The band carries no commit, per the operator's second-use pass: a visitor has no use for the exact build a recording came from, and the terms strip dropped its matching glossary entry in the same pass.
+Copy, verbatim, with no answer on screen, on the landing page or on `/ask` before anything is asked:
+
+- `You are looking at a recording.`
+- `Nothing on this page calls a model.`
+- `Every answer was captured from the live system, most recently on <date>.`
+
+The date is read off the capture manifest rather than written here, so a re-capture moves it and a stale recording cannot claim to be fresh. Each entry carries its own stamp, so a narrowed re-capture can leave two recordings dated differently, and the specific sentence names only the one answer on screen rather than claiming its date for the other twenty-three. The generic sentence covers the set instead, reading as the most recent of the 24 rather than a claim that every recording shares one day. The band carries no commit, per the operator's second-use pass: a visitor has no use for the exact build a recording came from, and the terms strip dropped its matching glossary entry in the same pass.
 
 The band is on the page rather than in a footnote because the claim a visitor would otherwise carry away is that they watched a model answer. They did not. The model this project runs holds 30 GB of a card, nothing hosted answers these questions, and what a deployment can honestly serve is what the live system already said.
 

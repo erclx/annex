@@ -26,7 +26,7 @@ test('the page says it is a recording before anything is asked', async ({
 
   await expect(page.getByText('You are looking at a recording.')).toBeVisible()
   await expect(
-    page.getByText('was captured from the live system on'),
+    page.getByText('was captured from the live system, most recently on'),
   ).toBeVisible()
 })
 
@@ -193,7 +193,7 @@ test.describe('the top of the page at 400 pixels', () => {
       page.getByText('Nothing on this page calls a model.'),
     ).toBeVisible()
     await expect(
-      page.getByText(/was captured from the live system on/),
+      page.getByText(/was captured from the live system, most recently on/),
     ).toBeVisible()
   })
 })
