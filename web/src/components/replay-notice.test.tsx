@@ -64,13 +64,24 @@ describe('ReplayNotice', () => {
     ).toBeInTheDocument()
     expect(
       screen.getByText(
-        'Every answer was captured from the live system on 2026-09-13.',
+        'This answer was captured from the live system on 2026-09-13.',
       ),
     ).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Details' })).toHaveAttribute(
       'aria-expanded',
       'true',
     )
+  })
+
+  it('should word the specific case as naming one answer rather than the whole set', async () => {
+    stubViewport(false)
+    render(<ReplayNotice capturedOn="2026-09-14" specific />)
+
+    await userEvent.click(screen.getByRole('button', { name: 'Details' }))
+
+    expect(
+      screen.queryByText(/^Every answer was captured/),
+    ).not.toBeInTheDocument()
   })
 
   it('should word the generic case as covering the set rather than one answer', async () => {

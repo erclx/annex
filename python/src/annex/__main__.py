@@ -180,8 +180,7 @@ def _capture(
     would add a hop and no fidelity.
     """
     from annex.agent import Pipeline
-    from annex.eval import FIXTURES_PATH, QUESTIONS, Manifest, Question, by_id, capture
-    from annex.eval.capture import MANIFEST_NAME
+    from annex.eval import FIXTURES_PATH, QUESTIONS, Question, by_id, capture
 
     questions: Sequence[Question] = QUESTIONS
     if question_ids:
@@ -192,21 +191,25 @@ def _capture(
             return 1
 
     destination = out or FIXTURES_PATH
-    manifest_path = destination / MANIFEST_NAME
-    before = (
-        Manifest.model_validate_json(manifest_path.read_text()).entries
-        if manifest_path.exists()
-        else ()
-    )
-
     pipeline = Pipeline()
+    captured_pairs: set[tuple[str, CorpusVersion]] = set()
+
+    def ask(description: str, version: CorpusVersion) -> Answer:
+        answer = pipeline.ask(description, version=version)
+        captured_pairs.add((description, version))
+        return answer
+
     manifest = capture(
-        lambda description, version: pipeline.ask(description, version=version),
+        ask,
         questions=questions,
         versions=versions,
         out=destination,
     )
-    this_run = [entry for entry in manifest.entries if entry not in before]
+    this_run = [
+        entry
+        for entry in manifest.entries
+        if (entry.description, entry.version) in captured_pairs
+    ]
     refused = sum(1 for entry in this_run if entry.refused)
     stamp = this_run[0] if this_run else None
     print(

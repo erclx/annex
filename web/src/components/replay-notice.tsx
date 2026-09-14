@@ -51,7 +51,7 @@ export function ReplayNotice({ capturedOn, specific }: ReplayNoticeProps) {
       </span>
       <span className="text-[12px] text-muted">
         {specific
-          ? `Every answer was captured from the live system on ${capturedOn}.`
+          ? `This answer was captured from the live system on ${capturedOn}.`
           : `Every answer was captured from the live system, most recently on ${capturedOn}.`}
       </span>
     </>
