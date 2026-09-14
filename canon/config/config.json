@@ -1,8 +1,5 @@
 {
-  "covers": [
-    "governance",
-    "tooling"
-  ],
+  "covers": ["governance", "tooling"],
   "domains": {
     "governance": {
       "syncedAt": "2026-09-14T19:50:43.352Z",
@@ -78,16 +75,12 @@
         ".claude/rules/canon/ui/440-surface-capture.md": "sha256:60bdef878865168f1d06e01ed4043fcb3d0091ec564afa6dcd973e1bbf5aa48a",
         ".claude/rules/canon/ui/450-link-behavior.md": "sha256:43c4aa1c8e3db74541266164f59d1e8bcd1ff30e5b19172fa6b764e3bb8b5f97"
       },
-      "chain": [
-        "react"
-      ]
+      "chain": ["react"]
     },
     "tooling": {
       "syncedAt": "2026-09-13T16:25:11.908Z",
       "files": {},
-      "chain": [
-        "base"
-      ]
+      "chain": ["base"]
     }
   }
 }
