@@ -28,7 +28,11 @@ what a pull request has to carry.
 - Leave `web/screenshots/` gitignored. That path holds the working set, which changes on every iteration and belongs in no one's history.
 - Read the design source before capturing, being `canon/wireframes/answer.md` for layout and copy and `canon/DESIGN.md` for tokens.
 - Cite a tracked path and never a path under `.canon/`, which is gitignored, in no history, and swept by the skill that wrote it. A rule pointing there resolves on one machine and nowhere else.
-- `web/evidence/3-loading/` renders a live elapsed-time counter, shipped in `#35`, so two runs of the capture never come back byte-identical. The toolkit's double-capture check binds only at first commit, and this state committed before the counter existed, so nothing today is in violation. A session recapturing it anyway meets the variance and has nothing warning it why: `#36` hit exactly this and its worker named the difference by hand rather than re-running toward a match that cannot happen. Expect the mismatch on this one state and do not chase it as a bug.
+- `web/evidence/3-loading/` renders a live elapsed-time counter, shipped in `#35`, so two runs of the capture never come back byte-identical. The toolkit's double-capture check binds only at first commit, and this state committed before the counter existed, so nothing today is in violation. A session recapturing it anyway meets the variance and has nothing warning it why: `#36` hit exactly this and its worker named the difference by hand rather than re-running toward a match that cannot happen. Expect the mismatch on this one state and do not chase it as a bug. Name the
+  actual difference in the pull request body, the way `#36` named a
+  one-millisecond change to a step's duration label, so a reviewer can tell a
+  live-counter capture from a real regression rather than trusting that this
+  bullet was the reason.
 
 ## What to carry on the pull request
 
