@@ -50,6 +50,7 @@ export function TopBar({
 }: TopBarProps) {
   const barRef = useRef<HTMLElement | null>(null)
   const pathname = usePathname()
+  const onHome = pathname === '/'
   const onEvaluation = pathname === EVALUATION_ROUTE
 
   useEffect(() => {
@@ -78,7 +79,11 @@ export function TopBar({
     >
       <div className="flex w-full flex-wrap items-center justify-between gap-x-4 gap-y-2 px-6 py-4 lg:px-8">
         <div className="flex min-w-0 items-center gap-2">
-          <Link href="/" className="flex items-center gap-2 text-ink">
+          <Link
+            href="/"
+            aria-label="Annex home"
+            className="flex items-center gap-2 text-ink"
+          >
             <BrandMark size={20} />
             <b className="text-[16px] font-semibold tracking-[-0.01em]">
               Annex
@@ -91,9 +96,17 @@ export function TopBar({
 
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
           <nav className="flex items-center gap-3 text-[12px]">
-            <a href={REPOSITORY_URL} className="text-accent hover:underline">
-              Repository
-            </a>
+            <Link
+              href="/"
+              aria-current={onHome ? 'page' : undefined}
+              className={
+                onHome
+                  ? 'font-semibold text-ink'
+                  : 'text-accent hover:underline'
+              }
+            >
+              Home
+            </Link>
             <Link
               href={EVALUATION_ROUTE}
               aria-current={onEvaluation ? 'page' : undefined}
@@ -117,9 +130,41 @@ export function TopBar({
           )}
         </div>
 
-        <ThemeToggle />
+        <div className="flex items-center gap-2">
+          <a
+            href={REPOSITORY_URL}
+            aria-label="Repository on GitHub"
+            className="flex h-[25px] w-[29px] shrink-0 items-center justify-center rounded-md border border-rule text-muted"
+          >
+            <GitHubMark />
+          </a>
+          <ThemeToggle />
+        </div>
       </div>
     </header>
+  )
+}
+
+/**
+ * Drawn inline rather than pulled from an icon set, the same way
+ * `ThemeToggle`'s three marks are. `canon/DESIGN.md` § Iconography bans a
+ * package and permits a stroked path in the component that uses it.
+ */
+function GitHubMark() {
+  return (
+    <svg
+      width={13}
+      height={13}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+    </svg>
   )
 }
 

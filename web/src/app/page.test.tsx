@@ -351,7 +351,7 @@ describe('where the version and traversal choices sit', () => {
 
     expect(
       within(screen.getByRole('banner')).getByRole('link', {
-        name: 'Repository',
+        name: 'Repository on GitHub',
       }),
     ).toBeInTheDocument()
   })

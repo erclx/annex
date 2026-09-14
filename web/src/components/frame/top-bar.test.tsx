@@ -45,15 +45,21 @@ describe('TopBar', () => {
     ).toMatch(/^\d+px$/)
   })
 
-  it('should link to the repository and open the evaluation in-site', () => {
+  it('should link home and open the evaluation in-site, with the repository as a labelled icon', () => {
     renderBar()
 
-    const repository = screen.getByRole('link', { name: 'Repository' })
-    expect(repository).toHaveAttribute('href', 'https://github.com/erclx/annex')
+    const home = screen.getByRole('link', { name: 'Home' })
+    expect(home).toHaveAttribute('href', '/')
+    expect(home).toHaveAttribute('aria-current', 'page')
 
     const evaluation = screen.getByRole('link', { name: 'Evaluation' })
     expect(evaluation).toHaveAttribute('href', '/evaluation')
     expect(evaluation).not.toHaveAttribute('aria-current')
+
+    const repository = screen.getByRole('link', {
+      name: 'Repository on GitHub',
+    })
+    expect(repository).toHaveAttribute('href', 'https://github.com/erclx/annex')
   })
 
   it('should mark the evaluation link current on that route', () => {
@@ -64,6 +70,21 @@ describe('TopBar', () => {
       'aria-current',
       'page',
     )
+    expect(screen.getByRole('link', { name: 'Home' })).not.toHaveAttribute(
+      'aria-current',
+    )
+  })
+
+  it('should mark neither link current on the ask route', () => {
+    navigation.pathname = '/ask'
+    renderBar()
+
+    expect(screen.getByRole('link', { name: 'Home' })).not.toHaveAttribute(
+      'aria-current',
+    )
+    expect(
+      screen.getByRole('link', { name: 'Evaluation' }),
+    ).not.toHaveAttribute('aria-current')
   })
 
   it('should say what turning traversal off compares on the live build', () => {
@@ -90,7 +111,7 @@ describe('TopBar', () => {
   it('should link the mark and the name to the empty page', () => {
     renderBar()
 
-    expect(screen.getByRole('link', { name: 'Annex' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Annex home' })).toHaveAttribute(
       'href',
       '/',
     )
@@ -99,7 +120,10 @@ describe('TopBar', () => {
   it('should keep the links while the traversal switch sits elsewhere', () => {
     renderBar({ showTraversal: false })
 
-    expect(screen.getByRole('link', { name: 'Repository' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Home' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('link', { name: 'Repository on GitHub' }),
+    ).toBeInTheDocument()
     expect(
       screen.queryByRole('switch', { name: 'Reference traversal' }),
     ).not.toBeInTheDocument()

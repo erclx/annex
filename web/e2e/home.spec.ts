@@ -445,19 +445,31 @@ test('the terms strip gathers the load-bearing definitions', async ({
   ).toBeVisible()
 })
 
-test('the top bar links to the repository and opens the evaluation in-site', async ({
+test('the top bar links home, opens the evaluation in-site, and links the repository as an icon', async ({
   page,
 }) => {
   await page.goto('/')
 
-  await expect(page.getByRole('link', { name: 'Repository' })).toHaveAttribute(
-    'href',
-    'https://github.com/erclx/annex',
-  )
+  await expect(
+    page.getByRole('link', { name: 'Home', exact: true }),
+  ).toHaveAttribute('href', '/')
   await expect(page.getByRole('link', { name: 'Evaluation' })).toHaveAttribute(
     'href',
     '/evaluation',
   )
+  await expect(
+    page.getByRole('link', { name: 'Repository on GitHub' }),
+  ).toHaveAttribute('href', 'https://github.com/erclx/annex')
+})
+
+test('Home in the top bar returns from the evaluation route to the landing page', async ({
+  page,
+}) => {
+  await page.goto('/evaluation')
+
+  await page.getByRole('link', { name: 'Home', exact: true }).click()
+
+  await expect(page).toHaveURL('/')
 })
 
 test.describe('the evaluation route', () => {
@@ -847,7 +859,7 @@ test.describe('the frame at 1280 pixels', () => {
       .poll(async () => (await banner.boundingBox())?.height)
       .toBe(heightBefore)
     await expect(
-      banner.getByRole('link', { name: 'Repository' }),
+      banner.getByRole('link', { name: 'Repository on GitHub' }),
     ).toBeInViewport()
     await expect(
       banner.getByRole('switch', { name: 'Reference traversal' }),

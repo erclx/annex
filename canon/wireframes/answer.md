@@ -64,7 +64,7 @@ The landing page at `/`, reached on arrival. The top bar and the band run the fu
 
 ```plaintext
 ┌──────────────────────────────────────────────────────────────────────┐
-│ ◆ Annex Which articles of the EU AI Act…  Repository  Evaluation     │ ← top bar, pinned, and
+│ ◆ Annex Which articles of the EU AI Act…  Home  Evaluation           │ ← top bar, pinned, and
 │                                                                      │   no control on this page
 ├──────────────────────────────────────────────────────────────────────┤
 │          Describe your AI system. Get back the articles              │ ← display, centered,
@@ -99,7 +99,7 @@ Copy, verbatim:
 
 - Product name: `Annex`, with the project mark drawn before it
 - Tagline: `Which articles of the EU AI Act you have to read`
-- Top bar links: `Repository`, `Evaluation`
+- Top bar links: `Home`, `Evaluation`, with the repository as a labelled icon rather than a third link
 - Traversal hint on the local build: `Turn off to compare against search alone`
 - Traversal hint on the deployed build: `Recorded with traversal on`
 - Display: `Describe your AI system. Get back the articles of the AI Act you need to read.`
@@ -110,7 +110,7 @@ Copy, verbatim:
 
 The last sentence of that supporting text is doing compliance work rather than tone work. No label, heading, or button anywhere on this surface may imply a verdict on whether an organization complies, and the empty state states that boundary before a visitor has asked anything.
 
-The top bar carries `Repository` and `Evaluation` in every state and at every width rather than on the empty state alone. A visitor who reaches an answer or a refusal, the moment likeliest to prompt checking the source, can still reach them without editing back to a blank form. The bar keeps one full height throughout, and its mark and name link to `/`.
+The top bar carries `Home`, `Evaluation` and the repository icon in every state and at every width rather than on the empty state alone. A visitor who reaches an answer or a refusal, the moment likeliest to prompt checking the source, can still reach them without editing back to a blank form. The bar keeps one full height throughout, and its mark and name link to `/`, as does `Home` beside `Evaluation`.
 
 The composer is one rounded box on `surface` holding the description, the version toggle, the traversal switch with its hint as visible text, and `Find the articles`. Its footer runs as one row at 1024 and wider and stacks below that. The bar on `/` holds no control, since both choices sit in the composer where the description they apply to is written. The operator's second-use pass picked this composer over a plain field with the button under it, a composer with the choices left outside, and a taller composer whose send control lost its label.
 
@@ -128,8 +128,8 @@ The heading renders at 34px and centers with the supporting text on this page al
 
 ```plaintext
 ┌──────────────────────────────┐
-│ ◆ Annex  Repository  Eval…   │ ← the brand and the links
-│                     [theme]  │
+│ ◆ Annex  Home  Eval…         │ ← the brand and the links
+│                 [gh][theme]  │
 ├──────────────────────────────┤
 │ Describe your AI system.     │
 │ Get back the articles of the │
@@ -183,7 +183,7 @@ Reached from `Evaluation` in the top bar on every route, and from the line under
 
 ```plaintext
 ┌──────────────────────────────────────────────────────────────────────┐
-│ ◆ Annex Which articles of the EU AI Act…  Repository *Evaluation*    │ ← top bar, current
+│ ◆ Annex Which articles of the EU AI Act…  Home *Evaluation*          │ ← top bar, current
 ├──────────────────────────────────────────────────────────────────────┤
 │   Evaluation                                                         │ ← heading, 1080 wide
 │   How an answer is built, and how three ways of answering compare    │
@@ -326,7 +326,7 @@ The plain case. No provision moved, nothing cut.
 
 ```plaintext
 ┌──────────────────────────────────────────────────────────────────────┐
-│ Annex  Which articles of the EU AI Act…   Repository  Evaluation     │
+│ Annex  Which articles of the EU AI Act…   Home  Evaluation           │
 │                                     (•) Reference traversal          │ ← the switch alone
 ├───────────────────────────────────┬──────────────────────────────────┤
 │ ┌───────────────────────────────┐ │ [*The Act*| The walk ]           │ ← pane header
@@ -735,10 +735,10 @@ It links to the article, annex, or recital the citation's paragraph sits under, 
 - The local build's address carries the version and the provision alone. A typed description can run to 4 000 characters and says what someone is building, so it never reaches an address the browser keeps in its history
 - A pick or a valid submit on `/` navigates to `/ask`, and the browser's back action returns to `/`. A typed description crosses in memory the root layout holds, never in storage or the address, so `/ask` opened with nothing to ask, such as a reload on the live build or a bare visit, replaces itself with `/`. A description the service rejects returns to `/` with the message on the composer
 - On the deployed build a link shared as `/?q=…` forwards to the same answer at `/ask?q=…`, keeping the version and the provision. An address carrying a version alone stays on `/` and sets the composer's toggle
-- `Evaluation` in the top bar is an in-site link to `/evaluation` on every route, and marks itself current there rather than leaving for GitHub. `Repository` keeps its own external anchor. The line under the composer on `/` reaches the same route
+- `Home` and `Evaluation` are both in-site links in the top bar, on every route, and each marks itself current with `aria-current="page"` on its own route and neither does on `/ask`. The repository leaves the text row for a labelled icon in its own bordered box beside the theme control, keeping its own external anchor. The line under the composer on `/` reaches the same route as `Evaluation`
 
 ## Not on this surface
 
-There is no navigation rail, no account, and no history. Three routes carry the product, `/`, `/ask` and `/evaluation`, and nothing moves between them except a pick, a submit, the back action, the mark, Edit description, and the `Evaluation` link. The pane is a region of `/ask`, and it holds what the question in front of the reader needs rather than a way to move between documents. A visitor asks one question at a time and `/ask` is that question's answer. The address carries that answer's state on `/ask` and adds no field for the split: a linked state opens `/ask` as it stood. `/evaluation` carries no state of its own in the address, since nothing on it is chosen or typed.
+There is no navigation rail, no account, and no history. Three routes carry the product, `/`, `/ask` and `/evaluation`, and nothing moves between them except a pick, a submit, the back action, the mark, `Home`, Edit description, and the `Evaluation` link. The mark still reaches `/` beside `Home`, so a reader loses no way home the pick added a word to rather than replaced. The pane is a region of `/ask`, and it holds what the question in front of the reader needs rather than a way to move between documents. A visitor asks one question at a time and `/ask` is that question's answer. The address carries that answer's state on `/ask` and adds no field for the split: a linked state opens `/ask` as it stood. `/evaluation` carries no state of its own in the address, since nothing on it is chosen or typed.
 
 This section used to say there was no second screen and that the address carried state without adding a route. N1 arm 2 of the operator's second-use pass overturned both on 2026-09-14. It named two routes rather than three until T6 Pick 5 of the third-use pass added `/evaluation` on the same date.
