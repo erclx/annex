@@ -128,8 +128,7 @@ The heading renders at 34px and centers with the supporting text on this page al
 
 ```plaintext
 ┌──────────────────────────────┐
-│ ◆ Annex  Home  Eval…         │ ← the brand and the links
-│                 [gh][theme]  │
+│ ◆ Annex Home Eval[gh][theme] │ ← one row, tagline hidden here
 ├──────────────────────────────┤
 │ Describe your AI system.     │
 │ Get back the articles of the │
