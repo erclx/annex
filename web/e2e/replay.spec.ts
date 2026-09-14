@@ -276,7 +276,7 @@ test.describe('an answer carried in the address', () => {
     await expect(page.getByText(linked.description).first()).toBeVisible()
     expect(new URL(page.url()).searchParams.get('p')).toBe(provisionBefore)
     await expect
-      .poll(() => page.evaluate(() => window.scrollY), { timeout: 8000 })
+      .poll(() => page.evaluate(() => window.scrollY))
       .toBeGreaterThan(scrollBefore - 4)
     const scrollAfter = await page.evaluate(() => window.scrollY)
     expect(Math.abs(scrollAfter - scrollBefore)).toBeLessThanOrEqual(4)

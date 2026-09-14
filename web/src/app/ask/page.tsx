@@ -147,6 +147,14 @@ export default function Ask() {
   const paneScrollRef = useRef(0)
 
   /**
+   * Set once a link press has frozen `pageScrollRef` for the leave in
+   * progress, so the scroll listener stops overwriting it with the app
+   * router's own scroll-to-top for that same transition, which still fires
+   * as a real scroll event while this page is mounted. Cleared on mount.
+   */
+  const pageScrollFrozen = useRef(false)
+
+  /**
    * The kept-answer entry this session would leave behind, current as of the
    * last settled result or reader pick, and flushed with the latest scroll
    * offsets on leaving.
@@ -154,9 +162,9 @@ export default function Ask() {
   const keptSnapshotRef = useRef<KeptAnswer | null>(null)
 
   /**
-   * The restore's own reassert loop, so leaving again inside its couple of
-   * seconds cancels it rather than letting it keep calling `window.scrollTo`
-   * against whatever page replaced this one.
+   * The restore's own deferred scroll write, so leaving again before it has
+   * run cancels it rather than letting it write `scrollTop` on whatever page
+   * replaced this one.
    */
   const reassertFrame = useRef(0)
 
@@ -210,6 +218,7 @@ export default function Ask() {
   // cheap enough to need no throttle.
   useEffect(() => {
     function handleScroll() {
+      if (pageScrollFrozen.current) return
       pageScrollRef.current = window.scrollY
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
@@ -223,12 +232,22 @@ export default function Ask() {
   // starting that transition, while this page is still mounted, and that
   // reset fires as a real scroll event the listener above cannot tell from
   // the reader's own scrolling. By the time the cleanup two effects up
-  // reads it, the value it reads is the reset's rather than the reader's.
-  // A capture-phase listener on every pointer press flushes the kept entry
-  // with whatever the offsets are at that instant, ahead of the click that
-  // would start the transition and the reset that rides along with it.
+  // reads it, the value it reads is the reset's rather than the reader's,
+  // since the reset lands before the unmount does. A capture-phase listener
+  // on a link's own pointer press freezes `pageScrollRef` at whatever the
+  // offset is at that instant, ahead of the click that would start the
+  // transition and the reset that rides along with it, and flushes the kept
+  // entry with the same value so a session that never remounts still keeps
+  // the reader's own position rather than nothing. Scoped to a link rather
+  // than every pointer press anywhere in the document, since selecting
+  // text, toggling the theme and opening a citation none of them start a
+  // navigation and none needs this freeze.
   useEffect(() => {
-    function handlePointerDown() {
+    function handlePointerDown(event: PointerEvent) {
+      if (!(event.target instanceof Element)) return
+      if (!event.target.closest('a')) return
+      pageScrollRef.current = window.scrollY
+      pageScrollFrozen.current = true
       if (!keptSnapshotRef.current) return
       setKeptAnswer({
         ...keptSnapshotRef.current,
@@ -329,29 +348,18 @@ export default function Ask() {
       // out so the answer has painted first.
       //
       // `document.documentElement.scrollTop` rather than `window.scrollTo`:
-      // measured against a real back navigation, `window.scrollTo(0, y)`
-      // was a silent no-op for seconds at a stretch while the direct
-      // property write took immediately, called back to back in the same
-      // frame. Nothing here explains why; the property write is what was
-      // measured to work.
-      //
-      // A restore reached through the browser's own back action races the
-      // app router's own scroll handling of that navigation, which can keep
-      // winning for several seconds under load, so this keeps reasserting
-      // the restored offset for a few seconds rather than writing it once.
-      // The unmount cleanup cancels `reassertFrame`, so leaving again inside
-      // that window stops it rather than letting it keep writing
-      // `scrollTop` against whatever page replaced this one.
+      // measured as more reliable against a real back navigation, and it is
+      // one write rather than a loop because the mount effect in
+      // `ask-handoff.tsx` takes the app router's own scroll handling out of
+      // the race by setting `history.scrollRestoration = 'manual'`, so
+      // nothing else is left writing the offset this restore just wrote.
+      // The unmount cleanup cancels `reassertFrame` in case this frame has
+      // not yet run when the reader leaves again.
       const pageScrollY = kept.pageScrollY
-      const deadline = Date.now() + 5000
-      const reassert = () => {
+      reassertFrame.current = requestAnimationFrame(() => {
         document.documentElement.scrollTop = pageScrollY
         pageScrollRef.current = pageScrollY
-        if (Date.now() < deadline) {
-          reassertFrame.current = requestAnimationFrame(reassert)
-        }
-      }
-      reassertFrame.current = requestAnimationFrame(reassert)
+      })
     },
     [docked],
   )

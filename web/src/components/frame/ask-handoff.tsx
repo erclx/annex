@@ -1,6 +1,12 @@
 'use client'
 
-import { type ReactNode, useCallback, useMemo, useState } from 'react'
+import {
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 
 import {
   type AskHandoff,
@@ -31,6 +37,17 @@ import {
 export function AskHandoffProvider({ children }: { children: ReactNode }) {
   const [handoff, setWhole] = useState<AskHandoff>(DEFAULT_HANDOFF)
   const [keptAnswer, setKeptAnswer] = useState<KeptAnswer | null>(null)
+
+  // The app router restores scroll on a back or forward navigation itself,
+  // which races a kept answer's own restore of the same offset. Taking the
+  // browser's native history scroll restoration out of that race, once, for
+  // the life of the session, is what turns the kept answer's restore into
+  // the only write rather than one of two.
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual'
+    }
+  }, [])
 
   const setHandoff = useCallback((next: Partial<AskHandoff>) => {
     setWhole((current) => ({ ...current, ...next }))
