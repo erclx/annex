@@ -5,7 +5,9 @@ description: The landing page and the ask route, where a described system become
 
 # Answer
 
-Two routes carry the product. `/` is the landing page: what the tool does, the composer, the recorded questions, then the terms and the three-arm comparison. A pick or a submit opens `/ask`, where the described system becomes the answer, the refusal, or the failure, and the browser's back action or the mark in the bar returns to `/`. There is no navigation rail between them.
+Three routes carry the product. `/` is the landing page: what the tool does, the composer, the recorded questions, then a line reaching how the pipeline is built and measured. `/evaluation` holds the terms, the pipeline rail and the three-arm comparison that used to close `/` itself. A pick or a submit opens `/ask`, where the described system becomes the answer, the refusal, or the failure, and the browser's back action or the mark in the bar returns to `/`. There is no navigation rail between any of them.
+
+The operator's third-use pass moved those three sections off `/` and onto `/evaluation` on 2026-09-14, T6 Pick 5, arm 3, over leaving the page as shipped, over reaching the new route from the bar alone with no line under the composer, and over folding the sections behind one closed disclosure under the cards. `canon/ARCHITECTURE.md` records the pick against what it beat. It revises N1 arm 2 and N10 arm 3 of the second-use pass in part: the terms and the comparison stop being sections of `/`, and the side-by-side stages and table move with them to `/evaluation` unchanged.
 
 One page used to carry both, with no navigation and no second screen. The operator's second-use pass split it on 2026-09-14, N1 arm 2, and `canon/ARCHITECTURE.md` records what that beat. The file stays one wireframe rather than two, so the retired lines read against their replacements in one place.
 
@@ -58,7 +60,7 @@ Copy, verbatim, below 1024:
 
 ## Empty, at 1024 and wider
 
-The landing page at `/`, reached on arrival. The top bar and the band run the full width. Under them the heading, the supporting text and the composer center on one measure, and the recorded questions, the terms and the comparison follow as full-width sections on a wider one. Nothing sits beside the composer.
+The landing page at `/`, reached on arrival. The top bar and the band run the full width. Under them the heading, the supporting text and the composer center on one measure, and the recorded questions follow as a full-width section on a wider one, closing with a line to `/evaluation`. Nothing sits beside the composer.
 
 ```plaintext
 ┌──────────────────────────────────────────────────────────────────────┐
@@ -89,18 +91,7 @@ The landing page at `/`, reached on arrival. The top bar and the band run the fu
 │   └──────────────────┘ └──────────────────┘ └──────────────────┘     │
 │   …four groups, three cards each                                     │
 │                                                                      │
-│   Terms used on this page                                            │
-│   Provision      An addressable piece of the law…                    │
-│   …six terms in all                                                  │
-│                                                                      │
-│   How an answer is built        │ The three-arm comparison           │ ← two columns in a
-│   Five stages, in the order…    │ The Act fits inside a current…     │   1 040 container
-│   ○ Intake                      │ Arm | Text | Recall | …            │
-│   ● Retrieve ┐ The comparison   │                                    │
-│   ● Traverse ┘ switches these…  │                                    │
-│   ○ Synthesize                  │                                    │
-│   ○ Verify                      │                                    │
-│   Faithfulness is matched against what an arm was supplied…          │
+│   How answers are built and measured →         ← reaches /evaluation │
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -115,6 +106,7 @@ Copy, verbatim:
 - Supporting text: `Write it the way you'd explain it to a colleague. Annex finds the provisions that apply and quotes each one, so you can check every claim against the law itself. Read against the Act as published or as amended on 27 July 2026. It won't tell you whether you comply.`
 - Input placeholder: `A customer-service chatbot that also scores loan applications…`
 - Action: `Find the articles`, with an arrow after it that is drawn and never read as part of the name
+- Link to the evaluation: `How answers are built and measured →`, reaching `/evaluation`
 
 The last sentence of that supporting text is doing compliance work rather than tone work. No label, heading, or button anywhere on this surface may imply a verdict on whether an organization complies, and the empty state states that boundary before a visitor has asked anything.
 
@@ -128,7 +120,7 @@ The traversal switch is a 30 by 17px pill, `rounded-full`, filling `bg-accent` w
 
 The textarea draws no outline of its own. While anything inside the composer has focus, whether the textarea, the version toggle, the traversal switch or `Find the articles`, the card's own border darkens from `rule` to `muted`, measured at 5.38 to 1 against `surface` in light and 6.18 to 1 in dark, against the 1.33 to 1 and 1.30 to 1 it rests at, both past the 3 to 1 a focus indicator is held to. The third-use pass picked this over an accent border and ring on the textarea alone, which spent accent on a state the resize grip's own hover rule already keeps neutral, and over a deeper shadow, whose border never crossed the 3 to 1 floor. A failed submit's `border-error` still wins over the focus border, and the toggle, the switch and `Find the articles` keep their own keyboard focus rings inside the card.
 
-Nothing sits beside the composer. A pane holding the terms and the comparison beside the question was picked in an earlier round over no pane at all, the Act open at Article 3, and a recorded answer previewed, and N1 arm 2 retired it: the terms and the comparison are sections of the landing page, and the pane is on `/ask` alone. `canon/ARCHITECTURE.md` carries both picks.
+Nothing sits beside the composer. A pane holding the terms and the comparison beside the question was picked in an earlier round over no pane at all, the Act open at Article 3, and a recorded answer previewed, and N1 arm 2 retired it: the pane is on `/ask` alone. T6 Pick 5 moved the terms and the comparison a step further, off `/` entirely and onto `/evaluation`, per § Evaluation below. `canon/ARCHITECTURE.md` carries every pick.
 
 The heading renders at 34px and centers with the supporting text on this page alone, a size set by the landing page's placement rather than by the composer's own copy. The composer is 640 wide, which holds its footer on one row with the traversal hint as visible text beside the switch.
 
@@ -158,14 +150,12 @@ The heading renders at 34px and centers with the supporting text on this page al
 │ │ Answered on both texts   │ │
 │ └──────────────────────────┘ │
 │ …                            │
-│ Terms used on this page      │ ← the same sections,
-│ …                            │   under the picks
-│ How an answer is built       │
-│ The three-arm comparison     │
+│ How answers are built and    │ ← reaches /evaluation
+│ measured →                   │
 └──────────────────────────────┘
 ```
 
-The terms and the comparison follow the recorded picks in the one column, the same sections the landing page sets at 1024 and wider, with the comparison's halves stacked.
+The link to `/evaluation` follows the recorded picks in the one column, the same line the landing page sets at 1024 and wider.
 
 ### The recorded picks
 
@@ -187,17 +177,47 @@ The word `Twelve` is typed, and `web/src/lib/service/replay.test.ts` fails when 
 
 The four flow labels are the evaluation's own grouping, three questions apiece. The fifth demo flow, the three-arm result, is not a question a visitor asks. It renders below as the comparison rather than as a fifth pick.
 
-### The terms strip
+## Evaluation
 
-Gathers the six load-bearing terms that appear unglossed elsewhere on this surface: `provisions`, the `Original` / `Amended 27 Jul 2026` pair, `Reference traversal`, `high risk`, `general-purpose AI model`, and `prohibited practice`. Term and definition sit side by side under the label `Terms used on this page`.
+Reached from `Evaluation` in the top bar on every route, and from the line under the composer on `/`. The top bar and the band run the full width as they do everywhere else, and the page itself holds a heading, one line naming what it carries, a link out to the full write-up, and the terms strip and the three-arm comparison that used to close the landing page.
+
+```plaintext
+┌──────────────────────────────────────────────────────────────────────┐
+│ ◆ Annex Which articles of the EU AI Act…  Repository *Evaluation*    │ ← top bar, current
+├──────────────────────────────────────────────────────────────────────┤
+│   Evaluation                                                         │ ← heading, 1080 wide
+│   How an answer is built, and how three ways of answering compare    │
+│   on the same questions.                                             │
+│   The full write-up is on GitHub →                                   │
+│                                                                      │
+│   Terms used on this page                                            │
+│   Provision      An addressable piece of the law…                    │
+│   …six terms in all                                                  │
+│                                                                      │
+│   How an answer is built        │ The three-arm comparison           │ ← two columns in a
+│   Five stages, in the order…    │ The Act fits inside a current…     │   1 040 container
+│   ○ Intake                      │ Arm | Text | Recall | …            │
+│   ● Retrieve ┐ The comparison   │                                    │
+│   ● Traverse ┘ switches these…  │                                    │
+│   ○ Synthesize                  │                                    │
+│   ○ Verify                      │                                    │
+│   Faithfulness is matched against what an arm was supplied…          │
+└──────────────────────────────────────────────────────────────────────┘
+```
+
+Copy, verbatim:
+
+- Heading: `Evaluation`
+- Description line: `How an answer is built, and how three ways of answering compare on the same questions.`
+- Link out: `The full write-up is on GitHub →`, to `docs/evaluation.md`
+
+The terms strip gathers the six load-bearing terms that appear unglossed elsewhere on this surface: `provisions`, the `Original` / `Amended 27 Jul 2026` pair, `Reference traversal`, `high risk`, `general-purpose AI model`, and `prohibited practice`. Term and definition sit side by side under the label `Terms used on this page`.
 
 An inline hover definition was drafted and rejected by looking. It is a second overlay on a surface whose only overlay is the pane below 1024, and a gathered strip needs no hover state, so it carries every definition at once.
 
-### The three-arm comparison
+Under the strip, a labelled region holds the three-arm comparison in two halves with the caveats spanning beneath both. The first half, headed `How an answer is built`, gives a one-sentence lead-in and the pipeline figure. The second, headed `The three-arm comparison`, holds the argument for measuring retrieval against a full-context baseline at all and the table. The table is generated from `python/data/eval/results.json` through the `evaluation-summary.json` fixture rather than transcribed, so it moves when the next `evaluate` run does.
 
-A labelled region under the terms, in two halves with the caveats spanning beneath both. The first half, headed `How an answer is built`, gives a one-sentence lead-in and the pipeline figure. The second, headed `The three-arm comparison`, holds the argument for measuring retrieval against a full-context baseline at all and the table. The table is generated from `python/data/eval/results.json` through the `evaluation-summary.json` fixture rather than transcribed, so it moves when the next `evaluate` run does.
-
-The halves sit side by side, figure on the left, only in a container 1 040 pixels wide or more. Everywhere narrower they stack figure first. The landing page's section is 1 080 wide at 1280 and wider, so it draws the two halves side by side there. The pane beside a failure on `/ask` and the single column below 1024 stay under that width and draw the stacked form.
+The halves sit side by side, figure on the left, only in a container 1 040 pixels wide or more. Everywhere narrower they stack figure first. This route's section is 1 080 wide at 1280 and wider, so it draws the two halves side by side there. The pane beside a failure on `/ask` and the single column below 1024 stay under that width and draw the stacked form.
 
 The pipeline figure itself draws one of two ways, switching on its own rendered width rather than on which of the states above it sits in. A vertical rail, one stage a row, covers every width side by side and the narrow end of the stacked range. From 657 pixels of the figure's own width, measured where the shortest stage label starts wrapping, it draws a horizontal row instead: the same five stages across, the same bracket under Retrieve and Traverse, filling the width the rail left empty while the halves stack. `pipeline-diagram.tsx` carries both.
 
@@ -214,6 +234,10 @@ The table carries one row per arm and text: the arm's label, which text it ran a
 Beneath both halves, one line names the hardware and the model each arm ran on. The argument above the table explains why the comparison exists: the Act fits inside a current context window, so a model can read the whole document and answer from it, which makes retrieval something to justify rather than assume.
 
 The rail comes first. It draws the five stages a request passes through, intake through verify, with a bracket against retrieve and traverse, so a reader sees where the two switched stages sit inside one answer before reading the table that switches them. Its bracket sits beside the stage text rather than at the far edge of the half.
+
+The same terms strip and comparison still fill the `/ask` pane beside a timeout or an unexpected failure, through `terms-pane.tsx`, unchanged by the move: this route and that pane are two callers of the same two components rather than one holding what the other lost.
+
+Picked at T6, Pick 5 of the operator's third-use pass on 2026-09-14, arm 3, over the page as shipped, over reaching the route from the bar alone with no line under the composer, and over folding the sections behind one closed disclosure under the cards. It revises N1 arm 2 and N10 arm 3 of the second-use pass in part, both recorded in `canon/ARCHITECTURE.md` beside this pick.
 
 ## Invalid
 
@@ -711,9 +735,10 @@ It links to the article, annex, or recital the citation's paragraph sits under, 
 - The local build's address carries the version and the provision alone. A typed description can run to 4 000 characters and says what someone is building, so it never reaches an address the browser keeps in its history
 - A pick or a valid submit on `/` navigates to `/ask`, and the browser's back action returns to `/`. A typed description crosses in memory the root layout holds, never in storage or the address, so `/ask` opened with nothing to ask, such as a reload on the live build or a bare visit, replaces itself with `/`. A description the service rejects returns to `/` with the message on the composer
 - On the deployed build a link shared as `/?q=…` forwards to the same answer at `/ask?q=…`, keeping the version and the provision. An address carrying a version alone stays on `/` and sets the composer's toggle
+- `Evaluation` in the top bar is an in-site link to `/evaluation` on every route, and marks itself current there rather than leaving for GitHub. `Repository` keeps its own external anchor. The line under the composer on `/` reaches the same route
 
 ## Not on this surface
 
-There is no navigation rail, no account, and no history. Two routes carry the product, `/` and `/ask`, and nothing moves between them except a pick, a submit, the back action, the mark and Edit description. The pane is a region of `/ask`, and it holds what the question in front of the reader needs rather than a way to move between documents. A visitor asks one question at a time and `/ask` is that question's answer. The address carries that answer's state on `/ask` and adds no field for the split: a linked state opens `/ask` as it stood.
+There is no navigation rail, no account, and no history. Three routes carry the product, `/`, `/ask` and `/evaluation`, and nothing moves between them except a pick, a submit, the back action, the mark, Edit description, and the `Evaluation` link. The pane is a region of `/ask`, and it holds what the question in front of the reader needs rather than a way to move between documents. A visitor asks one question at a time and `/ask` is that question's answer. The address carries that answer's state on `/ask` and adds no field for the split: a linked state opens `/ask` as it stood. `/evaluation` carries no state of its own in the address, since nothing on it is chosen or typed.
 
-This section used to say there was no second screen and that the address carried state without adding a route. N1 arm 2 of the operator's second-use pass overturned both on 2026-09-14.
+This section used to say there was no second screen and that the address carried state without adding a route. N1 arm 2 of the operator's second-use pass overturned both on 2026-09-14. It named two routes rather than three until T6 Pick 5 of the third-use pass added `/evaluation` on the same date.

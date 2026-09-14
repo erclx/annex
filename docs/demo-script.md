@@ -119,9 +119,10 @@ search's own reach is unmeasured until the harness runs again.
 
 ## The fifth flow has no screen
 
-The three-arm comparison is not a question anyone asks. The landing page sets its
-table beside the pipeline figure as a summary, and the report behind that table
-is read rather than clicked:
+The three-arm comparison is not a question anyone asks. `Evaluation` in the top
+bar, or the line under the composer on the landing page, opens the route that
+sets its table beside the pipeline figure as a summary, and the report behind
+that table is read rather than clicked:
 
 ```bash
 cd python && uv run python -m annex evaluate --report-only

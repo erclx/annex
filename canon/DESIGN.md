@@ -113,7 +113,7 @@ Picked by looking against real content, and `canon/context/design-references.md`
 - The top bar pins to the top of the viewport at one full height in every state
 - The pane stays in view under the pinned bar, fills the height left below it, and scrolls inside itself
 - On `/ask`, content starts from the page's left gutter under a full-width top bar, with no centered container
-- On `/`, the landing page centers its heading, supporting text and composer on a 760px measure at 1024px and wider, with the composer at 640px and the heading at 34px, and holds the recorded questions, the terms and the comparison to a centered 1080px measure inside the gutter. Below 1024px it keeps the left gutter and the 26px heading
+- On `/`, the landing page centers its heading, supporting text and composer on a 760px measure at 1024px and wider, with the composer at 640px and the heading at 34px, and holds the recorded questions to a centered 1080px measure inside the gutter. Below 1024px it keeps the left gutter and the 26px heading. `/evaluation` holds the terms, the pipeline rail and the three-arm comparison the landing page carried until T6 Pick 5 moved them, to the same centered 1080px measure
 
 The column range and the pinned bar were picked by looking in the operator's first-use pass, recorded in `canon/ARCHITECTURE.md` under frontend scope, against a fixed split, a split with preset widths, and a single toggle between two widths. The same pass had the bar slim once the described system scrolled under it, and the operator's second-use pass reversed that to the full bar. The same second pass split the one page into `/` and `/ask`, N1 arm 2, which is why the no-centered-container rule now holds on `/ask` alone.
 
