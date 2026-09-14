@@ -26,7 +26,7 @@ what a pull request has to carry.
 - Write the shipped state to `web/evidence/<state>/`, one file per theme, replacing the file that is there rather than adding beside it.
 - Commit both themes for every state. The dark theme re-values each role rather than inverting the light one, so a regression in one is invisible in a capture of the other, and a set carrying one theme for most states and both for a few reports nothing about which was checked.
 - Leave `web/screenshots/` gitignored. That path holds the working set, which changes on every iteration and belongs in no one's history.
-- Read the design source before capturing, being `canon/wireframes/answer.md` for layout and copy, `canon/DESIGN.md` for tokens, and `web/evidence/settled-design.html` for the type scale, spacing and treatments the drawn design settled.
+- Read the design source before capturing, being `canon/wireframes/answer.md` for layout and copy and `canon/DESIGN.md` for tokens.
 - Cite a tracked path and never a path under `.canon/`, which is gitignored, in no history, and swept by the skill that wrote it. A rule pointing there resolves on one machine and nowhere else.
 
 ## What to carry on the pull request
