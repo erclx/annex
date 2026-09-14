@@ -197,7 +197,7 @@ describe('ActReader', () => {
         />,
       )
 
-      expect(screen.getByText('64 of 146')).toBeInTheDocument()
+      expect(screen.getByText('55 of 146')).toBeInTheDocument()
     })
 
     it('should open the next section a step names', async () => {
@@ -218,7 +218,7 @@ describe('ActReader', () => {
         screen.getByRole('button', { name: 'Next section' }),
       )
 
-      expect(onOpen).toHaveBeenCalledWith('art_51')
+      expect(onOpen).toHaveBeenCalledWith('chp_V')
     })
 
     it('should step to the next section on the right arrow while the text has focus', async () => {
@@ -238,7 +238,7 @@ describe('ActReader', () => {
       screen.getByRole('region', { name: 'Text of the Act' }).focus()
       await userEvent.keyboard('{ArrowRight}')
 
-      expect(onOpen).toHaveBeenCalledWith('art_51')
+      expect(onOpen).toHaveBeenCalledWith('chp_V')
     })
 
     it('should step through cited provisions once switched to them', async () => {
