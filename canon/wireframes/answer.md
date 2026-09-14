@@ -228,8 +228,6 @@ Beneath both halves, one line names the hardware and the model each arm ran on. 
 
 The rail comes first. It draws the five stages a request passes through, intake through verify, with a bracket against retrieve and traverse, so a reader sees where the two switched stages sit inside one answer before reading the table that switches them. Its bracket sits beside the stage text rather than at the far edge of the half.
 
-The same terms strip and comparison fill the `/ask` pane beside a timeout or an unexpected failure, through `terms-pane.tsx`: this route and that pane are two callers of the same two components rather than one holding what the other lost.
-
 ## Invalid
 
 Reached when a submit is tried on a description that is empty or past the service's 4 000 character bound. The service never started work, so this never renders in the failure region. Leaving the box without submitting raises nothing, and the message clears as soon as the description is valid again.

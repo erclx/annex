@@ -88,7 +88,7 @@ The browser reaches the service directly rather than through a Next route handle
 
 ## How the two halves deploy
 
-**The web build deploys first, or both deploy together.** `web/src/lib/service/answer.ts` is generated strict, so a client rejecting an unknown field rejects the whole response rather than degrading, and a field added to the Pydantic models and deployed ahead of the web build fails every request at runtime. `canon/context/development.md` carries the measurement behind that, which is `RetrievalTrace` gaining `dropped_ids` and `truncated` inside one week.
+**The web build deploys first, or both deploy together.** `web/src/lib/service/answer.ts` is generated strict, so a client rejecting an unknown field rejects the whole response rather than degrading, and a field added to the Pydantic models and deployed ahead of the web build fails every request at runtime. `canon/context/development.md` carries the same deploy-order rule.
 
 This row ships both halves on one branch, so they land together and the coupling is satisfied by construction rather than by anyone remembering it. A later change touching the Pydantic models alone does not have that protection.
 

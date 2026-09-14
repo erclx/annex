@@ -86,8 +86,8 @@ Those token figures belong to `nomic-embed-text`. A model swap re-measures the
 ratio rather than assuming it carries across: under `snowflake-arctic-embed2`
 the widest of 716 and 587 chunks reached 1586 and 1615 tokens, densest at
 3.21 and 3.20 characters a token, so `CHARACTER_BUDGET` holds at 6000 and the
-live gate passes unchanged. The chunk count has since grown to 727 and 600
-provisions, and the widest and densest chunk under that count is unmeasured.
+live gate passes unchanged. The chunk count is now 727 and 600 provisions,
+and the widest and densest chunk under that count is unmeasured.
 
 The `limit * 3` screen in `_refuse_truncated` rests on that density rather than
 on arithmetic. Nothing shorter than three characters a token can reach the
