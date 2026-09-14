@@ -15,14 +15,18 @@ import { SERVICE_ASK } from './stream-stub'
  * 12px both pass, so it caught neither half.
  */
 async function expectFlushUnderTheBand(pane: Locator, landed: Locator) {
+  const bar = pane.getByTestId('section-bar')
   const band = pane.getByTestId('act-landing-band')
   const preceding = landed.locator('xpath=preceding::*[1]')
 
+  // The gap is measured against the section bar's own border, not the band:
+  // the band exists to fill that gap, so its bottom sits flush against the
+  // tint rather than a further 8px short of it.
   await expect
     .poll(async () => {
-      const bandBox = await band.boundingBox()
+      const barBox = await bar.boundingBox()
       const tinted = await landed.boundingBox()
-      return bandBox && tinted ? tinted.y - (bandBox.y + bandBox.height) : null
+      return barBox && tinted ? tinted.y - (barBox.y + barBox.height) : null
     })
     .toBeGreaterThan(8)
 

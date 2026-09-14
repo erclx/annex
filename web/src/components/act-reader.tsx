@@ -471,7 +471,7 @@ export function ActReader({
                 tabIndex={0}
                 onScroll={handleBodyScroll}
                 onKeyDown={handleBodyKeyDown}
-                className="h-full overflow-y-auto px-5 py-4"
+                className="h-full -outline-offset-2 overflow-y-auto px-5 py-4"
               >
                 {text}
               </div>
