@@ -104,8 +104,19 @@ reached 0.41 and 0.46 of the gold provisions, and every later stage inherits
 that ceiling, so whatever is wrong sits in front of the graph rather than
 behind it.
 
-`.canon/groundwork/01-embedder-benchmark/` compared five models over both
-versions and `snowflake-arctic-embed2` won, so it ships. Re-measured here on
+A five-model comparison across both documents, on the routed query the
+shipped pipeline actually sends, ranked `snowflake-arctic-embed2` first:
+0.5177 and 0.6591 recall on the original and consolidated text, ahead of
+`bge-m3` at 0.4747 and 0.5770, a no-prefix run of the same model at 0.4899
+and 0.5745, `mxbai-embed-large` at 0.4141 and 0.5846, the shipped
+`nomic-embed-text` at 0.4116 and 0.4571, and the 23-million-parameter
+`all-minilm` floor at 0.3990 and 0.4697. `bge-m3` was dropped despite needing
+no query prefix at all, since `snowflake-arctic-embed2` still beats it by
+0.04 on the original and 0.08 on the consolidated, and it misses `art_6` and
+`anx_III` on `q06`. `mxbai-embed-large` beat the shipped model on
+the consolidated text alone, while failing to read 52 of 1303 chunks whole at
+its native width. `snowflake-arctic-embed2` beats the shipped model by 0.106
+on the original and 0.202 on the consolidated, so it ships. Re-measured here on
 the built index at `search_k` 12, searching the raw description rather than a
 routed query, over the nine questions carrying a gold set:
 
