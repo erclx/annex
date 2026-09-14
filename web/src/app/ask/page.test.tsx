@@ -5,17 +5,17 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import Ask from '@/app/ask/page'
 import Home from '@/app/page'
-import { AskHandoffProvider } from '@/components/ask-handoff'
-import { findProvision } from '@/lib/corpus'
-import { recordedQuestions } from '@/lib/replay'
+import { AskHandoffProvider } from '@/components/frame/ask-handoff'
+import { findProvision } from '@/lib/corpus/corpus'
+import { recordedQuestions } from '@/lib/service/replay'
 
 const navigation = vi.hoisted(() => ({ push: vi.fn(), replace: vi.fn() }))
 const build = vi.hoisted(() => ({ replay: false }))
 
 vi.mock('next/navigation', () => ({ useRouter: () => navigation }))
 
-vi.mock('@/lib/replay', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/lib/replay')>()
+vi.mock('@/lib/service/replay', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/lib/service/replay')>()
   return {
     ...actual,
     get REPLAY_MODE() {

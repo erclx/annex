@@ -1,7 +1,8 @@
 /**
- * Generates `src/lib/answer.ts` from the committed JSON Schema that `python -m annex
- * schema` emits, so the browser and the service agree on the answer contract by
- * construction rather than by two people remembering to edit two files.
+ * Generates `src/lib/service/answer.ts` from the committed JSON Schema that
+ * `python -m annex schema` emits, so the browser and the service agree on the
+ * answer contract by construction rather than by two people remembering to
+ * edit two files.
  *
  * The generator's CLI leaves every `$ref` as `z.any()`, so the schema is dereferenced
  * here first. `additionalProperties: false` is injected on the way through, which is
@@ -13,7 +14,7 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import { type JsonSchemaObject, jsonSchemaToZod } from 'json-schema-to-zod'
 
 const SCHEMA_DIRECTORY = new URL('../../python/schema/', import.meta.url)
-const OUTPUT_DIRECTORY = new URL('../src/lib/', import.meta.url)
+const OUTPUT_DIRECTORY = new URL('../src/lib/service/', import.meta.url)
 const REF_PREFIX = '#/$defs/'
 
 interface Contract {

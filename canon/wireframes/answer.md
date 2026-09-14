@@ -179,7 +179,7 @@ Copy, verbatim:
 
 The picks sit beside the input rather than in place of it. Narrowing the input to a picker would remove the unrecorded state below and change the surface the design was settled on, and the free-text field is what a visitor arrives expecting.
 
-The word `Twelve` is typed, and `web/src/lib/replay.test.ts` fails when the recording stops holding twelve questions, so a re-capture that changes the count cannot ship the old number.
+The word `Twelve` is typed, and `web/src/lib/service/replay.test.ts` fails when the recording stops holding twelve questions, so a re-capture that changes the count cannot ship the old number.
 
 The four flow labels are the evaluation's own grouping, three questions apiece. The fifth demo flow, the three-arm result, is not a question a visitor asks. It renders below as the comparison rather than as a fifth pick.
 

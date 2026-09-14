@@ -40,7 +40,7 @@ import path from 'path'
 import answered from '../src/fixtures/q01-support-chatbot.consolidated.json'
 import cutShortSource from '../src/fixtures/q05-university-admission.original.json'
 import refused from '../src/fixtures/q08-redesigned-interface.consolidated.json'
-import type { Answer } from '../src/lib/answer'
+import type { Answer } from '../src/lib/service/answer'
 import { holdStreamOpen, SERVICE_ASK, streamAnswers } from './stream-stub'
 
 const BASE = process.env.CAPTURE_BASE_URL

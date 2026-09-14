@@ -9,14 +9,14 @@ command -v bun >/dev/null 2>&1 || {
   exit 1
 }
 
-# src/lib/answer.ts is generated from the Python schema and committed. Regenerating
-# and diffing here is what stops it drifting: a schema change nobody regenerated
-# against fails the gate instead of surfacing as a runtime shape mismatch later.
-# Compare the file against its own regeneration rather than against git. A git-based
-# check answers the wrong question: it reports nothing for a file git does not track,
-# and it fails on the very commit that first adds one. What matters is whether the
-# committed output still matches what the current schema produces.
-GENERATED=(src/lib/answer.ts src/lib/stream-node.ts src/lib/stream-error.ts)
+# src/lib/service/answer.ts is generated from the Python schema and committed.
+# Regenerating and diffing here is what stops it drifting: a schema change nobody
+# regenerated against fails the gate instead of surfacing as a runtime shape mismatch
+# later. Compare the file against its own regeneration rather than against git. A
+# git-based check answers the wrong question: it reports nothing for a file git does
+# not track, and it fails on the very commit that first adds one. What matters is
+# whether the committed output still matches what the current schema produces.
+GENERATED=(src/lib/service/answer.ts src/lib/service/stream-node.ts src/lib/service/stream-error.ts)
 before=$(sha256sum "${GENERATED[@]}" 2>/dev/null || true)
 bun run generate:answer
 after=$(sha256sum "${GENERATED[@]}")
