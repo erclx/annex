@@ -25,9 +25,8 @@ const CAPTION = 'The comparison switches these two on and off.'
  * label and caption here is plain HTML text at a fixed pixel size, so it
  * holds its floor of 11px regardless of how narrow the column carrying it
  * gets. The rail alone left roughly half of a stacked mid-width row empty
- * beside it, 42 percent at 810px and 54 percent at 1024px, per T7 in
- * `.canon/review/third-use/operator-pass.md`, so the row fills that width
- * instead of leaving it blank.
+ * beside it, 42 percent at 810px and 54 percent at 1024px, measured at the
+ * third-use pass, so the row fills that width instead of leaving it blank.
  *
  * Both drawings render in the DOM and switch on the component's own rendered
  * width through a `@container` query, the pattern `walk-chips.tsx` already
