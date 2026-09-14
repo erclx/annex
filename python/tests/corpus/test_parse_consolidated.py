@@ -248,3 +248,26 @@ class TestChaptersAreAddressable:
 
         assert article is not None
         assert article.chapter_id == 'chp_XIII'
+
+    def test_a_chapter_sits_immediately_before_the_article_it_precedes(
+        self, consolidated: Corpus
+    ) -> None:
+        non_paragraph = [
+            provision.id
+            for provision in consolidated.provisions
+            if provision.kind is not ProvisionKind.PARAGRAPH
+        ]
+
+        assert non_paragraph.index('chp_I') == non_paragraph.index('art_1') - 1
+        assert non_paragraph.index('chp_II') == non_paragraph.index('art_5') - 1
+
+    def test_chapters_are_not_all_bunched_before_the_first_article(
+        self, consolidated: Corpus
+    ) -> None:
+        non_paragraph = [
+            provision.id
+            for provision in consolidated.provisions
+            if provision.kind is not ProvisionKind.PARAGRAPH
+        ]
+
+        assert non_paragraph.index('art_1') < non_paragraph.index('chp_II')

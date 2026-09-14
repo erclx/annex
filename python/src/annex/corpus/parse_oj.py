@@ -200,13 +200,17 @@ def parse(document: bytes) -> Corpus:
         index, chapter_headings, chapter_titles, last_article_end
     )
 
-    provisions: list[Provision] = list(chapters)
+    provisions: list[Provision] = []
+    next_chapter = 0
     for heading, start, end in spans(
         index, headings, end=last_article_end, stops=division_offsets
     ):
         number = _article_number(heading)
         if number is None:
             continue
+        while next_chapter < len(chapters) and chapter_starts[next_chapter][0] < start:
+            provisions.append(chapters[next_chapter])
+            next_chapter += 1
         article_id = f'art_{number}'
         chapter_id = _chapter_at(chapter_starts, start)
         provisions.append(
@@ -223,6 +227,7 @@ def parse(document: bytes) -> Corpus:
         provisions.extend(
             _paragraphs(index, article_id, bodies, start, end, chapter_id)
         )
+    provisions.extend(chapters[next_chapter:])
 
     provisions.extend(_anchored(root, ANNEX_ANCHORS, 'anx_', ProvisionKind.ANNEX))
     provisions.extend(_anchored(root, RECITAL_ANCHORS, 'rct_', ProvisionKind.RECITAL))

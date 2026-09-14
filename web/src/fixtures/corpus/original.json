@@ -12,150 +12,6 @@
     "citation": "Chapter I"
   },
   {
-    "id": "chp_II",
-    "kind": "chapter",
-    "number": "II",
-    "title": "PROHIBITED AI PRACTICES",
-    "text": "CHAPTER II PROHIBITED AI PRACTICES",
-    "version": "original",
-    "parent_id": null,
-    "amended": false,
-    "chapter_id": null,
-    "citation": "Chapter II"
-  },
-  {
-    "id": "chp_III",
-    "kind": "chapter",
-    "number": "III",
-    "title": "HIGH-RISK AI SYSTEMS",
-    "text": "CHAPTER III HIGH-RISK AI SYSTEMS",
-    "version": "original",
-    "parent_id": null,
-    "amended": false,
-    "chapter_id": null,
-    "citation": "Chapter III"
-  },
-  {
-    "id": "chp_IV",
-    "kind": "chapter",
-    "number": "IV",
-    "title": "TRANSPARENCY OBLIGATIONS FOR PROVIDERS AND DEPLOYERS OF CERTAIN AI SYSTEMS",
-    "text": "CHAPTER IV TRANSPARENCY OBLIGATIONS FOR PROVIDERS AND DEPLOYERS OF CERTAIN AI SYSTEMS",
-    "version": "original",
-    "parent_id": null,
-    "amended": false,
-    "chapter_id": null,
-    "citation": "Chapter IV"
-  },
-  {
-    "id": "chp_V",
-    "kind": "chapter",
-    "number": "V",
-    "title": "GENERAL-PURPOSE AI MODELS",
-    "text": "CHAPTER V GENERAL-PURPOSE AI MODELS",
-    "version": "original",
-    "parent_id": null,
-    "amended": false,
-    "chapter_id": null,
-    "citation": "Chapter V"
-  },
-  {
-    "id": "chp_VI",
-    "kind": "chapter",
-    "number": "VI",
-    "title": "MEASURES IN SUPPORT OF INNOVATION",
-    "text": "CHAPTER VI MEASURES IN SUPPORT OF INNOVATION",
-    "version": "original",
-    "parent_id": null,
-    "amended": false,
-    "chapter_id": null,
-    "citation": "Chapter VI"
-  },
-  {
-    "id": "chp_VII",
-    "kind": "chapter",
-    "number": "VII",
-    "title": "GOVERNANCE",
-    "text": "CHAPTER VII GOVERNANCE",
-    "version": "original",
-    "parent_id": null,
-    "amended": false,
-    "chapter_id": null,
-    "citation": "Chapter VII"
-  },
-  {
-    "id": "chp_VIII",
-    "kind": "chapter",
-    "number": "VIII",
-    "title": "EU DATABASE FOR HIGH-RISK AI SYSTEMS",
-    "text": "CHAPTER VIII EU DATABASE FOR HIGH-RISK AI SYSTEMS",
-    "version": "original",
-    "parent_id": null,
-    "amended": false,
-    "chapter_id": null,
-    "citation": "Chapter VIII"
-  },
-  {
-    "id": "chp_IX",
-    "kind": "chapter",
-    "number": "IX",
-    "title": "POST-MARKET MONITORING, INFORMATION SHARING AND MARKET SURVEILLANCE",
-    "text": "CHAPTER IX POST-MARKET MONITORING, INFORMATION SHARING AND MARKET SURVEILLANCE",
-    "version": "original",
-    "parent_id": null,
-    "amended": false,
-    "chapter_id": null,
-    "citation": "Chapter IX"
-  },
-  {
-    "id": "chp_X",
-    "kind": "chapter",
-    "number": "X",
-    "title": "CODES OF CONDUCT AND GUIDELINES",
-    "text": "CHAPTER X CODES OF CONDUCT AND GUIDELINES",
-    "version": "original",
-    "parent_id": null,
-    "amended": false,
-    "chapter_id": null,
-    "citation": "Chapter X"
-  },
-  {
-    "id": "chp_XI",
-    "kind": "chapter",
-    "number": "XI",
-    "title": "DELEGATION OF POWER AND COMMITTEE PROCEDURE",
-    "text": "CHAPTER XI DELEGATION OF POWER AND COMMITTEE PROCEDURE",
-    "version": "original",
-    "parent_id": null,
-    "amended": false,
-    "chapter_id": null,
-    "citation": "Chapter XI"
-  },
-  {
-    "id": "chp_XII",
-    "kind": "chapter",
-    "number": "XII",
-    "title": "PENALTIES",
-    "text": "CHAPTER XII PENALTIES",
-    "version": "original",
-    "parent_id": null,
-    "amended": false,
-    "chapter_id": null,
-    "citation": "Chapter XII"
-  },
-  {
-    "id": "chp_XIII",
-    "kind": "chapter",
-    "number": "XIII",
-    "title": "FINAL PROVISIONS",
-    "text": "CHAPTER XIII FINAL PROVISIONS",
-    "version": "original",
-    "parent_id": null,
-    "amended": false,
-    "chapter_id": null,
-    "citation": "Chapter XIII"
-  },
-  {
     "id": "art_1",
     "kind": "article",
     "number": "1",
@@ -372,6 +228,18 @@
     "citation": "Article 4"
   },
   {
+    "id": "chp_II",
+    "kind": "chapter",
+    "number": "II",
+    "title": "PROHIBITED AI PRACTICES",
+    "text": "CHAPTER II PROHIBITED AI PRACTICES",
+    "version": "original",
+    "parent_id": null,
+    "amended": false,
+    "chapter_id": null,
+    "citation": "Chapter II"
+  },
+  {
     "id": "art_5",
     "kind": "article",
     "number": "5",
@@ -478,6 +346,18 @@
     "amended": false,
     "chapter_id": "chp_II",
     "citation": "Article 5(8)"
+  },
+  {
+    "id": "chp_III",
+    "kind": "chapter",
+    "number": "III",
+    "title": "HIGH-RISK AI SYSTEMS",
+    "text": "CHAPTER III HIGH-RISK AI SYSTEMS",
+    "version": "original",
+    "parent_id": null,
+    "amended": false,
+    "chapter_id": null,
+    "citation": "Chapter III"
   },
   {
     "id": "art_6",
@@ -3408,6 +3288,18 @@
     "citation": "Article 49(5)"
   },
   {
+    "id": "chp_IV",
+    "kind": "chapter",
+    "number": "IV",
+    "title": "TRANSPARENCY OBLIGATIONS FOR PROVIDERS AND DEPLOYERS OF CERTAIN AI SYSTEMS",
+    "text": "CHAPTER IV TRANSPARENCY OBLIGATIONS FOR PROVIDERS AND DEPLOYERS OF CERTAIN AI SYSTEMS",
+    "version": "original",
+    "parent_id": null,
+    "amended": false,
+    "chapter_id": null,
+    "citation": "Chapter IV"
+  },
+  {
     "id": "art_50",
     "kind": "article",
     "number": "50",
@@ -3502,6 +3394,18 @@
     "amended": false,
     "chapter_id": "chp_IV",
     "citation": "Article 50(7)"
+  },
+  {
+    "id": "chp_V",
+    "kind": "chapter",
+    "number": "V",
+    "title": "GENERAL-PURPOSE AI MODELS",
+    "text": "CHAPTER V GENERAL-PURPOSE AI MODELS",
+    "version": "original",
+    "parent_id": null,
+    "amended": false,
+    "chapter_id": null,
+    "citation": "Chapter V"
   },
   {
     "id": "art_51",
@@ -3982,6 +3886,18 @@
     "amended": false,
     "chapter_id": "chp_V",
     "citation": "Article 56(9)"
+  },
+  {
+    "id": "chp_VI",
+    "kind": "chapter",
+    "number": "VI",
+    "title": "MEASURES IN SUPPORT OF INNOVATION",
+    "text": "CHAPTER VI MEASURES IN SUPPORT OF INNOVATION",
+    "version": "original",
+    "parent_id": null,
+    "amended": false,
+    "chapter_id": null,
+    "citation": "Chapter VI"
   },
   {
     "id": "art_57",
@@ -4548,6 +4464,18 @@
     "citation": "Article 63(2)"
   },
   {
+    "id": "chp_VII",
+    "kind": "chapter",
+    "number": "VII",
+    "title": "GOVERNANCE",
+    "text": "CHAPTER VII GOVERNANCE",
+    "version": "original",
+    "parent_id": null,
+    "amended": false,
+    "chapter_id": null,
+    "citation": "Chapter VII"
+  },
+  {
     "id": "art_64",
     "kind": "article",
     "number": "64",
@@ -5076,6 +5004,18 @@
     "citation": "Article 70(9)"
   },
   {
+    "id": "chp_VIII",
+    "kind": "chapter",
+    "number": "VIII",
+    "title": "EU DATABASE FOR HIGH-RISK AI SYSTEMS",
+    "text": "CHAPTER VIII EU DATABASE FOR HIGH-RISK AI SYSTEMS",
+    "version": "original",
+    "parent_id": null,
+    "amended": false,
+    "chapter_id": null,
+    "citation": "Chapter VIII"
+  },
+  {
     "id": "art_71",
     "kind": "article",
     "number": "71",
@@ -5158,6 +5098,18 @@
     "amended": false,
     "chapter_id": "chp_VIII",
     "citation": "Article 71(6)"
+  },
+  {
+    "id": "chp_IX",
+    "kind": "chapter",
+    "number": "IX",
+    "title": "POST-MARKET MONITORING, INFORMATION SHARING AND MARKET SURVEILLANCE",
+    "text": "CHAPTER IX POST-MARKET MONITORING, INFORMATION SHARING AND MARKET SURVEILLANCE",
+    "version": "original",
+    "parent_id": null,
+    "amended": false,
+    "chapter_id": null,
+    "citation": "Chapter IX"
   },
   {
     "id": "art_72",
@@ -6636,6 +6588,18 @@
     "citation": "Article 94"
   },
   {
+    "id": "chp_X",
+    "kind": "chapter",
+    "number": "X",
+    "title": "CODES OF CONDUCT AND GUIDELINES",
+    "text": "CHAPTER X CODES OF CONDUCT AND GUIDELINES",
+    "version": "original",
+    "parent_id": null,
+    "amended": false,
+    "chapter_id": null,
+    "citation": "Chapter X"
+  },
+  {
     "id": "art_95",
     "kind": "article",
     "number": "95",
@@ -6730,6 +6694,18 @@
     "amended": false,
     "chapter_id": "chp_X",
     "citation": "Article 96(2)"
+  },
+  {
+    "id": "chp_XI",
+    "kind": "chapter",
+    "number": "XI",
+    "title": "DELEGATION OF POWER AND COMMITTEE PROCEDURE",
+    "text": "CHAPTER XI DELEGATION OF POWER AND COMMITTEE PROCEDURE",
+    "version": "original",
+    "parent_id": null,
+    "amended": false,
+    "chapter_id": null,
+    "citation": "Chapter XI"
   },
   {
     "id": "art_97",
@@ -6850,6 +6826,18 @@
     "amended": false,
     "chapter_id": "chp_XI",
     "citation": "Article 98(2)"
+  },
+  {
+    "id": "chp_XII",
+    "kind": "chapter",
+    "number": "XII",
+    "title": "PENALTIES",
+    "text": "CHAPTER XII PENALTIES",
+    "version": "original",
+    "parent_id": null,
+    "amended": false,
+    "chapter_id": null,
+    "citation": "Chapter XII"
   },
   {
     "id": "art_99",
@@ -7174,6 +7162,18 @@
     "amended": false,
     "chapter_id": "chp_XII",
     "citation": "Article 101(6)"
+  },
+  {
+    "id": "chp_XIII",
+    "kind": "chapter",
+    "number": "XIII",
+    "title": "FINAL PROVISIONS",
+    "text": "CHAPTER XIII FINAL PROVISIONS",
+    "version": "original",
+    "parent_id": null,
+    "amended": false,
+    "chapter_id": null,
+    "citation": "Chapter XIII"
   },
   {
     "id": "art_102",
