@@ -378,6 +378,28 @@ describe('ActReader', () => {
       )
     })
 
+    it('should draw the selected view as an underline rather than a fill', () => {
+      render(
+        <ActReader
+          docked
+          version="consolidated"
+          openId="art_6"
+          cited={cited}
+          walk={<p>the walk drawing</p>}
+          view="walk"
+          onClose={vi.fn()}
+          onVersionChange={vi.fn()}
+        />,
+      )
+
+      const selected = screen.getByRole('button', { name: 'The walk' })
+      const unselected = screen.getByRole('button', { name: 'The Act' })
+      expect(selected.className).not.toMatch(/\bbg-/)
+      expect(selected).toHaveClass('border-accent')
+      expect(unselected.className).not.toMatch(/\bbg-/)
+      expect(unselected).toHaveClass('border-transparent')
+    })
+
     it('should highlight the words the amendment changed on the opened provision', () => {
       render(
         <ActReader
@@ -390,7 +412,56 @@ describe('ActReader', () => {
         />,
       )
 
-      expect(screen.getByText('SMCs').tagName).toBe('MARK')
+      expect(screen.getByText('and SMCs').tagName).toBe('MARK')
+    })
+
+    it('should render a changed word in the surrounding text color rather than the browser default', () => {
+      render(
+        <ActReader
+          docked
+          version="consolidated"
+          openId="art_95.4"
+          cited={cited}
+          onClose={vi.fn()}
+          onVersionChange={vi.fn()}
+        />,
+      )
+
+      expect(screen.getByText('and SMCs')).toHaveClass('text-inherit')
+    })
+
+    it('should join a run of changed words across whitespace into one mark', () => {
+      render(
+        <ActReader
+          docked
+          version="consolidated"
+          openId="art_50.7"
+          cited={[{ provisionId: 'art_50.7', label: 'Article 50(7)' }]}
+          onClose={vi.fn()}
+          onVersionChange={vi.fn()}
+        />,
+      )
+
+      expect(document.querySelectorAll('mark')).toHaveLength(8)
+    })
+
+    it('should land a paragraph in the rounded, padded tint a section already has', () => {
+      render(
+        <ActReader
+          docked
+          version="consolidated"
+          openId="art_50.6"
+          cited={cited}
+          onClose={vi.fn()}
+          onVersionChange={vi.fn()}
+        />,
+      )
+
+      expect(
+        screen
+          .getByText(/^6\. Paragraphs 1 to 4 shall not affect/)
+          .closest('[aria-current="location"]'),
+      ).toHaveClass('rounded-[6px]')
     })
 
     it('should clear the highlight once the pane moves to an unchanged provision', () => {
@@ -405,7 +476,7 @@ describe('ActReader', () => {
         />,
       )
 
-      expect(screen.getByText('SMCs').tagName).toBe('MARK')
+      expect(screen.getByText('and SMCs').tagName).toBe('MARK')
 
       rerender(
         <ActReader

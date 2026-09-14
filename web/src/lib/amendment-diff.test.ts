@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 import {
   amendmentDiff,
   type DiffSpan,
+  joinDiffSpans,
   sliceDiffSpans,
   trimDiffSpans,
 } from '@/lib/amendment-diff'
@@ -97,6 +98,60 @@ describe('sliceDiffSpans', () => {
       { text: 'two', changed: true },
       { text: ' three', changed: false },
     ])
+  })
+})
+
+describe('joinDiffSpans', () => {
+  it('should join two changed spans across a whitespace-only gap', () => {
+    const spans: DiffSpan[] = [
+      { text: 'one', changed: true },
+      { text: ' ', changed: false },
+      { text: 'two', changed: true },
+    ]
+
+    expect(joinDiffSpans(spans)).toEqual([{ text: 'one two', changed: true }])
+  })
+
+  it('should join a whole chain of changed words separated by single spaces', () => {
+    const spans: DiffSpan[] = [
+      { text: 'a', changed: true },
+      { text: ' ', changed: false },
+      { text: 'b', changed: true },
+      { text: ' ', changed: false },
+      { text: 'c', changed: true },
+    ]
+
+    expect(joinDiffSpans(spans)).toEqual([{ text: 'a b c', changed: true }])
+  })
+
+  it('should never join across a gap holding punctuation', () => {
+    const spans: DiffSpan[] = [
+      { text: 'one', changed: true },
+      { text: ', ', changed: false },
+      { text: 'two', changed: true },
+    ]
+
+    expect(joinDiffSpans(spans)).toEqual(spans)
+  })
+
+  it('should leave an unchanged gap between two unchanged spans alone', () => {
+    const spans: DiffSpan[] = [
+      { text: 'one', changed: false },
+      { text: ' ', changed: false },
+      { text: 'two', changed: false },
+    ]
+
+    expect(joinDiffSpans(spans)).toEqual(spans)
+  })
+
+  it('should reduce Article 50(7) of the consolidated text from 38 marks to 8', () => {
+    const diff = amendmentDiff('art_50.7')
+    const consolidated = diff.consolidated ?? []
+
+    expect(consolidated.filter((span) => span.changed)).toHaveLength(38)
+    expect(
+      joinDiffSpans(consolidated).filter((span) => span.changed),
+    ).toHaveLength(8)
   })
 })
 

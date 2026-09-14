@@ -178,6 +178,45 @@ export function sliceDiffSpans(
 }
 
 /**
+ * `spans` with a whitespace-only gap between two changed spans folded into
+ * one changed span, so a changed phrase draws as one mark with one unbroken
+ * underline rather than one mark per word. A gap holding punctuation still
+ * breaks the run, since only whitespace between two changed words reads as
+ * the same run continuing.
+ *
+ * This is a rendering join rather than a diff decision: `buildSpans` still
+ * marks each word on its own, and this runs after `sliceDiffSpans` and
+ * `trimDiffSpans` so a cut or trimmed boundary is never joined across.
+ */
+export function joinDiffSpans(spans: readonly DiffSpan[]): DiffSpan[] {
+  const result: DiffSpan[] = []
+  let index = 0
+  while (index < spans.length) {
+    const span = spans[index]
+    const last = result[result.length - 1]
+    const next = spans[index + 1]
+    const isWhitespaceGap = !span.changed && span.text.trim() === ''
+    if (
+      isWhitespaceGap &&
+      last !== undefined &&
+      last.changed &&
+      next !== undefined &&
+      next.changed
+    ) {
+      result[result.length - 1] = {
+        text: last.text + span.text + next.text,
+        changed: true,
+      }
+      index += 2
+      continue
+    }
+    result.push(span)
+    index += 1
+  }
+  return result
+}
+
+/**
  * `spans` with any leading or trailing whitespace-only text removed, to match
  * a segment `closest-point.ts` cut with its own trailing `.trim()`.
  */

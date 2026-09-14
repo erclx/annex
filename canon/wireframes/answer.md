@@ -116,6 +116,8 @@ The top bar carries `Repository` and `Evaluation` in every state and at every wi
 
 The composer is one rounded box on `surface` holding the description, the version toggle, the traversal switch with its hint as visible text, and `Find the articles`. Its footer runs as one row at 1024 and wider and stacks below that. The bar on `/` holds no control, since both choices sit in the composer where the description they apply to is written. The operator's second-use pass picked this composer over a plain field with the button under it, a composer with the choices left outside, and a taller composer whose send control lost its label.
 
+The textarea draws no outline of its own. While anything inside the composer has focus, whether the textarea, the version toggle, the traversal switch or `Find the articles`, the card's own border darkens from `rule` to `muted`, measured at 5.38 to 1 against `surface` in light and 6.18 to 1 in dark, against the 1.33 to 1 and 1.30 to 1 it rests at, both past the 3 to 1 a focus indicator is held to. The third-use pass picked this over an accent border and ring on the textarea alone, which spent accent on a state the resize grip's own hover rule already keeps neutral, and over a deeper shadow, whose border never crossed the 3 to 1 floor. A failed submit's `border-error` still wins over the focus border, and the toggle, the switch and `Find the articles` keep their own keyboard focus rings inside the card.
+
 Nothing sits beside the composer. A pane holding the terms and the comparison beside the question was picked in an earlier round over no pane at all, the Act open at Article 3, and a recorded answer previewed, and N1 arm 2 retired it: the terms and the comparison are sections of the landing page, and the pane is on `/ask` alone. `canon/ARCHITECTURE.md` carries both picks.
 
 The heading renders at 34px and centers with the supporting text on this page alone, a size set by the landing page's placement rather than by the composer's own copy. The composer is 640 wide, which holds its footer on one row with the traversal hint as visible text beside the switch.
@@ -353,6 +355,8 @@ The divider between the answer and the pane is a handle. Dragging it, or steppin
 
 The section bar sits over the Act's text. It names the article or cited paragraph in view with its place in the whole, steps to the section before or after it or, once switched to `Cited`, to the citation before or after, and takes an article number or annex numeral in its jump field. The operator's first-use pass picked it over the cited links alone, step buttons in the cited row, and the bar without a jump field or the switch.
 
+The pane's own view switch, between `The Act` and `The walk`, is tabs rather than the filled segmented control the section bar's `Whole Act` and `Cited` switch draws. The selected label reads in `ink` over a 2px `accent` underline, the unselected one in `muted` over a transparent underline of the same width so neither label shifts, and no wrapper box or fill sits behind either. The third-use pass found the shipped control filling its selected label with `bg-ink`, where every other toggle on the surface, the version toggle, the theme control and the section bar's own switch, fills with `accent`, reading as a near-white block in dark against `accent`'s own blue. The underline measures 8.61 to 1 on `surface` in light and 7.63 to 1 in dark, and the unselected label 5.38 and 6.18. `Whole Act` stays the only filled control in the pane.
+
 ## Answered, below 1024
 
 ```plaintext
@@ -416,6 +420,8 @@ The clamp reaches only the Act's words. A note always renders whole, since it is
 ### The word diff
 
 Read as a word diff between the two exported corpora, so a rewrapped sentence with no wording change reads as unchanged. The words the shown version adds that the other version does not share are tinted the same ground the note stands on, `warning-surface`, and carry a `cite-rule-moved` underline, so the highlight reads as a second weight on the Act's own words rather than a fourth color competing with the claim and the note. The tint alone measured 1.057 to 1 against paper in light and 1.167 to 1 in dark, imperceptible rather than a second weight, and the underline is what a reader actually sees: `cite-rule-moved` against `warning-surface` measures 3.09 to 1 in light and 3.63 to 1 in dark, both past the 3 to 1 floor a non-text mark is held to.
+
+Those two figures answer whether the underline reads as a mark against its own tint. They say nothing about whether the changed word itself can be read, which the third-use pass's T1 finding measured separately: the mark carried no text color of its own, so it kept the browser's default black, reading 8.53 to 1 on its tint in light and 1.36 to 1 in dark against the Act's own 8.53 to 1 and 6.88 to 1 there. The mark now takes the color of the text it sits in, which is the same 8.53 to 1 and 6.88 to 1 rather than a fourth figure, so a changed word reads exactly as legibly as the words around it. A run of changed words separated only by whitespace also joins into one mark with one unbroken underline, punctuation still breaking a run, so Article 50(7) draws 8 marks rather than 38.
 
 ```plaintext
 │  ┃ Article 95(4)  ( moved by the amendment )    Read the original text  │
@@ -663,7 +669,9 @@ It links to the article, annex, or recital the citation's paragraph sits under, 
 ### Behavior
 
 - Activating a citation's heading or its excerpt handle scrolls the Act to that provision immediately, with no transition, consistent with the motion rule. At 1024 and wider that moves the pane, and below 1024 it opens the overlay first
-- Docked, a provision reached from a citation, a step, an arrow key or the jump field lands flush at the top of the Act's text, tinted, and the section bar above it names its article
+- Docked, a provision reached from a citation, a step, an arrow key or the jump field lands 12px under the section bar's own border rather than flush against it, tinted, and the section bar above it names its article. The third-use pass measured the shipped landing at -0.5px, touching the border with the previous provision's tail visible above it
+- A 12px strip of the pane's own ground is pinned under the section bar, and a landing stops 12px short so nothing of the provision before it shows there. Neither alone was enough: a stop with no strip still shows that tail, and a strip with no stop leaves the tint flush
+- A landed paragraph takes the same rounded, padded tint a landed section already carries, rather than a square edge-to-edge one, so the two landings read as one kind of mark
 - The overlay carries no section bar, but a one-line label above the text names the open article and stays in view regardless of scroll. A paragraph still lands with its article's heading in view whenever the two fit together, and at its own top only when they do not, since the label is what keeps the article named either way
 - Docked, the left and right arrow keys step the way the section bar's arrows do while the Act's text has focus
 - The provision the Act was scrolled to is held in a tinted background so a reader can find it again after scrolling away

@@ -47,7 +47,10 @@ export function SectionBar({
   const noun = citing ? 'cited provision' : 'section'
 
   return (
-    <div className="flex items-center gap-2 border-b border-rule bg-surface px-3 py-[6px]">
+    <div
+      data-testid="section-bar"
+      className="flex items-center gap-2 border-b border-rule bg-surface px-3 py-[6px]"
+    >
       <StepButton label={`Previous ${noun}`} target={previous} onGo={onGo}>
         ‹
       </StepButton>

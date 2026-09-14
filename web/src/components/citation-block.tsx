@@ -5,6 +5,7 @@ import { VERSION_LABEL } from '@/components/versions'
 import {
   amendmentDiff,
   type DiffSpan,
+  joinDiffSpans,
   sliceDiffSpans,
 } from '@/lib/amendment-diff'
 import { closestPoint, type Landing } from '@/lib/closest-point'
@@ -108,9 +109,11 @@ export function CitationBlock({
 
   const excerptSpans: DiffSpan[] | null =
     diff !== null && diff.status === 'changed'
-      ? isShowingOther
-        ? [...(diff[shownVersion] ?? [])]
-        : sliceDiffSpans(diff[citation.version] ?? [], excerptStart)
+      ? joinDiffSpans(
+          isShowingOther
+            ? [...(diff[shownVersion] ?? [])]
+            : sliceDiffSpans(diff[citation.version] ?? [], excerptStart),
+        )
       : null
 
   function handleOpen() {
@@ -178,7 +181,7 @@ export function CitationBlock({
               span.changed ? (
                 <mark
                   key={index}
-                  className="rounded-[2px] border-b-2 border-cite-rule-moved bg-warning-surface"
+                  className="rounded-[2px] border-b-2 border-cite-rule-moved bg-warning-surface text-inherit"
                 >
                   {span.text}
                 </mark>

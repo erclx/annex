@@ -70,7 +70,7 @@ export function DescriptionForm({
         <div
           data-testid="composer"
           className={`flex flex-col gap-3 rounded-[14px] border bg-surface px-4 pt-3 pb-3 shadow-[0_1px_2px_rgb(0_0_0/0.04)] ${
-            isInvalid ? 'border-error' : 'border-rule'
+            isInvalid ? 'border-error' : 'border-rule focus-within:border-muted'
           }`}
         >
           <label htmlFor="description" className="sr-only">
@@ -86,7 +86,7 @@ export function DescriptionForm({
             aria-invalid={isInvalid}
             aria-describedby={isInvalid ? 'description-error' : undefined}
             placeholder="A customer-service chatbot that also scores loan applications…"
-            className="w-full resize-none bg-transparent text-[14px] leading-[1.6] text-ink placeholder:text-muted"
+            className="w-full resize-none bg-transparent text-[14px] leading-[1.6] text-ink placeholder:text-muted outline-none"
           />
 
           <div className="flex flex-col items-start gap-x-3 gap-y-2 lg:flex-row lg:flex-wrap lg:items-center">

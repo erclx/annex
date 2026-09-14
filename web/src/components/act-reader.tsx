@@ -15,6 +15,7 @@ import { SectionBar } from '@/components/section-bar'
 import { type CorpusVersion, VERSION_LABEL } from '@/components/versions'
 import {
   amendmentDiff,
+  joinDiffSpans,
   sliceDiffSpans,
   trimDiffSpans,
 } from '@/lib/amendment-diff'
@@ -48,6 +49,16 @@ export interface CitedProvision {
 }
 
 export type PaneView = 'act' | 'walk'
+
+/**
+ * The docked pane's paper band pinned under the section bar's border, and how
+ * far short of it a landing stops. A provision that scrolled all the way to
+ * the bar would sit flush against its border with the previous one's tail
+ * showing above, which the operator's third-use pass measured as the tint
+ * touching the border at -0.5px. Stopping 12px short leaves a sliver of the
+ * previous provision in the scroll container, and the band paints over it.
+ */
+const LANDING_BAND_HEIGHT = 12
 
 /**
  * Whether the pane's list names what an answer cites or what a refusal read.
@@ -262,11 +273,12 @@ export function ActReader({
     // would also scroll the page behind a sticky pane and take the answer off
     // its place.
     //
-    // Docked, a provision lands flush at the top of the text, so the tinted
-    // provision is the first thing read. The operator's first-use pass rejected
-    // landing on the article's heading with the provision lower down there,
-    // and the section bar above the text names the article that heading would
-    // have named.
+    // Docked, a provision lands under the section bar's paper band rather
+    // than flush against its border, so the tinted provision reads as the
+    // first thing under the bar with nothing of the previous one showing. The
+    // operator's first-use pass rejected landing on the article's heading
+    // with the provision lower down there, and the section bar above the
+    // text names the article that heading would have named.
     //
     // The overlay carries no section bar, so a paragraph read there without
     // its article names nothing. It lands on the article's heading whenever the
@@ -284,7 +296,8 @@ export function ActReader({
     body.scrollTop =
       anchor.getBoundingClientRect().top -
       body.getBoundingClientRect().top +
-      body.scrollTop
+      body.scrollTop -
+      (docked ? LANDING_BAND_HEIGHT : 0)
   }, [docked, isOpen, landingKey, showsWalk, version])
 
   useEffect(() => {
@@ -374,11 +387,7 @@ export function ActReader({
       >
         <header className="flex flex-wrap items-center justify-between gap-3 border-b border-rule px-5 py-[10px]">
           {walk !== undefined ? (
-            <div
-              className="flex overflow-hidden rounded-md border border-rule"
-              role="group"
-              aria-label="What the pane shows"
-            >
+            <div className="flex" role="group" aria-label="What the pane shows">
               <ViewButton
                 active={view === 'act'}
                 onClick={() => onViewChange?.('act')}
@@ -449,16 +458,23 @@ export function ActReader({
               onModeChange={setStepMode}
               onGo={(provisionId) => onOpen?.(provisionId)}
             />
-            <div
-              ref={bodyRef}
-              role="region"
-              aria-label="Text of the Act"
-              tabIndex={0}
-              onScroll={handleBodyScroll}
-              onKeyDown={handleBodyKeyDown}
-              className="flex-1 overflow-y-auto px-5 py-4"
-            >
-              {text}
+            <div className="relative flex-1 overflow-hidden">
+              <div
+                aria-hidden="true"
+                data-testid="act-landing-band"
+                className="pointer-events-none absolute inset-x-0 top-0 z-10 h-[12px] bg-surface"
+              />
+              <div
+                ref={bodyRef}
+                role="region"
+                aria-label="Text of the Act"
+                tabIndex={0}
+                onScroll={handleBodyScroll}
+                onKeyDown={handleBodyKeyDown}
+                className="h-full -outline-offset-2 overflow-y-auto px-5 py-4"
+              >
+                {text}
+              </div>
             </div>
           </>
         )}
@@ -513,6 +529,15 @@ export function ActReader({
 const ACT_TEXT =
   'm-0 mb-[6px] font-[family-name:var(--font-serif)] text-[13px] leading-[1.5] text-act last:mb-0'
 
+/**
+ * The landed tint on a paragraph or a point, matching the rounded, padded
+ * card a landed section already draws. The horizontal padding is canceled by
+ * an equal negative margin so the tint bleeds outward without rewrapping a
+ * line, and the vertical padding is left to grow the block, which is the
+ * pick's own accepted cost of moving the paragraphs after it down 12px.
+ */
+const LANDED_TINT = 'rounded-[6px] bg-accent-soft px-[10px] py-[6px] -mx-[10px]'
+
 function ActText({
   sections,
   landingKey,
@@ -556,8 +581,10 @@ function ActText({
           const end = segments[segmentIndex + 1]?.start ?? provision.text.length
           const passageSpans =
             highlightSpans !== null
-              ? trimDiffSpans(
-                  sliceDiffSpans(highlightSpans, segment.start, end),
+              ? joinDiffSpans(
+                  trimDiffSpans(
+                    sliceDiffSpans(highlightSpans, segment.start, end),
+                  ),
                 )
               : null
           return (
@@ -565,7 +592,7 @@ function ActText({
               key={key}
               ref={registerTarget(key)}
               aria-current={landed(key) ? 'location' : undefined}
-              className={`${ACT_TEXT} ${landed(key) ? 'bg-accent-soft' : ''}`}
+              className={`${ACT_TEXT} ${landed(key) ? LANDED_TINT : ''}`}
             >
               {segment.markers.length > 0 && (
                 <span className="mr-[6px] font-sans text-[11px] font-semibold text-muted">
@@ -578,7 +605,7 @@ function ActText({
                     span.changed ? (
                       <mark
                         key={spanIndex}
-                        className="rounded-[2px] border-b-2 border-cite-rule-moved bg-warning-surface"
+                        className="rounded-[2px] border-b-2 border-cite-rule-moved bg-warning-surface text-inherit"
                       >
                         {span.text}
                       </mark>
@@ -602,7 +629,7 @@ function ActText({
             ref={registerTarget(provision.id)}
             aria-current={landed(provision.id) ? 'location' : undefined}
             className={`mb-[6px] last:mb-0 ${
-              landed(provision.id) ? 'bg-accent-soft' : ''
+              landed(provision.id) ? LANDED_TINT : ''
             }`}
           >
             {passages}
@@ -647,6 +674,16 @@ function ReadingVersion({
   )
 }
 
+/**
+ * The pane's view switch, drawn as tabs rather than as the segmented control
+ * `top-bar.tsx`, `theme-toggle.tsx` and `section-bar.tsx` fill with `accent`.
+ * The selected view reads in `ink` over a 2px `accent` bottom border, and the
+ * unselected one stays `muted` over a transparent border of the same width,
+ * so switching never shifts either label. The border also carries selection,
+ * so it cannot double as a focus mark: this keeps no focus style of its own,
+ * leaving the browser's native outline as the focus ring, the same as every
+ * other bare button on this surface.
+ */
 function ViewButton({
   active,
   onClick,
@@ -661,8 +698,8 @@ function ViewButton({
       type="button"
       aria-pressed={active}
       onClick={onClick}
-      className={`px-[11px] py-[5px] text-[12px] ${
-        active ? 'bg-ink text-paper' : 'text-muted'
+      className={`border-b-2 px-[11px] py-[5px] text-[12px] ${
+        active ? 'border-accent text-ink' : 'border-transparent text-muted'
       }`}
     >
       {children}
