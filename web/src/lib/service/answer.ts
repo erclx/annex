@@ -15,7 +15,13 @@ export const answerSchema = z
                   changed: z.boolean().default(false),
                   citation: z.string(),
                   kind: z
-                    .enum(['article', 'annex', 'recital', 'paragraph'])
+                    .enum([
+                      'article',
+                      'annex',
+                      'recital',
+                      'paragraph',
+                      'chapter',
+                    ])
                     .describe('What sort of unit a provision is.'),
                   provision_id: z.string(),
                   text: z.string(),
@@ -51,7 +57,13 @@ export const answerSchema = z
                     changed: z.boolean().default(false),
                     citation: z.string(),
                     kind: z
-                      .enum(['article', 'annex', 'recital', 'paragraph'])
+                      .enum([
+                        'article',
+                        'annex',
+                        'recital',
+                        'paragraph',
+                        'chapter',
+                      ])
                       .describe('What sort of unit a provision is.'),
                     provision_id: z.string(),
                     text: z.string(),
