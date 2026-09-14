@@ -3,6 +3,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Noto_Sans } from 'next/font/google'
 
+import { AskHandoffProvider } from '@/components/ask-handoff'
 import { APPLY_STORED_CHOICES } from '@/lib/stored-choices'
 
 /**
@@ -64,7 +65,9 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
       <head>
         <script dangerouslySetInnerHTML={{ __html: APPLY_STORED_CHOICES }} />
       </head>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <AskHandoffProvider>{children}</AskHandoffProvider>
+      </body>
     </html>
   )
 }

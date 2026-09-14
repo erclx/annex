@@ -5,8 +5,8 @@
  * An inline hover definition was drafted and dropped: it would be a second
  * overlay on a surface `canon/wireframes/answer.md` § Reading the Act allows
  * one, the Act below 1024 pixels. A gathered list needs no hover state and no
- * second overlay, so it sits in the pane before anything is asked, and under
- * the recorded picks where there is no pane.
+ * second overlay, so it sits on the landing page as a section under the
+ * recorded picks, and in the pane beside a failure no next step answers.
  *
  * Five entries restate `.canon/teach/01-how-annex-works/GLOSSARY.md` in page
  * voice. `general-purpose AI model` and `prohibited practice` are not taught

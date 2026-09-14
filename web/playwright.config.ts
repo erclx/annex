@@ -23,6 +23,11 @@ const BASE_URL = `http://localhost:${PORT}`
 // and two processes interleaving in one build directory is a flake nobody would
 // read as one. Under `output: 'export'` the exported site lands in that
 // directory rather than in `out`, so the server below serves it directly.
+//
+// That server is `e2e/serve-export.ts` rather than `python3 -m http.server`,
+// because the export writes `/ask` as `ask.html` and the stock server answers
+// `/ask` with a 404. The script resolves `<path>.html` the way Cloudflare Pages
+// does, so the run reaches the route the deploy serves.
 const REPLAY_PORT = String(BASE + OFFSET + 1)
 export const REPLAY_URL = `http://localhost:${REPLAY_PORT}`
 
@@ -47,7 +52,7 @@ export default defineConfig({
       timeout: 120_000,
     },
     {
-      command: `NEXT_PUBLIC_ANNEX_MODE=replay ANNEX_DIST_DIR=out-replay bun run build && cd out-replay && python3 -m http.server ${REPLAY_PORT}`,
+      command: `NEXT_PUBLIC_ANNEX_MODE=replay ANNEX_DIST_DIR=out-replay bun run build && bun e2e/serve-export.ts out-replay ${REPLAY_PORT}`,
       url: REPLAY_URL,
       reuseExistingServer: !process.env.CI,
       timeout: 180_000,

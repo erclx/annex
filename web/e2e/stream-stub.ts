@@ -22,6 +22,15 @@ const CORS = {
   'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
 }
 
+/**
+ * The service's `POST /ask`, named by its origin.
+ *
+ * The page also has a route at `/ask`, and a `**\/ask` glob matches a document
+ * request for it as readily as the service call, so a stub written that way
+ * aborts or answers the page itself with JSON.
+ */
+export const SERVICE_ASK = `${process.env.NEXT_PUBLIC_ANNEX_API_URL ?? 'http://localhost:4200'}/ask`
+
 function frame(event: string, data: unknown): string {
   return `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`
 }

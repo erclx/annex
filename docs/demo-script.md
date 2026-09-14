@@ -39,6 +39,10 @@ Each is a flow, and each is one of the twelve the evaluation scores and the
 capture recorded. Ask them in this order: the shortest chain first, the one
 that refuses in the middle, and the one that turns on the amendment last.
 
+Type each one on the landing page at `/`, which opens its answer at `/ask`. The
+mark in the top bar goes back to `/` for the next question, with the last
+description still in the box.
+
 ### 1. Transparency
 
 > a chatbot on our website that answers customer questions about our products
@@ -115,9 +119,9 @@ search's own reach is unmeasured until the harness runs again.
 
 ## The fifth flow has no screen
 
-The three-arm comparison is a report rather than a surface. There is no second
-screen and no navigation, and the reference graph is not visualized, so this
-one is read rather than clicked:
+The three-arm comparison is not a question anyone asks. The landing page sets its
+table beside the pipeline figure as a summary, and the report behind that table
+is read rather than clicked:
 
 ```bash
 cd python && uv run python -m annex evaluate --report-only

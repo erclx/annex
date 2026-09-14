@@ -35,8 +35,8 @@ const ARM_ORDER: ArmSummary['arm'][] = [
 ]
 
 /**
- * How an answer is built and the three-arm comparison, filling the region
- * `before-you-ask.tsx` reserved.
+ * How an answer is built and the three-arm comparison, a section of the landing
+ * page and part of the pane beside a failure no next step answers.
  *
  * The rail and its lead-in sit on one side and the argument and table on the
  * other, with the caveats spanning underneath, per the operator's second-use

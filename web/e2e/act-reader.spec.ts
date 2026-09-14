@@ -3,6 +3,7 @@ import { expect, test } from '@playwright/test'
 import { REPLAY_URL } from '../playwright.config'
 import manifest from '../src/fixtures/manifest.json'
 import { PLAYBACK_TIMEOUT } from './playback'
+import { SERVICE_ASK } from './stream-stub'
 
 /**
  * The Act, driven from a real citation on a real answer, in both of its forms.
@@ -215,9 +216,11 @@ test.describe('as an overlay below 1024 pixels', () => {
   test('the panel link reads the other text without re-asking', async ({
     page,
   }) => {
+    // Matched on the service's own address, since the page's `/ask` route
+    // fetches its payload from this build's origin under a path carrying `/ask`.
     const requests: string[] = []
     page.on('request', (request) => {
-      if (request.url().includes('/ask')) requests.push(request.url())
+      if (request.url().startsWith(SERVICE_ASK)) requests.push(request.url())
     })
 
     await page.goto(REPLAY_URL)

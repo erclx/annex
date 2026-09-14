@@ -2,7 +2,7 @@ import { expect, type Page, test } from '@playwright/test'
 
 import recorded from '../src/fixtures/q01-support-chatbot.consolidated.json'
 import type { Answer } from '../src/lib/answer'
-import { holdStreamOpen, streamAnswers } from './stream-stub'
+import { holdStreamOpen, SERVICE_ASK, streamAnswers } from './stream-stub'
 
 /** A real recording, 12 searched and 40 traversed, for cases about the walk's size. */
 const RECORDED = recorded as Answer
@@ -65,7 +65,7 @@ const ANSWER = {
  */
 async function serviceAnswers(page: Page, body: unknown, status = 200) {
   await streamAnswers(page, body, status)
-  await page.route('**/ask', async (route) => {
+  await page.route(SERVICE_ASK, async (route) => {
     if (route.request().method() === 'OPTIONS') {
       await route.fulfill({ status: 204, headers: CORS })
       return
@@ -473,7 +473,19 @@ test('a citation carries a quieter EUR-Lex link beside its heading', async ({
   )
 })
 
-test('the mark in the bar returns an answer to the empty page', async ({
+test('a submit opens the answer on the ask route', async ({ page }) => {
+  await serviceAnswers(page, ANSWER)
+  await page.goto('/')
+
+  await describeSystem(page)
+
+  await expect(page).toHaveURL(/\/ask\?v=consolidated/)
+  await expect(
+    page.getByText('The chatbot has to tell the person'),
+  ).toBeVisible()
+})
+
+test('the mark in the bar returns an answer to the landing page with the text kept', async ({
   page,
 }) => {
   await serviceAnswers(page, ANSWER)
@@ -485,10 +497,41 @@ test('the mark in the bar returns an answer to the empty page', async ({
 
   await page.getByRole('link', { name: 'Annex' }).click()
 
+  await expect(page).toHaveURL(/\/$/)
+  await expect(page.getByLabel('Describe your system')).toHaveValue(
+    'a customer chatbot',
+  )
+})
+
+test('Edit description returns to the landing page with the text in the composer', async ({
+  page,
+}) => {
+  await serviceAnswers(page, ANSWER)
+  await page.goto('/')
+  await describeSystem(page)
+  await expect(
+    page.getByText('The chatbot has to tell the person'),
+  ).toBeVisible()
+
+  await page.getByRole('button', { name: 'Edit description' }).click()
+
+  await expect(page).toHaveURL(/\/$/)
+  await expect(page.getByLabel('Describe your system')).toHaveValue(
+    'a customer chatbot',
+  )
+})
+
+test('a bare visit to the ask route has nothing to ask and returns to the landing page', async ({
+  page,
+}) => {
+  await serviceAnswers(page, ANSWER)
+
+  await page.goto('/ask')
+
+  await expect(page).toHaveURL(/\/$/)
   await expect(
     page.getByRole('heading', { name: /Describe your AI system/ }),
   ).toBeVisible()
-  await expect(page).not.toHaveURL(/v=/)
 })
 
 test('a recorded question card answers hover by changing its border', async ({
@@ -517,29 +560,104 @@ test('a recorded question card answers hover by changing its border', async ({
  * rather than the `style` attribute, because the server writes that attribute
  * as `grid-column:2` with no space and hydration leaves it as written.
  *
- * Measured inside the docked pane once it shows. The page first renders as a
- * single column and moves the figure into the pane when the width is read, so
- * a figure found before that move is unmounted by the time it is measured and
- * every box on it reads zero.
+ * Measured on the landing page, where the figure is a section of its own.
  */
 async function bracketGap(page: Page): Promise<number> {
-  const pane = page.getByRole('complementary', { name: 'Before you ask' })
-  await expect(pane).toBeVisible()
+  const rail = page.getByRole('img', { name: /The five-stage pipeline/ })
+  await expect(rail).toBeVisible()
 
-  return pane
-    .getByRole('img', { name: /The five-stage pipeline/ })
-    .evaluate((figure) => {
-      const grid = figure.firstElementChild
-      const stageRights = [...(grid?.children ?? [])]
-        .filter((child) => getComputedStyle(child).gridColumnStart === '2')
-        .map((stage) => stage.getBoundingClientRect().right)
-      const bracket = figure.querySelector('svg')
-      return (
-        (bracket?.getBoundingClientRect().left ?? Infinity) -
-        Math.max(...stageRights)
-      )
-    })
+  return rail.evaluate((figure) => {
+    const grid = figure.firstElementChild
+    const stageRights = [...(grid?.children ?? [])]
+      .filter((child) => getComputedStyle(child).gridColumnStart === '2')
+      .map((stage) => stage.getBoundingClientRect().right)
+    const bracket = figure.querySelector('svg')
+    return (
+      (bracket?.getBoundingClientRect().left ?? Infinity) -
+      Math.max(...stageRights)
+    )
+  })
 }
+
+/** The vertical offset between the comparison's two half headings, in pixels. */
+async function halfHeadingOffset(page: Page): Promise<number> {
+  const built = await page
+    .getByRole('heading', { name: 'How an answer is built' })
+    .boundingBox()
+  const compared = await page
+    .getByRole('heading', { name: 'The three-arm comparison' })
+    .boundingBox()
+  return Math.abs((built?.y ?? 0) - (compared?.y ?? Infinity))
+}
+
+test.describe('the comparison on the landing page', () => {
+  test('sets the rail beside the table at 1280 pixels', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 860 })
+    await page.goto('/')
+
+    expect(await halfHeadingOffset(page)).toBeLessThanOrEqual(1)
+  })
+
+  test('stacks the rail above the table at 400 pixels', async ({ page }) => {
+    await page.setViewportSize({ width: 400, height: 860 })
+    await page.goto('/')
+
+    expect(await halfHeadingOffset(page)).toBeGreaterThan(100)
+  })
+})
+
+const LOCAL_HINT = 'Turn off to compare against search alone'
+
+test.describe('the landing page at 1280 pixels', () => {
+  test.use({ viewport: { width: 1280, height: 860 } })
+
+  test('centers the composer under a larger heading', async ({ page }) => {
+    await page.goto('/')
+
+    const composer = await page.getByTestId('composer').boundingBox()
+    const center = (composer?.x ?? 0) + (composer?.width ?? 0) / 2
+    expect(Math.abs(center - 640)).toBeLessThanOrEqual(2)
+    await expect(
+      page.getByRole('heading', { name: /Describe your AI system/ }),
+    ).toHaveCSS('font-size', '34px')
+  })
+
+  test('keeps the traversal hint as visible text in the composer', async ({
+    page,
+  }) => {
+    await page.goto('/')
+
+    await expect(
+      page.getByTestId('composer').getByText(LOCAL_HINT),
+    ).toBeVisible()
+  })
+
+  test('keeps the traversal hint as visible text in the bar once asked', async ({
+    page,
+  }) => {
+    await serviceAnswers(page, ANSWER)
+    await page.goto('/')
+    await describeSystem(page)
+
+    await expect(
+      page.getByRole('banner').first().getByText(LOCAL_HINT),
+    ).toBeVisible()
+  })
+})
+
+test.describe('the landing page at 400 pixels', () => {
+  test.use({ viewport: { width: 400, height: 860 } })
+
+  test('keeps the composer on the left gutter with its hint visible', async ({
+    page,
+  }) => {
+    await page.goto('/')
+
+    const composer = page.getByTestId('composer')
+    expect((await composer.boundingBox())?.x).toBe(24)
+    await expect(composer.getByText(LOCAL_HINT)).toBeVisible()
+  })
+})
 
 test.describe('the frame at 1536 pixels', () => {
   test.use({ viewport: { width: 1536, height: 860 } })

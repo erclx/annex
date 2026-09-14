@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { addressSearch, readAddress } from '@/lib/address'
+import { addressSearch, forwardedAskPath, readAddress } from '@/lib/address'
 
 describe('readAddress', () => {
   it('should read the question, the version and the open provision', () => {
@@ -49,5 +49,25 @@ describe('addressSearch', () => {
     const address = { version: 'consolidated', provision: 'art_50.1' } as const
 
     expect(readAddress(addressSearch(address))).toEqual(address)
+  })
+})
+
+describe('forwardedAskPath', () => {
+  it('should forward an answer address to the ask route with every field kept', () => {
+    expect(forwardedAskPath('?q=q04-cv-screening&v=original&p=anx_III')).toBe(
+      '/ask?q=q04-cv-screening&v=original&p=anx_III',
+    )
+  })
+
+  it('should not forward an address carrying a version alone', () => {
+    expect(forwardedAskPath('?v=original')).toBeNull()
+  })
+
+  it('should not forward an empty address', () => {
+    expect(forwardedAskPath('')).toBeNull()
+  })
+
+  it('should not forward a question that is not shaped like a recorded id', () => {
+    expect(forwardedAskPath('?q=a%20chatbot&v=original')).toBeNull()
   })
 })

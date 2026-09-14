@@ -1,8 +1,9 @@
-import { expect, test } from '@playwright/test'
+import { expect, type Page, test } from '@playwright/test'
 
 import { REPLAY_URL } from '../playwright.config'
 import manifest from '../src/fixtures/manifest.json'
 import { PLAYBACK_TIMEOUT } from './playback'
+import { SERVICE_ASK } from './stream-stub'
 
 /**
  * The deployed build, in a real browser, reaching no service.
@@ -34,9 +35,11 @@ test('a recorded pick answers with nothing listening on the service port', async
 }) => {
   // The failure this guards is the one the whole build exists to avoid: a
   // deployed page that looks right and reaches for a service nobody is running.
+  // Matched on the service's own address, since the page's `/ask` route fetches
+  // its payload from this build's origin under a path that also carries `/ask`.
   const requests: string[] = []
   page.on('request', (request) => {
-    if (request.url().includes('/ask')) requests.push(request.url())
+    if (request.url().startsWith(SERVICE_ASK)) requests.push(request.url())
   })
 
   await page.goto(REPLAY_URL)
@@ -198,19 +201,50 @@ test.describe('the top of the page at 400 pixels', () => {
 test.describe('an answer carried in the address', () => {
   const linked = manifest.entries[0]
 
-  test('a recorded pick writes its question and version into the address', async ({
+  test('a recorded pick opens the ask route with its question and version in the address', async ({
     page,
   }) => {
     await page.goto(REPLAY_URL)
     await page.getByRole('button', { name: linked.description }).click()
 
-    await expect(page).toHaveURL(new RegExp(`q=${linked.question_id}`))
-    await expect(page).toHaveURL(/v=consolidated/)
+    await expect(page).toHaveURL(
+      new RegExp(`/ask\\?q=${linked.question_id}&v=consolidated`),
+    )
   })
 
   test('a linked answer reopens as it was shared', async ({ page }) => {
-    await page.goto(`${REPLAY_URL}?q=${linked.question_id}&v=original`)
+    await page.goto(`${REPLAY_URL}/ask?q=${linked.question_id}&v=original`)
 
+    await expectLinkedAnswer(page)
+  })
+
+  test('a link shared before the ask route lands on the same answer there', async ({
+    page,
+  }) => {
+    await page.goto(`${REPLAY_URL}/?q=${linked.question_id}&v=original`)
+
+    await expect(page).toHaveURL(
+      new RegExp(`/ask\\?q=${linked.question_id}&v=original`),
+    )
+    await expectLinkedAnswer(page)
+  })
+
+  test('the back action returns an answer to the landing page', async ({
+    page,
+  }) => {
+    await page.goto(REPLAY_URL)
+    await page.getByRole('button', { name: linked.description }).click()
+    await expect(page).toHaveURL(/\/ask\?/)
+
+    await page.goBack()
+
+    await expect(page).toHaveURL(`${REPLAY_URL}/`)
+    await expect(
+      page.getByRole('heading', { name: /Describe your AI system/ }),
+    ).toBeVisible()
+  })
+
+  async function expectLinkedAnswer(page: Page) {
     await expect(page.getByRole('contentinfo')).toBeVisible({
       timeout: PLAYBACK_TIMEOUT,
     })
@@ -221,7 +255,7 @@ test.describe('an answer carried in the address', () => {
         .getByRole('group', { name: 'Which text to read against' })
         .getByRole('button', { name: 'Original' }),
     ).toHaveAttribute('aria-pressed', 'true')
-  })
+  }
 })
 
 test.describe('a refusal reading list', () => {

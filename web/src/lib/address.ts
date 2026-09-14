@@ -59,3 +59,17 @@ export function addressSearch(address: Address): string {
   const search = params.toString()
   return search === '' ? '' : `?${search}`
 }
+
+/**
+ * Where a link shared before the answer moved to `/ask` should land, or null
+ * when the address names no recorded question and the landing page is the
+ * right place for it.
+ *
+ * The forward rewrites the address from what reads rather than passing the
+ * search through, so a mangled field is dropped on the way.
+ */
+export function forwardedAskPath(search: string): string | null {
+  const address = readAddress(search)
+  if (address.question === undefined) return null
+  return `/ask${addressSearch(address)}`
+}

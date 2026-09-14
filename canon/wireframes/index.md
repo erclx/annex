@@ -7,4 +7,4 @@ subtitle: Per-surface ASCII layouts loaded on demand
 
 Per-surface ASCII layouts loaded on demand
 
-- [Answer](answer.md): The single surface where a described system becomes a list of articles to read, or a refusal
+- [Answer](answer.md): The landing page and the ask route, where a described system becomes a list of articles to read, or a refusal
