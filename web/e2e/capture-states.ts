@@ -21,10 +21,11 @@
  *   bunx next start --port 4131 &
  *   CAPTURE_BASE_URL=http://localhost:4131 bun e2e/capture-states.ts
  *
- * Then the deployed build, which is a static export and needs any file server:
+ * Then the deployed build, which is a static export served the way Cloudflare
+ * Pages serves it, so `/ask` resolves to `ask.html`:
  *
  *   NEXT_PUBLIC_ANNEX_MODE=replay bun run build
- *   (cd out && python3 -m http.server 4132) &
+ *   bun e2e/serve-export.ts out 4132 &
  *   CAPTURE_REPLAY_BASE_URL=http://localhost:4132 bun e2e/capture-states.ts
  *
  * Each run captures the cases its base URL can reach and says which it skipped,
@@ -40,7 +41,7 @@ import answered from '../src/fixtures/q01-support-chatbot.consolidated.json'
 import cutShortSource from '../src/fixtures/q05-university-admission.original.json'
 import refused from '../src/fixtures/q08-redesigned-interface.consolidated.json'
 import type { Answer } from '../src/lib/answer'
-import { holdStreamOpen, streamAnswers } from './stream-stub'
+import { holdStreamOpen, SERVICE_ASK, streamAnswers } from './stream-stub'
 
 const BASE = process.env.CAPTURE_BASE_URL
 const REPLAY_BASE = process.env.CAPTURE_REPLAY_BASE_URL
@@ -83,22 +84,10 @@ interface Case {
   reject?: boolean
   describe?: string
   replay?: boolean
-  /**
-   * The docked pane scrolls internally, so a full-page shot never reaches
-   * content below its own fold. Set on a case whose point is that region: the
-   * capture scrolls the pane to the bottom first and crops to the pane alone,
-   * rather than the whole page.
-   */
-  paneScroll?: boolean
 }
 
 const CASES: Case[] = [
   { name: '1-empty', skipAsk: true },
-  {
-    name: '1-empty-pipeline-figure',
-    skipAsk: true,
-    paneScroll: true,
-  },
   { name: '2-invalid', skipAsk: true, submitEmpty: true },
   { name: '3-loading', hang: true },
   { name: '4-answered', body: answered, expand: true },
@@ -151,11 +140,6 @@ async function reached(page: Page, captureCase: Case) {
       await expect(
         page.getByRole('heading', { name: /Describe your AI system/ }),
       ).toBeVisible()
-      break
-    case '1-empty-pipeline-figure':
-      await expect(
-        page.getByRole('img', { name: /The five-stage pipeline/ }),
-      ).toBeAttached()
       break
     case '2-invalid':
       await expect(
@@ -255,12 +239,12 @@ for (const theme of ['light', 'dark'] as const) {
     if (!captureCase.replay) {
       if (captureCase.reject) {
         await page.route('**/ask/stream', (route) => route.abort())
-        await page.route('**/ask', (route) => route.abort())
+        await page.route(SERVICE_ASK, (route) => route.abort())
       } else if (captureCase.hang)
         await holdStreamOpen(page, answered as Answer, 'budget')
       else if (captureCase.body) {
         await streamAnswers(page, captureCase.body, captureCase.status ?? 200)
-        await page.route('**/ask', async (route) => {
+        await page.route(SERVICE_ASK, async (route) => {
           if (route.request().method() === 'OPTIONS') {
             await route.fulfill({ status: 204, headers: CORS })
             return
@@ -278,15 +262,7 @@ for (const theme of ['light', 'dark'] as const) {
     await reached(page, captureCase)
 
     const file = path.join('evidence', captureCase.name, `${theme}.png`)
-    if (captureCase.paneScroll) {
-      const pane = page.getByRole('complementary', { name: 'Before you ask' })
-      await pane.locator('.overflow-y-auto').evaluate((el) => {
-        el.scrollTop = el.scrollHeight
-      })
-      await pane.screenshot({ path: file })
-    } else {
-      await page.screenshot({ path: file, fullPage: true })
-    }
+    await page.screenshot({ path: file, fullPage: true })
     console.log(`captured ${file}`)
     await context.close()
   }
