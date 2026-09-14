@@ -12,3 +12,11 @@ web/.next/
 # kept as it was rendered rather than reformatted into this project's style.
 # `cspell.json` excludes it for the same reason.
 web/evidence/
+
+# The static export `playwright.config.ts` builds for `replay.spec.ts`, and the
+# results folder a Playwright run writes beside it. Both sit under
+# `web/.gitignore` alone, the same gap `.next/` above already closed, and left
+# in the tree after a browser run they fail `check:format` the same way.
+# `web/out-replay/` runs 5.2 MB of generated JS. Measured on 2026-09-14.
+web/out-replay/
+web/test-results/
