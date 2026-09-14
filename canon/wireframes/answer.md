@@ -32,7 +32,7 @@ The date is read off the capture manifest rather than written here, so a re-capt
 
 The band is on the page rather than in a footnote because the claim a visitor would otherwise carry away is that they watched a model answer. They did not. The model this project runs holds 30 GB of a card, nothing hosted answers these questions, and what a deployment can honestly serve is what the live system already said.
 
-The traversal switch is held inactive on this build, and the line under it reads `Recorded with traversal on`. Capture ran with reference following on, so both positions would return one answer and a live switch would lie about it. Beside it the version control is untouched, since both texts were captured and comparing them is what the deployed page is for.
+The traversal switch is held inactive on this build, and the line under it reads `Recorded with traversal on`. Capture ran with reference following on, so both positions would return one answer and a live switch would lie about it. The version toggle stays live on this build, since both texts were captured and comparing them is what the deployed page is for.
 
 Below 1024 the band shortens to one sentence, so the question starts near the top of a phone screen. The line still says the page is a recording, and the rest sits behind a details control.
 
@@ -54,27 +54,33 @@ Reached on arrival, before anything is asked. The top bar and the band run the f
 
 ```plaintext
 ┌──────────────────────────────────────────────────────────────────────┐
-│ ◆ Annex Which articles of the EU AI Act…  Repository  Evaluation     │
-│                        [ Original |*Amended 27 Jul 2026*]  (•) …    │ ← top bar, pinned
+│ ◆ Annex Which articles of the EU AI Act…  Repository  Evaluation     │ ← top bar, pinned, and
+│                                                                      │   no control before an ask
 ├──────────────────────────────────────────────────────────────────────┤
-│ Describe what you are building.   │ BEFORE YOU ASK        ← pane    │
-│ You get back the articles you     │                                  │
-│ have to read.          ← display  │ TERMS USED ON THIS PAGE          │
+│ Describe your AI system. Get      │ Before you ask        ← pane     │
+│ back the articles of the AI Act   │                                  │
+│ you need to read.     ← display   │ Terms used on this page          │
 │                                   │ Provision      An addressable…   │
-│ Plain language is enough. Annex   │ High risk      A classification… │
-│ reports which provisions apply…   │ …seven terms in all              │
+│ Write it the way you'd explain    │ High risk      A classification… │
+│ it to a colleague. Annex finds…   │ …seven terms in all              │
 │                                   │                                  │
-│ ┌───────────────────────────────┐ │ ┌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┐ │
-│ │ A customer-service chatbot…   │ │ ╎ the three-arm comparison     ╎ │
-│ └───────────────────────────────┘ │ ╎ region, reserved   ← held    ╎ │
-│ [ Find the articles ]             │ └╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┘ │
-│ ───────────────────────────────── │                                  │
-│ Or read one of the recorded       │                                  │
-│ questions                         │                                  │
-│ TELLING A PERSON THEY ARE…        │                                  │
-│ a chatbot on our website that…    │                                  │
-│ a voice agent that phones our…    │                                  │
-│ …four groups, three questions each│                                  │
+│ ┌───────────────────────────────┐ │ How an answer is built           │ ← composer
+│ │ A customer-service chatbot…   │ │ Five stages, in the order…       │
+│ │                               │ │ ○ Intake                         │
+│ │ [ Original |*Amended*]        │ │ ● Retrieve  ┐ The comparison     │ ← the choices, inside it
+│ │ (•) Reference traversal       │ │ ● Traverse  ┘ switches these…    │
+│ │ Turn off to compare…          │ │ ○ Synthesize                     │
+│ │       [ Find the articles → ] │ │ ○ Verify                         │
+│ └───────────────────────────────┘ │                                  │
+│ ───────────────────────────────── │ The three-arm comparison         │
+│ Or start from a recorded          │ The Act fits inside a current…   │
+│ question                          │ Arm | Text | Recall | …          │
+│ Telling a person they are…        │                                  │
+│ ┌─────────┐ ┌─────────┐ ┌───────┐ │                                  │ ← one card a question
+│ │a chatbot│ │a voice  │ │we gen…│ │                                  │
+│ │Answered │ │Answered │ │Refused│ │                                  │
+│ └─────────┘ └─────────┘ └───────┘ │                                  │
+│ …four groups, three cards each    │                                  │
 │                                   │                                  │
 │   ← answer column, fixed measure  │   ← pane, takes the rest         │
 └──────────────────────────────────────────────────────────────────────┘
@@ -87,15 +93,17 @@ Copy, verbatim:
 - Top bar links: `Repository`, `Evaluation`
 - Traversal hint on the local build: `Turn off to compare against search alone`
 - Traversal hint on the deployed build: `Recorded with traversal on`
-- Display: `Describe what you are building. You get back the articles you have to read.`
-- Supporting text: `Plain language is enough. Annex reports which provisions apply and quotes them, against your choice of the original text or the text as amended on 27 July 2026. Every claim carries the article text it came from, so you check the answer rather than trust it. It does not tell you whether you comply.`
+- Display: `Describe your AI system. Get back the articles of the AI Act you need to read.`
+- Supporting text: `Write it the way you'd explain it to a colleague. Annex finds the provisions that apply and quotes each one, so you can check every claim against the law itself. Read against the Act as published or as amended on 27 July 2026. It won't tell you whether you comply.`
 - Input placeholder: `A customer-service chatbot that also scores loan applications…`
-- Action: `Find the articles`
+- Action: `Find the articles`, with an arrow after it that is drawn and never read as part of the name
 - Pane label: `Before you ask`
 
 The last sentence of that supporting text is doing compliance work rather than tone work. No label, heading, or button anywhere on this surface may imply a verdict on whether an organization complies, and the empty state states that boundary before a visitor has asked anything.
 
-The top bar carries `Repository` and `Evaluation` in every state rather than on the empty state alone. A visitor who reaches an answer or a refusal, the moment likeliest to prompt checking the source, can still reach them without editing back to a blank form. They drop out while the bar is slim, and return once the page is scrolled back to the top.
+The top bar carries `Repository` and `Evaluation` in every state and at every width rather than on the empty state alone. A visitor who reaches an answer or a refusal, the moment likeliest to prompt checking the source, can still reach them without editing back to a blank form. The bar keeps one full height throughout, and its mark and name link to `/`.
+
+The composer is one rounded box on `surface` holding the description, the version toggle, the traversal switch with its hint as visible text, and `Find the articles`. Its footer runs as one row at 1024 and wider and stacks below that. Before anything is asked the bar holds no control, since both choices sit in the composer where the description they apply to is written. The operator's second-use pass picked this composer over a plain field with the button under it, a composer with the choices left outside, and a taller composer whose send control lost its label.
 
 The pane holds context beside the question before it holds the Act. Three other contents were rendered and lost: no pane at all until something is asked, the Act open at Article 3, and a recorded answer previewed. `canon/ARCHITECTURE.md` carries what each cost.
 
@@ -103,28 +111,32 @@ The pane holds context beside the question before it holds the Act. Three other 
 
 ```plaintext
 ┌──────────────────────────────┐
-│ ◆ Annex              [theme] │ ← bar holds the brand
+│ ◆ Annex  Repository  Eval…   │ ← the brand and the links
+│                     [theme]  │
 ├──────────────────────────────┤
-│ Describe what you are        │
-│ building. You get back the   │
-│ articles you have to read.   │
+│ Describe your AI system.     │
+│ Get back the articles of the │
+│ AI Act you need to read.     │
 │                              │
-│ Plain language is enough…    │
+│ Write it the way you'd…      │
 │ ┌──────────────────────────┐ │
 │ │ A customer-service…      │ │
+│ │ [ Original |*Amended*]   │ │ ← the choices, inside
+│ │ (•) Reference traversal  │ │   the composer
+│ │ [ Find the articles → ]  │ │
 │ └──────────────────────────┘ │
-│ [ Original |*Amended*]       │ ← the choices, under
-│ (•) Reference traversal      │   the description
-│ [ Find the articles ]        │
 │ ──────────────────────────── │
-│ Or read one of the recorded  │
-│ questions                    │
+│ Or start from a recorded     │
+│ question                     │
+│ ┌──────────────────────────┐ │
+│ │ a chatbot on our website │ │ ← one card a row
+│ │ Answered on both texts   │ │
+│ └──────────────────────────┘ │
 │ …                            │
-│ TERMS USED ON THIS PAGE      │ ← the pane's content,
+│ Terms used on this page      │ ← the pane's content,
 │ …                            │   under the picks
-│ THE THREE-ARM COMPARISON     │
-│ Arm | Text | Recall | …      │
-│ [ pipeline diagram ]         │
+│ How an answer is built       │
+│ The three-arm comparison     │
 └──────────────────────────────┘
 ```
 
@@ -132,15 +144,20 @@ Nothing the pane holds is lost at this width. The terms and the comparison follo
 
 ### The recorded picks
 
-Rendered under the form on both builds, so the build that can answer anything stops being the one with no route into itself. Each question is one row of plain text under its flow label, separated by a hairline rather than boxed.
+Rendered under the form on both builds, so the build that can answer anything stops being the one with no route into itself. Each question is a bordered card under its flow label, three across at 1024 and wider and one a row below that.
+
+Under its description each card says how the recording went on the two texts. The line is computed per text from the manifest's `refused` flags rather than typed, so a re-capture that changes an outcome changes the card. Words carry the outcome with no mark beside them: a 6-pixel dot drawn in the refusal and accent colors read as one dark mark in both themes.
 
 Copy, verbatim:
 
-- Heading: `Or read one of the recorded questions`
-- Supporting text: `These are the twelve descriptions the live system was asked, against both texts. Anything else reaches a state saying the recording does not hold it.`
+- Heading: `Or start from a recorded question`
+- Supporting text: `Twelve descriptions were put to the live system, on both versions of the Act. A description outside those twelve has no recorded answer here.`
+- Outcome lines: `Answered on both texts`, `Refused on both texts`, `Refused on the original, answered on the amended`, `Answered on the original, refused on the amended`
 - Flow labels: `Telling a person they are dealing with an AI system`, `Whether a system is high risk, and what follows`, `Changing a system already on the market`, `When an obligation starts to apply`
 
 The picks sit beside the input rather than in place of it. Narrowing the input to a picker would remove the unrecorded state below and change the surface the design was settled on, and the free-text field is what a visitor arrives expecting.
+
+The word `Twelve` is typed, and `web/src/lib/replay.test.ts` fails when the recording stops holding twelve questions, so a re-capture that changes the count cannot ship the old number.
 
 The four flow labels are the evaluation's own grouping, three questions apiece. The fifth demo flow, the three-arm result, is not a question a visitor asks. It renders below as the comparison rather than as a fifth pick.
 
@@ -152,15 +169,23 @@ An inline hover definition was drafted and rejected by looking. It is a second o
 
 ### The three-arm comparison
 
-A labelled region under the terms, holding the argument for measuring retrieval against a full-context baseline at all, the table itself, its caveats, and the pipeline diagram. Generated from `python/data/eval/results.json` through the `evaluation-summary.json` fixture rather than transcribed, so the table moves when the next `evaluate` run does.
+A labelled region under the terms, in two halves with the caveats spanning beneath both. The first half, headed `How an answer is built`, gives a one-sentence lead-in and the pipeline rail. The second, headed `The three-arm comparison`, holds the argument for measuring retrieval against a full-context baseline at all and the table. The table is generated from `python/data/eval/results.json` through the `evaluation-summary.json` fixture rather than transcribed, so it moves when the next `evaluate` run does.
 
-Heading, verbatim: `The three-arm comparison`
+The halves sit side by side, rail on the left, only in a container 1 040 pixels wide or more. Everywhere narrower they stack rail first. The docked pane at 1280 and 1536 and the single column below 1024 all stay under that width, so this route draws the stacked form until a page gives the section more room.
+
+Copy, verbatim:
+
+- Headings: `How an answer is built`, `The three-arm comparison`
+- Lead-in: `Five stages, in the order a question passes through them.`
+- Bracket caption: `The comparison switches these two on and off.`
+
+The caption names no direction. The table sits beside the rail at one width and under it at another, so a caption pointing below or above would be wrong at one of them.
 
 The table carries one row per arm and text: the arm's label, which text it ran against, recall, faithfulness, nodes supplied, and correct refusals over the questions the text does not settle. Recall, faithfulness, precision and cost read as the stable half of the evaluation, and the table treats them as facts. Refusal is carried the same way but captioned rather than trusted: three questions per arm and text is too few to rank the arms on, and the caption under the table says so rather than letting the fraction imply more than it can support.
 
-Below the table, one line names the hardware and the model each arm ran on, and one paragraph explains why the comparison exists: the Act fits inside a current context window, so a model can read the whole document and answer from it, which makes retrieval something to justify rather than assume.
+Beneath both halves, one line names the hardware and the model each arm ran on. The argument above the table explains why the comparison exists: the Act fits inside a current context window, so a model can read the whole document and answer from it, which makes retrieval something to justify rather than assume.
 
-The pipeline diagram sits last: the five stages a request passes through, intake through verify, so a reader sees where retrieval and traversal sit inside one answer rather than reading the table as the only picture of what the system does.
+The rail comes first. It draws the five stages a request passes through, intake through verify, with a bracket against retrieve and traverse, so a reader sees where the two switched stages sit inside one answer before reading the table that switches them. Its bracket sits beside the stage text rather than at the far edge of the half.
 
 ## Invalid
 
@@ -186,9 +211,11 @@ The form checks the length itself before asking. The service's own `invalid` ans
 
 ```plaintext
 ├──────────────────────────────────────────┬───────────────────────────────────┤
-│ THE SYSTEM YOU DESCRIBED                 │                                   │
-│ a chatbot on our website that answers…   │                                   │
-├──────────────────────────────────────────┼───────────────────────────────────┤
+│ ┌──────────────────────────────────────┐ │                                   │
+│ │ The system you described        Edit │ │                                   │
+│ │ a chatbot on our website that…       │ │                                   │
+│ │ Answered against  [Orig|*Amended*]   │ │                                   │
+│ └──────────────────────────────────────┘ │                                   │
 │ ● Restating your description    13.1 s   │ THE WALK, AS IT HAPPENS  12 · 40  │
 │   as a search query                      │ FOUND BY    THEIR     CITED FROM  │
 │   Query ready                            │ SEARCH      ARTICLE   THERE       │
@@ -248,31 +275,33 @@ The plain case. No provision moved, nothing cut.
 ```plaintext
 ┌──────────────────────────────────────────────────────────────────────┐
 │ Annex  Which articles of the EU AI Act…   Repository  Evaluation     │
-│                        [ Original |*Amended 27 Jul 2026*]  (•) …    │
-├──────────────────────────────────────────────────────────────────────┤
-│ THE SYSTEM YOU DESCRIBED                                             │
-│ A customer-service chatbot for a Swedish retail bank…                │
-│ Edit description                                                     │
+│                                     (•) Reference traversal          │ ← the switch alone
 ├───────────────────────────────────┬──────────────────────────────────┤
-│ The chatbot has to tell the       │ [*The Act*| The walk ]  [Orig|*Am│ ← pane header
-│ person they are interacting with  │ CITED IN THIS ANSWER             │
-│ an AI system.        ← claim      │ *Article 50(1)*  Article 50(6)   │ ← jumps the pane
+│ ┌───────────────────────────────┐ │ [*The Act*| The walk ]           │ ← pane header
+│ │ The system you described Edit │ │ Reading the amended text         │
+│ │ A customer-service chatbot    │ │ Read the original text           │ ← swaps the pane text only
+│ │ for a Swedish retail bank…    │ │ Cited in this answer             │
+│ │ ───────────────────────────── │ │ *Article 50(1)*  Article 50(6)   │ ← jumps the pane
+│ │ Answered against [Orig|*Am*]  │ ├──────────────────────────────────┤ ← the one version toggle
+│ └───────────────────────────────┘ │ ‹ Article 50   51 of 133  Go to ›│ ← section bar
 │                                   ├──────────────────────────────────┤
-│                                   │ ‹ Article 50   51 of 133  Go to ›│ ← section bar
-│                                   ├──────────────────────────────────┤
-│  │ Article 50(1)  AMENDED         │ ░ Article 50  Transparency…    ░ │
-│  │ Providers shall ensure that AI │ ░ 1. Providers shall ensure    ░ │ ← scrolled to,
-│  │ systems intended to interact   │ ░ that AI systems intended to  ░ │   held in a tint
-│  │ directly with natural persons  │ ░ interact directly with…      ░ │
-│  │ are designed and developed in… │   2. Providers of AI systems,    │
-│  │ Read all 702 characters… →     │   including general-purpose…     │
+│ The chatbot has to tell the       │ ░ Article 50  Transparency…    ░ │
+│ person they are interacting with  │ ░ 1. Providers shall ensure    ░ │ ← scrolled to,
+│ an AI system.        ← claim      │ ░ that AI systems intended to  ░ │   held in a tint
+│                                   │ ░ interact directly with…      ░ │
+│  │ Article 50(1)  AMENDED         │   2. Providers of AI systems,    │
+│  │ Providers shall ensure that AI │   including general-purpose…     │
+│  │ systems intended to interact   │                                  │
+│  │ directly with natural persons  │   3. Deployers of an emotion     │
+│  │ are designed and developed in… │   recognition system…            │
+│  │ Read all 702 characters… →     │                                  │
+│                                   │                   ← the whole    │
+│ The disclosure obligation does    │                     Act, scrolls │
+│ not apply where it is obvious…    │                     inside itself│
 │                                   │                                  │
-│ The disclosure obligation does    │   3. Deployers of an emotion     │
-│ not apply where it is obvious…    │   recognition system…            │
-│                                   │                                  │
-│  │ Article 50(6)  AMENDED         │                   ← the whole    │
-│  │ Paragraphs 1 to 4 shall not…   │                     Act, scrolls │
-│  │ Read all 227 characters… →     │                     inside itself│
+│  │ Article 50(6)  AMENDED         │                                  │
+│  │ Paragraphs 1 to 4 shall not…   │                                  │
+│  │ Read all 227 characters… →     │                                  │
 │ ───────────────────────────────── │                                  │
 │ qwen3.8:27b  7 940 prompt  288…   │                                  │
 │ 8 searched · 11 traversed · 0     │                                  │
@@ -295,6 +324,9 @@ Copy, verbatim:
 - Excerpt landing label: `closest point`
 - Excerpt label when no passage wins: `whole provision, no single passage wins`
 - Pane views: `The Act`, `The walk`
+- Described system label: `The system you described`, with `Edit description` at the end of the same row
+- Described system version row: `Answered against`
+- Pane version line: `Reading the amended text` or `Reading the original text`, followed by `Read the original text` or `Read the amended text`
 - Cited list label: `Cited in this answer`
 - Excerpt handle: `Read all <n> characters in the Act →`, where `<n>` is the provision's own length
 - Column handle, the divider between the answer and the pane: `Resize the answer and the Act`
@@ -311,9 +343,16 @@ The section bar sits over the Act's text. It names the article or cited paragrap
 
 ```plaintext
 ┌──────────────────────────────┐
-│ THE SYSTEM YOU DESCRIBED     │
-│ A customer-service chatbot…  │
-├──────────────────────────────┤
+│ ┌──────────────────────────┐ │
+│ │ The system you described │ │
+│ │         Edit description │ │
+│ │ A customer-service…      │ │
+│ │ ──────────────────────── │ │
+│ │ Answered against         │ │
+│ │ [ Original |*Amended*]   │ │ ← the one version toggle
+│ │ (•) Reference traversal  │ │ ← the switch, since the bar
+│ │ Turn off to compare…     │ │   holds none below 1024
+│ └──────────────────────────┘ │
 │ The chatbot has to tell the  │
 │ person they are interacting  │
 │ with an AI system.           │
@@ -581,8 +620,10 @@ At 1024 and wider the Act is the pane, a region of the one screen rather than so
 ```plaintext
 ┌──────────────────────────────┐
 │▓▓▓▓▓┌───────────────────────┐│
-│▓▓▓▓▓│ [Orig|*Amended*] Close││ ← header: version
-│▓▓▓▓▓├───────────────────────┤│    toggle, close
+│▓▓▓▓▓│ Reading the amended   ││ ← header: which text
+│▓▓▓▓▓│ text  Read the orig…  ││    shows, a link to the
+│▓▓▓▓▓│                Close  ││    other, and close
+│▓▓▓▓▓├───────────────────────┤│
 │▓▓▓▓▓│ Article 6  Rules for… ││
 │▓▓▓▓▓│ ┃ 1. AI systems shall ││ ← scrolled to,
 │▓▓▓▓▓│ ┃ be classified as…   ││   held in a tint
@@ -602,7 +643,7 @@ It links to the article, annex, or recital the citation's paragraph sits under, 
 ### Copy
 
 - Close control, below 1024: `Close`
-- Version toggle: the same segmented pair the top bar draws, `Original` and `Amended 27 Jul 2026`
+- Version line: `Reading the amended text` or `Reading the original text`, followed by the link `Read the original text` or `Read the amended text`, in the wording the per-citation control already uses
 - Heading text is the citation label the trace already draws (`Article 6`, `Annex III(5)(b)`), not a duplicate of the citation block's own rendering
 
 ### Behavior
@@ -613,16 +654,16 @@ It links to the article, annex, or recital the citation's paragraph sits under, 
 - Docked, the left and right arrow keys step the way the section bar's arrows do while the Act's text has focus
 - The provision the Act was scrolled to is held in a tinted background so a reader can find it again after scrolling away
 - Every paragraph, definition and point renders as a block of its own, led by its name in the form the Act cites it, such as `Annex III, point 4(a)`. A landing from an excerpt that opened on a point tints that block rather than the whole provision
-- The version toggle in the Act's header re-renders the Act against the other text. It does not re-ask the question and does not touch the answer
+- The link in the Act's header re-renders the Act against the other text. It does not re-ask the question and does not touch the answer, which is why it is drawn as a line and a link rather than as the toggle the described-system card carries. It is a native button, so the keyboard reaches it
 - Below 1024, Escape, the close control, and activating the scrim all return to the answer exactly as it stood before the overlay opened
 - The overlay below 1024 is the only overlay this surface carries. At 1024 and wider nothing overlays the answer
 
 ## Behavior
 
-- The version toggle re-asks the current question against the other text and replaces the answer. It is a real control, not a demo affordance
+- The version toggle re-asks the current question against the other text and replaces the answer. It is a real control, not a demo affordance. It sits in the composer before anything is asked and in the described-system card after, and no screen draws two controls carrying `Original` and `Amended 27 Jul 2026` at once
 - The traversal switch turns reference following off and re-asks. It exists to demonstrate the arm comparison rather than to serve a visitor, and the line under it says what turning it off compares, so the layout does not pretend otherwise
-- The top bar stays pinned to the top of the screen. Once the page scrolls past the described system it slims to the mark, the name and the two controls, and the pane below it fills the height left
-- Below 1024 and before anything is asked, the bar holds the brand and the theme control, and the version and traversal choices sit under the description. Once a question is asked they move into the bar
+- The top bar stays pinned to the top of the screen at one full height, and the pane below it fills the height left. The mark and the name link to `/`, which on this one route returns to the empty state with the previous text still in the input
+- Before anything is asked, both choices sit in the composer at every width. Once a question is asked the version toggle moves into the described-system card, and the traversal switch moves into the bar at 1024 and wider and into the card below it
 - Editing the description returns the surface to its empty state with the previous text in the input
 - The trace's counts switch the pane between the Act and the walk at 1024 and wider, and expand the walk in place below. A chip in the walk opens its provision in the Act. Nothing else on the surface opens or collapses
 - The pane holds the terms and the reserved region before a question is asked, and the Act once one is answered or refused

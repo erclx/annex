@@ -76,7 +76,7 @@ The sans stack no longer carries that same tag. `fc-match` against every name in
 
 The Family column above is a CSS value rather than a statement of intent, so the sans rows still name the fallback stack rather than the embedded family `--font-sans` now reads first. The paragraph above states which family actually renders.
 
-A label reads in sentence case in the sans stack, with no letter spacing, per the operator's second-use pass on 2026-09-14, retiring the row's earlier mono, tracked, all-caps treatment. 17 of the 18 sites this row describes carry the new treatment. `web/src/components/recorded-picks.tsx` still carries the one remaining site in the retired form, drawn in capitals with letter spacing near 0.08em in the mono stack, reserved for the branch rebuilding that file whole rather than swept here. Measured at `036dc52` on 2026-09-14.
+A label reads in sentence case in the sans stack, with no letter spacing, per the operator's second-use pass on 2026-09-14, retiring the row's earlier mono, tracked, all-caps treatment. Every label site carries it. The last one in the retired form was the flow label in `web/src/components/recorded-picks.tsx`, drawn in capitals at 9.5px with 0.06em of letter spacing in the mono stack, and it converted with the cards that pass picked for the same file. Measured at `036dc52` on 2026-09-14, and the last site at `cf0f014` on the same day.
 
 ## Spacing
 
@@ -106,11 +106,11 @@ Picked by looking against real content, and `canon/context/design-references.md`
 - The answer column opens at a reading measure of 640px. A reader sets it anywhere from 480px to 760px from the handle between the columns, the width is remembered, and it never follows the viewport
 - The pane beside it takes the remaining width, with a floor of 420px
 - One breakpoint, at 1024px. Below it the page is a single column and the pane opens as an overlay
-- The top bar pins to the top of the viewport and slims once the page scrolls past the described system
+- The top bar pins to the top of the viewport at one full height in every state
 - The pane stays in view under the pinned bar, fills the height left below it, and scrolls inside itself
 - Content starts from the page's left gutter under a full-width top bar, with no centered container
 
-The column range and the pinned bar were picked by looking in the operator's first-use pass, recorded in `canon/ARCHITECTURE.md` under frontend scope, against a fixed split, a split with preset widths, and a single toggle between two widths.
+The column range and the pinned bar were picked by looking in the operator's first-use pass, recorded in `canon/ARCHITECTURE.md` under frontend scope, against a fixed split, a split with preset widths, and a single toggle between two widths. The same pass had the bar slim once the described system scrolled under it, and the operator's second-use pass reversed that to the full bar.
 
 ## Motion
 
