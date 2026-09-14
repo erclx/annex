@@ -29,6 +29,7 @@ lintstagedrc
 logomark
 longctx
 lxml
+minmax
 mkhl
 Modelfile
 modelfiles

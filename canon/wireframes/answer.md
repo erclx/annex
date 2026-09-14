@@ -195,9 +195,11 @@ An inline hover definition was drafted and rejected by looking. It is a second o
 
 ### The three-arm comparison
 
-A labelled region under the terms, in two halves with the caveats spanning beneath both. The first half, headed `How an answer is built`, gives a one-sentence lead-in and the pipeline rail. The second, headed `The three-arm comparison`, holds the argument for measuring retrieval against a full-context baseline at all and the table. The table is generated from `python/data/eval/results.json` through the `evaluation-summary.json` fixture rather than transcribed, so it moves when the next `evaluate` run does.
+A labelled region under the terms, in two halves with the caveats spanning beneath both. The first half, headed `How an answer is built`, gives a one-sentence lead-in and the pipeline figure. The second, headed `The three-arm comparison`, holds the argument for measuring retrieval against a full-context baseline at all and the table. The table is generated from `python/data/eval/results.json` through the `evaluation-summary.json` fixture rather than transcribed, so it moves when the next `evaluate` run does.
 
-The halves sit side by side, rail on the left, only in a container 1 040 pixels wide or more. Everywhere narrower they stack rail first. The landing page's section is 1 080 wide at 1280 and wider, so it draws the two halves side by side there. The pane beside a failure on `/ask` and the single column below 1024 stay under that width and draw the stacked form.
+The halves sit side by side, figure on the left, only in a container 1 040 pixels wide or more. Everywhere narrower they stack figure first. The landing page's section is 1 080 wide at 1280 and wider, so it draws the two halves side by side there. The pane beside a failure on `/ask` and the single column below 1024 stay under that width and draw the stacked form.
+
+The pipeline figure itself draws one of two ways, switching on its own rendered width rather than on which of the states above it sits in. A vertical rail, one stage a row, covers every width side by side and the narrow end of the stacked range. From 657 pixels of the figure's own width, measured where the shortest stage label starts wrapping, it draws a horizontal row instead: the same five stages across, the same bracket under Retrieve and Traverse, filling the width the rail left empty while the halves stack. `pipeline-diagram.tsx` carries both.
 
 Copy, verbatim:
 
