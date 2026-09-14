@@ -122,6 +122,10 @@ The top bar carries `Repository` and `Evaluation` in every state and at every wi
 
 The composer is one rounded box on `surface` holding the description, the version toggle, the traversal switch with its hint as visible text, and `Find the articles`. Its footer runs as one row at 1024 and wider and stacks below that. The bar on `/` holds no control, since both choices sit in the composer where the description they apply to is written. The operator's second-use pass picked this composer over a plain field with the button under it, a composer with the choices left outside, and a taller composer whose send control lost its label.
 
+The version toggle is a `rounded-md` group with a 1px `rule` border, wrapping two buttons padded 11px by 5px at 12px text. The active button fills `bg-accent` with `text-paper`, and the inactive one reads `text-muted` with no fill of its own.
+
+The traversal switch is a 30 by 17px pill, `rounded-full`, filling `bg-accent` when on and `bg-rule` when off. A 13px `bg-paper` thumb sits inset 2px from the pill's own edge, at the right when on and the left when off.
+
 The textarea draws no outline of its own. While anything inside the composer has focus, whether the textarea, the version toggle, the traversal switch or `Find the articles`, the card's own border darkens from `rule` to `muted`, measured at 5.38 to 1 against `surface` in light and 6.18 to 1 in dark, against the 1.33 to 1 and 1.30 to 1 it rests at, both past the 3 to 1 a focus indicator is held to. The third-use pass picked this over an accent border and ring on the textarea alone, which spent accent on a state the resize grip's own hover rule already keeps neutral, and over a deeper shadow, whose border never crossed the 3 to 1 floor. A failed submit's `border-error` still wins over the focus border, and the toggle, the switch and `Find the articles` keep their own keyboard focus rings inside the card.
 
 Nothing sits beside the composer. A pane holding the terms and the comparison beside the question was picked in an earlier round over no pane at all, the Act open at Article 3, and a recorded answer previewed, and N1 arm 2 retired it: the terms and the comparison are sections of the landing page, and the pane is on `/ask` alone. `canon/ARCHITECTURE.md` carries both picks.
@@ -605,6 +609,8 @@ The cost line closes the answer column on every state that carries a trace. It i
 At 1024 and wider the counts open the walk as the pane's second view, beside the Act rather than under the answer. Below 1024 the counts expand the same walk in place under the cost line and the arrow reads `▾`. The chips wrap to whichever width they get, and below 520 pixels of their own width the three columns stack, each indented under the one before, so the walk reads at 400 where the layered drawing did not.
 
 The walk view holds a summary sentence, the chips, and under them three id lists, each capped at roughly eight ids and followed by a count of the rest. On the full-context arm those lists run to hundreds, and an uncapped one would swamp the answer it describes. The count carries the scale and the expansion carries the detail.
+
+The three lists render as a two-column `dl`, a 96px label column naming `searched`, `traversed` or `dropped` in `ink` beside a `1fr` value column of ids at 11px mono. A list's value column tints `text-warning` wherever it carries a note, and `dropped` is the only one that does today, closed with its own note sentence, `Reached by traversal, cut by the prompt budget, never read.`, so a reader sees which list carries the caveat before reading the note itself.
 
 Dropped ids are named beside traversed ids and never omitted. Traversal reaches more provisions than a prompt has room for, so reporting what traversal found without reporting what the budget cut overstates what the answer actually rests on.
 
