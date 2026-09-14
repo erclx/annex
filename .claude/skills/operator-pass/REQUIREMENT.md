@@ -12,6 +12,7 @@ Without this skill, a session running an inspection pass with the operator:
 - Files every round's evidence into one flat shared folder, so nothing shows which pass a folder came from or in what order the rounds ran.
 - Hands over screenshots or file paths the operator cannot open, where a served localhost page is the one form that reaches them.
 - Asks the pick question before the operator has the page, so the answer is taken from a description.
+- Sends the link inside the same message as the question, where the structured question surface draws over it and the operator never sees the link.
 - Draws arms as hand-written mock-ups of the app, which drift a few pixels and a few words from what ships, rather than lifting the built page's own markup and stylesheet.
 - Measures the mark and not the text inside it, or the gap and not what shows above it, so a pick ships with half its condition unchecked.
 - Quotes figures in a pick question from memory, and records them without reading the computed values back.
@@ -27,7 +28,7 @@ Without this skill, a session running an inspection pass with the operator:
 - Build candidate pages from the app's rendered markup and built stylesheet, with a theme toggle, served on localhost.
 - Capture every arm in every theme the app ships to its pass's own evidence folder, and look at the captures before handing the link over.
 - Number the pass folder and each round's folders so they sort in the order they ran, and let a round's number match its finding's.
-- Put the localhost link in the message before every pick question.
+- Send the localhost link in its own message, ending the turn, before every pick question is asked.
 - Hold picks and relay them only when the operator calls a batch, as one message, to the controller where one exists and to the operator otherwise.
 - Route a finding with no visible choice into the batch as a proposed row rather than drafting arms for it.
 
