@@ -14,7 +14,6 @@ node_modules/
 # Claude
 .canon/
 .claude/worktrees/
-.canon/tmp/
 
 # Python
 __pycache__/
@@ -25,3 +24,4 @@ __pycache__/
 # Derived corpus artifacts
 # The vector index is rebuilt by `annex embed` and is megabytes of float.
 python/data/index/
+.claude/.tmp/
