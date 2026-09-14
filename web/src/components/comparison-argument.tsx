@@ -35,7 +35,14 @@ const ARM_ORDER: ArmSummary['arm'][] = [
 ]
 
 /**
- * The three-arm comparison, filling the region `before-you-ask.tsx` reserved.
+ * How an answer is built and the three-arm comparison, filling the region
+ * `before-you-ask.tsx` reserved.
+ *
+ * The rail and its lead-in sit on one side and the argument and table on the
+ * other, with the caveats spanning underneath, per the operator's second-use
+ * pass, which found the rail arriving after the caveats with no heading and a
+ * caption pointing at a table above it. Below a container width the halves
+ * stack, rail first.
  *
  * Sourced from `python/data/eval/results.json` through the generated
  * `evaluation-summary.json` fixture rather than transcribed, so the table
@@ -54,77 +61,95 @@ export function ComparisonArgument() {
   })
 
   return (
-    <section>
-      <span className="text-[10.5px] text-muted">The three-arm comparison</span>
+    // The two halves sit side by side only where the container is wide enough
+    // to hold the table beside the rail, which the landing page's section is
+    // and the docked pane and the single column are not.
+    <section className="@container">
+      <div className="grid grid-cols-1 gap-x-10 gap-y-8 @min-[1040px]:grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)]">
+        <div>
+          <h2 className="m-0 text-[15px] font-semibold text-ink">
+            How an answer is built
+          </h2>
+          <p className="mt-1 mb-4 text-[13px] leading-[1.5] text-act">
+            Five stages, in the order a question passes through them.
+          </p>
+          <PipelineDiagram />
+        </div>
 
-      <p className="mt-2 text-[12px] leading-[1.5] text-act">
-        The Act fits inside a current context window, so a model can read the
-        whole document and answer from it. That makes retrieval something to
-        justify rather than assume, so the same twelve questions were answered
-        three ways: reading the whole Act, search alone, and search with
-        reference traversal, then scored the same way on what each arm read and
-        what it cost.
-      </p>
+        <div>
+          <h2 className="m-0 text-[15px] font-semibold text-ink">
+            The three-arm comparison
+          </h2>
+          <p className="mt-1 text-[13px] leading-[1.5] text-act">
+            The Act fits inside a current context window, so a model can read
+            the whole document and answer from it. That makes retrieval
+            something to justify rather than assume, so the same twelve
+            questions were answered three ways: reading the whole Act, search
+            alone, and search with reference traversal, then scored the same way
+            on what each arm read and what it cost.
+          </p>
 
-      <div className="mt-3 overflow-x-auto">
-        <table className="w-full min-w-[380px] border-collapse text-[11px]">
-          <thead>
-            <tr className="border-b border-rule text-left text-muted">
-              <th className="py-1 pr-2 font-normal">Arm</th>
-              <th className="py-1 pr-2 font-normal">Text</th>
-              <th className="py-1 pr-2 text-right font-normal">Recall</th>
-              <th className="py-1 pr-2 text-right font-normal">Faithful</th>
-              <th className="py-1 pr-2 text-right font-normal">Nodes</th>
-              <th className="py-1 text-right font-normal">Refused</th>
-            </tr>
-          </thead>
-          <tbody>
-            {ordered.map((row) => (
-              <tr
-                key={`${row.arm}-${row.version}`}
-                className="border-b border-rule-soft"
-              >
-                <td className="py-1 pr-2 text-ink">{ARM_LABEL[row.arm]}</td>
-                <td className="py-1 pr-2 text-act">
-                  {VERSION_LABEL[row.version]}
-                </td>
-                <td className="py-1 pr-2 text-right text-act">
-                  {row.recall.toFixed(2)}
-                </td>
-                <td className="py-1 pr-2 text-right text-act">
-                  {row.faithfulness === null
-                    ? 'not scored'
-                    : row.faithfulness.toFixed(2)}
-                </td>
-                <td className="py-1 pr-2 text-right text-act">
-                  {row.nodes_supplied.toFixed(1)}
-                </td>
-                <td className="py-1 text-right text-act">
-                  {row.correct_refusals}/{row.refusal_questions}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+          <div className="mt-3 overflow-x-auto">
+            <table className="w-full min-w-[380px] border-collapse text-[12px]">
+              <thead>
+                <tr className="border-b border-rule text-left text-muted">
+                  <th className="py-1 pr-2 font-normal">Arm</th>
+                  <th className="py-1 pr-2 font-normal">Text</th>
+                  <th className="py-1 pr-2 text-right font-normal">Recall</th>
+                  <th className="py-1 pr-2 text-right font-normal">Faithful</th>
+                  <th className="py-1 pr-2 text-right font-normal">Nodes</th>
+                  <th className="py-1 text-right font-normal">Refused</th>
+                </tr>
+              </thead>
+              <tbody>
+                {ordered.map((row) => (
+                  <tr
+                    key={`${row.arm}-${row.version}`}
+                    className="border-b border-rule-soft"
+                  >
+                    <td className="py-1 pr-2 text-ink">{ARM_LABEL[row.arm]}</td>
+                    <td className="py-1 pr-2 text-act">
+                      {VERSION_LABEL[row.version]}
+                    </td>
+                    <td className="py-1 pr-2 text-right text-act">
+                      {row.recall.toFixed(2)}
+                    </td>
+                    <td className="py-1 pr-2 text-right text-act">
+                      {row.faithfulness === null
+                        ? 'not scored'
+                        : row.faithfulness.toFixed(2)}
+                    </td>
+                    <td className="py-1 pr-2 text-right text-act">
+                      {row.nodes_supplied.toFixed(1)}
+                    </td>
+                    <td className="py-1 text-right text-act">
+                      {row.correct_refusals}/{row.refusal_questions}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
 
-      <p className="mt-2 text-[11px] leading-[1.5] text-muted">
-        Faithfulness is matched against what an arm was supplied, so the
-        baseline is compared against its own document-wide vocabulary rather
-        than the dozen or so nodes the retrieval arms read. Refused is scored
-        over three questions the text does not settle, per arm and text: too few
-        to rank the arms on, and read here as a direction rather than a rate.
-      </p>
+      <div className="mt-6 max-w-[72ch]">
+        <p className="m-0 text-[12px] leading-[1.5] text-muted">
+          Faithfulness is matched against what an arm was supplied, so the
+          baseline is compared against its own document-wide vocabulary rather
+          than the dozen or so nodes the retrieval arms read. Refused is scored
+          over three questions the text does not settle, per arm and text: too
+          few to rank the arms on, and read here as a direction rather than a
+          rate.
+        </p>
 
-      <p className="mt-3 text-[11px] leading-[1.5] text-muted">
-        Run on {HARDWARE}. The baseline generates with {baselineModel()}; search
-        and traversal generate with {generationModel()} over an index built with{' '}
-        {embeddingModel()}. Nothing here was paid for, so every cost figure is a
-        projection at a stated hosted rate rather than a bill.
-      </p>
-
-      <div className="mt-4">
-        <PipelineDiagram />
+        <p className="mt-3 mb-0 text-[12px] leading-[1.5] text-muted">
+          Run on {HARDWARE}. The baseline generates with {baselineModel()};
+          search and traversal generate with {generationModel()} over an index
+          built with {embeddingModel()}. Nothing here was paid for, so every
+          cost figure is a projection at a stated hosted rate rather than a
+          bill.
+        </p>
       </div>
     </section>
   )
