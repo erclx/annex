@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
@@ -283,6 +283,75 @@ describe('ActReader', () => {
           )
           .closest('[aria-current="location"]'),
       ).not.toBeNull()
+    })
+
+    it('should apply a restored scroll offset instead of landing on the open provision', () => {
+      render(
+        <ActReader
+          docked
+          version="consolidated"
+          openId="art_6"
+          cited={cited}
+          restoreScrollTop={480}
+          onClose={vi.fn()}
+          onVersionChange={vi.fn()}
+        />,
+      )
+
+      expect(
+        screen.getByRole('region', { name: 'Text of the Act' }).scrollTop,
+      ).toBe(480)
+    })
+
+    it('should land normally once a restore has been applied', () => {
+      const { rerender } = render(
+        <ActReader
+          docked
+          version="consolidated"
+          openId="art_6"
+          cited={cited}
+          restoreScrollTop={480}
+          onClose={vi.fn()}
+          onVersionChange={vi.fn()}
+        />,
+      )
+      const body = screen.getByRole('region', { name: 'Text of the Act' })
+      body.scrollTop = 999
+
+      rerender(
+        <ActReader
+          docked
+          version="consolidated"
+          openId="art_50"
+          cited={cited}
+          restoreScrollTop={480}
+          onClose={vi.fn()}
+          onVersionChange={vi.fn()}
+        />,
+      )
+
+      expect(body.scrollTop).not.toBe(999)
+    })
+
+    it('should report the pane body scroll offset as it changes', () => {
+      const onScrollChange = vi.fn()
+      render(
+        <ActReader
+          docked
+          version="consolidated"
+          openId="art_6"
+          cited={cited}
+          onScrollChange={onScrollChange}
+          onClose={vi.fn()}
+          onVersionChange={vi.fn()}
+        />,
+      )
+      const body = screen.getByRole('region', { name: 'Text of the Act' })
+      body.scrollTop = 320
+
+      fireEvent.scroll(body)
+
+      expect(onScrollChange).toHaveBeenCalledWith(320)
     })
 
     it('should render each definition as a block of its own', () => {
