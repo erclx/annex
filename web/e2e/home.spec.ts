@@ -800,6 +800,22 @@ test.describe('the landing page at 400 pixels', () => {
     expect((await composer.boundingBox())?.x).toBe(24)
     await expect(composer.getByText(LOCAL_HINT)).toBeVisible()
   })
+
+  test('keeps the bar one row, with the repository icon beside the theme control', async ({
+    page,
+  }) => {
+    await page.goto('/')
+
+    const banner = page.getByRole('banner')
+    expect((await banner.boundingBox())?.height).toBe(58)
+    await expect(
+      banner.getByRole('link', { name: 'Repository on GitHub' }),
+    ).toBeInViewport()
+
+    await page.goto('/evaluation')
+
+    expect((await page.getByRole('banner').boundingBox())?.height).toBe(58)
+  })
 })
 
 test.describe('the frame at 1536 pixels', () => {
