@@ -6,13 +6,13 @@ import { PLAYBACK_TIMEOUT } from './playback'
 import { SERVICE_ASK } from './stream-stub'
 
 /**
- * The pick's two conditions on a docked landing, per
- * `.canon/review/third-use/operator-pass.md` T4: the tint sits a fixed 12px
- * under the section bar's own bottom border, rather than flush against it,
- * and nothing of the paper band or the element before the landing shows past
- * that band. `web/e2e/act-reader.spec.ts` carried only a `<=24` distance
- * check before this pick, which the operator's own screenshots at 0px and at
- * 12px both pass, so it caught neither half.
+ * The pick's two conditions on a docked landing, from the third-use operator
+ * pass's T4 pick (arm 3, 2026-09-14): the tint sits a fixed 12px under the
+ * section bar's own bottom border, rather than flush against it, and nothing
+ * of the paper band or the element before the landing shows past that band.
+ * `web/e2e/act-reader.spec.ts` carried only a `<=24` distance check before
+ * this pick, which the operator's own screenshots at 0px and at 12px both
+ * pass, so it caught neither half.
  */
 async function expectFlushUnderTheBand(pane: Locator, landed: Locator) {
   const bar = pane.getByTestId('section-bar')

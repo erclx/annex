@@ -8,7 +8,11 @@
  *
  * Arm 1 ships as `public/og-image.png`, the shipped card. Arm 3 ships beside
  * it as `public/og-image-alt.png`, an alternate named nowhere in the page's
- * metadata today, per the pick recorded in `.canon/review/first-use/operator-pass.md`.
+ * metadata today, per pick 15 of the operator's first-use pass on
+ * 2026-09-13: arm 1 beat arm 0 (today's mark, name and one line), arm 2
+ * (chips from the walk, where most provisions the recording reached were
+ * set aside) and arm 3 (a headline beside a cropped answer card), the last
+ * of which ships anyway as this named alternate.
  */
 
 import { readFileSync } from 'node:fs'

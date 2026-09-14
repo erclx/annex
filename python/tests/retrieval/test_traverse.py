@@ -3,10 +3,9 @@
 The high-risk chain is the case the whole feature turns on. Article 6 does not
 restate the obligations it classifies a system into, so a search that lands on
 it needs the text's own citations to reach Articles 8 to 15 and Article 43.
-`.canon/plans/feature-retrieval-and-the-agent.md` measured depth 2 from
-`art_6` at 43 provisions in the original and 51 in the consolidated, which is
-what makes the 40-provision cap bite at the demo's own worst case rather than
-never.
+The retrieval-and-agent plan measured depth 2 from `art_6` at 43 provisions
+in the original and 51 in the consolidated, which is what makes the
+40-provision cap bite at the demo's own worst case rather than never.
 """
 
 from annex.corpus import ProvisionKind

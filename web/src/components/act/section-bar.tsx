@@ -18,10 +18,13 @@ interface SectionBarProps extends StepState {
  * The strip over the Act's text: which section is in view, where that sits in
  * the whole, and the controls that move by section or by citation.
  *
- * Picked as arm 3d in `.canon/review/first-use/operator-pass.md`. It names the
- * article or cited paragraph a landing lands on, which is what keeps the
- * heading's context once a provision lands flush at the top of the text rather
- * than below its article's heading.
+ * Picked as arm 3d in the operator's first-use pass on 2026-09-13, beating
+ * arm 0 (cited links only), arm 1 (step buttons at the end of the cited
+ * row), arm 2 (the bar without a jump field or keys) and arm 3 (the bar
+ * stepping the whole Act only). It names the article or cited paragraph a
+ * landing lands on, which is what keeps the heading's context once a
+ * provision lands flush at the top of the text rather than below its
+ * article's heading.
  */
 export function SectionBar({
   sections,

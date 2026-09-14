@@ -6,13 +6,13 @@ not restate the obligations it classifies a system into, it cites them, so a
 question about high-risk duties retrieves Article 6 and needs the text to reach
 Articles 8 to 15.
 
-Citation edges only. `.canon/plans/feature-retrieval-and-the-agent.md` settles
-that and the reason is worth carrying: the Act's Chapter and Section membership
-is not parsed into any provision kind, so membership edges cannot be added from
-inside retrieval at all. On merit the case runs the same way, since depth 2
-from `art_6` already reaches every obligation article and `art_43` in both
-versions, and Chapter III entire would add `art_16` through `art_27`, which
-nothing on that route cites.
+Citation edges only, for a reason worth carrying: the Act's Chapter and
+Section membership is not parsed into any provision kind, so membership
+edges cannot be added from inside retrieval at all. On merit the case runs
+the same way, since depth 2 from `art_6` already reaches every obligation
+article and `art_43` in both versions (26 of 113 articles, 43 of 806
+provisions, 5.3 percent of everything addressable), and Chapter III entire
+would add `art_16` through `art_27`, which nothing on that route cites.
 
 The cap drops the furthest rather than an arbitrary slice, so a budget that
 bites removes the provisions the start point depends on least.

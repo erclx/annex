@@ -8,11 +8,13 @@
  * second overlay, so it sits on the landing page as a section under the
  * recorded picks, and in the pane beside a failure no next step answers.
  *
- * Five entries restate `.canon/teach/01-how-annex-works/GLOSSARY.md` in page
- * voice. `general-purpose AI model` and `prohibited practice` are not taught
- * there, since that file teaches how this project works rather than what the
- * Act regulates, so those two are written fresh against the Act's own use of
- * the terms in the recorded questions.
+ * The entries for Provision, Original / Amended 27 Jul 2026, Reference
+ * traversal and High risk restate this project's own introductory glossary,
+ * "Glossary for How annex works", in page voice. `general-purpose AI model`
+ * and `prohibited practice` are not taught there, since that glossary teaches
+ * how this project works rather than what the Act regulates, so those two are
+ * written fresh against the Act's own use of the terms in the recorded
+ * questions.
  */
 const TERMS: { term: string; definition: string }[] = [
   {
