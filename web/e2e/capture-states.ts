@@ -85,6 +85,7 @@ interface Case {
   reject?: boolean
   describe?: string
   replay?: boolean
+  viewport?: boolean
 }
 
 const CASES: Case[] = [
@@ -103,6 +104,7 @@ const CASES: Case[] = [
   { name: '9-replay-empty', skipAsk: true, replay: true },
   { name: '10-unrecorded', describe: UNRECORDED, replay: true },
   { name: '11-evaluation', path: '/evaluation', skipAsk: true },
+  { name: 'readme', path: '/', skipAsk: true, viewport: true },
 ]
 
 async function drive(page: Page, captureCase: Case, base: string) {
@@ -208,6 +210,11 @@ async function reached(page: Page, captureCase: Case) {
         page.getByRole('heading', { name: 'The three-arm comparison' }),
       ).toBeVisible()
       break
+    case 'readme':
+      await expect(
+        page.getByRole('heading', { name: /Describe your AI system/ }),
+      ).toBeVisible()
+      break
   }
 }
 
@@ -272,7 +279,7 @@ for (const theme of ['light', 'dark'] as const) {
     await reached(page, captureCase)
 
     const file = path.join('evidence', captureCase.name, `${theme}.png`)
-    await page.screenshot({ path: file, fullPage: true })
+    await page.screenshot({ path: file, fullPage: !captureCase.viewport })
     console.log(`captured ${file}`)
     await context.close()
   }

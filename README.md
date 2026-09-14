@@ -1,6 +1,22 @@
-# annex
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/mark-dark.svg">
+    <img src="docs/images/mark-light.svg" width="72" alt="The Annex mark">
+  </picture>
+</p>
 
-Ask what the EU AI Act requires of a system you're building, and get back the articles you have to read, quoted, with a refusal when the text doesn't settle it.
+<h1 align="center">annex</h1>
+
+<p align="center"><a href="https://github.com/erclx/annex/actions/workflows/deploy.yml?query=branch%3Amain"><img src="https://github.com/erclx/annex/actions/workflows/deploy.yml/badge.svg?branch=main" alt="Deploy status"></a></p>
+
+<p align="center">Describe the AI system you're building and get back the articles of the EU AI Act you have to read, each one quoted, with a refusal when the text doesn't settle it.</p>
+
+<p align="center"><a href="https://annex.erclx.dev"><b>Try it at annex.erclx.dev</b></a><br>The deployed page replays recorded answers, so nothing there calls a model.</p>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="web/evidence/readme/dark.png">
+  <img src="web/evidence/readme/light.png" alt="The Annex landing page: a description box and twelve recorded questions">
+</picture>
 
 It won't tell you whether you comply. That's a judgment about your system that no text answers. It tells you where to look and shows you what it read.
 
@@ -24,19 +40,28 @@ Each arm reports accuracy and cost. The answer is allowed to be that the first o
 
 ## Status
 
-The command line answers questions. Describe a system and it returns the provisions to read, each quoted, or a refusal naming what the text leaves open.
+### What works
 
-The three-arm evaluation is built and has been run, over 72 model runs on a local RTX 5090.
+- **The command line** answers a description with the provisions to read, each quoted, or a refusal naming what the text leaves open
+- **The web page** streams each step as the agent finishes it, then shows every claim with the provision it rests on quoted underneath, and opens the Act itself beside the answer. A backend that's down, slow, or erroring lands as one of four named states rather than a stalled spinner, and both are covered in `canon/wireframes/answer.md` and `canon/context/service.md`
+- **The deployed page** replays twelve recorded questions on both versions of the Act, and says it's a recording on every screen
 
-**The baseline won, and the margin narrowed.** Putting the whole Act in the context window reached every provision a correct answer needed. Vector search alone reached 61 to 71 per cent of them, and adding the reference walk lifted that to 81 to 83 per cent without closing the gap. Retrieval's case here is cost and checkability rather than accuracy. The shipped pipeline, which is search plus traversal, sends an eighth of the baseline's prompt tokens, and search alone sends a 27th. And the exact passages either one sent are known, so a citation can be verified against them rather than trusted.
+### What the evaluation found
 
-Those figures moved by changing one thing. An earlier run scored 41 to 46 and 54 to 56 per cent on a different embedding model, chosen for its context limit and never compared against anything. Comparing it against four alternatives and shipping the winner cost no new dependency and a 27-second index rebuild.
+The same twelve questions ran three ways on one RTX 5090, 72 runs in all.
 
-Where the retrieval arms now stop is worth more than the headline, and it is not where it was. Search finds the entry points it used to miss, the walk reaches the obligations they lead to, and the synthesis prompt used to spend most of that budget on recitals search returned rather than on the articles the walk found. Ranking a recital behind every article, annex and paragraph closed most of that: the walk reaches 89 per cent of what the original text's questions need and the model is now shown 83, up from 74. The bottleneck is still the prompt budget, narrower now than it was.
+| Arm                             | Recall, original | Recall, amended | Prompt tokens, original |
+| ------------------------------- | ---------------- | --------------- | ----------------------- |
+| Whole Act in the prompt         | 1.00             | 1.00            | 1 416 797               |
+| Search only                     | 0.61             | 0.71            | 51 622                  |
+| Search plus reference traversal | 0.83             | 0.81            | 193 575                 |
 
-Refusal is still the weakest thing measured. Across eighteen chances to refuse a question the text does not settle, the arms took five. Refusing wrongly improved sharply, from eight false refusals to one, and the pattern where every retrieval arm refused the flow asking what the amendment changed is gone. Saying both is the point of running the evaluation rather than asserting the design. [docs/evaluation.md](docs/evaluation.md) carries the numbers, the depth sensitivity, the prompt-cache measurement and which production concerns were built against which were only reasoned about.
+The baseline won on recall. Retrieval's case is cost and checkability: search with the walk sends about a seventh of the baseline's prompt tokens, and the exact passages it sent are known, so a citation can be checked against them. [docs/evaluation.md](docs/evaluation.md) has the full results, the depth sensitivity, the prompt-cache measurement, and how to reproduce them.
 
-The web surface is built and calls the agent over HTTP. It opens on a landing page holding the description box and the twelve recorded questions, asking moves to a route of its own at `/ask`, which a shared address reopens, and `Evaluation` in the top bar or a line under the composer reaches how the pipeline works and the three-arm comparison on `/evaluation`. A description goes to a FastAPI endpoint that streams each step of the agent as it finishes, so the wait shows what search matched, what the walk reached and what the model is reading, and then the page renders the claims with each cited provision quoted under the claim it supports. Activating a citation opens the Act itself, in either version, at the point in the provision the claim rests on, beside the answer on a wide screen and as a panel over it on a narrow one. A refusal renders as a result rather than an error and keeps what it read one line away in the pane, and a backend that is down, slow, or erroring lands as one of four named states rather than a stalled spinner. `canon/wireframes/answer.md` carries the layout and every state it has to show, and `canon/context/service.md` carries the seam between the two halves.
+### Where it falls short
+
+- **Refusal is the weakest result.** The arms refused correctly on 5 of 18 questions the text doesn't settle, though only one refusal was wrong
+- **The prompt budget cuts what the walk finds.** On the original text the walk reaches 0.89 of the provisions a correct answer needs, and the model is shown 0.83
 
 ## The deployed page is a recording
 
@@ -87,7 +112,7 @@ The surface calls the endpoint, so both have to be running to ask a question in 
 
 `web/` is a Next.js app, `python/` is a uv-managed package, and one `bun run check` at the root covers both. The retrieval index is one `sqlite-vec` file and the reference graph is an in-process map, because 806 provisions and 607 edges do not need a database and standing one up would be the wrong signal.
 
-A question runs through four stages. It is restated in the Act's own vocabulary, searched against the index, expanded over the citations the retrieved provisions carry, and answered. Every claim is then checked against the text it cites, and one that cannot be grounded is dropped rather than softened. An answer with nothing left becomes a refusal, and so does an answer to a question about when an obligation applies that gives no date the text it cites carries.
+A question runs through five stages. It is restated in the Act's own vocabulary, searched against the index, expanded over the citations the retrieved provisions carry, answered, and every claim checked against the text it cites. One that cannot be grounded is dropped rather than softened. An answer with nothing left becomes a refusal, and so does an answer to a question about when an obligation applies that gives no date the text it cites carries.
 
 `docs/evaluation.md` carries the measured comparison between the three arms and how to reproduce it. `canon/ARCHITECTURE.md` carries the decisions and what's still open. `canon/REQUIREMENTS.md` carries the scope. `canon/context/ai-act.md` carries the corpus itself: the amended deadlines, the reference structure, and the claims this project does not make. `canon/context/retrieval.md` carries the chunking rule, the traversal decision and the measurements behind both. `canon/wireframes/answer.md` carries the answer surface and every state it has to show, and `canon/DESIGN.md` the tokens behind it.
 
