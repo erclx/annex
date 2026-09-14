@@ -34,6 +34,8 @@ The decision stands and the gap it names has half closed. The evaluation puts th
 
 `feature-corpus-and-answer-text` fixed the parse this paragraph names: `art_113` no longer carries the footnote apparatus, so it no longer splits into three chunks with two of them off subject. Whether that moves search's own recall of Article 113 on the original text is unmeasured here, since re-running the harness is `v3.2`'s to do. Fixed at this branch on 2026-09-13.
 
+The refusal count two paragraphs up is superseded rather than corrected in place, the same way this entry treats every other figure. `python/data/eval/results.json` puts the correct-refusal count at 5 of the 18 chances, not the four that paragraph records, and false refusals at 1 rather than three, being `q12-gpai-deadline` on `search-only` over the consolidated text. The correct-refusal count did not continue its fall to four. It reads as it did at v0.6. Measured at this branch on 2026-09-14.
+
 ### Both versions of the text are indexed
 
 The Digital Omnibus, Regulation (EU) 2026/1744, amended the Act on 27 July 2026 and moved two of the three compliance deadlines. A system reading only the original text answers deadline questions confidently and wrongly.
