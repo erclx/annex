@@ -28,6 +28,11 @@ what a pull request has to carry.
 - Leave `web/screenshots/` gitignored. That path holds the working set, which changes on every iteration and belongs in no one's history.
 - Read the design source before capturing, being `canon/wireframes/answer.md` for layout and copy and `canon/DESIGN.md` for tokens.
 - Cite a tracked path and never a path under `.canon/`, which is gitignored, in no history, and swept by the skill that wrote it. A rule pointing there resolves on one machine and nowhere else.
+- `web/evidence/3-loading/` renders a live elapsed-time counter, shipped in `#35`, so two runs of the capture never come back byte-identical. The toolkit's double-capture check binds only at first commit, and this state committed before the counter existed, so nothing today is in violation. A session recapturing it anyway meets the variance and has nothing warning it why: `#36` hit exactly this and its worker named the difference by hand rather than re-running toward a match that cannot happen. Expect the mismatch on this one state and do not chase it as a bug. Name the
+  actual difference in the pull request body, the way `#36` named a
+  one-millisecond change to a step's duration label, so a reviewer can tell a
+  live-counter capture from a real regression rather than trusting that this
+  bullet was the reason.
 
 ## What to carry on the pull request
 
@@ -36,11 +41,18 @@ what a pull request has to carry.
 - Run the capture, then commit only the states this branch changed, leaving
   every other file in `web/evidence/` untouched.
 - Two branches touching different states do not collide, since each commits
-  its own subset and neither overwrites a file the other never captured.
+  its own subset and neither overwrites a file the other never captured. That
+  holds only while each branch's subset stays partial. A change to a
+  surface-wide property, such as the font, a label treatment, or a band that
+  renders on every state, puts every state in the branch's subset, so it
+  touches whatever any other in-flight branch touches and the next bullet
+  governs it instead.
 - When two branches change the same state, the branch that merges second
   rebases onto the merged trunk and recaptures that state before its own
   merge, so what lands is never compared against a version it has since
-  moved past.
+  moved past. A surface-wide change recaptures every state this way, not only
+  the one state the previous bullet's narrowing names, since its subset is the
+  whole set.
 
 ## What a capture is not
 
