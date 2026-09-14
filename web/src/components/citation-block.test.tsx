@@ -200,7 +200,13 @@ describe('CitationBlock', () => {
     it('should highlight the words the amendment added', () => {
       render(<CitationBlock citation={CHANGED} />)
 
-      expect(screen.getByText('SMCs').tagName).toBe('MARK')
+      expect(screen.getByText('and SMCs').tagName).toBe('MARK')
+    })
+
+    it('should render the highlight in the surrounding text color rather than the browser default', () => {
+      render(<CitationBlock citation={CHANGED} />)
+
+      expect(screen.getByText('and SMCs')).toHaveClass('text-inherit')
     })
 
     it('should render no highlight on an unchanged citation', () => {
@@ -212,16 +218,33 @@ describe('CitationBlock', () => {
     it('should swap the shown text when the version control is activated', async () => {
       render(<CitationBlock citation={CHANGED} />)
 
-      expect(screen.getByText('SMCs')).toBeInTheDocument()
+      expect(screen.getByText('and SMCs')).toBeInTheDocument()
 
       await userEvent.click(
         screen.getByRole('button', { name: 'Read the original text' }),
       )
 
-      expect(screen.queryByText('SMCs')).not.toBeInTheDocument()
+      expect(screen.queryByText('and SMCs')).not.toBeInTheDocument()
       expect(
         screen.getByRole('button', { name: 'Read the amended text' }),
       ).toBeInTheDocument()
+    })
+  })
+
+  describe('a run of changed words separated only by whitespace', () => {
+    const RUN: Citation = {
+      ...CITATION,
+      citation: 'Article 50(7)',
+      provision_id: 'art_50.7',
+      version: 'consolidated',
+      text: findProvision('consolidated', 'art_50.7')?.text ?? '',
+      changed: true,
+    }
+
+    it('should join into one mark per run rather than one mark per word', () => {
+      render(<CitationBlock citation={RUN} />)
+
+      expect(document.querySelectorAll('mark')).toHaveLength(8)
     })
   })
 

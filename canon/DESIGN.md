@@ -16,6 +16,8 @@ There is no `success` role. The contract returns an answer, a refusal, or one of
 
 `rule` and `cite rule` were one token until measurement separated them. A decorative hairline carries no meaning and answers to no contrast floor. The rule marking a citation is the layout's whole grammar for "this is the evidence for the claim above it", so it answers to the 3:1 non-text floor. Sharing one value put that rule at 1.26 against its ground.
 
+`cite rule moved` and `warning surface` are measured against each other above, which answers whether the underline marking a changed word reads against its own tint. The word itself carries no token of its own: a `<mark>` element defaults to black text, which the third-use pass's T1 finding measured at 1.36 to 1 on its tint in dark against `act`'s own 6.88 to 1 there, and it now inherits the color of the text it sits in instead, `act` or `text` depending on where it renders, rather than adding a fourth color to the palette.
+
 | Role                 | Intent                                                                   | Value     |
 | -------------------- | ------------------------------------------------------------------------ | --------- |
 | background           | page canvas, the warm paper the answer sits on                           | `#FAF9F7` |

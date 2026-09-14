@@ -1,4 +1,5 @@
 import { render, screen, within } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 
 import { DescriptionForm } from '@/components/description-form'
@@ -101,5 +102,51 @@ describe('DescriptionForm', () => {
     expect(
       screen.getByRole('button', { name: 'Find the articles' }),
     ).toBeDisabled()
+  })
+
+  describe('focus', () => {
+    it('should draw no outline of its own on the textarea', () => {
+      renderForm()
+
+      expect(screen.getByLabelText('Describe your system')).toHaveClass(
+        'outline-none',
+      )
+    })
+
+    it('should darken the card border on focus-within rather than on the textarea alone', () => {
+      renderForm()
+
+      // focus-within is a CSS pseudo-class rather than a class jsdom applies,
+      // so this checks the rule reaches the card, not the textarea alone: any
+      // control in the footer, not only the textarea, sits inside the same
+      // composer the rule is written against.
+      const composer = screen.getByTestId('composer')
+      expect(composer).toHaveClass('focus-within:border-muted')
+      expect(
+        within(composer).getByRole('button', { name: 'Find the articles' }),
+      ).toBeInTheDocument()
+      expect(
+        within(composer).getByLabelText('Describe your system'),
+      ).toBeInTheDocument()
+    })
+
+    it('should keep the toggle, the switch and Find the articles their own keyboard focus rings', async () => {
+      renderForm()
+      const submit = screen.getByRole('button', { name: 'Find the articles' })
+
+      await userEvent.tab({ shift: false })
+      submit.focus()
+
+      expect(submit).toHaveFocus()
+      expect(submit.className).not.toContain('outline-none')
+    })
+
+    it('should let border-error win over the focus border once a submit has failed', () => {
+      renderForm({ error: 'empty' })
+
+      const composer = screen.getByTestId('composer')
+      expect(composer).toHaveClass('border-error')
+      expect(composer).not.toHaveClass('focus-within:border-muted')
+    })
   })
 })

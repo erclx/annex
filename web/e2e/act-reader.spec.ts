@@ -1,9 +1,41 @@
-import { expect, test } from '@playwright/test'
+import { expect, type Locator, test } from '@playwright/test'
 
 import { REPLAY_URL } from '../playwright.config'
 import manifest from '../src/fixtures/manifest.json'
 import { PLAYBACK_TIMEOUT } from './playback'
 import { SERVICE_ASK } from './stream-stub'
+
+/**
+ * The pick's two conditions on a docked landing, per
+ * `.canon/review/third-use/operator-pass.md` T4: the tint sits a fixed 12px
+ * under the section bar's own bottom border, rather than flush against it,
+ * and nothing of the paper band or the element before the landing shows past
+ * that band. `web/e2e/act-reader.spec.ts` carried only a `<=24` distance
+ * check before this pick, which the operator's own screenshots at 0px and at
+ * 12px both pass, so it caught neither half.
+ */
+async function expectFlushUnderTheBand(pane: Locator, landed: Locator) {
+  const band = pane.getByTestId('act-landing-band')
+  const preceding = landed.locator('xpath=preceding::*[1]')
+
+  await expect
+    .poll(async () => {
+      const bandBox = await band.boundingBox()
+      const tinted = await landed.boundingBox()
+      return bandBox && tinted ? tinted.y - (bandBox.y + bandBox.height) : null
+    })
+    .toBeGreaterThan(8)
+
+  await expect
+    .poll(async () => {
+      const bandBox = await band.boundingBox()
+      const precedingBox = await preceding.boundingBox()
+      return bandBox && precedingBox
+        ? precedingBox.y + precedingBox.height - (bandBox.y + bandBox.height)
+        : null
+    })
+    .toBeLessThanOrEqual(0)
+}
 
 /**
  * The Act, driven from a real citation on a real answer, in both of its forms.
@@ -72,17 +104,13 @@ test.describe('docked beside the answer', () => {
     // The operator's first-use pass asked for the provision a jump lands on to
     // sit at the top of the text rather than below its article's heading. The
     // section bar names the article, so the heading's context is not lost.
-    await expect
-      .poll(async () => {
-        const text = await pane
-          .getByRole('region', { name: 'Text of the Act' })
-          .boundingBox()
-        const tinted = await pane
-          .locator('[aria-current="location"]')
-          .boundingBox()
-        return text && tinted ? Math.abs(tinted.y - text.y) : Infinity
-      })
-      .toBeLessThanOrEqual(24)
+    // The third-use pass found the tint touching the bar's own border, with
+    // the previous paragraph's tail showing above it, so both conditions are
+    // checked here rather than the distance alone.
+    await expectFlushUnderTheBand(
+      pane,
+      pane.locator('[aria-current="location"]'),
+    )
   })
 
   test('the section bar steps to the next article in the whole Act', async ({
@@ -303,14 +331,6 @@ test.describe('an excerpt landing on its closest point', () => {
     await expect(landed).toContainText(
       'recruitment or selection of natural persons',
     )
-    await expect
-      .poll(async () => {
-        const text = await pane
-          .getByRole('region', { name: 'Text of the Act' })
-          .boundingBox()
-        const box = await landed.boundingBox()
-        return text && box ? Math.abs(box.y - text.y) : Infinity
-      })
-      .toBeLessThanOrEqual(24)
+    await expectFlushUnderTheBand(pane, landed)
   })
 })
