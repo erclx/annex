@@ -970,7 +970,7 @@ test('the evaluation route restores its own scroll on a back action, which the s
     .toBeGreaterThan(0)
   const before = await page.evaluate(() => window.scrollY)
 
-  await page.getByRole('link', { name: 'Home' }).first().click()
+  await page.getByRole('link', { name: 'Home', exact: true }).click()
   await expect(page).toHaveURL('/')
 
   await page.goBack()
