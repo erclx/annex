@@ -85,3 +85,38 @@ class TestArticle113EndsBeforeTheSignatureBlock:
 
         assert article is not None
         assert 'OJ C 517' not in article.text
+
+
+class TestProvisionsStopBeforeADivisionHeading:
+    def test_article_fifty_loses_the_chapter_heading_after_it(
+        self, original: Corpus
+    ) -> None:
+        article = original.get('art_50')
+
+        assert article is not None
+        assert 'CHAPTER' not in article.text
+
+    def test_article_fifty_paragraph_seven_loses_the_chapter_heading(
+        self, original: Corpus
+    ) -> None:
+        paragraph = original.get('art_50.7')
+
+        assert paragraph is not None
+        assert 'CHAPTER' not in paragraph.text
+        assert 'SECTION' not in paragraph.text
+
+    def test_article_seven_loses_the_section_heading_after_it(
+        self, original: Corpus
+    ) -> None:
+        article = original.get('art_7')
+
+        assert article is not None
+        assert 'SECTION' not in article.text
+
+    def test_article_seven_paragraph_three_loses_the_section_heading(
+        self, original: Corpus
+    ) -> None:
+        paragraph = original.get('art_7.3')
+
+        assert paragraph is not None
+        assert 'SECTION' not in paragraph.text

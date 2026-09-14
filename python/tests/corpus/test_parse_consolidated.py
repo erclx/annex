@@ -169,3 +169,46 @@ class TestArticleOneTitle:
 
         assert article is not None
         assert article.title == 'Subject matter'
+
+
+class TestProvisionsStopBeforeADivisionHeading:
+    def test_article_fifty_loses_the_chapter_heading_after_it(
+        self, consolidated: Corpus
+    ) -> None:
+        article = consolidated.get('art_50')
+
+        assert article is not None
+        assert 'CHAPTER' not in article.text
+
+    def test_article_fifty_paragraph_seven_loses_the_chapter_heading(
+        self, consolidated: Corpus
+    ) -> None:
+        paragraph = consolidated.get('art_50.7')
+
+        assert paragraph is not None
+        assert 'CHAPTER' not in paragraph.text
+        assert 'SECTION' not in paragraph.text
+
+    def test_article_seven_loses_the_section_heading_after_it(
+        self, consolidated: Corpus
+    ) -> None:
+        article = consolidated.get('art_7')
+
+        assert article is not None
+        assert 'SECTION' not in article.text
+
+    def test_article_seven_paragraph_three_loses_the_section_heading(
+        self, consolidated: Corpus
+    ) -> None:
+        paragraph = consolidated.get('art_7.3')
+
+        assert paragraph is not None
+        assert 'SECTION' not in paragraph.text
+
+    def test_the_amended_flag_is_unchanged_by_the_corrected_end(
+        self, consolidated: Corpus
+    ) -> None:
+        article = consolidated.get('art_50')
+
+        assert article is not None
+        assert article.amended is True

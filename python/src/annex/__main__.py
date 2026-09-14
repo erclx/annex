@@ -96,6 +96,8 @@ def _export_corpus(refresh: bool, out: Path | None) -> int:
     from annex.corpus.export import FIXTURES_PATH
 
     corpora = {version: load(version, refresh=refresh) for version in CorpusVersion}
+    for corpus in corpora.values():
+        verify(corpus)
     destination = out or FIXTURES_PATH
     manifest = export(corpora, out=destination)
     for version, corpus in corpora.items():

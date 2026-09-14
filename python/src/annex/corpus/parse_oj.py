@@ -17,6 +17,7 @@ from annex.corpus.sources import ORIGINAL, CorpusVersion
 
 ARTICLE_HEADINGS = '//p[@class="oj-ti-art"]'
 ARTICLE_SUBTITLES = '//p[@class="oj-sti-art"]'
+DIVISION_HEADINGS = '//p[starts-with(@class,"oj-ti-section-")]'
 BODY_PARAGRAPHS = '//p[@class="oj-normal"]'
 ANNEX_ANCHORS = '//*[starts-with(@id,"anx_")]'
 RECITAL_ANCHORS = '//*[starts-with(@id,"rct_")]'
@@ -121,6 +122,7 @@ def parse(document: bytes) -> Corpus:
 
     headings = root.xpath(ARTICLE_HEADINGS)
     subtitles = root.xpath(ARTICLE_SUBTITLES)
+    divisions = root.xpath(DIVISION_HEADINGS)
     bodies = root.xpath(BODY_PARAGRAPHS)
     annexes = root.xpath(ANNEX_ANCHORS)
     signatures = root.xpath(SIGNATURE_ANCHORS)
@@ -134,9 +136,16 @@ def parse(document: bytes) -> Corpus:
         default=len(index.text),
     )
     last_article_end = min(first_annex, first_signature)
+    division_offsets = [
+        index.start_of(division)
+        for division in divisions
+        if index.start_of(division) < last_article_end
+    ]
 
     provisions: list[Provision] = []
-    for heading, start, end in spans(index, headings, end=last_article_end):
+    for heading, start, end in spans(
+        index, headings, end=last_article_end, stops=division_offsets
+    ):
         number = _article_number(heading)
         if number is None:
             continue

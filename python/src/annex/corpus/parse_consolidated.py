@@ -18,6 +18,7 @@ from annex.corpus.sources import CONSOLIDATED, CorpusVersion
 
 ARTICLE_HEADINGS = '//p[@class="title-article-norm"]'
 ARTICLE_SUBTITLES = '//p[@class="stitle-article-norm"]'
+DIVISION_HEADINGS = '//p[starts-with(@class,"title-division-")]'
 PARAGRAPH_LABELS = './/span[@class="no-parag"]'
 ANNEX_ANCHORS = '//*[starts-with(@id,"anx_")]'
 ANNEX_TITLE_LINES = './/p[starts-with(@class,"title-annex-")]'
@@ -132,6 +133,7 @@ def parse(document: bytes) -> Corpus:
 
     headings = root.xpath(ARTICLE_HEADINGS)
     subtitles = root.xpath(ARTICLE_SUBTITLES)
+    divisions = root.xpath(DIVISION_HEADINGS)
     labels = root.xpath(PARAGRAPH_LABELS)
     amendments = read_amendments(index, root)
     annexes = root.xpath(ANNEX_ANCHORS)
@@ -140,9 +142,16 @@ def parse(document: bytes) -> Corpus:
         (index.start_of(annex) for annex in annexes),
         default=len(index.text),
     )
+    division_offsets = [
+        index.start_of(division)
+        for division in divisions
+        if index.start_of(division) < first_annex
+    ]
 
     provisions: list[Provision] = []
-    for heading, start, end in spans(index, headings, end=first_annex):
+    for heading, start, end in spans(
+        index, headings, end=first_annex, stops=division_offsets
+    ):
         number = _article_number(heading)
         if number is None:
             continue

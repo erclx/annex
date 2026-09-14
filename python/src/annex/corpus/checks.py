@@ -8,17 +8,21 @@ articles. Paragraphs are asserted for the same reason `Article 6(2)` resolves
 to one: leaving that kind out would let a regression drop every paragraph while
 the run still reported a clean parse.
 
-Two further properties are checked independently of any count: no provision's
-text or title carries a consolidation marker, and no article carries the
-signature block the Official Journal document appends after the last one.
-Both are ingest defects a count cannot see, since the offending text lands
-inside a provision the count already expects to exist.
+Three further properties are checked independently of any count: no
+provision's text or title carries a consolidation marker, no article carries
+the signature block the Official Journal document appends after the last one,
+and no provision's text carries a chapter or section heading. All three are
+ingest defects a count cannot see, since the offending text lands inside a
+provision the count already expects to exist.
 """
+
+import re
 
 from annex.corpus.models import Corpus, ProvisionKind
 from annex.corpus.sources import SOURCES
 
 SIGNATURE_BLOCK = 'Done at Brussels'
+_DIVISION_HEADING = re.compile(r'\b(CHAPTER\s+[IVXLC]+|SECTION\s+\d+)\b')
 
 
 class CorpusCheckError(RuntimeError):
@@ -56,12 +60,21 @@ def _signature_disagreements(corpus: Corpus) -> list[str]:
     ]
 
 
+def _heading_disagreements(corpus: Corpus) -> list[str]:
+    return [
+        f'{corpus.version}: {provision.id} carries a division heading'
+        for provision in corpus.provisions
+        if _DIVISION_HEADING.search(provision.text)
+    ]
+
+
 def disagreements(corpus: Corpus) -> list[str]:
     """Return one line per property that does not hold, empty where all do."""
     return [
         *_structure_disagreements(corpus),
         *_marker_disagreements(corpus),
         *_signature_disagreements(corpus),
+        *_heading_disagreements(corpus),
     ]
 
 
