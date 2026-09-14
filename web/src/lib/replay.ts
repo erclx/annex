@@ -18,6 +18,7 @@
  * control would lie. `src/app/page.tsx` holds it inactive in this mode and the
  * recorded walkthrough shows the comparison against the live system instead.
  */
+import type { CorpusVersion } from '@/components/versions'
 import { captures, manifest } from '@/fixtures'
 import { answerSchema } from '@/lib/answer'
 import type { AskOptions, AskResult } from '@/lib/ask'
@@ -36,6 +37,8 @@ export interface RecordedQuestion {
   id: string
   description: string
   flow: string
+  /** Whether the recording holds a refusal on each text, read off the manifest. */
+  refused: Record<CorpusVersion, boolean>
 }
 
 export const capturedOn = manifest.captured_at
@@ -51,6 +54,15 @@ const byDescription = new Map(
   ]),
 )
 
+function refusedOn(questionId: string, version: CorpusVersion): boolean {
+  return manifest.entries.some(
+    (entry) =>
+      entry.question_id === questionId &&
+      entry.version === version &&
+      entry.refused,
+  )
+}
+
 export const recordedQuestions: RecordedQuestion[] = manifest.entries
   .filter(
     (entry, index) =>
@@ -62,6 +74,10 @@ export const recordedQuestions: RecordedQuestion[] = manifest.entries
     id: entry.question_id,
     description: entry.description,
     flow: entry.flow,
+    refused: {
+      original: refusedOn(entry.question_id, 'original'),
+      consolidated: refusedOn(entry.question_id, 'consolidated'),
+    },
   }))
 
 /**

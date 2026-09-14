@@ -114,6 +114,32 @@ describe('the committed fixtures', () => {
     expect(new Set(descriptions).size).toBe(descriptions.length)
   })
 
+  it('holds twelve distinct questions, the count the recorded-questions intro types', () => {
+    expect(recordedQuestions).toHaveLength(12)
+  })
+
+  it('reads a question refused on the original and answered on the amended', () => {
+    const question = recordedQuestions.find(
+      (candidate) => candidate.id === 'q03-generated-product-images',
+    )
+
+    expect(question?.refused).toEqual({ original: true, consolidated: false })
+  })
+
+  it('reads the two questions refused on both texts', () => {
+    const refusedOnBoth = recordedQuestions
+      .filter(
+        (question) =>
+          question.refused.original && question.refused.consolidated,
+      )
+      .map((question) => question.id)
+
+    expect(refusedOnBoth).toEqual([
+      'q08-redesigned-interface',
+      'q09-wider-rollout',
+    ])
+  })
+
   it('stamps the capture with the date it ran', () => {
     expect(capturedOn).toMatch(/^\d{4}-\d{2}-\d{2}$/)
   })
