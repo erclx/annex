@@ -1,13 +1,15 @@
 ---
 title: Answer
-description: The single surface where a described system becomes a list of articles to read, or a refusal
+description: The landing page and the ask route, where a described system becomes a list of articles to read, or a refusal
 ---
 
 # Answer
 
-One surface carries the whole product. A visitor describes a system, and the same page becomes the answer, the refusal, or the failure. There is no navigation and no second screen.
+Two routes carry the product. `/` is the landing page: what the tool does, the composer, the recorded questions, then the terms and the three-arm comparison. A pick or a submit opens `/ask`, where the described system becomes the answer, the refusal, or the failure, and the browser's back action or the mark in the bar returns to `/`. There is no navigation rail between them.
 
-At 1024 pixels and wider the screen holds two regions side by side. The answer column on the left keeps a fixed reading measure near 640 pixels, and the pane on the right takes the rest, stays in view as the page scrolls, and scrolls inside itself. Below 1024 the page is one column and the pane opens as an overlay instead.
+One page used to carry both, with no navigation and no second screen. The operator's second-use pass split it on 2026-09-14, N1 arm 2, and `canon/ARCHITECTURE.md` records what that beat. The file stays one wireframe rather than two, so the retired lines read against their replacements in one place.
+
+At 1024 pixels and wider `/ask` holds two regions side by side. The answer column on the left keeps a fixed reading measure near 640 pixels, and the pane on the right takes the rest, stays in view as the page scrolls, and scrolls inside itself. Below 1024 the page is one column and the pane opens as an overlay instead.
 
 The shape was picked by looking, over three rounds of candidates rendered against recorded answers at their real size and at 1280, 1536 and 400 pixels wide. `canon/context/design-references.md` holds the products each candidate answered to, and `canon/ARCHITECTURE.md` records each pick against what it beat. A claim keeps its evidence directly under it, which is the property the first layout comparison chose inline citations for. What it no longer does is print the law whole: 65 of the 112 citations in the recording run past 1 000 characters, and printing them put the first recorded answer's second claim 2 836 pixels down the page at 1280.
 
@@ -50,39 +52,49 @@ Copy, verbatim, below 1024:
 
 ## Empty, at 1024 and wider
 
-Reached on arrival, before anything is asked. The top bar and the band run the full width, and everything under them starts from the same left edge rather than centering in a narrow container.
+The landing page at `/`, reached on arrival. The top bar and the band run the full width. Under them the heading, the supporting text and the composer center on one measure, and the recorded questions, the terms and the comparison follow as full-width sections on a wider one. Nothing sits beside the composer.
 
 ```plaintext
 ┌──────────────────────────────────────────────────────────────────────┐
 │ ◆ Annex Which articles of the EU AI Act…  Repository  Evaluation     │ ← top bar, pinned, and
-│                                                                      │   no control before an ask
+│                                                                      │   no control on this page
 ├──────────────────────────────────────────────────────────────────────┤
-│ Describe your AI system. Get      │ Before you ask        ← pane     │
-│ back the articles of the AI Act   │                                  │
-│ you need to read.     ← display   │ Terms used on this page          │
-│                                   │ Provision      An addressable…   │
-│ Write it the way you'd explain    │ High risk      A classification… │
-│ it to a colleague. Annex finds…   │ …seven terms in all              │
-│                                   │                                  │
-│ ┌───────────────────────────────┐ │ How an answer is built           │ ← composer
-│ │ A customer-service chatbot…   │ │ Five stages, in the order…       │
-│ │                               │ │ ○ Intake                         │
-│ │ [ Original |*Amended*]        │ │ ● Retrieve  ┐ The comparison     │ ← the choices, inside it
-│ │ (•) Reference traversal       │ │ ● Traverse  ┘ switches these…    │
-│ │ Turn off to compare…          │ │ ○ Synthesize                     │
-│ │       [ Find the articles → ] │ │ ○ Verify                         │
-│ └───────────────────────────────┘ │                                  │
-│ ───────────────────────────────── │ The three-arm comparison         │
-│ Or start from a recorded          │ The Act fits inside a current…   │
-│ question                          │ Arm | Text | Recall | …          │
-│ Telling a person they are…        │                                  │
-│ ┌─────────┐ ┌─────────┐ ┌───────┐ │                                  │ ← one card a question
-│ │a chatbot│ │a voice  │ │we gen…│ │                                  │
-│ │Answered │ │Answered │ │Refused│ │                                  │
-│ └─────────┘ └─────────┘ └───────┘ │                                  │
-│ …four groups, three cards each    │                                  │
-│                                   │                                  │
-│   ← answer column, fixed measure  │   ← pane, takes the rest         │
+│          Describe your AI system. Get back the articles              │ ← display, centered,
+│                of the AI Act you need to read.                       │   larger than on /ask
+│                                                                      │
+│          Write it the way you'd explain it to a colleague.           │
+│            Annex finds the provisions that apply and…                │
+│                                                                      │
+│            ┌──────────────────────────────────────────┐              │ ← composer, 640 wide
+│            │ A customer-service chatbot…              │              │
+│            │                                          │              │
+│            │ [ Original |*Amended*] (•) Reference     │              │ ← the choices, inside it
+│            │                        traversal         │              │
+│            │                        Turn off to…      │              │ ← the hint, visible text
+│            │                  [ Find the articles → ] │              │
+│            └──────────────────────────────────────────┘              │
+│                                                                      │
+│   ────────────────────────────────────────────────────────────────   │ ← sections, 1080 wide
+│   Or start from a recorded question                                  │
+│   Telling a person they are dealing with an AI system                │
+│   ┌──────────────────┐ ┌──────────────────┐ ┌──────────────────┐     │ ← one card a question
+│   │ a chatbot on our │ │ a voice agent    │ │ we generate      │     │
+│   │ Answered on both │ │ Answered on both │ │ Refused on the…  │     │
+│   └──────────────────┘ └──────────────────┘ └──────────────────┘     │
+│   …four groups, three cards each                                     │
+│                                                                      │
+│   Terms used on this page                                            │
+│   Provision      An addressable piece of the law…                    │
+│   …six terms in all                                                  │
+│                                                                      │
+│   How an answer is built        │ The three-arm comparison           │ ← two columns in a
+│   Five stages, in the order…    │ The Act fits inside a current…     │   1 040 container
+│   ○ Intake                      │ Arm | Text | Recall | …            │
+│   ● Retrieve ┐ The comparison   │                                    │
+│   ● Traverse ┘ switches these…  │                                    │
+│   ○ Synthesize                  │                                    │
+│   ○ Verify                      │                                    │
+│   Faithfulness is matched against what an arm was supplied…          │
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -97,15 +109,16 @@ Copy, verbatim:
 - Supporting text: `Write it the way you'd explain it to a colleague. Annex finds the provisions that apply and quotes each one, so you can check every claim against the law itself. Read against the Act as published or as amended on 27 July 2026. It won't tell you whether you comply.`
 - Input placeholder: `A customer-service chatbot that also scores loan applications…`
 - Action: `Find the articles`, with an arrow after it that is drawn and never read as part of the name
-- Pane label: `Before you ask`
 
 The last sentence of that supporting text is doing compliance work rather than tone work. No label, heading, or button anywhere on this surface may imply a verdict on whether an organization complies, and the empty state states that boundary before a visitor has asked anything.
 
 The top bar carries `Repository` and `Evaluation` in every state and at every width rather than on the empty state alone. A visitor who reaches an answer or a refusal, the moment likeliest to prompt checking the source, can still reach them without editing back to a blank form. The bar keeps one full height throughout, and its mark and name link to `/`.
 
-The composer is one rounded box on `surface` holding the description, the version toggle, the traversal switch with its hint as visible text, and `Find the articles`. Its footer runs as one row at 1024 and wider and stacks below that. Before anything is asked the bar holds no control, since both choices sit in the composer where the description they apply to is written. The operator's second-use pass picked this composer over a plain field with the button under it, a composer with the choices left outside, and a taller composer whose send control lost its label.
+The composer is one rounded box on `surface` holding the description, the version toggle, the traversal switch with its hint as visible text, and `Find the articles`. Its footer runs as one row at 1024 and wider and stacks below that. The bar on `/` holds no control, since both choices sit in the composer where the description they apply to is written. The operator's second-use pass picked this composer over a plain field with the button under it, a composer with the choices left outside, and a taller composer whose send control lost its label.
 
-The pane holds context beside the question before it holds the Act. Three other contents were rendered and lost: no pane at all until something is asked, the Act open at Article 3, and a recorded answer previewed. `canon/ARCHITECTURE.md` carries what each cost.
+Nothing sits beside the composer. A pane holding the terms and the comparison beside the question was picked in an earlier round over no pane at all, the Act open at Article 3, and a recorded answer previewed, and N1 arm 2 retired it: the terms and the comparison are sections of the landing page, and the pane is on `/ask` alone. `canon/ARCHITECTURE.md` carries both picks.
+
+The heading renders at 34px and centers with the supporting text on this page alone, a size set by the landing page's placement rather than by the composer's own copy. The composer is 640 wide, which holds its footer on one row with the traversal hint as visible text beside the switch.
 
 ## Empty, below 1024
 
@@ -133,14 +146,14 @@ The pane holds context beside the question before it holds the Act. Three other 
 │ │ Answered on both texts   │ │
 │ └──────────────────────────┘ │
 │ …                            │
-│ Terms used on this page      │ ← the pane's content,
+│ Terms used on this page      │ ← the same sections,
 │ …                            │   under the picks
 │ How an answer is built       │
 │ The three-arm comparison     │
 └──────────────────────────────┘
 ```
 
-Nothing the pane holds is lost at this width. The terms and the comparison follow the recorded picks in the one column.
+The terms and the comparison follow the recorded picks in the one column, the same sections the landing page sets at 1024 and wider, with the comparison's halves stacked.
 
 ### The recorded picks
 
@@ -172,7 +185,7 @@ An inline hover definition was drafted and rejected by looking. It is a second o
 
 A labelled region under the terms, in two halves with the caveats spanning beneath both. The first half, headed `How an answer is built`, gives a one-sentence lead-in and the pipeline rail. The second, headed `The three-arm comparison`, holds the argument for measuring retrieval against a full-context baseline at all and the table. The table is generated from `python/data/eval/results.json` through the `evaluation-summary.json` fixture rather than transcribed, so it moves when the next `evaluate` run does.
 
-The halves sit side by side, rail on the left, only in a container 1 040 pixels wide or more. Everywhere narrower they stack rail first. The docked pane at 1280 and 1536 and the single column below 1024 all stay under that width, so this route draws the stacked form until a page gives the section more room.
+The halves sit side by side, rail on the left, only in a container 1 040 pixels wide or more. Everywhere narrower they stack rail first. The landing page's section is 1 080 wide at 1280 and wider, so it draws the two halves side by side there. The pane beside a failure on `/ask` and the single column below 1024 stay under that width and draw the stacked form.
 
 Copy, verbatim:
 
@@ -543,7 +556,7 @@ The correlation id renders on the first three and on neither of the last two, si
 
 ### The next step beside a failure
 
-At 1024 and wider the pane stays beside the failure region and offers the next step for the state shown, rather than leaving half the screen empty. Beside an unrecorded description it lists the twelve recorded questions as picks, scrolling inside the pane. Beside a model that is not running and beside a service that is not listening, it shows the commands that start what is missing, which match the local stack table in `canon/context/development.md`. A timeout and an unexpected failure get neither, since no pick or command answers either, and the pane keeps the terms it held before the ask.
+At 1024 and wider the pane stays beside the failure region and offers the next step for the state shown, rather than leaving half the screen empty. Beside an unrecorded description it lists the twelve recorded questions as picks, scrolling inside the pane. Beside a model that is not running and beside a service that is not listening, it shows the commands that start what is missing, which match the local stack table in `canon/context/development.md`. A timeout and an unexpected failure get neither, since no pick or command answers either, and the pane holds the terms and the comparison the landing page sets as its sections, under the label `Terms and the comparison`.
 
 ```plaintext
 ├───────────────────────────────────┬──────────────────────────────────┤
@@ -616,7 +629,7 @@ A trace carrying no edges, being every run with traversal switched off, keeps th
 
 ## Reading the Act
 
-At 1024 and wider the Act is the pane, a region of the one screen rather than something that opens over it. Below 1024 it opens as an overlay over the answer.
+At 1024 and wider the Act is the pane, a region of `/ask` rather than something that opens over it. Below 1024 it opens as an overlay over the answer.
 
 ```plaintext
 ┌──────────────────────────────┐
@@ -661,20 +674,24 @@ It links to the article, annex, or recital the citation's paragraph sits under, 
 
 ## Behavior
 
-- The version toggle re-asks the current question against the other text and replaces the answer. It is a real control, not a demo affordance. It sits in the composer before anything is asked and in the described-system card after, and no screen draws two controls carrying `Original` and `Amended 27 Jul 2026` at once
+- The version toggle re-asks the current question against the other text and replaces the answer. It is a real control, not a demo affordance. It sits in the composer on `/` and in the described-system card on `/ask`, and no screen draws two controls carrying `Original` and `Amended 27 Jul 2026` at once
 - The traversal switch turns reference following off and re-asks. It exists to demonstrate the arm comparison rather than to serve a visitor, and the line under it says what turning it off compares, so the layout does not pretend otherwise
-- The top bar stays pinned to the top of the screen at one full height, and the pane below it fills the height left. The mark and the name link to `/`, which on this one route returns to the empty state with the previous text still in the input
-- Before anything is asked, both choices sit in the composer at every width. Once a question is asked the version toggle moves into the described-system card, and the traversal switch moves into the bar at 1024 and wider and into the card below it
-- Editing the description returns the surface to its empty state with the previous text in the input
+- The top bar stays pinned to the top of the screen at one full height, and the pane below it fills the height left. The mark and the name link to `/`, the landing page, with the previous text still in the composer
+- On `/`, both choices sit in the composer at every width. On `/ask` the version toggle sits in the described-system card, and the traversal switch sits in the bar at 1024 and wider and in the card below it, its hint visible text in both
+- Editing the description returns to `/` with the previous text in the composer
 - The trace's counts switch the pane between the Act and the walk at 1024 and wider, and expand the walk in place below. A chip in the walk opens its provision in the Act. Nothing else on the surface opens or collapses
-- The pane holds the terms and the reserved region before a question is asked, and the Act once one is answered or refused
+- The pane exists on `/ask` alone. It holds the steps while a question runs, the Act once one is answered or refused, and the next step or the terms beside a failure
 - The theme control chooses between matching the system, light, and dark, and starts on matching the system. A reader who chooses nothing is decided by `prefers-color-scheme`, and a choice is remembered per browser and applied before the first paint, so the page never renders in one theme and swaps to the other
 - Every state above replaces the answer column's content. None of them stack, except the moved-citation and cut-short states, which render on top of an answer, and the replay band, which sits above every one of them
 - On the deployed build a pick or a reopened address plays the recording's steps and walk before answering, at an illustrative pace a fifth of the recording's own time, under the label § Loading gives. The ids, the edges and the budget's cut are the recording's, and only the timing is invented. The version toggle re-asks without playing, so comparing the two texts stays instant there
 - A claim never renders two citation blocks for one provision. A marker repeated within one claim merges to its first occurrence in `parse_draft`, before the surface ever sees it
 - On the deployed build the address carries the recorded question, the version, and the provision the Act is showing, so an answer can be linked and opened as it was shared. A link leaving the page opens in the same tab, since the browser's back action returns to that address
 - The local build's address carries the version and the provision alone. A typed description can run to 4 000 characters and says what someone is building, so it never reaches an address the browser keeps in its history
+- A pick or a valid submit on `/` navigates to `/ask`, and the browser's back action returns to `/`. A typed description crosses in memory the root layout holds, never in storage or the address, so `/ask` opened with nothing to ask, such as a reload on the live build or a bare visit, replaces itself with `/`. A description the service rejects returns to `/` with the message on the composer
+- On the deployed build a link shared as `/?q=…` forwards to the same answer at `/ask?q=…`, keeping the version and the provision. An address carrying a version alone stays on `/` and sets the composer's toggle
 
 ## Not on this surface
 
-There is no navigation rail, no account, no history, and no second screen. The pane is a region of the one screen, and it holds what the question in front of the reader needs rather than a way to move between documents. A visitor asks one question at a time and the surface is that question's answer. The address carries that answer's state on the deployed build without adding a route: there is still one page, and a linked state opens that page as it stood.
+There is no navigation rail, no account, and no history. Two routes carry the product, `/` and `/ask`, and nothing moves between them except a pick, a submit, the back action, the mark and Edit description. The pane is a region of `/ask`, and it holds what the question in front of the reader needs rather than a way to move between documents. A visitor asks one question at a time and `/ask` is that question's answer. The address carries that answer's state on `/ask` and adds no field for the split: a linked state opens `/ask` as it stood.
+
+This section used to say there was no second screen and that the address carried state without adding a route. N1 arm 2 of the operator's second-use pass overturned both on 2026-09-14.
