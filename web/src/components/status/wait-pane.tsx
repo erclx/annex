@@ -42,7 +42,7 @@ export function WaitPane({
   return (
     <aside
       aria-label="The agent working"
-      className="sticky top-[var(--annex-bar-height,0px)] flex h-[calc(100vh-var(--annex-bar-height,0px))] flex-col border-l border-rule bg-surface"
+      className="sticky top-(--annex-bar-height) flex h-[calc(100vh-var(--annex-bar-height,0px))] flex-col border-l border-rule bg-surface"
     >
       <header className="flex items-center justify-between gap-3 border-b border-rule px-5 py-[10px]">
         <h2 className="m-0 text-[11px] font-normal text-muted">

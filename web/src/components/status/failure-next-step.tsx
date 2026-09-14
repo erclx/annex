@@ -28,7 +28,7 @@ export function FailureNextStep({
   return (
     <aside
       aria-label="Next step"
-      className="sticky top-[var(--annex-bar-height,0px)] flex h-[calc(100vh-var(--annex-bar-height,0px))] flex-col border-l border-rule bg-surface"
+      className="sticky top-(--annex-bar-height) flex h-[calc(100vh-var(--annex-bar-height,0px))] flex-col border-l border-rule bg-surface"
     >
       <div className="flex-1 overflow-y-auto px-5 py-4">
         {state === 'unrecorded' ? (

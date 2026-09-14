@@ -14,7 +14,7 @@ export function TermsPane() {
   return (
     <aside
       aria-label="Terms and the comparison"
-      className="sticky top-[var(--annex-bar-height,0px)] flex h-[calc(100vh-var(--annex-bar-height,0px))] flex-col border-l border-rule bg-surface"
+      className="sticky top-(--annex-bar-height) flex h-[calc(100vh-var(--annex-bar-height,0px))] flex-col border-l border-rule bg-surface"
     >
       <header className="border-b border-rule px-5 py-[13px]">
         <span className="text-[10.5px] text-muted">

@@ -439,7 +439,7 @@ export default function Ask() {
             )}
           </div>
           {docked && answer && (
-            <div className="sticky top-[var(--annex-bar-height,0px)] h-[calc(100vh-var(--annex-bar-height,0px))]">
+            <div className="sticky top-(--annex-bar-height) h-[calc(100vh-var(--annex-bar-height,0px))]">
               <ColumnHandle
                 width={answerWidth}
                 onWidthChange={setWidth}
