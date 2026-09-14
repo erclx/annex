@@ -91,22 +91,23 @@ project settles those by rendering candidates and looking. No row owns that yet.
 What is recorded here is the measurement, so whoever opens the question starts
 from a number rather than an impression.
 
-## The design these are measured against
+## The design this once measured against
 
-`settled-design.html` is the final round of the draft-and-pick that chose this
-layout, carrying both themes in one self-contained file. Open it in a browser
-beside a capture above. It is the source for the type scale, the spacing, the
-segmented control, the drawn switch, the citation treatments and the trace grid,
-none of which `canon/DESIGN.md` states at that resolution.
+`settled-design.html`, the final round of the draft-and-pick that chose this
+layout, is retired. `canon/DESIGN.md`'s typography section records what it
+settled, which round picked it, and why it stopped being authoritative.
 
-It is committed here because the folder it came from is not durable. The rounds
-were written to `.canon/`, which is gitignored and reaches no history, and
-`draft-and-pick` deletes its own scratch folder at close. A pointer there
-resolves on the machine that ran the pick and nowhere else, which is how the
-first version of this surface came to be built without ever seeing the design.
+Some of what it drew is prose now and some is not. Type scale and spacing sit
+in `canon/DESIGN.md`'s own tables, and citation treatments in its color and
+border tables, the `cite rule` and `cite rule moved` roles and the `citation`
+border. The segmented control, the drawn switch and the trace grid still carry
+no prose description anywhere under `canon/`. Their shape is the shipped code
+in `web/src/components/`, and the captures in this folder are what shows it, so
+a reviewer checking either now opens those rather than a fourth drawn rendering
+nothing kept in sync with three later passes.
 
 `canon/wireframes/answer.md` still owns layout and copy and is the record that
-wins on any disagreement. This file owns what that one does not draw.
+wins on any disagreement.
 
 ## Regenerating these
 
