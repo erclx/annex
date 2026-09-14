@@ -5,15 +5,11 @@ description: The landing page and the ask route, where a described system become
 
 # Answer
 
-Three routes carry the product. `/` is the landing page: what the tool does, the composer, the recorded questions, then a line reaching how the pipeline is built and measured. `/evaluation` holds the terms, the pipeline rail and the three-arm comparison that used to close `/` itself. A pick or a submit opens `/ask`, where the described system becomes the answer, the refusal, or the failure, and the browser's back action or the mark in the bar returns to `/`. There is no navigation rail between any of them.
-
-The operator's third-use pass moved those three sections off `/` and onto `/evaluation` on 2026-09-14, T6 Pick 5, arm 3, over leaving the page as shipped, over reaching the new route from the bar alone with no line under the composer, and over folding the sections behind one closed disclosure under the cards. `canon/ARCHITECTURE.md` records the pick against what it beat. It revises N1 arm 2 and N10 arm 3 of the second-use pass in part: the terms and the comparison stop being sections of `/`, and the side-by-side stages and table move with them to `/evaluation` unchanged.
-
-One page used to carry both, with no navigation and no second screen. The operator's second-use pass split it on 2026-09-14, N1 arm 2, and `canon/ARCHITECTURE.md` records what that beat. The file stays one wireframe rather than two, so the retired lines read against their replacements in one place.
+Three routes carry the product, in one wireframe file rather than three. `/` is the landing page: what the tool does, the composer, the recorded questions, then a line reaching how the pipeline is built and measured. `/evaluation` holds the terms, the pipeline rail and the three-arm comparison. A pick or a submit opens `/ask`, where the described system becomes the answer, the refusal, or the failure, and the browser's back action or the mark in the bar returns to `/`. There is no navigation rail between any of them.
 
 At 1024 pixels and wider `/ask` holds two regions side by side. The answer column on the left keeps a fixed reading measure near 640 pixels, and the pane on the right takes the rest, stays in view as the page scrolls, and scrolls inside itself. Below 1024 the page is one column and the pane opens as an overlay instead.
 
-The shape was picked by looking, over three rounds of candidates rendered against recorded answers at their real size and at 1280, 1536 and 400 pixels wide. `canon/context/design-references.md` holds the products each candidate answered to, and `canon/ARCHITECTURE.md` records each pick against what it beat. A claim keeps its evidence directly under it, which is the property the first layout comparison chose inline citations for. What it no longer does is print the law whole: 65 of the 112 citations in the recording run past 1 000 characters, and printing them put the first recorded answer's second claim 2 836 pixels down the page at 1280.
+A claim keeps its evidence directly under it rather than printing the cited law whole: 65 of the 112 citations in the recording run past 1 000 characters, and printing them puts the first recorded answer's second claim 2 836 pixels down the page at 1280.
 
 ## The replay band
 
@@ -112,15 +108,15 @@ The last sentence of that supporting text is doing compliance work rather than t
 
 The top bar carries `Home`, `Evaluation` and the repository icon in every state and at every width rather than on the empty state alone. A visitor who reaches an answer or a refusal, the moment likeliest to prompt checking the source, can still reach them without editing back to a blank form. The bar keeps one full height throughout, and its mark and name link to `/`, as does `Home` beside `Evaluation`.
 
-The composer is one rounded box on `surface` holding the description, the version toggle, the traversal switch with its hint as visible text, and `Find the articles`. Its footer runs as one row at 1024 and wider and stacks below that. The bar on `/` holds no control, since both choices sit in the composer where the description they apply to is written. The operator's second-use pass picked this composer over a plain field with the button under it, a composer with the choices left outside, and a taller composer whose send control lost its label.
+The composer is one rounded box on `surface` holding the description, the version toggle, the traversal switch with its hint as visible text, and `Find the articles`. Its footer runs as one row at 1024 and wider and stacks below that. The bar on `/` holds no control, since both choices sit in the composer where the description they apply to is written.
 
 The version toggle is a `rounded-md` group with a 1px `rule` border, wrapping two buttons padded 11px by 5px at 12px text. The active button fills `bg-accent` with `text-paper`, and the inactive one reads `text-muted` with no fill of its own.
 
 The traversal switch is a 30 by 17px pill, `rounded-full`, filling `bg-accent` when on and `bg-rule` when off. A 13px `bg-paper` thumb sits inset 2px from the pill's own edge, at the right when on and the left when off.
 
-The textarea draws no outline of its own. While anything inside the composer has focus, whether the textarea, the version toggle, the traversal switch or `Find the articles`, the card's own border darkens from `rule` to `muted`, measured at 5.38 to 1 against `surface` in light and 6.18 to 1 in dark, against the 1.33 to 1 and 1.30 to 1 it rests at, both past the 3 to 1 a focus indicator is held to. The third-use pass picked this over an accent border and ring on the textarea alone, which spent accent on a state the resize grip's own hover rule already keeps neutral, and over a deeper shadow, whose border never crossed the 3 to 1 floor. A failed submit's `border-error` still wins over the focus border, and the toggle, the switch and `Find the articles` keep their own keyboard focus rings inside the card.
+The textarea draws no outline of its own. While anything inside the composer has focus, whether the textarea, the version toggle, the traversal switch or `Find the articles`, the card's own border darkens from `rule` to `muted`, measured at 5.38 to 1 against `surface` in light and 6.18 to 1 in dark, against the 1.33 to 1 and 1.30 to 1 it rests at, both past the 3 to 1 a focus indicator is held to. This beats an accent border and ring on the textarea alone, which would spend accent on a state the resize grip's own hover rule already keeps neutral, and beats a deeper shadow, whose border never crosses the 3 to 1 floor. A failed submit's `border-error` still wins over the focus border, and the toggle, the switch and `Find the articles` keep their own keyboard focus rings inside the card.
 
-Nothing sits beside the composer. A pane holding the terms and the comparison beside the question was picked in an earlier round over no pane at all, the Act open at Article 3, and a recorded answer previewed, and N1 arm 2 retired it: the pane is on `/ask` alone. T6 Pick 5 moved the terms and the comparison a step further, off `/` entirely and onto `/evaluation`, per § Evaluation below. `canon/ARCHITECTURE.md` carries every pick.
+Nothing sits beside the composer. The pane holding the terms and the comparison is on `/ask` alone, and the terms and the comparison themselves are on `/evaluation`, reached by the line below, per § Evaluation.
 
 The heading renders at 34px and centers with the supporting text on this page alone, a size set by the landing page's placement rather than by the composer's own copy. The composer is 640 wide, which holds its footer on one row with the traversal hint as visible text beside the switch.
 
@@ -172,13 +168,11 @@ Copy, verbatim:
 
 The picks sit beside the input rather than in place of it. Narrowing the input to a picker would remove the unrecorded state below and change the surface the design was settled on, and the free-text field is what a visitor arrives expecting.
 
-The word `Twelve` is typed, and `web/src/lib/service/replay.test.ts` fails when the recording stops holding twelve questions, so a re-capture that changes the count cannot ship the old number.
-
 The four flow labels are the evaluation's own grouping, three questions apiece. The fifth demo flow, the three-arm result, is not a question a visitor asks. It renders below as the comparison rather than as a fifth pick.
 
 ## Evaluation
 
-Reached from `Evaluation` in the top bar on every route, and from the line under the composer on `/`. The top bar and the band run the full width as they do everywhere else, and the page itself holds a heading, one line naming what it carries, a link out to the full write-up, and the terms strip and the three-arm comparison that used to close the landing page.
+Reached from `Evaluation` in the top bar on every route, and from the line under the composer on `/`. The top bar and the band run the full width as they do everywhere else, and the page itself holds a heading, one line naming what it carries, a link out to the full write-up, and the terms strip and the three-arm comparison.
 
 ```plaintext
 ┌──────────────────────────────────────────────────────────────────────┐
@@ -234,9 +228,7 @@ Beneath both halves, one line names the hardware and the model each arm ran on. 
 
 The rail comes first. It draws the five stages a request passes through, intake through verify, with a bracket against retrieve and traverse, so a reader sees where the two switched stages sit inside one answer before reading the table that switches them. Its bracket sits beside the stage text rather than at the far edge of the half.
 
-The same terms strip and comparison still fill the `/ask` pane beside a timeout or an unexpected failure, through `terms-pane.tsx`, unchanged by the move: this route and that pane are two callers of the same two components rather than one holding what the other lost.
-
-Picked at T6, Pick 5 of the operator's third-use pass on 2026-09-14, arm 3, over the page as shipped, over reaching the route from the bar alone with no line under the composer, and over folding the sections behind one closed disclosure under the cards. It revises N1 arm 2 and N10 arm 3 of the second-use pass in part, both recorded in `canon/ARCHITECTURE.md` beside this pick.
+The same terms strip and comparison fill the `/ask` pane beside a timeout or an unexpected failure, through `terms-pane.tsx`: this route and that pane are two callers of the same two components rather than one holding what the other lost.
 
 ## Invalid
 
@@ -366,7 +358,7 @@ The excerpt under a claim shows at most six lines of the provision and always en
 
 A long provision rarely rests a claim on its first six lines, so the excerpt opens on the closest point. Each cited provision is cut at its own paragraphs, definitions and points, and the passage sharing the most words of four letters or more with the claim wins once it shares at least 8. The heading then names that passage, such as `Article 79(8)` or `Annex III, point 4(a)`, the excerpt opens on it behind an ellipsis, and the heading and the handle both land the Act there. Where no passage reaches 8, the excerpt stays at the top and says no single passage wins. A provision with fewer than two numbered passages carries no label at all, since there is nothing to choose between.
 
-The label says closest and never quoted. The rule is lexical, its threshold was fitted by looking at three cases, and nothing records which passage the model read the claim from. The operator's first-use pass picked it over the first six lines and over the same landing left unnamed.
+The label says closest and never quoted. The rule is lexical, and nothing records which passage the model read the claim from.
 
 The pane opens on the first provision the answer cites. Its list of cited provisions carries every citation in the answer once, in the order the claims first cite them, and marks the one the pane is showing.
 
@@ -388,9 +380,9 @@ Copy, verbatim:
 
 The divider between the answer and the pane is a handle. Dragging it, or stepping it with the arrow keys, sets the answer column anywhere from 480 to 760 pixels, and a double-click or Enter puts it back at 640. It remembers. A small rounded grip with three dots sits on the line so the divider reads as draggable before the pointer finds it, darkening to neutral ink on hover and to accent only on keyboard focus.
 
-The section bar sits over the Act's text. It names the article or cited paragraph in view with its place in the whole, steps to the section before or after it or, once switched to `Cited`, to the citation before or after, and takes an article number or annex numeral in its jump field. The operator's first-use pass picked it over the cited links alone, step buttons in the cited row, and the bar without a jump field or the switch.
+The section bar sits over the Act's text. It names the article or cited paragraph in view with its place in the whole, steps to the section before or after it or, once switched to `Cited`, to the citation before or after, and takes an article number or annex numeral in its jump field.
 
-The pane's own view switch, between `The Act` and `The walk`, is tabs rather than the filled segmented control the section bar's `Whole Act` and `Cited` switch draws. The selected label reads in `ink` over a 2px `accent` underline, the unselected one in `muted` over a transparent underline of the same width so neither label shifts, and no wrapper box or fill sits behind either. The third-use pass found the shipped control filling its selected label with `bg-ink`, where every other toggle on the surface, the version toggle, the theme control and the section bar's own switch, fills with `accent`, reading as a near-white block in dark against `accent`'s own blue. The underline measures 8.61 to 1 on `surface` in light and 7.63 to 1 in dark, and the unselected label 5.38 and 6.18. `Whole Act` stays the only filled control in the pane.
+The pane's own view switch, between `The Act` and `The walk`, is tabs rather than the filled segmented control the section bar's `Whole Act` and `Cited` switch draws. The selected label reads in `ink` over a 2px `accent` underline, the unselected one in `muted` over a transparent underline of the same width so neither label shifts, and no wrapper box or fill sits behind either. A `bg-ink` fill on this switch's selected label would read as a near-white block in dark against `accent`'s own blue, where every other toggle on the surface, the version toggle, the theme control and the section bar's own switch, fills with `accent` instead. The underline measures 8.61 to 1 on `surface` in light and 7.63 to 1 in dark, and the unselected label 5.38 and 6.18. `Whole Act` stays the only filled control in the pane.
 
 ## Answered, below 1024
 
@@ -456,7 +448,7 @@ The clamp reaches only the Act's words. A note always renders whole, since it is
 
 Read as a word diff between the two exported corpora, so a rewrapped sentence with no wording change reads as unchanged. The words the shown version adds that the other version does not share are tinted the same ground the note stands on, `warning-surface`, and carry a `cite-rule-moved` underline, so the highlight reads as a second weight on the Act's own words rather than a fourth color competing with the claim and the note. The tint alone measured 1.057 to 1 against paper in light and 1.167 to 1 in dark, imperceptible rather than a second weight, and the underline is what a reader actually sees: `cite-rule-moved` against `warning-surface` measures 3.09 to 1 in light and 3.63 to 1 in dark, both past the 3 to 1 floor a non-text mark is held to.
 
-Those two figures answer whether the underline reads as a mark against its own tint. They say nothing about whether the changed word itself can be read, which the third-use pass's T1 finding measured separately: the mark carried no text color of its own, so it kept the browser's default black, reading 8.53 to 1 on its tint in light and 1.36 to 1 in dark against the Act's own 8.53 to 1 and 6.88 to 1 there. The mark now takes the color of the text it sits in, which is the same 8.53 to 1 and 6.88 to 1 rather than a fourth figure, so a changed word reads exactly as legibly as the words around it. A run of changed words separated only by whitespace also joins into one mark with one unbroken underline, punctuation still breaking a run, so Article 50(7) draws 8 marks rather than 38.
+Those two figures answer whether the underline reads as a mark against its own tint. The mark's own text color is what answers whether the changed word itself can be read: it takes the color of the text it sits in, the same 8.53 to 1 in light and 6.88 to 1 in dark the Act's surrounding text reads at, so a changed word reads exactly as legibly as the words around it. A run of changed words separated only by whitespace also joins into one mark with one unbroken underline, punctuation still breaking a run, so Article 50(7) draws 8 marks.
 
 ```plaintext
 │  ┃ Article 95(4)  ( moved by the amendment )    Read the original text  │
@@ -501,7 +493,7 @@ Copy, verbatim:
 - `The answer stopped for want of room, not because it finished.`
 - `The model ran out of room while writing, so anything it would have said after the last claim here is missing.`
 
-The banner keys on the trace's `truncated`, which is the generation stopping, and its copy describes that event. Provisions the prompt budget dropped are a different event: every one of the 24 recorded answers dropped between 3 and 39, and the trace's counts already report them. A banner describing drops would sit on every answer and stop meaning anything.
+The banner keys on the trace's `truncated`, which is the generation stopping, and its copy describes that event. Provisions the prompt budget dropped are a different event, reported by the trace's own counts rather than by this banner: nearly every recorded answer drops some, so a banner naming drops would sit on almost every answer and stop meaning anything.
 
 ## Refused
 
@@ -542,11 +534,11 @@ Copy, verbatim:
 - Reading list with no match: `Nothing read before refusing matches that number.`, then `Clear filter`
 - Reason and the missing items are dynamic.
 
-The pane holds what a refusal read behind that one line rather than as a row of links. The largest recorded refusal read 22 provisions and the live billboard refusal 33, which as links pushed the Act's text five rows down the pane. The list opens over the text, and each row says whether search found the provision or the walk reached it. Its filter matches a citation's number exactly, so `Article 5` finds Article 5 and its paragraphs and never Articles 53 to 56, and `II` finds Annex II and not Annex III. It opens, filters and closes from the keyboard, and Escape returns focus to the line. An answered question keeps its row of links under `Cited in this answer`.
+The pane holds what a refusal read behind that one line rather than as a row of links, since a refusal can read enough provisions that links would push the Act's text several rows down the pane. The list opens over the text, and each row says whether search found the provision or the walk reached it. Its filter matches a citation's number exactly, so `Article 5` finds Article 5 and its paragraphs and never Articles 53 to 56, and `II` finds Annex II and not Annex III. It opens, filters and closes from the keyboard, and Escape returns focus to the line. An answered question keeps its row of links under `Cited in this answer`.
 
 The consulted provisions are not decoration. They carry what was retrieved and found not to answer, which is the difference between a refusal and a shrug, so a refusal that renders without them has lost its argument.
 
-Every consulted provision stays on the list, each clamped to three lines with the same handle an answer's excerpt carries. A refusal's argument is that the text was read and did not settle the question, and the full text of each provision is one activation away in the pane. The recorded refusal that consults 20 provisions and 67 320 characters measured 11 041 pixels tall at 1280 with every provision quoted whole, and 3 287 with each one clamped. That settles the question of capping the list: the count stays, the length goes.
+Every consulted provision stays on the list, each clamped to three lines with the same handle an answer's excerpt carries. A refusal's argument is that the text was read and did not settle the question, and the full text of each provision is one activation away in the pane. Quoting every consulted provision whole would run a refusal citing 20 provisions and 67 320 characters to 11 041 pixels tall at 1280. Clamping each one to three lines holds it to 3 287. The count stays on the list and the length goes.
 
 ## Unrecorded
 
@@ -639,7 +631,7 @@ The three lists render as a two-column `dl`, a 96px label column naming `searche
 
 Dropped ids are named beside traversed ids and never omitted. Traversal reaches more provisions than a prompt has room for, so reporting what traversal found without reporting what the budget cut overstates what the answer actually rests on.
 
-Two other placements were rendered and lost: the cost line above the answer, where machine output comes before the product's own voice, and the cost line in the pane header, where it leaves the answer column at 1024 and returns under it below.
+Two other placements lose: the cost line above the answer puts machine output before the product's own voice, and the cost line in the pane header leaves the answer column at one width at 1024 and returns it under a different one below.
 
 ### The chips
 
@@ -665,8 +657,6 @@ Copy, verbatim: the column names `Found by search`, `Their article` and `Cited f
 Every chip is a button named by its citation, with `, set aside to fit the prompt` added to the name of a dropped one. Hovering or focusing a chip traces the path that reached it back to search and fades the rest. Activating one opens that provision in the Act, which at 1024 and wider also switches the pane back to the Act view.
 
 A set-aside provision stays in its row, dashed and faded, rather than vanishing, since the budget cutting it is part of what the trace reports. The id lists stay under the chips as the raw ids a reader checks a trace against.
-
-Picked in the first-use operator pass on 2026-09-13, arm 3b for the wait and arm 3 for the finished walk, over the layered drawing, that drawing with pipeline headings, and plain words without hover or click. Recorded in `canon/ARCHITECTURE.md` against what it beat.
 
 A trace carrying no edges, being every run with traversal switched off, keeps the `Found by search` column alone. A trace recorded before edges existed puts what the walk reached into one group on the last row rather than dropping it.
 
@@ -706,8 +696,7 @@ It links to the article, annex, or recital the citation's paragraph sits under, 
 ### Behavior
 
 - Activating a citation's heading or its excerpt handle scrolls the Act to that provision immediately, with no transition, consistent with the motion rule. At 1024 and wider that moves the pane, and below 1024 it opens the overlay first
-- Docked, a provision reached from a citation, a step, an arrow key or the jump field lands 12px under the section bar's own border rather than flush against it, tinted, and the section bar above it names its article. The third-use pass measured the shipped landing at -0.5px, touching the border with the previous provision's tail visible above it
-- A 12px strip of the pane's own ground is pinned under the section bar, and a landing stops 12px short so nothing of the provision before it shows there. Neither alone was enough: a stop with no strip still shows that tail, and a strip with no stop leaves the tint flush
+- Docked, a provision reached from a citation, a step, an arrow key or the jump field lands 12px under the section bar's own border rather than flush against it, tinted, and the section bar above it names its article. A 12px strip of the pane's own ground pins under the section bar, and the landing stops 12px short, so nothing of the provision before it shows there
 - A landed paragraph takes the same rounded, padded tint a landed section already carries, rather than a square edge-to-edge one, so the two landings read as one kind of mark
 - The overlay carries no section bar, but a one-line label above the text names the open article and stays in view regardless of scroll. A paragraph still lands with its article's heading in view whenever the two fit together, and at its own top only when they do not, since the label is what keeps the article named either way
 - Docked, the left and right arrow keys step the way the section bar's arrows do while the Act's text has focus
@@ -740,5 +729,3 @@ It links to the article, annex, or recital the citation's paragraph sits under, 
 ## Not on this surface
 
 There is no navigation rail, no account, and no history. Three routes carry the product, `/`, `/ask` and `/evaluation`, and nothing moves between them except a pick, a submit, the back action, the mark, `Home`, Edit description, and the `Evaluation` link. The mark still reaches `/` beside `Home`, so a reader loses no way home the pick added a word to rather than replaced. The pane is a region of `/ask`, and it holds what the question in front of the reader needs rather than a way to move between documents. A visitor asks one question at a time and `/ask` is that question's answer. The address carries that answer's state on `/ask` and adds no field for the split: a linked state opens `/ask` as it stood. `/evaluation` carries no state of its own in the address, since nothing on it is chosen or typed.
-
-This section used to say there was no second screen and that the address carried state without adding a route. N1 arm 2 of the operator's second-use pass overturned both on 2026-09-14. It named two routes rather than three until T6 Pick 5 of the third-use pass added `/evaluation` on the same date.
