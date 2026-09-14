@@ -44,7 +44,33 @@ export interface RecordedQuestion {
   refused: Record<CorpusVersion, boolean | null>
 }
 
-export const capturedOn = manifest.captured_at
+/**
+ * The date the answer for one question and version was captured.
+ *
+ * Falls back to the most recent stamp across every entry when no answer is on
+ * screen yet, or when the pair named carries no entry at all, since the
+ * caller then has nothing specific to date.
+ */
+export function capturedOnFor(
+  questionId: string | null,
+  version: CorpusVersion | null,
+): string {
+  const entry =
+    questionId && version
+      ? manifest.entries.find(
+          (candidate) =>
+            candidate.question_id === questionId &&
+            candidate.version === version,
+        )
+      : undefined
+  if (entry) return entry.captured_at
+
+  return manifest.entries.reduce(
+    (latest, candidate) =>
+      candidate.captured_at > latest ? candidate.captured_at : latest,
+    manifest.entries[0]?.captured_at ?? '',
+  )
+}
 
 function normalize(description: string): string {
   return description.trim().replace(/\s+/g, ' ').toLowerCase()

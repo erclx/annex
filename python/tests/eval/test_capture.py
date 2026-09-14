@@ -10,6 +10,7 @@ time to assert a file was written. One test does drive the stubbed pipeline, to
 show the real `Pipeline.ask` satisfies the protocol the rest of them stub.
 """
 
+import importlib
 import json
 from pathlib import Path
 
@@ -26,6 +27,8 @@ from annex.eval.capture import (
 )
 from annex.eval.questions import QUESTIONS, by_id
 from tests.eval.conftest import GROUNDED, BuildPipeline
+
+capture_module = importlib.import_module('annex.eval.capture')
 
 CHATBOT = by_id('q01-support-chatbot')
 
@@ -130,7 +133,7 @@ class TestWhatLandsOnDiskIsAnAnswer:
         }
 
 
-class TestTheManifestStampsTheRun:
+class TestEachEntryStampsTheRunThatWroteIt:
     def test_the_manifest_is_written_beside_the_fixtures(
         self, written: Manifest, tmp_path: Path
     ) -> None:
@@ -138,14 +141,100 @@ class TestTheManifestStampsTheRun:
 
         assert stored['entries'][0]['question_id'] == written.entries[0].question_id
 
-    def test_the_manifest_carries_a_capture_date(self, written: Manifest) -> None:
-        assert written.captured_at
+    def test_every_entry_carries_a_capture_date(self, written: Manifest) -> None:
+        assert all(entry.captured_at for entry in written.entries)
 
-    def test_the_manifest_carries_the_tree_it_ran_against(
+    def test_every_entry_carries_the_tree_it_ran_against(
         self, written: Manifest
     ) -> None:
         """A fixture that still parses and no longer matches has only this stamp."""
-        assert written.commit
+        assert all(entry.commit for entry in written.entries)
+
+
+class _FixedDatetime:
+    """A stand-in for `datetime` whose `.now(tz).date().isoformat()` is fixed."""
+
+    def __init__(self, captured_at: str) -> None:
+        self._captured_at = captured_at
+
+    def now(self, tz: object) -> _FixedDatetime:
+        return self
+
+    def date(self) -> _FixedDatetime:
+        return self
+
+    def isoformat(self) -> str:
+        return self._captured_at
+
+
+class TestANarrowedRunMergesRatherThanReplaces:
+    def _capture_stamped(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+        commit: str,
+        captured_at: str,
+        *,
+        out: Path,
+        **kwargs: object,
+    ) -> Manifest:
+        monkeypatch.setattr(capture_module, 'head_commit', lambda: commit)
+        monkeypatch.setattr(capture_module, 'datetime', _FixedDatetime(captured_at))
+        return capture(scripted, out=out, **kwargs)  # type: ignore[arg-type]
+
+    def test_untouched_entries_keep_their_file_and_stamp(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        first = self._capture_stamped(
+            monkeypatch, 'aaaaaaa', '2026-01-01', out=tmp_path
+        )
+        untouched_before = next(
+            entry for entry in first.entries if entry.question_id != CHATBOT.id
+        )
+        untouched_file_before = (tmp_path / untouched_before.file).read_text()
+
+        second = self._capture_stamped(
+            monkeypatch,
+            'bbbbbbb',
+            '2026-02-02',
+            out=tmp_path,
+            questions=[CHATBOT],
+            versions=[CorpusVersion.CONSOLIDATED],
+        )
+
+        untouched_after = next(
+            entry
+            for entry in second.entries
+            if entry.question_id == untouched_before.question_id
+        )
+        assert untouched_after == untouched_before
+        assert (tmp_path / untouched_after.file).read_text() == untouched_file_before
+
+    def test_only_the_recaptured_entry_gets_a_new_stamp(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        self._capture_stamped(monkeypatch, 'aaaaaaa', '2026-01-01', out=tmp_path)
+
+        second = self._capture_stamped(
+            monkeypatch,
+            'bbbbbbb',
+            '2026-02-02',
+            out=tmp_path,
+            questions=[CHATBOT],
+            versions=[CorpusVersion.CONSOLIDATED],
+        )
+
+        recaptured = next(
+            entry
+            for entry in second.entries
+            if entry.question_id == CHATBOT.id
+            and entry.version == CorpusVersion.CONSOLIDATED
+        )
+        untouched = next(
+            entry for entry in second.entries if entry.question_id != CHATBOT.id
+        )
+        assert (recaptured.commit, recaptured.captured_at) == ('bbbbbbb', '2026-02-02')
+        assert (untouched.commit, untouched.captured_at) == ('aaaaaaa', '2026-01-01')
+        assert len(second.entries) == len(QUESTIONS) * len(CorpusVersion)
 
 
 class TestTheGeneratedIndexNamesEveryFixture:

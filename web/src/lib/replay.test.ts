@@ -3,7 +3,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { captures, manifest } from '@/fixtures'
 import { answerSchema } from '@/lib/answer'
 import {
-  capturedOn,
+  capturedOnFor,
   recordedDescriptionFor,
   recordedQuestionIdFor,
   recordedQuestions,
@@ -140,8 +140,38 @@ describe('the committed fixtures', () => {
     ])
   })
 
-  it('stamps the capture with the date it ran', () => {
-    expect(capturedOn).toMatch(/^\d{4}-\d{2}-\d{2}$/)
+  it('stamps a recorded pair with the date its own entry was captured', () => {
+    const entry = manifest.entries[0]
+
+    expect(
+      capturedOnFor(
+        entry.question_id,
+        entry.version as 'original' | 'consolidated',
+      ),
+    ).toBe(entry.captured_at)
+  })
+
+  it('distinguishes the recaptured entry from another entry captured earlier', () => {
+    const recaptured = manifest.entries.find(
+      (entry) =>
+        entry.question_id === 'q01-support-chatbot' &&
+        entry.version === 'consolidated',
+    )
+    const another = manifest.entries.find(
+      (entry) => entry.question_id !== 'q01-support-chatbot',
+    )
+
+    expect(recaptured?.captured_at).not.toBe(another?.captured_at)
+  })
+
+  it('falls back to the most recent stamp when no pair is named', () => {
+    const latest = manifest.entries.reduce(
+      (latestDate, entry) =>
+        entry.captured_at > latestDate ? entry.captured_at : latestDate,
+      manifest.entries[0].captured_at,
+    )
+
+    expect(capturedOnFor(null, null)).toBe(latest)
   })
 })
 

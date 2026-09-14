@@ -14,13 +14,19 @@ stage that produced it, and hand-editing one turns a recording into an
 invention, which is the failure `web/e2e/capture-states.ts` shipped and this
 module exists to retire.
 
-## Why the manifest carries a commit and a date
+## Why each entry carries a commit and a date
 
 A stale fixture fails loudly on the schema and quietly on the content. A field
 added to the Pydantic models makes every committed fixture fail to parse, which
 a test catches. A fixture that still parses and no longer matches what the
 pipeline says looks exactly like a fresh one, and nothing but the stamp says
 when it was taken and against which tree.
+
+The stamp sits on `Entry` rather than on `Manifest` because a capture run can
+be narrower than the fixture set on disk. A run naming one question and one
+version should not restamp the twenty-three pairs it left untouched, so the
+date and the commit are recorded per entry, at the moment that entry is
+written, and a merge keeps an untouched entry's stamp along with its file.
 """
 
 import json
@@ -68,7 +74,12 @@ be covered over every question and both versions without a model call.
 
 
 class Entry(BaseModel):
-    """One captured answer, and enough about it to find and read it."""
+    """One captured answer, and enough about it to find, read and date it.
+
+    `commit` and `captured_at` are the part a reader cannot derive from the
+    fixture file. The answer object describes what the pipeline said, and
+    nothing in it says which tree said it or when.
+    """
 
     model_config = ConfigDict(frozen=True)
 
@@ -78,20 +89,15 @@ class Entry(BaseModel):
     version: CorpusVersion
     file: str
     refused: bool
+    commit: str
+    captured_at: str
 
 
 class Manifest(BaseModel):
-    """The recording, and the conditions it was taken under.
-
-    `commit` and `captured_at` are the part a reader cannot derive from the
-    fixtures. Everything in the answer object describes what the pipeline said,
-    and nothing in it says which tree said it.
-    """
+    """The recording: every entry captured, across every run that wrote one."""
 
     model_config = ConfigDict(frozen=True)
 
-    commit: str
-    captured_at: str
     entries: tuple[Entry, ...]
 
 
@@ -165,6 +171,14 @@ export const captures: Record<string, unknown> = {{
 """
 
 
+def _existing_entries(out: Path) -> tuple[Entry, ...]:
+    """Whatever manifest already sits at `out`, or nothing for a fresh directory."""
+    manifest_path = out / MANIFEST_NAME
+    if not manifest_path.exists():
+        return ()
+    return Manifest.model_validate_json(manifest_path.read_text()).entries
+
+
 def capture(
     ask: Asker,
     *,
@@ -184,9 +198,17 @@ def capture(
     deployed build holds one fewer question rather than none at all. The
     absence is visible: a question in the set with no entry beside it did not
     come back.
+
+    A manifest already at `out` is merged rather than replaced: an entry this
+    run recaptures takes the new file and stamp, and every entry this run did
+    not touch keeps its own file and stamp exactly as they stood before.
     """
     out.mkdir(parents=True, exist_ok=True)
-    entries: list[Entry] = []
+    commit = head_commit()
+    captured_at = datetime.now(UTC).date().isoformat()
+    written: dict[tuple[str, CorpusVersion], Entry] = {
+        (entry.question_id, entry.version): entry for entry in _existing_entries(out)
+    }
     for version in versions:
         for question in questions:
             logger.info('capturing %s on %s', question.id, version)
@@ -199,22 +221,19 @@ def capture(
                 continue
             name = fixture_filename(question.id, version)
             (out / name).write_text(answer.model_dump_json(indent=2) + '\n')
-            entries.append(
-                Entry(
-                    question_id=question.id,
-                    description=question.description,
-                    flow=question.flow,
-                    version=version,
-                    file=name,
-                    refused=answer.is_refusal,
-                )
+            written[question.id, version] = Entry(
+                question_id=question.id,
+                description=question.description,
+                flow=question.flow,
+                version=version,
+                file=name,
+                refused=answer.is_refusal,
+                commit=commit,
+                captured_at=captured_at,
             )
 
-    manifest = Manifest(
-        commit=head_commit(),
-        captured_at=datetime.now(UTC).date().isoformat(),
-        entries=tuple(entries),
-    )
+    entries = tuple(written.values())
+    manifest = Manifest(entries=entries)
     (out / MANIFEST_NAME).write_text(
         json.dumps(manifest.model_dump(mode='json'), indent=2) + '\n'
     )

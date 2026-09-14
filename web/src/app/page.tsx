@@ -15,7 +15,7 @@ import { TopBar, TraversalSwitch, VersionToggle } from '@/components/top-bar'
 import { addressSearch, forwardedAskPath, readAddress } from '@/lib/address'
 import { MAXIMUM_DESCRIPTION } from '@/lib/ask'
 import { useAskHandoff } from '@/lib/ask-handoff'
-import { recordedQuestionIdFor, REPLAY_MODE } from '@/lib/replay'
+import { capturedOnFor, recordedQuestionIdFor, REPLAY_MODE } from '@/lib/replay'
 
 /**
  * The composer's placement on the landing page, set from here rather than in
@@ -135,7 +135,9 @@ export default function Home() {
         showTraversal={false}
       />
 
-      {REPLAY_MODE && <ReplayNotice />}
+      {REPLAY_MODE && (
+        <ReplayNotice capturedOn={capturedOnFor(null, null)} specific={false} />
+      )}
 
       <div className={INTRO}>
         <DescriptionForm
