@@ -422,7 +422,20 @@ describe('ActReader', () => {
     })
   })
 
-  it('should hand the picked version back to its caller', async () => {
+  it('should name the text it is showing', () => {
+    render(
+      <ActReader
+        version="consolidated"
+        openId="art_6"
+        onClose={vi.fn()}
+        onVersionChange={vi.fn()}
+      />,
+    )
+
+    expect(screen.getByText('Reading the amended text')).toBeInTheDocument()
+  })
+
+  it('should hand the other text back to its caller from the link', async () => {
     const onVersionChange = vi.fn()
     render(
       <ActReader
@@ -433,8 +446,44 @@ describe('ActReader', () => {
       />,
     )
 
-    await userEvent.click(screen.getByRole('button', { name: 'Original' }))
+    await userEvent.click(
+      screen.getByRole('button', { name: 'Read the original text' }),
+    )
 
     expect(onVersionChange).toHaveBeenCalledWith('original')
+  })
+
+  it('should reach the other text from the keyboard', async () => {
+    const onVersionChange = vi.fn()
+    render(
+      <ActReader
+        docked
+        version="original"
+        openId="art_6"
+        onClose={vi.fn()}
+        onVersionChange={onVersionChange}
+      />,
+    )
+
+    screen.getByRole('button', { name: 'Read the amended text' }).focus()
+    await userEvent.keyboard('{Enter}')
+
+    expect(onVersionChange).toHaveBeenCalledWith('consolidated')
+  })
+
+  it('should draw no version toggle beside the text', () => {
+    render(
+      <ActReader
+        docked
+        version="consolidated"
+        openId="art_6"
+        onClose={vi.fn()}
+        onVersionChange={vi.fn()}
+      />,
+    )
+
+    expect(
+      screen.queryByRole('button', { name: 'Original' }),
+    ).not.toBeInTheDocument()
   })
 })
