@@ -7,7 +7,7 @@
       "version": "original",
       "file": "q01-support-chatbot.original.json",
       "refused": false,
-      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "commit": "5c40a527bf0added27816b531ab50ecd64158b00",
       "captured_at": "2026-09-14"
     },
     {
@@ -17,7 +17,7 @@
       "version": "original",
       "file": "q02-synthetic-voice-agent.original.json",
       "refused": false,
-      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "commit": "5c40a527bf0added27816b531ab50ecd64158b00",
       "captured_at": "2026-09-14"
     },
     {
@@ -27,7 +27,7 @@
       "version": "original",
       "file": "q03-generated-product-images.original.json",
       "refused": false,
-      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "commit": "5c40a527bf0added27816b531ab50ecd64158b00",
       "captured_at": "2026-09-14"
     },
     {
@@ -37,7 +37,7 @@
       "version": "original",
       "file": "q04-cv-screening.original.json",
       "refused": false,
-      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "commit": "5c40a527bf0added27816b531ab50ecd64158b00",
       "captured_at": "2026-09-14"
     },
     {
@@ -47,7 +47,7 @@
       "version": "original",
       "file": "q05-university-admission.original.json",
       "refused": false,
-      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "commit": "5c40a527bf0added27816b531ab50ecd64158b00",
       "captured_at": "2026-09-14"
     },
     {
@@ -57,7 +57,7 @@
       "version": "original",
       "file": "q06-worker-promotion.original.json",
       "refused": false,
-      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "commit": "5c40a527bf0added27816b531ab50ecd64158b00",
       "captured_at": "2026-09-14"
     },
     {
@@ -67,7 +67,7 @@
       "version": "original",
       "file": "q07-retrained-credit-model.original.json",
       "refused": true,
-      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "commit": "5c40a527bf0added27816b531ab50ecd64158b00",
       "captured_at": "2026-09-14"
     },
     {
@@ -77,7 +77,7 @@
       "version": "original",
       "file": "q08-redesigned-interface.original.json",
       "refused": false,
-      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "commit": "5c40a527bf0added27816b531ab50ecd64158b00",
       "captured_at": "2026-09-14"
     },
     {
@@ -87,7 +87,7 @@
       "version": "original",
       "file": "q09-wider-rollout.original.json",
       "refused": false,
-      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "commit": "5c40a527bf0added27816b531ab50ecd64158b00",
       "captured_at": "2026-09-14"
     },
     {
@@ -97,7 +97,7 @@
       "version": "original",
       "file": "q10-high-risk-deadline.original.json",
       "refused": false,
-      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "commit": "5c40a527bf0added27816b531ab50ecd64158b00",
       "captured_at": "2026-09-14"
     },
     {
@@ -106,8 +106,8 @@
       "flow": "version-comparison",
       "version": "original",
       "file": "q11-prohibited-deadline.original.json",
-      "refused": true,
-      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "refused": false,
+      "commit": "5c40a527bf0added27816b531ab50ecd64158b00",
       "captured_at": "2026-09-14"
     },
     {
@@ -117,7 +117,7 @@
       "version": "original",
       "file": "q12-gpai-deadline.original.json",
       "refused": false,
-      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "commit": "5c40a527bf0added27816b531ab50ecd64158b00",
       "captured_at": "2026-09-14"
     },
     {
@@ -127,7 +127,7 @@
       "version": "consolidated",
       "file": "q01-support-chatbot.consolidated.json",
       "refused": false,
-      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "commit": "5c40a527bf0added27816b531ab50ecd64158b00",
       "captured_at": "2026-09-14"
     },
     {
@@ -137,7 +137,7 @@
       "version": "consolidated",
       "file": "q02-synthetic-voice-agent.consolidated.json",
       "refused": false,
-      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "commit": "5c40a527bf0added27816b531ab50ecd64158b00",
       "captured_at": "2026-09-14"
     },
     {
@@ -147,7 +147,7 @@
       "version": "consolidated",
       "file": "q03-generated-product-images.consolidated.json",
       "refused": false,
-      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "commit": "5c40a527bf0added27816b531ab50ecd64158b00",
       "captured_at": "2026-09-14"
     },
     {
@@ -157,7 +157,7 @@
       "version": "consolidated",
       "file": "q04-cv-screening.consolidated.json",
       "refused": false,
-      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "commit": "5c40a527bf0added27816b531ab50ecd64158b00",
       "captured_at": "2026-09-14"
     },
     {
@@ -167,7 +167,7 @@
       "version": "consolidated",
       "file": "q05-university-admission.consolidated.json",
       "refused": true,
-      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "commit": "5c40a527bf0added27816b531ab50ecd64158b00",
       "captured_at": "2026-09-14"
     },
     {
@@ -177,7 +177,7 @@
       "version": "consolidated",
       "file": "q06-worker-promotion.consolidated.json",
       "refused": false,
-      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "commit": "5c40a527bf0added27816b531ab50ecd64158b00",
       "captured_at": "2026-09-14"
     },
     {
@@ -187,7 +187,7 @@
       "version": "consolidated",
       "file": "q07-retrained-credit-model.consolidated.json",
       "refused": false,
-      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "commit": "5c40a527bf0added27816b531ab50ecd64158b00",
       "captured_at": "2026-09-14"
     },
     {
@@ -197,7 +197,7 @@
       "version": "consolidated",
       "file": "q08-redesigned-interface.consolidated.json",
       "refused": true,
-      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "commit": "5c40a527bf0added27816b531ab50ecd64158b00",
       "captured_at": "2026-09-14"
     },
     {
@@ -207,7 +207,7 @@
       "version": "consolidated",
       "file": "q09-wider-rollout.consolidated.json",
       "refused": false,
-      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "commit": "5c40a527bf0added27816b531ab50ecd64158b00",
       "captured_at": "2026-09-14"
     },
     {
@@ -217,7 +217,7 @@
       "version": "consolidated",
       "file": "q10-high-risk-deadline.consolidated.json",
       "refused": false,
-      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "commit": "5c40a527bf0added27816b531ab50ecd64158b00",
       "captured_at": "2026-09-14"
     },
     {
@@ -227,7 +227,7 @@
       "version": "consolidated",
       "file": "q11-prohibited-deadline.consolidated.json",
       "refused": false,
-      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "commit": "5c40a527bf0added27816b531ab50ecd64158b00",
       "captured_at": "2026-09-14"
     },
     {
@@ -237,7 +237,7 @@
       "version": "consolidated",
       "file": "q12-gpai-deadline.consolidated.json",
       "refused": false,
-      "commit": "f19e2a45218a3acb4e31f3cb1ff85b14924afb29",
+      "commit": "5c40a527bf0added27816b531ab50ecd64158b00",
       "captured_at": "2026-09-14"
     }
   ]

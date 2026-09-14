@@ -388,7 +388,7 @@
     "truncated": false,
     "prompt_tokens": 14905,
     "completion_tokens": 3278,
-    "duration_ms": 30563,
+    "duration_ms": 30665,
     "model": "annex-qwen3-27b"
   }
 }

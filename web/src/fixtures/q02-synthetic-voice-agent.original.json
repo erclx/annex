@@ -3,7 +3,7 @@
   "version": "original",
   "claims": [
     {
-      "statement": "The system phones customers and interacts directly with natural persons, so it must be read against Article 50(1), which requires that those persons are informed they are interacting with an AI system unless this is obvious from the point of view of a natural person who is reasonably well-informed, observant and circumspect",
+      "statement": "The system is an AI system intended to interact directly with natural persons (customers on a phone call), engaging Article 50(1)'s requirement that those persons be informed they are interacting with an AI system unless this is obvious to a reasonably well-informed, observant and circumspect person",
       "citations": [
         {
           "provision_id": "art_50.1",
@@ -17,7 +17,7 @@
       ]
     },
     {
-      "statement": "The system speaks in a synthesized voice, generating synthetic audio content, so it must be read against Article 50(2), which requires that outputs be marked in a machine-readable format and detectable as artificially generated or manipulated, subject to the exception where the system performs an assistive function for standard editing or does not substantially alter the input data or its semantics",
+      "statement": "The system generates synthetic audio content (a synthesized voice), engaging Article 50(2)'s requirement that the provider ensure outputs are marked in a machine-readable format and detectable as artificially generated, subject to the exception where the system performs an assistive function for standard editing or does not substantially alter the deployer's input data or its semantics",
       "citations": [
         {
           "provision_id": "art_50.2",
@@ -31,7 +31,7 @@
       ]
     },
     {
-      "statement": "The information required under Article 50(1) and 50(2) must be provided to the natural persons concerned in a clear and distinguishable manner at the latest at the time of the first interaction or exposure, and shall conform to applicable accessibility requirements",
+      "statement": "Article 50(5) requires that the information owed under paragraphs 1 to 4 be provided to the natural persons concerned in a clear and distinguishable manner at the latest at the time of the first interaction, and that it conform to applicable accessibility requirements",
       "citations": [
         {
           "provision_id": "art_50.5",
@@ -45,16 +45,30 @@
       ]
     },
     {
-      "statement": "Recital 132 states that natural persons should be notified when interacting with AI systems and that, in implementing that obligation, the characteristics of natural persons belonging to vulnerable groups due to their age or disability should be taken into account",
+      "statement": "These obligations sit within Chapter IV, which sets out the transparency obligations for providers and deployers of certain AI systems",
       "citations": [
         {
-          "provision_id": "rct_132",
-          "citation": "Recital 132",
+          "provision_id": "chp_IV",
+          "citation": "Chapter IV",
+          "kind": "chapter",
+          "version": "original",
+          "text": "CHAPTER IV TRANSPARENCY OBLIGATIONS FOR PROVIDERS AND DEPLOYERS OF CERTAIN AI SYSTEMS",
+          "changed": false,
+          "change_note": null
+        }
+      ]
+    },
+    {
+      "statement": "Recital 133 clarifies that the marking obligation for synthetic content may be implemented through watermarks, metadata identifications, cryptographic methods, logging, fingerprints or other techniques, and that it does not extend to systems performing primarily an assistive function for standard editing or not substantially altering the deployer's input data or its semantics",
+      "citations": [
+        {
+          "provision_id": "rct_133",
+          "citation": "Recital 133",
           "kind": "recital",
           "version": "original",
-          "text": "(132) Certain AI systems intended to interact with natural persons or to generate content may pose specific risks of impersonation or deception irrespective of whether they qualify as high-risk or not. In certain circumstances, the use of these systems should therefore be subject to specific transparency obligations without prejudice to the requirements and obligations for high-risk AI systems and subject to targeted exceptions to take into account the special need of law enforcement. In particular, natural persons should be notified that they are interacting with an AI system, unless this is obvious from the point of view of a natural person who is reasonably well-informed, observant and circumspect taking into account the circumstances and the context of use. When implementing that obligation, the characteristics of natural persons belonging to vulnerable groups due to their age or disability should be taken into account to the extent the AI system is intended to interact with those groups as well. Moreover, natural persons should be notified when they are exposed to AI systems that, by processing their biometric data, can identify or infer the emotions or intentions of those persons or assign them to specific categories. Such specific categories can relate to aspects such as sex, age, hair colour, eye colour, tattoos, personal traits, ethnic origin, personal preferences and interests. Such information and notifications should be provided in accessible formats for persons with disabilities.",
+          "text": "(133) A variety of AI systems can generate large quantities of synthetic content that becomes increasingly hard for humans to distinguish from human-generated and authentic content. The wide availability and increasing capabilities of those systems have a significant impact on the integrity and trust in the information ecosystem, raising new risks of misinformation and manipulation at scale, fraud, impersonation and consumer deception. In light of those impacts, the fast technological pace and the need for new methods and techniques to trace origin of information, it is appropriate to require providers of those systems to embed technical solutions that enable marking in a machine readable format and detection that the output has been generated or manipulated by an AI system and not a human. Such techniques and methods should be sufficiently reliable, interoperable, effective and robust as far as this is technically feasible, taking into account available techniques or a combination of such techniques, such as watermarks, metadata identifications, cryptographic methods for proving provenance and authenticity of content, logging methods, fingerprints or other techniques, as may be appropriate. When implementing this obligation, providers should also take into account the specificities and the limitations of the different types of content and the relevant technological and market developments in the field, as reflected in the generally acknowledged state of the art. Such techniques and methods can be implemented at the level of the AI system or at the level of the AI model, including general-purpose AI models generating content, thereby facilitating fulfilment of this obligation by the downstream provider of the AI system. To remain proportionate, it is appropriate to envisage that this marking obligation should not cover AI systems performing primarily an assistive function for standard editing or AI systems not substantially altering the input data provided by the deployer or the semantics thereof.",
           "changed": true,
-          "change_note": "Recital 132 appears in the original text and not in the consolidated text."
+          "change_note": "Recital 133 appears in the original text and not in the consolidated text."
         }
       ]
     }
@@ -72,68 +86,40 @@
       "art_50.5",
       "rct_29",
       "rct_72",
-      "rct_120",
-      "art_13.1"
+      "chp_IV",
+      "rct_120"
     ],
     "traversed_ids": [
-      "art_13",
       "art_50",
-      "art_12",
-      "art_14",
-      "art_15",
       "art_56",
       "art_56.6",
-      "art_9",
-      "art_9.2",
       "art_98",
       "art_98.2",
-      "anx_III",
-      "art_14.5",
-      "art_26",
-      "art_26.5",
       "art_53",
       "art_53.1",
-      "art_55",
-      "art_60",
-      "art_72",
-      "art_79",
-      "art_79.1"
+      "art_55"
     ],
-    "dropped_ids": ["rct_133", "rct_137", "rct_29", "rct_72", "rct_120"],
+    "dropped_ids": [],
     "uncited_ids": [
-      "art_13.1",
-      "art_13",
       "art_50",
-      "art_12",
-      "art_14",
-      "art_15",
       "art_56",
       "art_56.6",
-      "art_9",
-      "art_9.2",
       "art_98",
       "art_98.2",
-      "art_14.5",
-      "art_26",
-      "art_26.5",
       "art_53",
       "art_53.1",
       "art_55",
-      "art_60",
-      "art_72",
-      "art_79",
-      "art_79.1",
-      "rct_134"
+      "rct_134",
+      "rct_132",
+      "rct_137",
+      "rct_29",
+      "rct_72",
+      "rct_120"
     ],
     "edges": [
       {
         "source_id": "art_50.2",
         "target_id": "art_50",
-        "hop": 0
-      },
-      {
-        "source_id": "art_13.1",
-        "target_id": "art_13",
         "hop": 0
       },
       {
@@ -157,31 +143,6 @@
         "hop": 1
       },
       {
-        "source_id": "art_13",
-        "target_id": "art_15",
-        "hop": 1
-      },
-      {
-        "source_id": "art_13",
-        "target_id": "art_9.2",
-        "hop": 1
-      },
-      {
-        "source_id": "art_13",
-        "target_id": "art_9",
-        "hop": 1
-      },
-      {
-        "source_id": "art_13",
-        "target_id": "art_14",
-        "hop": 1
-      },
-      {
-        "source_id": "art_13",
-        "target_id": "art_12",
-        "hop": 1
-      },
-      {
         "source_id": "art_56",
         "target_id": "art_53",
         "hop": 2
@@ -195,53 +156,13 @@
         "source_id": "art_56",
         "target_id": "art_53.1",
         "hop": 2
-      },
-      {
-        "source_id": "art_9",
-        "target_id": "art_72",
-        "hop": 2
-      },
-      {
-        "source_id": "art_9",
-        "target_id": "art_60",
-        "hop": 2
-      },
-      {
-        "source_id": "art_14",
-        "target_id": "anx_III",
-        "hop": 2
-      },
-      {
-        "source_id": "art_12",
-        "target_id": "art_79.1",
-        "hop": 2
-      },
-      {
-        "source_id": "art_12",
-        "target_id": "art_79",
-        "hop": 2
-      },
-      {
-        "source_id": "art_12",
-        "target_id": "art_26.5",
-        "hop": 2
-      },
-      {
-        "source_id": "art_12",
-        "target_id": "art_26",
-        "hop": 2
-      },
-      {
-        "source_id": "art_12",
-        "target_id": "art_14.5",
-        "hop": 2
       }
     ],
     "traversal_enabled": true,
     "truncated": false,
-    "prompt_tokens": 14267,
-    "completion_tokens": 5127,
-    "duration_ms": 47003,
+    "prompt_tokens": 6711,
+    "completion_tokens": 3445,
+    "duration_ms": 29649,
     "model": "annex-qwen3-27b"
   }
 }

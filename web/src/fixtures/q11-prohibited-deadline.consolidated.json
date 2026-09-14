@@ -3,7 +3,21 @@
   "version": "consolidated",
   "claims": [
     {
-      "statement": "Article 5(1), first subparagraph, points (ba) and (bb), and Article 5(1a) and (1b) are excepted from that earlier date and apply from 2 December 2026",
+      "statement": "Chapter II of the Regulation is titled \"PROHIBITED AI PRACTICES\"",
+      "citations": [
+        {
+          "provision_id": "chp_II",
+          "citation": "Chapter II",
+          "kind": "chapter",
+          "version": "consolidated",
+          "text": "CHAPTER II PROHIBITED AI PRACTICES",
+          "changed": false,
+          "change_note": null
+        }
+      ]
+    },
+    {
+      "statement": "Chapters I and II shall apply from 2 February 2025",
       "citations": [
         {
           "provision_id": "art_113",
@@ -17,7 +31,21 @@
       ]
     },
     {
-      "statement": "Non-compliance with the Article 5 prohibitions is subject to administrative fines of up to EUR 35 000 000 or, if the offender is an undertaking, up to 7 % of its total worldwide annual turnover for the preceding financial year, whichever is higher",
+      "statement": "By exception, Article 5(1), first subparagraph, points (ba) and (bb), and Article 5(1a) and (1b) shall apply from 2 December 2026",
+      "citations": [
+        {
+          "provision_id": "art_113",
+          "citation": "Article 113",
+          "kind": "article",
+          "version": "consolidated",
+          "text": "Article 113 Entry into force and application This Regulation shall enter into force on the twentieth day following that of its publication in the Official Journal of the European Union. It shall apply from 2 August 2026. However: (a) Chapters I and II shall apply from 2 February 2025, with the exception of Article 5(1), first subparagraph, points (ba) and (bb), and Article 5(1a) and (1b) which shall apply from 2 December 2026; (b) Chapter III Section 4, Chapter V, Chapter VII and Chapter XII and Article 78 shall apply from 2 August 2025, with the exception of Article 101; (c) Chapter III, Sections 1, 2, and 3, with the exception of Article 6(5), shall apply from: (i) 2 December 2027 as regards AI systems classified as high-risk pursuant to Article 6(2) and Annex III; and (ii) 2 August 2028 as regards AI systems classified as high-risk pursuant to Article 6(1) and Annex I; (d) Articles 102 to 110 shall apply from 27 July 2026. This Regulation shall be binding in its entirety and directly applicable in all Member States.",
+          "changed": true,
+          "change_note": "The wording of Article 113 differs between the original and the consolidated text."
+        }
+      ]
+    },
+    {
+      "statement": "Non-compliance with the prohibition of the AI practices referred to in Article 5 is subject to administrative fines of up to EUR 35 000 000 or, for an undertaking, up to 7 % of its total worldwide annual turnover for the preceding financial year, whichever is higher",
       "citations": [
         {
           "provision_id": "art_99.3",
@@ -29,26 +57,13 @@
           "change_note": null
         }
       ]
-    },
-    {
-      "statement": "Article 5(8) provides that the prohibitions in that Article do not affect the prohibitions that apply where an AI practice infringes other Union law",
-      "citations": [
-        {
-          "provision_id": "art_5.8",
-          "citation": "Article 5(8)",
-          "kind": "paragraph",
-          "version": "consolidated",
-          "text": "8. This Article shall not affect the prohibitions that apply where an AI practice infringes other Union law.",
-          "changed": false,
-          "change_note": null
-        }
-      ]
     }
   ],
   "refusal": null,
   "retrieval": {
     "searched_ids": [
       "art_99.3",
+      "chp_II",
       "art_5.8",
       "art_113",
       "art_111.3",
@@ -58,12 +73,10 @@
       "art_111.2",
       "art_111.4",
       "art_75c.8",
-      "art_5.1",
-      "art_101.3"
+      "art_5.1"
     ],
     "traversed_ids": [
       "art_100",
-      "art_101",
       "art_111",
       "art_5",
       "art_75c",
@@ -72,6 +85,7 @@
       "anx_II",
       "anx_III",
       "anx_X",
+      "art_101",
       "art_102",
       "art_103",
       "art_104",
@@ -99,9 +113,9 @@
       "art_49",
       "art_50",
       "art_50.2",
-      "art_56",
       "art_6",
-      "art_6.1"
+      "art_6.1",
+      "art_6.2"
     ],
     "dropped_ids": [
       "art_16",
@@ -120,11 +134,12 @@
       "art_49",
       "art_50",
       "art_50.2",
-      "art_56",
       "art_6",
-      "art_6.1"
+      "art_6.1",
+      "art_6.2"
     ],
     "uncited_ids": [
+      "art_5.8",
       "art_111.3",
       "art_111.1",
       "art_5.1a",
@@ -132,17 +147,15 @@
       "art_111.4",
       "art_75c.8",
       "art_5.1",
-      "art_101.3",
       "art_100",
-      "art_101",
       "art_111",
-      "art_5",
       "art_75c",
       "art_99",
       "anx_I",
       "anx_II",
       "anx_III",
       "anx_X",
+      "art_101",
       "art_102",
       "art_103",
       "art_104",
@@ -182,13 +195,18 @@
         "hop": 0
       },
       {
-        "source_id": "art_101.3",
+        "source_id": "art_113",
         "target_id": "art_101",
-        "hop": 0
+        "hop": 1
       },
       {
         "source_id": "art_113",
         "target_id": "art_6",
+        "hop": 1
+      },
+      {
+        "source_id": "art_113",
+        "target_id": "art_6.2",
         "hop": 1
       },
       {
@@ -350,18 +368,13 @@
         "source_id": "art_75c",
         "target_id": "art_14",
         "hop": 1
-      },
-      {
-        "source_id": "art_101",
-        "target_id": "art_56",
-        "hop": 1
       }
     ],
     "traversal_enabled": true,
     "truncated": false,
-    "prompt_tokens": 17520,
-    "completion_tokens": 2545,
-    "duration_ms": 25548,
+    "prompt_tokens": 17503,
+    "completion_tokens": 1528,
+    "duration_ms": 18917,
     "model": "annex-qwen3-27b"
   }
 }
