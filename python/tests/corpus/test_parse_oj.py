@@ -120,3 +120,39 @@ class TestProvisionsStopBeforeADivisionHeading:
 
         assert paragraph is not None
         assert 'SECTION' not in paragraph.text
+
+
+class TestChaptersAreAddressable:
+    def test_parses_thirteen_chapters(self, original: Corpus) -> None:
+        assert len(original.of_kind(ProvisionKind.CHAPTER)) == 13
+
+    def test_a_chapter_carries_the_heading_it_cost_the_article_before_it(
+        self, original: Corpus
+    ) -> None:
+        chapter = original.get('chp_II')
+
+        assert chapter is not None
+        assert chapter.text == 'CHAPTER II PROHIBITED AI PRACTICES'
+        assert chapter.citation == 'Chapter II'
+
+    def test_article_five_sits_under_chapter_two(self, original: Corpus) -> None:
+        article = original.get('art_5')
+
+        assert article is not None
+        assert article.chapter_id == 'chp_II'
+
+    def test_a_paragraph_carries_its_article_own_chapter(
+        self, original: Corpus
+    ) -> None:
+        paragraph = original.get('art_5.1')
+
+        assert paragraph is not None
+        assert paragraph.chapter_id == 'chp_II'
+
+    def test_article_one_hundred_and_thirteen_sits_under_the_final_chapter(
+        self, original: Corpus
+    ) -> None:
+        article = original.get('art_113')
+
+        assert article is not None
+        assert article.chapter_id == 'chp_XIII'

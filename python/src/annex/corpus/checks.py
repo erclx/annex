@@ -11,9 +11,11 @@ the run still reported a clean parse.
 Three further properties are checked independently of any count: no
 provision's text or title carries a consolidation marker, no article carries
 the signature block the Official Journal document appends after the last one,
-and no provision's text carries a chapter or section heading. All three are
-ingest defects a count cannot see, since the offending text lands inside a
-provision the count already expects to exist.
+and no article or paragraph carries a chapter or section heading. All three
+are ingest defects a count cannot see, since the offending text lands inside a
+provision the count already expects to exist. The third is narrower than a
+provision's whole text: a chapter provision's own text is the heading, quoted
+rather than leaked.
 """
 
 import re
@@ -36,6 +38,7 @@ def _structure_disagreements(corpus: Corpus) -> list[str]:
         (ProvisionKind.ANNEX, 'annexes', source.annexes),
         (ProvisionKind.RECITAL, 'recitals', source.recitals),
         (ProvisionKind.PARAGRAPH, 'paragraphs', source.paragraphs),
+        (ProvisionKind.CHAPTER, 'chapters', source.chapters),
     )
     return [
         f'{corpus.version}: expected {count} {label}, parsed {len(corpus.of_kind(kind))}'
@@ -64,7 +67,8 @@ def _heading_disagreements(corpus: Corpus) -> list[str]:
     return [
         f'{corpus.version}: {provision.id} carries a division heading'
         for provision in corpus.provisions
-        if _DIVISION_HEADING.search(provision.text)
+        if provision.kind in (ProvisionKind.ARTICLE, ProvisionKind.PARAGRAPH)
+        and _DIVISION_HEADING.search(provision.text)
     ]
 
 

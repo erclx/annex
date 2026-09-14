@@ -10,6 +10,11 @@ Journal's signature block and footnotes inside the article. Article 113 is
 535 characters once that text is gone, so it no longer overflows the budget
 and the original's chunk count is 714.
 
+`feature-cut-provisions-at-headings` moved both again, to 725 and 598: a
+chapter heading is now its own addressable provision, one per chapter, carrying
+no paragraph of its own, so `chunk()`'s existing rule embeds each of the 13
+whole rather than needing a rule written for it.
+
 Token counts are not asserted here. The embedder is the only tokenizer Ollama
 exposes, so the real check needs the model up, and it lives in
 `test_chunk_tokens.py` where it can be skipped rather than faked.
@@ -25,14 +30,14 @@ class TestCoverage:
     def test_the_original_covers_every_addressable_unit(self, original: Corpus) -> None:
         chunks = chunk(original)
 
-        assert len(source_provisions(chunks)) == 712
+        assert len(source_provisions(chunks)) == 725
 
     def test_the_consolidated_covers_every_addressable_unit(
         self, consolidated: Corpus
     ) -> None:
         chunks = chunk(consolidated)
 
-        assert len(source_provisions(chunks)) == 585
+        assert len(source_provisions(chunks)) == 598
 
     def test_an_article_with_paragraphs_is_covered_by_them(
         self, original: Corpus

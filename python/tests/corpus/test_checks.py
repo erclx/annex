@@ -57,6 +57,13 @@ class TestDisagreements:
 
         assert any('expected 119 articles, parsed 113' in line for line in found)
 
+    def test_a_parse_with_no_chapters_is_reported(self) -> None:
+        corpus = make_corpus(CorpusVersion.ORIGINAL, articles=113)
+
+        found = disagreements(corpus)
+
+        assert any('expected 13 chapters, parsed 0' in line for line in found)
+
 
 class TestParagraphs:
     def test_a_parse_that_dropped_its_paragraphs_is_reported(self) -> None:
@@ -190,6 +197,25 @@ class TestNoDivisionHeadingInAnyProvision:
                     number='6',
                     title='',
                     text='The obligations set out in Chapter III, Section 2 apply.',
+                    version=CorpusVersion.ORIGINAL,
+                ),
+            ),
+        )
+
+        found = disagreements(corpus)
+
+        assert not [line for line in found if 'heading' in line]
+
+    def test_a_chapter_provision_carrying_its_own_heading_is_not_reported(self) -> None:
+        corpus = Corpus(
+            version=CorpusVersion.ORIGINAL,
+            provisions=(
+                Provision(
+                    id='chp_V',
+                    kind=ProvisionKind.CHAPTER,
+                    number='V',
+                    title='GENERAL-PURPOSE AI MODELS',
+                    text='CHAPTER V GENERAL-PURPOSE AI MODELS',
                     version=CorpusVersion.ORIGINAL,
                 ),
             ),

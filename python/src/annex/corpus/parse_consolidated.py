@@ -19,11 +19,14 @@ from annex.corpus.sources import CONSOLIDATED, CorpusVersion
 ARTICLE_HEADINGS = '//p[@class="title-article-norm"]'
 ARTICLE_SUBTITLES = '//p[@class="stitle-article-norm"]'
 DIVISION_HEADINGS = '//p[starts-with(@class,"title-division-")]'
+CHAPTER_HEADINGS = '//p[@class="title-division-1"]'
+CHAPTER_TITLES = '//p[@class="title-division-2"]'
 PARAGRAPH_LABELS = './/span[@class="no-parag"]'
 ANNEX_ANCHORS = '//*[starts-with(@id,"anx_")]'
 ANNEX_TITLE_LINES = './/p[starts-with(@class,"title-annex-")]'
 
 _ARTICLE_NUMBER = re.compile(r'Article\s+(\d+[a-z]?)')
+_CHAPTER_NUMBER = re.compile(r'^CHAPTER\s+([IVXLC]+)$')
 _LABEL = re.compile(r'^(\d+[a-z]?)\.?$')
 _MARKER_TEXT = re.compile(r'▼(?:M\d+|B)\s*—*')
 _STRAY_QUOTE = re.compile(r'[`\'"]+$')
@@ -86,6 +89,7 @@ def _paragraphs(
     start: int,
     end: int,
     amendments: AmendmentSpans,
+    chapter_id: str | None,
 ) -> list[Provision]:
     inside = [label for label in labels if start <= index.start_of(label) < end]
     provisions: list[Provision] = []
@@ -104,9 +108,57 @@ def _paragraphs(
                 version=CorpusVersion.CONSOLIDATED,
                 parent_id=article_id,
                 amended=amendments.at(label_start),
+                chapter_id=chapter_id,
             )
         )
     return provisions
+
+
+def _chapters(
+    index: TextIndex,
+    headings: list[HtmlElement],
+    titles: list[HtmlElement],
+    end: int,
+) -> tuple[list[Provision], list[tuple[int, str]]]:
+    """Chapter provisions and their start offsets, in document order.
+
+    `headings` carries every `title-division-1` line, chapter and section
+    numbers alike, since the two share one class in this markup. Filtering to
+    `CHAPTER` happens here rather than at the xpath, so the offsets returned
+    stay paired to the provisions they came from.
+    """
+    provisions: list[Provision] = []
+    starts: list[tuple[int, str]] = []
+    for heading, start, chapter_end in spans(index, headings, end=end):
+        match = _CHAPTER_NUMBER.match(_clean(heading.text_content()))
+        if match is None:
+            continue
+        numeral = match.group(1)
+        chapter_id = f'chp_{numeral}'
+        title = _subtitle_for(index, titles, start, chapter_end)
+        text = f'CHAPTER {numeral} {title}' if title else f'CHAPTER {numeral}'
+        provisions.append(
+            Provision(
+                id=chapter_id,
+                kind=ProvisionKind.CHAPTER,
+                number=numeral,
+                title=title,
+                text=_clean(text),
+                version=CorpusVersion.CONSOLIDATED,
+            )
+        )
+        starts.append((start, chapter_id))
+    return provisions, starts
+
+
+def _chapter_at(chapter_starts: list[tuple[int, str]], position: int) -> str | None:
+    """The id of the last chapter beginning at or before position, if any."""
+    result = None
+    for offset, chapter_id in chapter_starts:
+        if offset > position:
+            break
+        result = chapter_id
+    return result
 
 
 def _annexes(index: TextIndex, root: HtmlElement) -> list[Provision]:
@@ -134,6 +186,8 @@ def parse(document: bytes) -> Corpus:
     headings = root.xpath(ARTICLE_HEADINGS)
     subtitles = root.xpath(ARTICLE_SUBTITLES)
     divisions = root.xpath(DIVISION_HEADINGS)
+    chapter_headings = root.xpath(CHAPTER_HEADINGS)
+    chapter_titles = root.xpath(CHAPTER_TITLES)
     labels = root.xpath(PARAGRAPH_LABELS)
     amendments = read_amendments(index, root)
     annexes = root.xpath(ANNEX_ANCHORS)
@@ -148,7 +202,11 @@ def parse(document: bytes) -> Corpus:
         if index.start_of(division) < first_annex
     ]
 
-    provisions: list[Provision] = []
+    chapters, chapter_starts = _chapters(
+        index, chapter_headings, chapter_titles, first_annex
+    )
+
+    provisions: list[Provision] = list(chapters)
     for heading, start, end in spans(
         index, headings, end=first_annex, stops=division_offsets
     ):
@@ -157,6 +215,7 @@ def parse(document: bytes) -> Corpus:
             continue
         article_id = f'art_{number}'
         amended = amendments.any_between(start, end) or amendments.at(start)
+        chapter_id = _chapter_at(chapter_starts, start)
         provisions.append(
             Provision(
                 id=article_id,
@@ -166,10 +225,11 @@ def parse(document: bytes) -> Corpus:
                 text=_clean(index.slice(start, end)),
                 version=CorpusVersion.CONSOLIDATED,
                 amended=amended,
+                chapter_id=chapter_id,
             )
         )
         provisions.extend(
-            _paragraphs(index, article_id, labels, start, end, amendments)
+            _paragraphs(index, article_id, labels, start, end, amendments, chapter_id)
         )
 
     provisions.extend(_annexes(index, root))

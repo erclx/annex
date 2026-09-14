@@ -64,6 +64,7 @@ def _ingest(refresh: bool) -> int:
                 (ProvisionKind.ANNEX, 'annexes'),
                 (ProvisionKind.RECITAL, 'recitals'),
                 (ProvisionKind.PARAGRAPH, 'paragraphs'),
+                (ProvisionKind.CHAPTER, 'chapters'),
             )
         )
         found = disagreements(corpus)
