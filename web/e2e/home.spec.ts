@@ -553,12 +553,17 @@ test('a recorded question card answers hover by changing its border', async ({
 })
 
 /**
- * How far the pipeline's bracket sits from the widest stage text, in pixels.
+ * How far the rail's bracket sits from the widest stage text, in pixels.
  *
  * Every stage row sits in the rail's second grid column, so the widest of those
  * is where the stage text ends. The column is read off the computed style
  * rather than the `style` attribute, because the server writes that attribute
  * as `grid-column:2` with no space and hydration leaves it as written.
+ *
+ * The figure carries both drawings in the DOM at every width, one hidden by
+ * a `hidden @min-[657px]:...` class pair per `pipeline-diagram.tsx`, so this
+ * reads the visible wrapper's own grid rather than the figure's first child,
+ * which is a wrapper div rather than the grid itself.
  *
  * Measured on the landing page, where the figure is a section of its own.
  */
@@ -567,11 +572,14 @@ async function bracketGap(page: Page): Promise<number> {
   await expect(rail).toBeVisible()
 
   return rail.evaluate((figure) => {
-    const grid = figure.firstElementChild
+    const wrapper = [...figure.children].find(
+      (child) => getComputedStyle(child).display !== 'none',
+    )
+    const grid = wrapper?.firstElementChild
     const stageRights = [...(grid?.children ?? [])]
       .filter((child) => getComputedStyle(child).gridColumnStart === '2')
       .map((stage) => stage.getBoundingClientRect().right)
-    const bracket = figure.querySelector('svg')
+    const bracket = wrapper?.querySelector('svg')
     return (
       (bracket?.getBoundingClientRect().left ?? Infinity) -
       Math.max(...stageRights)
