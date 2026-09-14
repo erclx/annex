@@ -123,14 +123,15 @@ test('the version toggle re-asks against the other text', async ({ page }) => {
     timeout: PLAYBACK_TIMEOUT,
   })
 
-  // Scoped to the top bar, since the docked Act carries its own version toggle,
-  // which reads the other text without re-asking.
-  const topBar = page.getByRole('banner')
-  await topBar.getByRole('button', { name: 'Original' }).click()
+  // Scoped to the described-system card, the one place the version toggle
+  // renders once an answer is on screen.
+  const card = page.getByRole('region', { name: 'The system you described' })
+  await card.getByRole('button', { name: 'Original' }).click()
 
-  await expect(
-    topBar.getByRole('button', { name: 'Original' }),
-  ).toHaveAttribute('aria-pressed', 'true')
+  await expect(card.getByRole('button', { name: 'Original' })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  )
   await expect(page.getByRole('contentinfo')).toBeVisible()
 })
 
@@ -149,30 +150,28 @@ test.describe('the top of the page at 400 pixels', () => {
     await page.evaluate(() => document.fonts.ready)
 
     const heading = await page
-      .getByRole('heading', { name: /Describe what you are building/ })
+      .getByRole('heading', { name: /Describe your AI system/ })
       .boundingBox()
     const input = await page.getByLabel('Describe your system').boundingBox()
 
-    // Measured on the built export at 119 and 391 pixels. The input sits under
+    // Measured on the built export at 119 and 381 pixels. The input sits under
     // the full supporting paragraph, which carries the sentence saying the
     // page gives no compliance verdict, so it cannot be shortened to move it.
     expect(heading?.y ?? Infinity).toBeLessThanOrEqual(140)
     expect(input?.y ?? Infinity).toBeLessThanOrEqual(420)
   })
 
-  test('the version and traversal choices sit under the description', async ({
+  test('the version and traversal choices sit in the composer', async ({
     page,
   }) => {
     await page.goto(REPLAY_URL)
 
+    const composer = page.getByTestId('composer')
     await expect(
-      page
-        .getByRole('banner')
-        .getByRole('group', { name: 'Which text to read against' }),
-    ).toHaveCount(0)
-    await expect(
-      page.getByRole('group', { name: 'Which text to read against' }),
+      composer.getByRole('group', { name: 'Which text to read against' }),
     ).toBeVisible()
+    await expect(composer.getByText('Recorded with traversal on')).toBeVisible()
+    await expect(page.getByRole('banner').getByRole('switch')).toHaveCount(0)
   })
 
   test('the recording band shortens to one line with its details a tap away', async ({
@@ -218,6 +217,7 @@ test.describe('an answer carried in the address', () => {
     await expect(page.getByText(linked.description).first()).toBeVisible()
     await expect(
       page
+        .getByRole('region', { name: 'The system you described' })
         .getByRole('group', { name: 'Which text to read against' })
         .getByRole('button', { name: 'Original' }),
     ).toHaveAttribute('aria-pressed', 'true')

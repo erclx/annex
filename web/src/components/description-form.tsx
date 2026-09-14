@@ -24,9 +24,10 @@ const ERROR_COPY: Record<DescriptionError, string> = {
  * front of a visitor who had not asked anything yet, which the operator's
  * first-use pass recorded as F6.
  *
- * `choices` is the version and traversal row the page places here below 1024
- * pixels before anything is asked, directly under the description where the
- * choice is made, rather than in a top bar that holds only the brand there.
+ * `choices` is the version and traversal row, held in the composer's footer at
+ * every width beside the send action, so the choice is made in the same box as
+ * the description it applies to. The operator's second-use pass picked that
+ * composer over a plain field with the choices outside it.
  */
 export function DescriptionForm({
   description,
@@ -54,57 +55,63 @@ export function DescriptionForm({
       }}
     >
       <h1 className="m-0 max-w-[34ch] text-[26px] leading-[1.35] font-semibold text-ink">
-        Describe what you are building. You get back the articles you have to
+        Describe your AI system. Get back the articles of the AI Act you need to
         read.
       </h1>
 
       <p className="m-0 max-w-[62ch] text-[14px] leading-[1.6] text-muted">
-        Plain language is enough. Annex reports which provisions apply and
-        quotes them, against your choice of the original text or the text as
-        amended on 27 July 2026. Every claim carries the article text it came
-        from, so you check the answer rather than trust it. It does not tell you
-        whether you comply.
+        Write it the way you&apos;d explain it to a colleague. Annex finds the
+        provisions that apply and quotes each one, so you can check every claim
+        against the law itself. Read against the Act as published or as amended
+        on 27 July 2026. It won&apos;t tell you whether you comply.
       </p>
 
-      <div className="flex max-w-[62ch] flex-col gap-2">
-        <label htmlFor="description" className="sr-only">
-          Describe your system
-        </label>
-        <textarea
-          id="description"
-          value={description}
-          rows={3}
-          onChange={(event) => {
-            onDescriptionChange(event.target.value)
-          }}
-          aria-invalid={isInvalid}
-          aria-describedby={isInvalid ? 'description-error' : undefined}
-          placeholder="A customer-service chatbot that also scores loan applications…"
-          className={`rounded-lg border bg-surface px-[13px] py-[11px] text-[14px] leading-[1.6] text-ink placeholder:text-muted ${
+      <div className="flex flex-col gap-2">
+        <div
+          data-testid="composer"
+          className={`flex flex-col gap-3 rounded-[14px] border bg-surface px-4 pt-3 pb-3 shadow-[0_1px_2px_rgb(0_0_0/0.04)] ${
             isInvalid ? 'border-error' : 'border-rule'
           }`}
-        />
+        >
+          <label htmlFor="description" className="sr-only">
+            Describe your system
+          </label>
+          <textarea
+            id="description"
+            value={description}
+            rows={3}
+            onChange={(event) => {
+              onDescriptionChange(event.target.value)
+            }}
+            aria-invalid={isInvalid}
+            aria-describedby={isInvalid ? 'description-error' : undefined}
+            placeholder="A customer-service chatbot that also scores loan applications…"
+            className="w-full resize-none bg-transparent text-[14px] leading-[1.6] text-ink placeholder:text-muted"
+          />
+
+          <div className="flex flex-col items-start gap-x-3 gap-y-2 lg:flex-row lg:flex-wrap lg:items-center">
+            {choices}
+
+            {/* Live until a submit has been tried, and held inactive while the
+                message is showing, which is where the wireframe draws each.
+                Nothing is saved either way: a submit the form rejects sets the
+                message and never calls the service. */}
+            <button
+              type="submit"
+              disabled={pending || isInvalid}
+              className="inline-flex items-center gap-[6px] rounded-full bg-accent px-4 py-[7px] text-[13px] font-medium text-paper disabled:cursor-not-allowed disabled:opacity-50 lg:ml-auto"
+            >
+              Find the articles
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </div>
+
         {error && (
           <p id="description-error" className="m-0 text-[13px] text-error">
             {ERROR_COPY[error]}
           </p>
         )}
-      </div>
-
-      {choices}
-
-      <div>
-        {/* Live until a submit has been tried, and held inactive while the
-            message is showing, which is where the wireframe draws each.
-            Nothing is saved either way: a submit the form rejects sets the
-            message and never calls the service. */}
-        <button
-          type="submit"
-          disabled={pending || isInvalid}
-          className="rounded-md bg-accent px-[14px] py-[7px] text-[13px] font-medium text-paper disabled:opacity-50"
-        >
-          Find the articles
-        </button>
       </div>
     </form>
   )

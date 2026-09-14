@@ -12,7 +12,7 @@ import {
 
 import { ReadingList } from '@/components/reading-list'
 import { SectionBar } from '@/components/section-bar'
-import type { CorpusVersion } from '@/components/versions'
+import { type CorpusVersion, VERSION_LABEL } from '@/components/versions'
 import {
   amendmentDiff,
   sliceDiffSpans,
@@ -395,7 +395,7 @@ export function ActReader({
           ) : (
             <span className="text-[10.5px] text-muted">The Act</span>
           )}
-          <VersionToggle version={version} onVersionChange={onVersionChange} />
+          <ReadingVersion version={version} onVersionChange={onVersionChange} />
         </header>
 
         {showsWalk ? (
@@ -486,7 +486,7 @@ export function ActReader({
 
       <section className="relative flex h-full w-full max-w-2xl flex-col bg-paper">
         <header className="flex items-center justify-between gap-4 border-b border-rule bg-surface px-6 py-4">
-          <VersionToggle version={version} onVersionChange={onVersionChange} />
+          <ReadingVersion version={version} onVersionChange={onVersionChange} />
 
           <button
             ref={closeRef}
@@ -613,59 +613,37 @@ function ActText({
   ))
 }
 
-function VersionToggle({
+/**
+ * Which text the Act is showing, and a link to the other.
+ *
+ * It swaps only what the reader shows and never re-asks, so it is drawn as a
+ * line and a link rather than as the toggle the described-system card carries,
+ * which the operator's second-use pass found drawn identically on two pieces of
+ * state. The wording is the one the per-citation control already uses.
+ */
+function ReadingVersion({
   version,
   onVersionChange,
 }: {
   version: CorpusVersion
   onVersionChange: (version: CorpusVersion) => void
 }) {
-  return (
-    <div
-      className="flex overflow-hidden rounded-md border border-rule bg-transparent"
-      role="group"
-      aria-label="Which text to read"
-    >
-      <VersionButton
-        active={version === 'original'}
-        onClick={() => {
-          onVersionChange('original')
-        }}
-      >
-        Original
-      </VersionButton>
-      <VersionButton
-        active={version === 'consolidated'}
-        onClick={() => {
-          onVersionChange('consolidated')
-        }}
-      >
-        Amended 27 Jul 2026
-      </VersionButton>
-    </div>
-  )
-}
+  const other: CorpusVersion =
+    version === 'original' ? 'consolidated' : 'original'
 
-function VersionButton({
-  active,
-  onClick,
-  children,
-}: {
-  active: boolean
-  onClick: () => void
-  children: ReactNode
-}) {
   return (
-    <button
-      type="button"
-      aria-pressed={active}
-      onClick={onClick}
-      className={`px-[11px] py-[5px] text-[12px] ${
-        active ? 'bg-accent text-paper' : 'text-muted'
-      }`}
-    >
-      {children}
-    </button>
+    <p className="m-0 flex flex-wrap items-baseline gap-x-2 text-[12px] text-muted">
+      <span>{`Reading ${VERSION_LABEL[version]}`}</span>
+      <button
+        type="button"
+        onClick={() => {
+          onVersionChange(other)
+        }}
+        className="text-accent underline-offset-2 hover:underline"
+      >
+        {`Read ${VERSION_LABEL[other]}`}
+      </button>
+    </p>
   )
 }
 

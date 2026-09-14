@@ -149,7 +149,7 @@ async function reached(page: Page, captureCase: Case) {
   switch (captureCase.name) {
     case '1-empty':
       await expect(
-        page.getByRole('heading', { name: /Describe what you are building/ }),
+        page.getByRole('heading', { name: /Describe your AI system/ }),
       ).toBeVisible()
       break
     case '1-empty-pipeline-figure':
@@ -203,7 +203,7 @@ async function reached(page: Page, captureCase: Case) {
       ).toBeVisible()
       await expect(
         page.getByRole('heading', {
-          name: 'Or read one of the recorded questions',
+          name: 'Or start from a recorded question',
         }),
       ).toBeVisible()
       break

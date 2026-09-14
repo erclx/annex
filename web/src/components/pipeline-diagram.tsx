@@ -11,8 +11,7 @@ const STAGES = [
 const BRACKET_START = 1
 const BRACKET_END = 2
 
-const CAPTION =
-  'Retrieve and traverse are what the arms below switch on and off.'
+const CAPTION = 'The comparison switches these two on and off.'
 
 /**
  * The five request-order stages `canon/ARCHITECTURE.md` § Overview names,
@@ -25,11 +24,16 @@ const CAPTION =
  * holds its floor of 11px regardless of how narrow the column carrying it
  * gets.
  *
- * Retrieve and Traverse are the two stages the arms below switch on and off,
+ * Retrieve and Traverse are the two stages the comparison switches on and off,
  * so a bracket ties them together and the caption that used to sit under the
  * whole figure reads off that bracket instead. The bracket's grid row spans
  * both stage rows, which grid computes from their actual rendered height, so
  * nothing here depends on measuring the page or guessing a fixed height.
+ *
+ * Every column is sized to its content and packed to the start, so the bracket
+ * sits beside the stage text rather than at the far edge of whatever width the
+ * section gives the figure. The caption names no direction, since the table it
+ * refers to sits beside the figure at one width and under it at another.
  */
 export function PipelineDiagram() {
   return (
@@ -39,7 +43,7 @@ export function PipelineDiagram() {
       aria-label={`The five-stage pipeline: ${STAGES.map((stage) => stage.label).join(', ')}. ${CAPTION}`}
     >
       <div
-        className="grid grid-cols-[10px_1fr_auto] gap-x-3"
+        className="grid grid-cols-[10px_auto_auto] justify-start gap-x-3"
         style={{ gridTemplateRows: `repeat(${STAGES.length}, auto)` }}
       >
         {STAGES.map((stage, index) => {
@@ -72,10 +76,10 @@ export function PipelineDiagram() {
                 style={{ gridRow: row, gridColumn: 2 }}
                 className={isLast ? '' : 'pb-4'}
               >
-                <div className="text-[11px] font-semibold text-ink">
+                <div className="text-[12px] font-semibold text-ink">
                   {stage.label}
                 </div>
-                <p className="mt-0.5 text-[11px] leading-[1.35] text-act">
+                <p className="mt-0.5 text-[12px] leading-[1.35] text-act">
                   {stage.detail}
                 </p>
               </div>
@@ -103,7 +107,7 @@ export function PipelineDiagram() {
               strokeWidth={1.5}
             />
           </svg>
-          <p className="w-[8.5rem] shrink-0 text-[11px] leading-[1.35] text-accent">
+          <p className="w-[8.5rem] shrink-0 text-[12px] leading-[1.35] text-accent">
             {CAPTION}
           </p>
         </div>

@@ -94,16 +94,14 @@ describe('the empty state', () => {
   it('states what the tool does before anything is asked', () => {
     render(<Home />)
 
-    expect(
-      screen.getByText(/Describe what you are building/),
-    ).toBeInTheDocument()
+    expect(screen.getByText(/Describe your AI system/)).toBeInTheDocument()
   })
 
   it('says it does not tell you whether you comply', () => {
     render(<Home />)
 
     expect(
-      screen.getByText(/It does not tell you whether you comply/),
+      screen.getByText(/It won't tell you whether you comply/),
     ).toBeInTheDocument()
   })
 
@@ -111,7 +109,7 @@ describe('the empty state', () => {
     render(<Home />)
 
     expect(
-      screen.getByText('Or read one of the recorded questions'),
+      screen.getByText('Or start from a recorded question'),
     ).toBeInTheDocument()
   })
 
@@ -865,25 +863,37 @@ describe('the address', () => {
   })
 })
 
-describe('the single column below 1024 pixels', () => {
-  it('places the version and traversal controls under the description before anything is asked', () => {
+describe('where the version and traversal choices sit', () => {
+  it('places them in the composer before anything is asked', () => {
     render(<Home />)
 
-    const banner = screen.getByRole('banner')
+    const composer = screen.getByTestId('composer')
     expect(
-      within(banner).queryByRole('group', {
+      within(composer).getByRole('group', {
         name: 'Which text to read against',
       }),
-    ).not.toBeInTheDocument()
-    expect(
-      screen.getByRole('group', { name: 'Which text to read against' }),
     ).toBeInTheDocument()
     expect(
-      screen.getByRole('switch', { name: 'Reference traversal' }),
+      within(composer).getByRole('switch', { name: 'Reference traversal' }),
+    ).toBeInTheDocument()
+    expect(
+      within(screen.getByRole('banner')).queryByRole('switch'),
+    ).not.toBeInTheDocument()
+  })
+
+  it('keeps the links in the bar before anything is asked', () => {
+    render(<Home />)
+
+    expect(
+      within(screen.getByRole('banner')).getByRole('link', {
+        name: 'Repository',
+      }),
     ).toBeInTheDocument()
   })
 
-  it('moves the controls into the bar once a question is asked', async () => {
+  it('places the version toggle in the card and nowhere else once asked', async () => {
+    Element.prototype.scrollIntoView = vi.fn()
+    stubWideViewport()
     respondWith(200, anAnswer())
     render(<Home />)
 
@@ -891,10 +901,59 @@ describe('the single column below 1024 pixels', () => {
     await screen.findByText(/has to tell the person/)
 
     expect(
-      within(screen.getByRole('banner')).getByRole('group', {
-        name: 'Which text to read against',
-      }),
+      within(
+        screen.getByRole('region', { name: 'The system you described' }),
+      ).getByRole('group', { name: 'Which text to read against' }),
     ).toBeInTheDocument()
+    expect(screen.getAllByRole('button', { name: 'Original' })).toHaveLength(1)
+  })
+
+  it('keeps the traversal switch in the bar once asked at 1024 and wider', async () => {
+    Element.prototype.scrollIntoView = vi.fn()
+    stubWideViewport()
+    respondWith(200, anAnswer())
+    render(<Home />)
+
+    await describeSystem()
+    await screen.findByText(/has to tell the person/)
+
+    // The docked pane draws a header of its own, so the bar is found by
+    // elimination: one switch on the page, and none of it inside the card.
+    expect(screen.getAllByRole('switch')).toHaveLength(1)
+    expect(
+      within(
+        screen.getByRole('region', { name: 'The system you described' }),
+      ).queryByRole('switch'),
+    ).not.toBeInTheDocument()
+  })
+
+  it('moves the traversal switch into the card once asked below 1024', async () => {
+    respondWith(200, anAnswer())
+    render(<Home />)
+
+    await describeSystem()
+    await screen.findByText(/has to tell the person/)
+
+    expect(
+      within(
+        screen.getByRole('region', { name: 'The system you described' }),
+      ).getByRole('switch', { name: 'Reference traversal' }),
+    ).toBeInTheDocument()
+    expect(screen.getAllByRole('switch')).toHaveLength(1)
+  })
+
+  it('mounts one version toggle when the service rejects a submit', async () => {
+    respondWith(422, { state: 'invalid', detail: 'The description is empty.' })
+    render(<Home />)
+
+    await describeSystem()
+    await screen.findByText(
+      'A description is needed before this can be answered.',
+    )
+
+    expect(
+      screen.getAllByRole('group', { name: 'Which text to read against' }),
+    ).toHaveLength(1)
   })
 })
 
@@ -905,9 +964,24 @@ describe('the controls', () => {
     const user = await describeSystem()
     await screen.findByText(/has to tell the person/)
 
-    await user.click(screen.getByRole('button', { name: 'Original' }))
+    await user.click(
+      within(
+        screen.getByRole('region', { name: 'The system you described' }),
+      ).getByRole('button', { name: 'Original' }),
+    )
 
     expect(lastSent().version).toBe('original')
+  })
+
+  it('returns to the empty state from the mark in the bar', async () => {
+    respondWith(200, anAnswer())
+    render(<Home />)
+    const user = await describeSystem()
+    await screen.findByText(/has to tell the person/)
+
+    await user.click(screen.getByRole('link', { name: 'Annex' }))
+
+    expect(screen.getByLabelText('Describe your system')).toBeInTheDocument()
   })
 
   it('returns to the empty state with the previous text still in the input', async () => {

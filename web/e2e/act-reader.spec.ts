@@ -212,7 +212,7 @@ test.describe('as an overlay below 1024 pixels', () => {
     await expect(page.getByRole('contentinfo')).toBeVisible()
   })
 
-  test('the panel version toggle reads the other text without re-asking', async ({
+  test('the panel link reads the other text without re-asking', async ({
     page,
   }) => {
     const requests: string[] = []
@@ -228,14 +228,13 @@ test.describe('as an overlay below 1024 pixels', () => {
       .click()
     await expect(page.getByRole('dialog')).toBeVisible()
 
-    await page
-      .getByRole('dialog')
-      .getByRole('button', { name: 'Original' })
-      .click()
+    const dialog = page.getByRole('dialog')
+    await dialog.getByRole('button', { name: 'Read the original text' }).click()
 
+    await expect(dialog.getByText('Reading the original text')).toBeVisible()
     await expect(
-      page.getByRole('dialog').getByRole('button', { name: 'Original' }),
-    ).toHaveAttribute('aria-pressed', 'true')
+      dialog.getByRole('button', { name: 'Read the amended text' }),
+    ).toBeVisible()
     expect(requests).toEqual([])
   })
 })
@@ -258,7 +257,7 @@ test.describe('a changed citation', () => {
     // The recorded pick opens against the amended text by default, and the
     // changed citation this run reads sits in the original text's answer.
     await page
-      .getByRole('banner')
+      .getByRole('region', { name: 'The system you described' })
       .getByRole('button', { name: 'Original' })
       .click()
 
