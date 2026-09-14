@@ -100,11 +100,12 @@ settled, which round picked it, and why it stopped being authoritative.
 Some of what it drew is prose now and some is not. Type scale and spacing sit
 in `canon/DESIGN.md`'s own tables, and citation treatments in its color and
 border tables, the `cite rule` and `cite rule moved` roles and the `citation`
-border. The segmented control, the drawn switch and the trace grid still carry
-no prose description anywhere under `canon/`. Their shape is the shipped code
-in `web/src/components/`, and the captures in this folder are what shows it, so
-a reviewer checking either now opens those rather than a fourth drawn rendering
-nothing kept in sync with three later passes.
+border. `canon/DESIGN.md`'s Iconography section names the segmented control and
+the drawn switch as kinds, without describing either, and the trace grid
+carries no mention at all. What draws all three now is the shipped code in
+`web/src/components/` and the captures in this folder, so a reviewer checking
+any of them opens those rather than a fourth drawn rendering nothing kept in
+sync across three later passes.
 
 `canon/wireframes/answer.md` still owns layout and copy and is the record that
 wins on any disagreement.
