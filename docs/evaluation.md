@@ -93,6 +93,12 @@ The harness is behaving as designed here rather than failing. `RetrievalTrace.dr
 
 Reordering the twelve citations search-only ever sends also moves their `[n]` markers wherever a recital sits among them, which is every high-risk-chain and transparency question on the original text. No claim's grounding depends on its marker's position, so faithfulness on those rows holds, but the model reads a differently ordered prompt and can draft a different answer from it: `search-only`'s refusal correctness on the original text moved from 0/3 to 1/3 and its false refusals from 2/9 to 0/9, on citations the ranking reordered without dropping any of them.
 
+### Article 113 is a rank problem as much as a routing one
+
+`art_113` carries every compliance date in either version and no other article does. Under `snowflake-arctic-embed2`, top-12 search reaches it on exactly one of the three deadline questions even after routing asks for timing: rank 9 of 587 on `q11`, off the list entirely on `q10` and `q12` under either candidate model. Asking for timing moves it closer without landing it in the top 12: on the consolidated text it climbs from rank 266 to 84 on `q10` and 385 to 163 on `q12` for `snowflake-arctic-embed2`, and similarly for `nomic-embed-text`. On the original text it never climbs past rank 367 of 716, the residue of a footnote-pollution defect since fixed: two of the three original-text chunks under `art_113` used to be Official Journal footnotes rather than the article's own text, diluting it before any query reached it. `canon/context/retrieval.md` carries the current chunk rule. Whether the fix moves these rank figures is unmeasured until the harness runs again.
+
+The walk is what closes the gap search cannot: reaching `art_113` from `art_111`, which search does return, takes `q10` on the original text from 0.00 to 1.00 for `snowflake-arctic-embed2`. The same walk costs `nomic-embed-text` `art_113` on two other questions instead, dropping `q11` from 1.00 to 0.50 on both documents, since search recall for those cells does not move and the loss sits in the composition of what else the top 12 holds once traversal is layered on. Five of the six provisions the amended routing costs search alone are recovered by the walk. Only `art_43` on `q07` for `nomic-embed-text` on the original text stays lost. Measured on #6 on 2026-09-06, over both documents, both routed query forms and both candidate models.
+
 ## How it was measured
 
 ### The question set
