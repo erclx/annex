@@ -590,6 +590,46 @@ async function halfHeadingOffset(page: Page): Promise<number> {
   return Math.abs((built?.y ?? 0) - (compared?.y ?? Infinity))
 }
 
+/**
+ * Which of the pipeline figure's two drawings is showing, and how the
+ * stage labels in it are sized and how much width they leave unfilled.
+ *
+ * The two drawings both sit in the DOM at every width, one hidden by a
+ * `hidden @min-[657px]:...` class pair per `pipeline-diagram.tsx`, so this
+ * reads which one `display` actually shows rather than which one the
+ * component chose to render.
+ */
+async function pipelineRowShape(page: Page): Promise<{
+  rowShowing: boolean
+  labelFontSizes: string[]
+  emptyRight: number
+}> {
+  const figure = page.getByRole('img', { name: /The five-stage pipeline/ })
+  await expect(figure).toBeVisible()
+
+  return figure.evaluate((el) => {
+    const railWrapper = el.children[0] as HTMLElement
+    const rowWrapper = el.children[1] as HTMLElement
+    const rowShowing = getComputedStyle(rowWrapper).display !== 'none'
+    const showing = rowShowing ? rowWrapper : railWrapper
+
+    const labels = [...showing.querySelectorAll('div')].filter((div) =>
+      div.className.includes('font-semibold'),
+    )
+    const labelFontSizes = labels.map(
+      (label) => getComputedStyle(label).fontSize,
+    )
+
+    const figRight = el.getBoundingClientRect().right
+    const maxLabelRight = Math.max(
+      ...labels.map((label) => label.getBoundingClientRect().right),
+    )
+    const emptyRight = rowShowing ? figRight - maxLabelRight : 0
+
+    return { rowShowing, labelFontSizes, emptyRight }
+  })
+}
+
 test.describe('the comparison on the landing page', () => {
   test('sets the rail beside the table at 1280 pixels', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 860 })
@@ -603,6 +643,38 @@ test.describe('the comparison on the landing page', () => {
     await page.goto('/')
 
     expect(await halfHeadingOffset(page)).toBeGreaterThan(100)
+  })
+
+  test('draws the row, not the rail, at 810 pixels while stacked', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 810, height: 860 })
+    await page.goto('/')
+
+    expect(await halfHeadingOffset(page)).toBeGreaterThan(100)
+
+    const shape = await pipelineRowShape(page)
+    expect(shape.rowShowing).toBe(true)
+    for (const fontSize of shape.labelFontSizes) {
+      expect(parseFloat(fontSize)).toBeGreaterThanOrEqual(11)
+    }
+    expect(shape.emptyRight).toBeLessThanOrEqual(20)
+  })
+
+  test('draws the row, not the rail, at 1024 pixels while stacked', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1024, height: 860 })
+    await page.goto('/')
+
+    expect(await halfHeadingOffset(page)).toBeGreaterThan(100)
+
+    const shape = await pipelineRowShape(page)
+    expect(shape.rowShowing).toBe(true)
+    for (const fontSize of shape.labelFontSizes) {
+      expect(parseFloat(fontSize)).toBeGreaterThanOrEqual(11)
+    }
+    expect(shape.emptyRight).toBeLessThanOrEqual(20)
   })
 })
 
