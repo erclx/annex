@@ -68,15 +68,25 @@ check_markdown_bans() {
 }
 
 check_hook_permissions() {
-  local offenders=()
+  local entries=()
   while IFS= read -r line; do
-    local mode path
-    mode=$(echo "$line" | awk '{print $1}')
-    path=$(echo "$line" | awk '{print $4}')
+    entries+=("$line")
+  done < <(git ls-files -s .husky/)
+
+  if [ ${#entries[@]} -eq 0 ]; then
+    log_info "No hook tracked under .husky/ to check."
+    return 0
+  fi
+
+  local offenders=()
+  local entry mode path
+  for entry in "${entries[@]}"; do
+    mode=$(echo "$entry" | awk '{print $1}')
+    path=$(echo "$entry" | cut -f2)
     if [ "$mode" != "100755" ]; then
       offenders+=("$path ($mode)")
     fi
-  done < <(git ls-files -s .husky/)
+  done
 
   if [ ${#offenders[@]} -gt 0 ]; then
     printf '%s\n' "${offenders[@]}" | pipe_output
