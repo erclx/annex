@@ -3,19 +3,31 @@
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { ComparisonArgument } from '@/components/comparison-argument'
+import { ComparisonArgument } from '@/components/answer/comparison-argument'
 import {
   type DescriptionError,
   DescriptionForm,
-} from '@/components/description-form'
-import { RecordedPicks } from '@/components/recorded-picks'
-import { ReplayNotice } from '@/components/replay-notice'
-import { TermsStrip } from '@/components/terms-strip'
-import { TopBar, TraversalSwitch, VersionToggle } from '@/components/top-bar'
-import { addressSearch, forwardedAskPath, readAddress } from '@/lib/address'
-import { MAXIMUM_DESCRIPTION } from '@/lib/ask'
-import { useAskHandoff } from '@/lib/ask-handoff'
-import { capturedOnFor, recordedQuestionIdFor, REPLAY_MODE } from '@/lib/replay'
+} from '@/components/answer/description-form'
+import { RecordedPicks } from '@/components/answer/recorded-picks'
+import { ReplayNotice } from '@/components/frame/replay-notice'
+import {
+  TopBar,
+  TraversalSwitch,
+  VersionToggle,
+} from '@/components/frame/top-bar'
+import { TermsStrip } from '@/components/shared/terms-strip'
+import {
+  addressSearch,
+  forwardedAskPath,
+  readAddress,
+} from '@/lib/browser/address'
+import { useAskHandoff } from '@/lib/browser/ask-handoff'
+import { MAXIMUM_DESCRIPTION } from '@/lib/service/ask'
+import {
+  capturedOnFor,
+  recordedQuestionIdFor,
+  REPLAY_MODE,
+} from '@/lib/service/replay'
 
 /**
  * The composer's placement on the landing page, set from here rather than in

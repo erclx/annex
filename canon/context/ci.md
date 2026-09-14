@@ -58,7 +58,7 @@ Defined in `.github/workflows/deploy.yml`, on a push to `main` and on a manual d
 
 **The deploy builds its own artifact, which the pattern it copies does not.** `/home/erclx/repos/private/career/public/erclx.dev` gates its deploy on a `build-verify` job and downloads what that job produced. `verify.yml` here carries no build job and does not run on a push to `main`, so a deploy reusing its artifact would have nothing to download. The gate is kept by repeating the web checks in this file instead. Folding the two workflows together is the alternative and it is a change to the merge gate, which this row did not own.
 
-The flag decides both halves of what ships: `web/src/lib/ask.ts` answers from the committed fixtures rather than the service, and `next.config.ts` turns the build into a static export. A build without it deploys a page calling a localhost service nobody is running.
+The flag decides both halves of what ships: `web/src/lib/service/ask.ts` answers from the committed fixtures rather than the service, and `next.config.ts` turns the build into a static export. A build without it deploys a page calling a localhost service nobody is running.
 
 `github.ref_name` supplies the Pages branch, so only a run on `main` marks its upload as a production deployment and a dispatch from any other ref lands on a preview host. Two secrets are read, `CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN`, scoped to Pages Edit alone. The operator sets both, creates the Pages project, and attaches `annex.erclx.dev` as a custom domain. None of the three is a thing this tree can do, so the workflow lands ahead of the first upload rather than with it.
 

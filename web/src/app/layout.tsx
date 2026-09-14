@@ -3,8 +3,8 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Noto_Sans } from 'next/font/google'
 
-import { AskHandoffProvider } from '@/components/ask-handoff'
-import { APPLY_STORED_CHOICES } from '@/lib/stored-choices'
+import { AskHandoffProvider } from '@/components/frame/ask-handoff'
+import { APPLY_STORED_CHOICES } from '@/lib/browser/stored-choices'
 
 /**
  * Self-hosted at build time rather than left to `--font-sans`'s OS-fallback

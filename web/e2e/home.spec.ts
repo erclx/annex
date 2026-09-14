@@ -1,7 +1,7 @@
 import { expect, type Page, test } from '@playwright/test'
 
 import recorded from '../src/fixtures/q01-support-chatbot.consolidated.json'
-import type { Answer } from '../src/lib/answer'
+import type { Answer } from '../src/lib/service/answer'
 import { holdStreamOpen, SERVICE_ASK, streamAnswers } from './stream-stub'
 
 /** A real recording, 12 searched and 40 traversed, for cases about the walk's size. */

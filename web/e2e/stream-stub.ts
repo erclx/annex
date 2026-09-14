@@ -13,8 +13,8 @@
  */
 import type { Page } from '@playwright/test'
 
-import type { Answer } from '../src/lib/answer'
-import { playbackSchedule } from '../src/lib/replay-playback'
+import type { Answer } from '../src/lib/service/answer'
+import { playbackSchedule } from '../src/lib/service/replay-playback'
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',

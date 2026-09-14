@@ -20,6 +20,22 @@ Everything runs locally and nothing calls a paid API. That is a constraint rathe
 
 Each half verifies itself and the root chains both. Neither half's `package.json` carries the spelling or shell checks, which run once at the root over the whole tree.
 
+### `web/src/components/` and `web/src/lib/`
+
+Both folders divide by the surface region and the data source a file serves rather than by any naming convention, read off `canon/wireframes/answer.md`'s own regions. A test file sits beside the source it tests, which is where it sat before the split and where every test in this project sits.
+
+- `web/src/components/answer/`: the answer column proper, being the claims, their citations, the composer, the comparison, the pipeline figure and the trace
+- `web/src/components/act/`: the Act reading pane, docked or as an overlay, and the section bar that steps through it
+- `web/src/components/frame/`: the top bar, the theme toggle, the brand mark, the replay band, the column handle between the answer and the pane, and the described-system handoff carried across the two routes
+- `web/src/components/status/`: the wait, refusal and failure states a question can end on before an answer exists
+- `web/src/components/shared/`: controls more than one region draws on, being the terms pane, the terms strip and the shared version types
+
+- `web/src/lib/corpus/`: what reads the exported Act text, being the provision lookup, the amendment diff and the closest-point rule an excerpt opens on
+- `web/src/lib/service/`: what talks to the service or stands in for it, being the ask and stream clients, the generated schemas, the replay recording and its playback, and the derived walk and outcome state built from what either one returns
+- `web/src/lib/browser/`: what the browser alone needs, being formatting, the stored column width and theme choices, the two hydration hooks and the address bar
+
+A file that would sit in more than one folder goes where its own import graph roots it: `lib/browser/ask-handoff.ts` carries the typed description across the two routes in a React context, which is a browser concern, where `components/frame/ask-handoff.tsx` is the provider mounted in the page frame.
+
 ## Setup
 
 - Install [Bun](https://bun.sh): `curl -fsSL https://bun.sh/install | bash`
@@ -54,19 +70,19 @@ The answer endpoint takes `4200`, above the 4100 to 4150 band that offset derive
 
 ## Scripts
 
-| Command                                             | Purpose                                                                                                            |
-| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `bun run check`                                     | The whole gate. Runs the shared verify chain, then the python half, then the web half                              |
-| `bun run check:python`                              | `cd python && bun run check`: mypy, ruff, ruff format check, pytest                                                |
-| `bun run check:web`                                 | `cd web && bun run check`: prettier check, typecheck, eslint, vitest                                               |
-| `bun run format`                                    | Auto-fix prettier and shfmt formatting at the root                                                                 |
-| `cd web && bun run generate:answer`                 | Regenerate `web/src/lib/answer.ts`, `stream-node.ts` and `stream-error.ts` from their schemas in `python/schema/`  |
-| `cd web && bun run test:e2e`                        | Playwright against the app, starting a server if one is not already up                                             |
-| `cd web && bun run capture:evidence`                | Drive every answer-surface state into `web/evidence/<state>/`, asserting each state was reached before it captures |
-| `cd python && uv run python -m annex capture`       | Record the pipeline's answers into `web/src/fixtures/`, which the deployed build replays                           |
-| `cd python && uv run python -m annex export-corpus` | Write both versions' provisions into `web/src/fixtures/corpus/`, which the reading panel renders                   |
+| Command                                             | Purpose                                                                                                                   |
+| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `bun run check`                                     | The whole gate. Runs the shared verify chain, then the python half, then the web half                                     |
+| `bun run check:python`                              | `cd python && bun run check`: mypy, ruff, ruff format check, pytest                                                       |
+| `bun run check:web`                                 | `cd web && bun run check`: prettier check, typecheck, eslint, vitest                                                      |
+| `bun run format`                                    | Auto-fix prettier and shfmt formatting at the root                                                                        |
+| `cd web && bun run generate:answer`                 | Regenerate `web/src/lib/service/answer.ts`, `stream-node.ts` and `stream-error.ts` from their schemas in `python/schema/` |
+| `cd web && bun run test:e2e`                        | Playwright against the app, starting a server if one is not already up                                                    |
+| `cd web && bun run capture:evidence`                | Drive every answer-surface state into `web/evidence/<state>/`, asserting each state was reached before it captures        |
+| `cd python && uv run python -m annex capture`       | Record the pipeline's answers into `web/src/fixtures/`, which the deployed build replays                                  |
+| `cd python && uv run python -m annex export-corpus` | Write both versions' provisions into `web/src/fixtures/corpus/`, which the reading panel renders                          |
 
-`web/src/lib/answer.ts` is generated and committed. `web/scripts/verify.sh` hashes it, regenerates it, and fails when the two hashes differ, so a schema change nobody regenerated against stops the gate rather than drifting until a shape mismatch surfaces at runtime. Regenerate it after any change to the Pydantic models the schema is emitted from.
+`web/src/lib/service/answer.ts` is generated and committed. `web/scripts/verify.sh` hashes it, regenerates it, and fails when the two hashes differ, so a schema change nobody regenerated against stops the gate rather than drifting until a shape mismatch surfaces at runtime. Regenerate it after any change to the Pydantic models the schema is emitted from.
 
 The guard compares the file against its own regeneration rather than against git. A git-based check answers a different question and gets it wrong twice: `git diff` reports nothing for a file git does not track, and a status-based check fails on the commit that first adds one.
 
@@ -100,7 +116,7 @@ The generator resolves the schema's `$defs` references itself, in `web/scripts/g
 - **It costs what an evaluation arm costs, not what a full run costs.** Twenty-four pipeline calls, one per question per version. The 21 to 28 seconds warm this bullet once carried is superseded: a full run measured on `feat/draw-the-traversal` on 2026-09-12, models already resident, ran roughly 42 seconds an answer, fifteen of twenty-four fixtures written ten minutes in. Closer to 17 minutes than to ten with the models loaded, against the tens of minutes `evaluate` takes over three arms.
 - **The setup is the expensive half.** Ollama up, both derived models built, and `annex embed` run, which is a further 27 seconds and needs the corpus cache. Nothing else may generate on the card while it runs.
 - **One question failing does not end the run.** The pair is left out and the manifest names what was captured, so a missing question is visible as an absent entry rather than as a fixture nobody can replay.
-- **A re-capture is the only repair for a stale fixture.** Any change to prompts, chunking, retrieval or the corpus invalidates the set, and only half of that is visible: the strict parse in `web/src/lib/replay.test.ts` fails on a schema change and nothing fails on a fixture that still parses and no longer matches. Each entry carries its own commit and date for that reason.
+- **A re-capture is the only repair for a stale fixture.** Any change to prompts, chunking, retrieval or the corpus invalidates the set, and only half of that is visible: the strict parse in `web/src/lib/service/replay.test.ts` fails on a schema change and nothing fails on a fixture that still parses and no longer matches. Each entry carries its own commit and date for that reason.
 - **Never hand-edit a captured answer.** A weak answer on a demo question is a defect belonging to the stage that produced it. Report it and keep what came back.
 - **The capture client itself is cheap, so a killed capture is not evidence against it.** `/usr/bin/time -v` on one question, one version, run in the foreground against a scratch `--out`, measured a peak resident set of 155 244 KB (about 152MB), 28.6 seconds wall clock, zero swap. Two full 24-recording captures were killed by the background-process memory guard before this measurement existed, and the guard reads system-wide memory pressure rather than a single process's footprint. A capture killed under load says something about the machine at that moment, not about the client. Measured on `feature-corpus-and-answer-text` on 2026-09-13.
 - **`--question` narrows which pair is asked, and `capture()` merges rather than replaces.** Run against `web/src/fixtures/` itself, a one-question capture reads whatever `manifest.json` already sits at `out`, writes the recaptured entry with a fresh commit and date, and keeps every other entry's file and stamp exactly as they stood. No repair step follows a narrowed run, since nothing it did not touch moves.

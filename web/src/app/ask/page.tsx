@@ -7,37 +7,41 @@ import {
   ActReader,
   type CitedProvision,
   type PaneView,
-} from '@/components/act-reader'
-import { AgentSteps } from '@/components/agent-steps'
-import { AnswerView } from '@/components/answer-view'
-import { ColumnHandle } from '@/components/column-handle'
-import { DescribedSystem } from '@/components/described-system'
+} from '@/components/act/act-reader'
+import { AnswerView } from '@/components/answer/answer-view'
+import { DescribedSystem } from '@/components/answer/described-system'
+import { RefusalView } from '@/components/answer/refusal-view'
+import { RetrievalTrace, Walk } from '@/components/answer/retrieval-trace'
+import { ColumnHandle } from '@/components/frame/column-handle'
+import { ReplayNotice } from '@/components/frame/replay-notice'
+import { TopBar, TraversalSwitch } from '@/components/frame/top-bar'
+import { TermsPane } from '@/components/shared/terms-pane'
+import type { CorpusVersion } from '@/components/shared/versions'
+import { AgentSteps } from '@/components/status/agent-steps'
 import {
   FailureNextStep,
   type NextStepState,
-} from '@/components/failure-next-step'
-import { FailureRegion } from '@/components/failure-region'
-import { RefusalView } from '@/components/refusal-view'
-import { ReplayNotice } from '@/components/replay-notice'
-import { RetrievalTrace, Walk } from '@/components/retrieval-trace'
-import { TermsPane } from '@/components/terms-pane'
-import { TopBar, TraversalSwitch } from '@/components/top-bar'
-import type { CorpusVersion } from '@/components/versions'
-import { WaitPane } from '@/components/wait-pane'
-import { addressSearch, readAddress } from '@/lib/address'
-import type { Answer } from '@/lib/answer'
-import { ask, type AskResult } from '@/lib/ask'
-import { useAskHandoff } from '@/lib/ask-handoff'
+} from '@/components/status/failure-next-step'
+import { FailureRegion } from '@/components/status/failure-region'
+import { WaitPane } from '@/components/status/wait-pane'
+import { addressSearch, readAddress } from '@/lib/browser/address'
+import { useAskHandoff } from '@/lib/browser/ask-handoff'
+import { useColumnWidth } from '@/lib/browser/use-column-width'
+import { useDocked } from '@/lib/browser/use-docked'
+import type { Answer } from '@/lib/service/answer'
+import { ask, type AskResult } from '@/lib/service/ask'
 import {
   capturedOnFor,
   recordedDescriptionFor,
   recordedQuestionIdFor,
   REPLAY_MODE,
-} from '@/lib/replay'
-import { PLAYBACK_SPEEDUP } from '@/lib/replay-playback'
-import { useColumnWidth } from '@/lib/use-column-width'
-import { useDocked } from '@/lib/use-docked'
-import { advance, startProgress, type WalkProgress } from '@/lib/walk-progress'
+} from '@/lib/service/replay'
+import { PLAYBACK_SPEEDUP } from '@/lib/service/replay-playback'
+import {
+  advance,
+  startProgress,
+  type WalkProgress,
+} from '@/lib/service/walk-progress'
 
 /**
  * The answer column's measure beside a pane that is not the Act: the steps
@@ -100,7 +104,7 @@ function isNextStepState(state: AskResult['state']): state is NextStepState {
  * `/`, carrying any handoff text back into the composer, since asking again on
  * a reload would start a model call nobody requested.
  *
- * Every call to the service goes through `@/lib/ask` and nothing here touches
+ * Every call to the service goes through `@/lib/service/ask` and nothing here touches
  * `fetch`. That is what makes the deployed build's swap to captured fixtures a
  * change to one module rather than to this file.
  */
@@ -435,7 +439,7 @@ export default function Ask() {
             )}
           </div>
           {docked && answer && (
-            <div className="sticky top-[var(--annex-bar-height,0px)] h-[calc(100vh-var(--annex-bar-height,0px))]">
+            <div className="sticky top-(--annex-bar-height) h-[calc(100vh-var(--annex-bar-height,0px))]">
               <ColumnHandle
                 width={answerWidth}
                 onWidthChange={setWidth}

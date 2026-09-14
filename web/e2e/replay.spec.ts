@@ -8,7 +8,7 @@ import { SERVICE_ASK } from './stream-stub'
 /**
  * The deployed build, in a real browser, reaching no service.
  *
- * `src/lib/replay.test.ts` covers the matching and the parse inside the module
+ * `src/lib/service/replay.test.ts` covers the matching and the parse inside the module
  * graph. What it cannot cover is the thing that matters most about this build,
  * which is that a visitor reaches an answer with nothing listening anywhere.
  * These run against a second server carrying the replay flag, and none of them

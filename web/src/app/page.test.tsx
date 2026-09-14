@@ -3,8 +3,8 @@ import userEvent from '@testing-library/user-event'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import Home from '@/app/page'
-import { AskHandoffProvider } from '@/components/ask-handoff'
-import { recordedQuestions } from '@/lib/replay'
+import { AskHandoffProvider } from '@/components/frame/ask-handoff'
+import { recordedQuestions } from '@/lib/service/replay'
 
 const navigation = vi.hoisted(() => ({ push: vi.fn(), replace: vi.fn() }))
 const build = vi.hoisted(() => ({ replay: false }))
@@ -13,8 +13,8 @@ vi.mock('next/navigation', () => ({ useRouter: () => navigation }))
 
 // The replay flag is read at module scope, so a case about the deployed build
 // flips it through a getter rather than through the environment.
-vi.mock('@/lib/replay', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/lib/replay')>()
+vi.mock('@/lib/service/replay', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/lib/service/replay')>()
   return {
     ...actual,
     get REPLAY_MODE() {
