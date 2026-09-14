@@ -87,6 +87,8 @@ The record carried three figures for one document and none of them said which pr
 
 The middle row is the one every token figure in the record rests on: 581 082 characters of original and 384 515 of consolidated, which is what came back as 114 720 and 77 040 prompt tokens. The figure of 90 483 that `README.md`, `canon/REQUIREMENTS.md` and `canon/ARCHITECTURE.md` carry is the Act's own commonly quoted length and answers none of these three predicates exactly. It is kept because it is what a reader outside the project recognizes, and it is never the denominator of anything computed here.
 
+`feature-cut-provisions-at-headings` moved the middle row again: articles, annexes and recitals now run to 564 780 characters and 87 367 words on the original, 382 395 and 59 817 on the consolidated, since a provision ending on a chapter or section break no longer carries that heading's text. The prompt-token figures above are not re-measured here. This branch changes what the loader yields, not what the model reads back, and re-running `annex-longctx` against the corpus to refresh 114 720 and 77 040 is `v3.2`'s evaluation pass to take. Measured at this branch on 2026-09-14.
+
 ### What the full-context arm actually sends
 
 | Property                      | Original | Consolidated |
@@ -97,7 +99,9 @@ The middle row is the one every token figure in the record rests on: 581 082 cha
 
 The token row is `usage.prompt_tokens` read back off `annex-longctx`, and it counts the whole prompt: the numbered corpus, the synthesis instructions around it, and the question. It is therefore slightly above the 114 720 and 77 040 the record carries for the provision text alone, and the two answer different predicates rather than disagreeing.
 
-Provisions rather than every addressable id, because an article's parsed text already contains its paragraphs and stuffing both would send the Act twice. That is 306 of the 806 ids the original addresses and 133 of the 685 in the consolidated, which is also why the baseline's retrieval precision is near zero by construction rather than by failure.
+The numbered corpus moved twice on `feature-cut-provisions-at-headings`, in opposite directions. Cutting the heading text first brought it to 570 539 and 384 799 characters over the same 306 and 133 stuffed provisions. Then `STUFFED_KINDS` gained `ProvisionKind.CHAPTER`: before the cut, an article's own text carried the chapter heading that used to trail it, so the arm already read that fact from what it was sending, and the change had made it strictly narrower on a question it never set out to touch. Restoring it moves the arm to 319 and 146 stuffed provisions, 571 342 and 385 602 characters, assembled the same way `FullContextArm._block` always has. The prompt-token row is left as recorded, for the reason the row above gives. Measured at this branch on 2026-09-14.
+
+Provisions rather than every addressable id, because an article's parsed text already contains its paragraphs and stuffing both would send the Act twice. That was 306 of the 806 ids the original addressed and 133 of the 685 in the consolidated before this branch. A chapter heading is now its own addressable id too, so the corpus addresses 819 and 698, of which the arm stuffs 319 and 146. The gap between stuffed and addressed is still what makes the baseline's retrieval precision near zero by construction rather than by failure.
 
 ## What this project does not claim
 

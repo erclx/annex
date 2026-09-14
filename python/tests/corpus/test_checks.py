@@ -57,6 +57,13 @@ class TestDisagreements:
 
         assert any('expected 119 articles, parsed 113' in line for line in found)
 
+    def test_a_parse_with_no_chapters_is_reported(self) -> None:
+        corpus = make_corpus(CorpusVersion.ORIGINAL, articles=113)
+
+        found = disagreements(corpus)
+
+        assert any('expected 13 chapters, parsed 0' in line for line in found)
+
 
 class TestParagraphs:
     def test_a_parse_that_dropped_its_paragraphs_is_reported(self) -> None:
@@ -133,3 +140,87 @@ class TestNoSignatureBlockInAnyArticle:
         found = disagreements(corpus)
 
         assert any('art_113' in line and 'signature' in line for line in found)
+
+
+class TestNoDivisionHeadingInAnyProvision:
+    def test_a_real_parse_carries_no_division_heading(
+        self, original: Corpus, consolidated: Corpus
+    ) -> None:
+        assert not [line for line in disagreements(original) if 'heading' in line]
+        assert not [line for line in disagreements(consolidated) if 'heading' in line]
+
+    def test_a_provision_carrying_a_chapter_heading_is_reported(self) -> None:
+        corpus = Corpus(
+            version=CorpusVersion.ORIGINAL,
+            provisions=(
+                Provision(
+                    id='art_50',
+                    kind=ProvisionKind.ARTICLE,
+                    number='50',
+                    title='',
+                    text='Providers shall ensure compliance. CHAPTER V',
+                    version=CorpusVersion.ORIGINAL,
+                ),
+            ),
+        )
+
+        found = disagreements(corpus)
+
+        assert any('art_50' in line and 'heading' in line for line in found)
+
+    def test_a_provision_carrying_a_section_heading_is_reported(self) -> None:
+        corpus = Corpus(
+            version=CorpusVersion.ORIGINAL,
+            provisions=(
+                Provision(
+                    id='art_7',
+                    kind=ProvisionKind.ARTICLE,
+                    number='7',
+                    title='',
+                    text='The Commission is empowered. SECTION 2',
+                    version=CorpusVersion.ORIGINAL,
+                ),
+            ),
+        )
+
+        found = disagreements(corpus)
+
+        assert any('art_7' in line and 'heading' in line for line in found)
+
+    def test_a_provision_citing_a_chapter_in_title_case_is_not_reported(self) -> None:
+        corpus = Corpus(
+            version=CorpusVersion.ORIGINAL,
+            provisions=(
+                Provision(
+                    id='art_6',
+                    kind=ProvisionKind.ARTICLE,
+                    number='6',
+                    title='',
+                    text='The obligations set out in Chapter III, Section 2 apply.',
+                    version=CorpusVersion.ORIGINAL,
+                ),
+            ),
+        )
+
+        found = disagreements(corpus)
+
+        assert not [line for line in found if 'heading' in line]
+
+    def test_a_chapter_provision_carrying_its_own_heading_is_not_reported(self) -> None:
+        corpus = Corpus(
+            version=CorpusVersion.ORIGINAL,
+            provisions=(
+                Provision(
+                    id='chp_V',
+                    kind=ProvisionKind.CHAPTER,
+                    number='V',
+                    title='GENERAL-PURPOSE AI MODELS',
+                    text='CHAPTER V GENERAL-PURPOSE AI MODELS',
+                    version=CorpusVersion.ORIGINAL,
+                ),
+            ),
+        )
+
+        found = disagreements(corpus)
+
+        assert not [line for line in found if 'heading' in line]

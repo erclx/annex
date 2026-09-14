@@ -169,3 +169,105 @@ class TestArticleOneTitle:
 
         assert article is not None
         assert article.title == 'Subject matter'
+
+
+class TestProvisionsStopBeforeADivisionHeading:
+    def test_article_fifty_loses_the_chapter_heading_after_it(
+        self, consolidated: Corpus
+    ) -> None:
+        article = consolidated.get('art_50')
+
+        assert article is not None
+        assert 'CHAPTER' not in article.text
+
+    def test_article_fifty_paragraph_seven_loses_the_chapter_heading(
+        self, consolidated: Corpus
+    ) -> None:
+        paragraph = consolidated.get('art_50.7')
+
+        assert paragraph is not None
+        assert 'CHAPTER' not in paragraph.text
+        assert 'SECTION' not in paragraph.text
+
+    def test_article_seven_loses_the_section_heading_after_it(
+        self, consolidated: Corpus
+    ) -> None:
+        article = consolidated.get('art_7')
+
+        assert article is not None
+        assert 'SECTION' not in article.text
+
+    def test_article_seven_paragraph_three_loses_the_section_heading(
+        self, consolidated: Corpus
+    ) -> None:
+        paragraph = consolidated.get('art_7.3')
+
+        assert paragraph is not None
+        assert 'SECTION' not in paragraph.text
+
+    def test_the_amended_flag_is_unchanged_by_the_corrected_end(
+        self, consolidated: Corpus
+    ) -> None:
+        article = consolidated.get('art_50')
+
+        assert article is not None
+        assert article.amended is True
+
+
+class TestChaptersAreAddressable:
+    def test_parses_thirteen_chapters(self, consolidated: Corpus) -> None:
+        assert len(consolidated.of_kind(ProvisionKind.CHAPTER)) == 13
+
+    def test_a_chapter_carries_the_heading_it_cost_the_article_before_it(
+        self, consolidated: Corpus
+    ) -> None:
+        chapter = consolidated.get('chp_II')
+
+        assert chapter is not None
+        assert chapter.text == 'CHAPTER II PROHIBITED AI PRACTICES'
+        assert chapter.citation == 'Chapter II'
+
+    def test_article_five_sits_under_chapter_two(self, consolidated: Corpus) -> None:
+        article = consolidated.get('art_5')
+
+        assert article is not None
+        assert article.chapter_id == 'chp_II'
+
+    def test_a_paragraph_carries_its_article_own_chapter(
+        self, consolidated: Corpus
+    ) -> None:
+        paragraph = consolidated.get('art_5.1')
+
+        assert paragraph is not None
+        assert paragraph.chapter_id == 'chp_II'
+
+    def test_article_one_hundred_and_thirteen_sits_under_the_final_chapter(
+        self, consolidated: Corpus
+    ) -> None:
+        article = consolidated.get('art_113')
+
+        assert article is not None
+        assert article.chapter_id == 'chp_XIII'
+
+    def test_a_chapter_sits_immediately_before_the_article_it_precedes(
+        self, consolidated: Corpus
+    ) -> None:
+        non_paragraph = [
+            provision.id
+            for provision in consolidated.provisions
+            if provision.kind is not ProvisionKind.PARAGRAPH
+        ]
+
+        assert non_paragraph.index('chp_I') == non_paragraph.index('art_1') - 1
+        assert non_paragraph.index('chp_II') == non_paragraph.index('art_5') - 1
+
+    def test_chapters_are_not_all_bunched_before_the_first_article(
+        self, consolidated: Corpus
+    ) -> None:
+        non_paragraph = [
+            provision.id
+            for provision in consolidated.provisions
+            if provision.kind is not ProvisionKind.PARAGRAPH
+        ]
+
+        assert non_paragraph.index('art_1') < non_paragraph.index('chp_II')

@@ -35,6 +35,7 @@ class ProvisionKind(StrEnum):
     ANNEX = 'annex'
     RECITAL = 'recital'
     PARAGRAPH = 'paragraph'
+    CHAPTER = 'chapter'
 
 
 class Provision(BaseModel):
@@ -50,6 +51,13 @@ class Provision(BaseModel):
     version: CorpusVersion
     parent_id: str | None = None
     amended: bool = False
+    chapter_id: str | None = None
+    """The chapter an article or paragraph sits under, `None` for every other kind.
+
+    Set from document position during the same parse pass that computes the
+    chapter's own span, so a reader asks which chapter an article belongs to
+    without a search: the fact this project's compliance deadlines turn on.
+    """
 
     @computed_field  # type: ignore[prop-decorator]
     @property
@@ -61,6 +69,8 @@ class Provision(BaseModel):
             return f'Annex {self.number}'
         if self.kind is ProvisionKind.RECITAL:
             return f'Recital {self.number}'
+        if self.kind is ProvisionKind.CHAPTER:
+            return f'Chapter {self.number}'
         parent_number = (self.parent_id or '').removeprefix('art_')
         return f'Article {parent_number}({self.number})'
 

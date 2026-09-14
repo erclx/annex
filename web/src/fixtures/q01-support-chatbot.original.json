@@ -3,7 +3,7 @@
   "version": "original",
   "claims": [
     {
-      "statement": "A chatbot that answers customer questions on a website is an AI system intended to interact directly with natural persons, so the provider must ensure those persons are informed they are interacting with an AI system, unless this is obvious to a reasonably well-informed, observant and circumspect person in the circumstances and context of use",
+      "statement": "The system is an AI system intended to interact directly with natural persons, so the provider must ensure those persons are informed they are interacting with an AI system, unless this is obvious from the point of view of a natural person who is reasonably well-informed, observant and circumspect, taking into account the circumstances and context of use",
       "citations": [
         {
           "provision_id": "art_50.1",
@@ -17,7 +17,7 @@
       ]
     },
     {
-      "statement": "The information required under Article 50(1) to (4) must be provided to the natural persons concerned in a clear and distinguishable manner at the latest at the time of the first interaction, and must conform to applicable accessibility requirements",
+      "statement": "The information under paragraph 1 must be provided to the natural persons concerned in a clear and distinguishable manner at the latest at the time of the first interaction, and must conform to applicable accessibility requirements",
       "citations": [
         {
           "provision_id": "art_50.5",
@@ -31,7 +31,7 @@
       ]
     },
     {
-      "statement": "As a system generating text content, the provider must ensure the outputs are marked in a machine-readable format and detectable as artificially generated or manipulated, unless the system performs an assistive function for standard editing or does not substantially alter the input data or its semantics",
+      "statement": "As a system generating text content, the provider must ensure the outputs are marked in a machine-readable format and detectable as artificially generated or manipulated, subject to the exception where the system performs an assistive function for standard editing or does not substantially alter the input data provided by the deployer or the semantics thereof",
       "citations": [
         {
           "provision_id": "art_50.2",
@@ -45,28 +45,14 @@
       ]
     },
     {
-      "statement": "Where the generated text is published with the purpose of informing the public on matters of public interest, the deployer must disclose that the text has been artificially generated or manipulated, subject to the exception where the content has undergone human review or editorial control and a natural or legal person holds editorial responsibility",
+      "statement": "These obligations sit within Chapter IV, which sets out transparency obligations for providers and deployers of certain AI systems",
       "citations": [
         {
-          "provision_id": "art_50.4",
-          "citation": "Article 50(4)",
-          "kind": "paragraph",
+          "provision_id": "chp_IV",
+          "citation": "Chapter IV",
+          "kind": "chapter",
           "version": "original",
-          "text": "4. Deployers of an AI system that generates or manipulates image, audio or video content constituting a deep fake, shall disclose that the content has been artificially generated or manipulated. This obligation shall not apply where the use is authorised by law to detect, prevent, investigate or prosecute criminal offence. Where the content forms part of an evidently artistic, creative, satirical, fictional or analogous work or programme, the transparency obligations set out in this paragraph are limited to disclosure of the existence of such generated or manipulated content in an appropriate manner that does not hamper the display or enjoyment of the work. Deployers of an AI system that generates or manipulates text which is published with the purpose of informing the public on matters of public interest shall disclose that the text has been artificially generated or manipulated. This obligation shall not apply where the use is authorised by law to detect, prevent, investigate or prosecute criminal offences or where the AI-generated content has undergone a process of human review or editorial control and where a natural or legal person holds editorial responsibility for the publication of the content.",
-          "changed": false,
-          "change_note": null
-        }
-      ]
-    },
-    {
-      "statement": "The transparency obligations in Article 50(1) to (4) do not affect the requirements and obligations set out in Chapter III, and are without prejudice to other transparency obligations laid down in Union or national law for deployers of AI systems",
-      "citations": [
-        {
-          "provision_id": "art_50.6",
-          "citation": "Article 50(6)",
-          "kind": "paragraph",
-          "version": "original",
-          "text": "6. Paragraphs 1 to 4 shall not affect the requirements and obligations set out in Chapter III, and shall be without prejudice to other transparency obligations laid down in Union or national law for deployers of AI systems.",
+          "text": "CHAPTER IV TRANSPARENCY OBLIGATIONS FOR PROVIDERS AND DEPLOYERS OF CERTAIN AI SYSTEMS",
           "changed": false,
           "change_note": null
         }
@@ -85,6 +71,20 @@
           "change_note": "Recital 132 appears in the original text and not in the consolidated text."
         }
       ]
+    },
+    {
+      "statement": "Article 50(6) provides that paragraphs 1 to 4 do not affect the requirements and obligations set out in Chapter III and are without prejudice to other transparency obligations laid down in Union or national law for deployers of AI systems",
+      "citations": [
+        {
+          "provision_id": "art_50.6",
+          "citation": "Article 50(6)",
+          "kind": "paragraph",
+          "version": "original",
+          "text": "6. Paragraphs 1 to 4 shall not affect the requirements and obligations set out in Chapter III, and shall be without prejudice to other transparency obligations laid down in Union or national law for deployers of AI systems.",
+          "changed": false,
+          "change_note": null
+        }
+      ]
     }
   ],
   "refusal": null,
@@ -93,6 +93,7 @@
       "art_50.1",
       "rct_132",
       "art_50.5",
+      "chp_IV",
       "rct_72",
       "art_50.3",
       "art_50.2",
@@ -100,8 +101,7 @@
       "rct_137",
       "art_50.4",
       "art_50.6",
-      "art_13.2",
-      "rct_13"
+      "art_13.2"
     ],
     "traversed_ids": [
       "art_13",
@@ -127,7 +127,35 @@
       "art_79",
       "art_79.1"
     ],
-    "dropped_ids": ["rct_72", "rct_137", "rct_13"],
+    "dropped_ids": ["rct_72", "rct_137"],
+    "uncited_ids": [
+      "art_50.3",
+      "art_13.1",
+      "art_50.4",
+      "art_13.2",
+      "art_13",
+      "art_50",
+      "art_12",
+      "art_14",
+      "art_15",
+      "art_56",
+      "art_56.6",
+      "art_9",
+      "art_9.2",
+      "art_98",
+      "art_98.2",
+      "anx_III",
+      "art_14.5",
+      "art_26",
+      "art_26.5",
+      "art_53",
+      "art_53.1",
+      "art_55",
+      "art_60",
+      "art_72",
+      "art_79",
+      "art_79.1"
+    ],
     "edges": [
       {
         "source_id": "art_50.1",
@@ -242,9 +270,9 @@
     ],
     "traversal_enabled": true,
     "truncated": false,
-    "prompt_tokens": 14269,
-    "completion_tokens": 3465,
-    "duration_ms": 46647,
+    "prompt_tokens": 14230,
+    "completion_tokens": 3620,
+    "duration_ms": 35117,
     "model": "annex-qwen3-27b"
   }
 }

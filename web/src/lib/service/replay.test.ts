@@ -120,13 +120,13 @@ describe('the committed fixtures', () => {
 
   it('reads a question refused on the original and answered on the amended', () => {
     const question = recordedQuestions.find(
-      (candidate) => candidate.id === 'q03-generated-product-images',
+      (candidate) => candidate.id === 'q07-retrained-credit-model',
     )
 
     expect(question?.refused).toEqual({ original: true, consolidated: false })
   })
 
-  it('reads the two questions refused on both texts', () => {
+  it('reads no question refused on both texts', () => {
     const refusedOnBoth = recordedQuestions
       .filter(
         (question) =>
@@ -134,10 +134,7 @@ describe('the committed fixtures', () => {
       )
       .map((question) => question.id)
 
-    expect(refusedOnBoth).toEqual([
-      'q08-redesigned-interface',
-      'q09-wider-rollout',
-    ])
+    expect(refusedOnBoth).toEqual([])
   })
 
   it('stamps a recorded pair with the date its own entry was captured', () => {
@@ -151,17 +148,13 @@ describe('the committed fixtures', () => {
     ).toBe(entry.captured_at)
   })
 
-  it('distinguishes the recaptured entry from another entry captured earlier', () => {
-    const recaptured = manifest.entries.find(
-      (entry) =>
-        entry.question_id === 'q01-support-chatbot' &&
-        entry.version === 'consolidated',
-    )
-    const another = manifest.entries.find(
-      (entry) => entry.question_id !== 'q01-support-chatbot',
-    )
+  it('stamps every entry from the same full capture with the same date', () => {
+    // A full capture writes every entry in one run, unlike the narrowed
+    // capture `test_capture.py` covers, which merges a re-captured pair into
+    // an otherwise untouched manifest and leaves the two dates apart.
+    const dates = new Set(manifest.entries.map((entry) => entry.captured_at))
 
-    expect(recaptured?.captured_at).not.toBe(another?.captured_at)
+    expect(dates.size).toBe(1)
   })
 
   it('falls back to the most recent stamp when no pair is named', () => {

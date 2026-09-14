@@ -85,3 +85,97 @@ class TestArticle113EndsBeforeTheSignatureBlock:
 
         assert article is not None
         assert 'OJ C 517' not in article.text
+
+
+class TestProvisionsStopBeforeADivisionHeading:
+    def test_article_fifty_loses_the_chapter_heading_after_it(
+        self, original: Corpus
+    ) -> None:
+        article = original.get('art_50')
+
+        assert article is not None
+        assert 'CHAPTER' not in article.text
+
+    def test_article_fifty_paragraph_seven_loses_the_chapter_heading(
+        self, original: Corpus
+    ) -> None:
+        paragraph = original.get('art_50.7')
+
+        assert paragraph is not None
+        assert 'CHAPTER' not in paragraph.text
+        assert 'SECTION' not in paragraph.text
+
+    def test_article_seven_loses_the_section_heading_after_it(
+        self, original: Corpus
+    ) -> None:
+        article = original.get('art_7')
+
+        assert article is not None
+        assert 'SECTION' not in article.text
+
+    def test_article_seven_paragraph_three_loses_the_section_heading(
+        self, original: Corpus
+    ) -> None:
+        paragraph = original.get('art_7.3')
+
+        assert paragraph is not None
+        assert 'SECTION' not in paragraph.text
+
+
+class TestChaptersAreAddressable:
+    def test_parses_thirteen_chapters(self, original: Corpus) -> None:
+        assert len(original.of_kind(ProvisionKind.CHAPTER)) == 13
+
+    def test_a_chapter_carries_the_heading_it_cost_the_article_before_it(
+        self, original: Corpus
+    ) -> None:
+        chapter = original.get('chp_II')
+
+        assert chapter is not None
+        assert chapter.text == 'CHAPTER II PROHIBITED AI PRACTICES'
+        assert chapter.citation == 'Chapter II'
+
+    def test_article_five_sits_under_chapter_two(self, original: Corpus) -> None:
+        article = original.get('art_5')
+
+        assert article is not None
+        assert article.chapter_id == 'chp_II'
+
+    def test_a_paragraph_carries_its_article_own_chapter(
+        self, original: Corpus
+    ) -> None:
+        paragraph = original.get('art_5.1')
+
+        assert paragraph is not None
+        assert paragraph.chapter_id == 'chp_II'
+
+    def test_article_one_hundred_and_thirteen_sits_under_the_final_chapter(
+        self, original: Corpus
+    ) -> None:
+        article = original.get('art_113')
+
+        assert article is not None
+        assert article.chapter_id == 'chp_XIII'
+
+    def test_a_chapter_sits_immediately_before_the_article_it_precedes(
+        self, original: Corpus
+    ) -> None:
+        non_paragraph = [
+            provision.id
+            for provision in original.provisions
+            if provision.kind is not ProvisionKind.PARAGRAPH
+        ]
+
+        assert non_paragraph.index('chp_I') == non_paragraph.index('art_1') - 1
+        assert non_paragraph.index('chp_II') == non_paragraph.index('art_5') - 1
+
+    def test_chapters_are_not_all_bunched_before_the_first_article(
+        self, original: Corpus
+    ) -> None:
+        non_paragraph = [
+            provision.id
+            for provision in original.provisions
+            if provision.kind is not ProvisionKind.PARAGRAPH
+        ]
+
+        assert non_paragraph.index('art_1') < non_paragraph.index('chp_II')

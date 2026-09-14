@@ -57,11 +57,21 @@ def spans(
     index: TextIndex,
     markers: list[HtmlElement],
     end: int | None = None,
+    stops: list[int] | None = None,
 ) -> list[tuple[HtmlElement, int, int]]:
-    """Pair each marker with the text running from it to the next one."""
+    """Pair each marker with the text running from it to the next one.
+
+    A stop offset inside a marker's span ends the span there instead, so a
+    heading between two markers cuts the one before it short rather than
+    joining the marker after it.
+    """
     bounds = [index.start_of(m) for m in markers]
     limit = end if end is not None else len(index.text)
-    return [
-        (marker, bounds[i], bounds[i + 1] if i + 1 < len(bounds) else limit)
-        for i, marker in enumerate(markers)
-    ]
+    ordered_stops = sorted(stops) if stops else []
+    result: list[tuple[HtmlElement, int, int]] = []
+    for i, marker in enumerate(markers):
+        start = bounds[i]
+        span_end = bounds[i + 1] if i + 1 < len(bounds) else limit
+        stop = next((s for s in ordered_stops if start < s < span_end), None)
+        result.append((marker, start, stop if stop is not None else span_end))
+    return result

@@ -70,7 +70,7 @@
     },
     "ProvisionKind": {
       "description": "What sort of unit a provision is.",
-      "enum": ["article", "annex", "recital", "paragraph"],
+      "enum": ["article", "annex", "recital", "paragraph", "chapter"],
       "title": "ProvisionKind",
       "type": "string"
     },

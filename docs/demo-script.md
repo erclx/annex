@@ -89,9 +89,11 @@ What to point at: the refusal renders as a result rather than an error, and the
 consulted provisions are what separate a refusal from a shrug.
 
 **Do not toggle the version on this one without saying what happens.** The same
-description answers on the original text rather than refusing, and the other
-two questions of this flow answer on both. Refusal is the weakest thing this
-project measures: eighteen chances to refuse correctly and the arms took four.
+description answers on the original text rather than refusing. Of the other
+two questions in this flow, one answers on both texts and the other splits the
+opposite way this one does, refusing on the original and answering on the
+amended. Refusal is the weakest thing this project measures: eighteen chances
+to refuse correctly and the arms took four.
 That is in the evaluation, it is in the architecture record as the weakest
 measured behavior, and it is a better thing to be asked about than to be caught
 on.

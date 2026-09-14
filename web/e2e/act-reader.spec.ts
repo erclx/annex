@@ -129,7 +129,7 @@ test.describe('docked beside the answer', () => {
 
     await pane.getByRole('button', { name: 'Next section' }).click()
 
-    await expect(count).toHaveText(`${before + 1} of 133`)
+    await expect(count).toHaveText(`${before + 1} of 146`)
   })
 
   test('the section bar steps through cited provisions once switched', async ({

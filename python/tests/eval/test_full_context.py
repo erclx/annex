@@ -59,7 +59,7 @@ def build_arm(
 
 
 class TestWhatTheArmAssembles:
-    def test_every_article_annex_and_recital_of_the_version_is_stuffed(
+    def test_every_article_annex_recital_and_chapter_of_the_version_is_stuffed(
         self, original: Corpus
     ) -> None:
         assembled = stuffed(original)
@@ -68,6 +68,7 @@ class TestWhatTheArmAssembles:
             len(original.of_kind(ProvisionKind.ARTICLE))
             + len(original.of_kind(ProvisionKind.ANNEX))
             + len(original.of_kind(ProvisionKind.RECITAL))
+            + len(original.of_kind(ProvisionKind.CHAPTER))
         )
 
     def test_paragraphs_are_not_stuffed_beside_the_articles_holding_them(
