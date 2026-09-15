@@ -66,6 +66,15 @@ const ANSWER_SPLIT =
   'grid grid-cols-[minmax(0,var(--annex-answer-width,640px))_40px_minmax(420px,1fr)] items-start'
 
 /**
+ * How many animation frames `restoreKeptAnswer` waits for the docked Act
+ * pane to grow tall enough for its stored offset before writing anyway. 30
+ * frames is roughly half a second at 60Hz, well past what the reproduction
+ * needed, while still bounded so a kept answer shorter than its own offset
+ * settles rather than waiting forever.
+ */
+const RESTORE_SCROLL_FRAME_BUDGET = 30
+
+/**
  * Every provision an answer or a refusal cites, once, in first-cited order.
  *
  * A refusal's provisions also say whether search found each or the walk
@@ -362,22 +371,38 @@ export default function Ask() {
 
       // The pane offset above reaches the pane as a prop and that component
       // applies it from its own effect. The page offset has no such
-      // component to hand it to, so it is applied directly here, a frame
-      // out so the answer has painted first.
+      // component to hand it to, so it is applied directly here.
       //
       // `document.documentElement.scrollTop` rather than `window.scrollTo`:
-      // measured as more reliable against a real back navigation, and it is
-      // one write rather than a loop because the mount effect in
-      // `ask-handoff.tsx` takes the app router's own scroll handling out of
-      // the race by setting `history.scrollRestoration = 'manual'`, so
-      // nothing else is left writing the offset this restore just wrote.
-      // The unmount cleanup cancels `reassertFrame` in case this frame has
-      // not yet run when the reader leaves again.
+      // measured as more reliable against a real back navigation, and the
+      // mount effect in `ask-handoff.tsx` takes the app router's own scroll
+      // handling out of the race by setting `history.scrollRestoration =
+      // 'manual'`, so nothing else is left writing the offset this restore
+      // writes. What still races this write is layout rather than another
+      // writer: the docked Act pane's content can take more than the one
+      // frame a single `requestAnimationFrame` assumed, so a write landing
+      // on a document still shorter than `pageScrollY` clamped to 0 and
+      // nothing ever corrected it, reproduced locally in roughly half of
+      // repeated runs against the recorded build. Retrying across frames
+      // until the document can actually hold the offset, bounded so a
+      // kept answer shorter than its own offset still settles, is what
+      // closes that gap. The unmount cleanup cancels `reassertFrame` in
+      // case no frame in the budget has run yet when the reader leaves
+      // again.
       const pageScrollY = kept.pageScrollY
-      reassertFrame.current = requestAnimationFrame(() => {
+      let framesLeft = RESTORE_SCROLL_FRAME_BUDGET
+      const tryRestore = () => {
+        const maxScrollY =
+          document.documentElement.scrollHeight - window.innerHeight
+        framesLeft -= 1
+        if (maxScrollY < pageScrollY && framesLeft > 0) {
+          reassertFrame.current = requestAnimationFrame(tryRestore)
+          return
+        }
         document.documentElement.scrollTop = pageScrollY
         pageScrollRef.current = pageScrollY
-      })
+      }
+      reassertFrame.current = requestAnimationFrame(tryRestore)
     },
     [docked],
   )

@@ -661,9 +661,14 @@ describe('the address', () => {
     await screen.findByText(/has to tell the person they are interacting/)
 
     expect(window.location.pathname).toBe('/ask')
-    const params = new URLSearchParams(window.location.search)
-    expect(params.get('v')).toBe('consolidated')
-    expect(params.get('p')).toBe('art_50.1')
+    // The address write is its own effect, a commit after the one that
+    // paints the answer text, so reading it the instant the text appears
+    // races that effect rather than waiting for what it promises.
+    await vi.waitFor(() => {
+      const params = new URLSearchParams(window.location.search)
+      expect(params.get('v')).toBe('consolidated')
+      expect(params.get('p')).toBe('art_50.1')
+    })
   })
 
   it('never writes a description typed on the live build into the address', async () => {
@@ -783,9 +788,14 @@ describe('the address', () => {
       respondWith(200, anAnswer())
       const { view } = await describeSystem()
       await screen.findByText(/has to tell the person they are interacting/)
-      expect(new URLSearchParams(window.location.search).get('p')).toBe(
-        'art_50.1',
-      )
+      // The address write is its own effect, a commit after the one that
+      // paints the answer text, so reading it the instant the text appears
+      // races that effect rather than waiting for what it promises.
+      await vi.waitFor(() => {
+        expect(new URLSearchParams(window.location.search).get('p')).toBe(
+          'art_50.1',
+        )
+      })
 
       view.rerender(withProvider(<div />))
       vi.mocked(fetch).mockClear()
@@ -793,9 +803,11 @@ describe('the address', () => {
 
       await screen.findByText(/has to tell the person they are interacting/)
       expect(fetch).not.toHaveBeenCalled()
-      expect(new URLSearchParams(window.location.search).get('p')).toBe(
-        'art_50.1',
-      )
+      await vi.waitFor(() => {
+        expect(new URLSearchParams(window.location.search).get('p')).toBe(
+          'art_50.1',
+        )
+      })
     })
   })
 })
